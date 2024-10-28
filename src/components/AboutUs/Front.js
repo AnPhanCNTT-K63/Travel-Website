@@ -3,9 +3,9 @@ export default function Front() {
     <div id="front">
       <h1 style={{ textAlign: "center" }}>Welcome To VVBA Travel Company</h1>
       <img
-        src="/logo.jpg"
+        src="/logo_vvba.jpg"
         alt="font"
-        style={{ height: "400px", width: "400px", marginTop: "30px" }}
+        style={{ height: "400px", width: "400px", marginTop: "30px", borderRadius: "50%" }}
       />
       <p style={{ marginTop: "50px" }}>
         " VVBA is a leading travel agency dedicated to crafting unforgettable

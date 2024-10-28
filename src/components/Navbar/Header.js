@@ -13,23 +13,28 @@ import RoomIcon from "@mui/icons-material/Room";
 import Image from "react-bootstrap/Image";
 
 import { Link } from "react-router-dom";
+import SearchAppBar from "./SearchBar";
 
 const Header = () => {
   return (
-    <AppBar position="static" style={{ backgroundColor: "#3f51b5" }}>
+    <AppBar position="static" style={{ backgroundColor: "white", height:"70px"}}>
       <Toolbar>
         <Box display="flex" flexGrow={1} alignItems="center">
-          <Image
-            src="/logo.jpg"
-            style={{ width: "100px", height: "100px" }}
-            roundedCircle
-          />
-          <Typography variant="h6" component="div" sx={{ marginLeft: "20px" }}>
-            <h4 style={{ fontWeight: "900" }}>VVBA Travel Company</h4>
+          <Link to="/Home">
+            <Image 
+              src="/logo_vvba.jpg"
+              style={{ width: "50px", height: "50px" }}
+              roundedCircle
+            />
+          </Link>
+          <Typography variant="h6" component="div" sx={{ marginLeft: "20px", marginTop:"10px" }}>
+            <h4 style={{ fontWeight: "600", color:"orange", fontFamily:"Brush Script MT" }}>VVBA Travel Company</h4>
           </Typography>
+          
+          <SearchAppBar />
         </Box>
         <Box display="flex" alignItems="center" mr={2}>
-          <IconButton color="inherit">
+          <IconButton color="black">
             <PhoneIcon />
           </IconButton>
           <Typography
@@ -38,39 +43,43 @@ const Header = () => {
             href="tel:+84912345678"
             style={{
               textDecoration: "none",
-              color: "white",
-              fontWeight: "900",
+              color: "black",
+              fontWeight: "500",
             }}
           >
             0343-811-543
           </Typography>
         </Box>
-        <IconButton color="inherit">
+        <IconButton color="black">
           <RoomIcon />
         </IconButton>
-        <IconButton color="inherit">
+        <IconButton color="black">
           <ShoppingCartIcon />
         </IconButton>
-        <Button variant="contained" color="primary" sx={{ ml: "auto" }}>
+        <Button variant="contained" color="primary" sx={{ ml: "auto", borderRadius: '50px',backgroundColor:"whitesmoke"}}>
           <Link
             to="/login"
             style={{
               textDecoration: "none",
               color: "black",
-              fontWeight: "900",
+              fontWeight: "500",
+              fontFamily:"Verdana" ,
+
             }}
           >
             Sign in
           </Link>
         </Button>
         <h4>/</h4>
-        <Button variant="contained" color="primary" sx={{ ml: "auto" }}>
+        <Button variant="contained" color="orange" sx={{ ml: "auto", borderRadius: '50px',backgroundColor: 'orange'}}>
           <Link
             to="/register"
             style={{
               textDecoration: "none",
               color: "black",
-              fontWeight: "900",
+              fontWeight: "500",
+              fontFamily:"Verdana" ,
+
             }}
           >
             Sign up
