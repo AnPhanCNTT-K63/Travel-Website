@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Header from "./Header";
-import DropdownList from "./DropDownList";
+import DropdownListHome from "./DropDownListHome";
+import DropdownListTour from "./DropDownListTour";
+import DropdownListBlog from "./dropblog";
 
 const Navbar = () => {
+  const [showDropdown, setShowDropdown] = useState(null);
+
+  const handleMouseEnter = (item) => {
+    setShowDropdown(item);
+  };
+
+  const handleMouseLeave = () => {
+    setShowDropdown(null);
+  };
+
   return (
     <>
       <Header />
       <AppBar
         sx={{
           backgroundColor: "transparent",
-          border: "0.8px"
+          border: "0.8px",
         }}
         position="static"
       >
         <Toolbar>
-          <Box>
-            <DropdownList />
-          </Box>
           <Box
             sx={{
               flexGrow: 1,
@@ -36,17 +45,15 @@ const Navbar = () => {
                     mx: 2,
                     px: 2,
                     py: 1,
-
-                    borderRadius: '50px',
+                    borderRadius: "50px",
+                    position: "relative",
                     transition: "background-color 0.3s",
                     "&:hover": {
                       backgroundColor: "LightGray",
-                      fontFamily:'Verdana',
-                      borderRadius: '50px',
-                      alignItems: "center",
-
                     },
                   }}
+                  onMouseEnter={() => handleMouseEnter(item)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <Typography variant="h6">
                     <Link
@@ -60,6 +67,9 @@ const Navbar = () => {
                     >
                       {item}
                     </Link>
+                    {showDropdown === "Home" && <DropdownListHome show={item} />}
+                    {showDropdown === "Tour" && <DropdownListTour show={item} />}
+                    {showDropdown === "Blog" && <DropdownListBlog show={item} />}
                   </Typography>
                 </Box>
               )
