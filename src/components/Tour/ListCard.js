@@ -1,89 +1,37 @@
-import Card from "./Card";
+import TourCard from "./Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useEffect, useState } from "react";
+import { getTours } from "../../api/services";
 
 export default function ListCard() {
+  const [tours, setTours] = useState([]);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const data = await getTours();
+        setTours(data); // tours = data
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchTours();
+  }, []);
   return (
-    <Container style={{ marginLeft: "200px", marginTop: "80px" }}>
-      <Row style={{ marginBottom: "20px" }}>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/tokyoCity.jpeg"
-          />
-        </Col>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/hongkongCity.jpeg"
-          />
-        </Col>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/istabulCity.jpeg"
-          />
-        </Col>
-      </Row>
-      <Row style={{ marginBottom: "20px" }}>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/parisCity.jpeg"
-          />
-        </Col>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/dubaiCity.jpeg"
-          />
-        </Col>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/delhiCity.jpeg"
-          />
-        </Col>
-      </Row>
+    <Container>
       <Row>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/bangkokCity.jpeg"
-          />
-        </Col>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/deal4.jpeg"
-          />
-        </Col>
-        <Col class="col-3">
-          <Card
-            title="Culturals Tours"
-            content="5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head"
-            price="$ 634.00"
-            source="/deal5.jpeg"
-          />
-        </Col>
-      </Row>{" "}
+        {tours.map((item) => {
+          return (
+            <Col className="col-3">
+              <div style={{ margin: "10px" }}>
+                <TourCard item={item} />
+              </div>
+            </Col>
+          );
+        })}
+      </Row>
     </Container>
   );
 }

@@ -12,15 +12,15 @@ export default function TourSection() {
 
   const components = [
     <ListCard />,
-    <ListCard2 />,
-    <ListCard />,
-    <ListCard2 />,
-    <ListCard />,
-    <ListCard2 />,
-    <ListCard />,
-    <ListCard2 />,
-    <ListCard />,
-    <ListCard2 />,
+    // <ListCard2 />,
+    // <ListCard />,
+    // <ListCard2 />,
+    // <ListCard />,
+    // <ListCard2 />,
+    // <ListCard />,
+    // <ListCard2 />,
+    // <ListCard />,
+    // <ListCard2 />,
   ];
 
   return (

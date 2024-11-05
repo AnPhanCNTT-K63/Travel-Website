@@ -10,6 +10,8 @@ import SignInSide from "../Sign in/SignInSide";
 import SignUp from "../Sign up/SignUp";
 import { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import CreateTour from "../Tour/CreateTour";
+import DetailPage from "../Tour/Detail";
 
 function Navigation() {
   const location = useLocation();
@@ -51,6 +53,8 @@ function Navigation() {
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/login" element={<SignInSide />} />
         <Route path="/register" element={<SignUp />} />
+        <Route path="/create" element={<CreateTour />} />
+        <Route path="/detail/:tourId" element={<DetailPage />} />
       </Routes>
 
       {showArrow && (
