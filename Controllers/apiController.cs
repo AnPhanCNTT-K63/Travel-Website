@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace WebBackendProject.Controllers
         [HttpGet] // https://localhost:44331/api/tourDetail/?id={id}
         public ActionResult tourDetail(int id)
         {
-            var row = db.Tours.Where(model => model.id == id);
+            var row = db.Tours.FirstOrDefault(model => model.id == id);
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 
@@ -46,8 +47,9 @@ namespace WebBackendProject.Controllers
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost] // api/signin
-        public ActionResult signin(User user) {
+        [HttpPost] 
+        public ActionResult signin(User user) // api/signin
+        { 
             var loginUser = db.Users.FirstOrDefault(model => model.email == user.email);
             if(loginUser == null)
             {
@@ -59,9 +61,22 @@ namespace WebBackendProject.Controllers
             }
             else
             {
-                return Json(loginUser, JsonRequestBehavior.AllowGet);
-            }
-            
+                Debug.WriteLine("ahahaha");
+                var token = JwtHelper.GenerateToken(user.email);
+                return Json(new {token = token}, JsonRequestBehavior.AllowGet);
+            }    
+        }
+
+        [HttpGet]
+        public ActionResult signout()
+        {
+            return Json(new { message = "Log out success" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult test() // api/test
+        {
+            return Json(new { data = "This is protected data" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -76,8 +91,8 @@ namespace WebBackendProject.Controllers
 
 
 
-        [HttpPost] // api/tours
-        public ActionResult tours(Tour tour)
+        [HttpPost] 
+        public ActionResult tours(Tour tour) 
         {
             if (ModelState.IsValid)
             {

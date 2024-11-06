@@ -120,3 +120,15 @@ D:\Visual Studio 2022\WebBackendProject\bin\System.Text.Json.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Threading.Tasks.Extensions.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.ValueTuple.xml
 D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.AddUserTable.resources
+D:\Visual Studio 2022\WebBackendProject\bin\Newtonsoft.Json.Bson.dll
+D:\Visual Studio 2022\WebBackendProject\bin\System.Net.Http.Formatting.dll
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Cors.dll
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.Cors.dll
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.dll
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.WebHost.dll
+D:\Visual Studio 2022\WebBackendProject\bin\Newtonsoft.Json.Bson.pdb
+D:\Visual Studio 2022\WebBackendProject\bin\Newtonsoft.Json.Bson.xml
+D:\Visual Studio 2022\WebBackendProject\bin\System.Net.Http.Formatting.xml
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.xml
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.Cors.xml
+D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.WebHost.xml

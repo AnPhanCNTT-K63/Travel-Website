@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WebBackendProject.App_Start;
+using System.Web.Http;
 
 namespace WebBackendProject
 {
@@ -13,6 +15,7 @@ namespace WebBackendProject
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
 }
