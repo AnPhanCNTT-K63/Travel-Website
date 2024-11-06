@@ -16,6 +16,7 @@ import { styled } from "@mui/material/styles";
 import ForgotPassword from "./ForgotPassword";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
 import { signin } from "../../api/services";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -41,6 +42,7 @@ export default function SignInCard() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,6 +67,12 @@ export default function SignInCard() {
     try {
       const user = await signin(data);
       console.log(user);
+      if (user && user.token) {
+        localStorage.setItem("token", user.token);
+        navigate("/");
+        window.location.reload();
+        console.log("Token stored in localStorage:", user.token);
+      }
     } catch (err) {
       console.log("Error", err);
     }
@@ -176,7 +184,7 @@ export default function SignInCard() {
           variant="contained"
           onClick={validateInputs}
         >
-          Sign in
+          Sign In
         </Button>
         <Typography sx={{ textAlign: "center" }}>
           Don&apos;t have an account?{" "}

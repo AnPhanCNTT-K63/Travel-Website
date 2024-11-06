@@ -2,9 +2,18 @@ import axios from "axios";
 
 const API_BASE_URL = "https://localhost:44331/api";
 
+// Automatically include token in requests
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export const getTours = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/tours`);
+    const response = await axios.get(`${API_BASE_URL}/tours`); //https://localhost:44331/api/tours
     return response.data;
   } catch (error) {
     console.error("Error fetching tours:", error);
@@ -25,6 +34,15 @@ export const getTourDetail = async (id) => {
 export const signup = async (user) => {
   try {
     const res = await axios.post(`${API_BASE_URL}/signup`, user);
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
+  }
+};
+
+export const signout = async () => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/signout`);
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);

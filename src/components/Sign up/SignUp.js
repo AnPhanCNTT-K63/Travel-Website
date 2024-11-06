@@ -18,6 +18,7 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
 import TemplateFrame from "./TemplateFrame";
 import Image from "react-bootstrap/Image";
 import { signup } from "../../api/services";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -64,6 +65,8 @@ export default function SignUp() {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  const navigate = useNavigate();
+
   React.useEffect(() => {
     const savedMode = localStorage.getItem("themeMode");
     if (savedMode) {
@@ -138,6 +141,8 @@ export default function SignUp() {
 
     try {
       const user = await signup(data);
+      navigate("/login");
+      window.location.reload();
       console.log(user);
     } catch (err) {
       console.log("Error s", err);

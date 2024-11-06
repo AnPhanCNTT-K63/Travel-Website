@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useEffect, useState } from "react";
 import { getTours } from "../../api/services";
+import { Link } from "react-router-dom";
 
 export default function ListCard() {
   const [tours, setTours] = useState([]);
@@ -19,6 +20,7 @@ export default function ListCard() {
     };
     fetchTours();
   }, []);
+  console.log(tours);
   return (
     <Container>
       <Row>
@@ -26,7 +28,9 @@ export default function ListCard() {
           return (
             <Col className="col-3">
               <div style={{ margin: "10px" }}>
-                <TourCard item={item} />
+                <Link to={`/detail/${item.id}`}>
+                  <TourCard item={item} />
+                </Link>
               </div>
             </Col>
           );

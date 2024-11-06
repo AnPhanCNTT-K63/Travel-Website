@@ -5,7 +5,7 @@ import TourCard from "./Card";
 
 export default function DetailPage() {
   const { tourId } = useParams();
-  const [tour, setTour] = useState(null);
+  const [tour, setTour] = useState({});
 
   useEffect(() => {
     const fetchTourDetail = async () => {
@@ -20,9 +20,7 @@ export default function DetailPage() {
     fetchTourDetail();
   }, [tourId]);
 
-  useEffect(() => {
-    if (tour) console.log(tour.image);
-  }, [tour]);
+  console.log(tour);
 
   if (!tour) return <div>No tour found.</div>;
   return (
