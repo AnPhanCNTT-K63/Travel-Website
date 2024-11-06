@@ -179,9 +179,14 @@
     <Compile Include="Migrations\202411040935218_InitialCreate.designer.cs">
       <DependentUpon>202411040935218_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411060207117_AddUserTable.cs" />
+    <Compile Include="Migrations\202411060207117_AddUserTable.designer.cs">
+      <DependentUpon>202411060207117_AddUserTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DbAppContext.cs" />
     <Compile Include="Models\Tour.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +197,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\api\tours.cshtml" />
+    <Content Include="Views\api\temp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -205,6 +211,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202411040935218_InitialCreate.resx">
       <DependentUpon>202411040935218_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411060207117_AddUserTable.resx">
+      <DependentUpon>202411060207117_AddUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

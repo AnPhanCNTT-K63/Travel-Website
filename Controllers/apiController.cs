@@ -19,12 +19,61 @@ namespace WebBackendProject.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public ActionResult tourDetail(int id)// https://localhost:44331/api/tourDetail/?id={id}
+        [HttpGet] // https://localhost:44331/api/tourDetail/?id={id}
+        public ActionResult tourDetail(int id)
         {
             var row = db.Tours.Where(model => model.id == id);
             return Json(row, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost] // api/signup
+        public ActionResult signup(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(user);
+                int a = db.SaveChanges();
+                if (a > 0)
+                {
+                    Debug.WriteLine("True");
+                }
+                else
+                {
+                    Debug.WriteLine("False");
+                }
+            } 
+            Debug.WriteLine("Here");
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost] // api/signin
+        public ActionResult signin(User user) {
+            var loginUser = db.Users.FirstOrDefault(model => model.email == user.email);
+            if(loginUser == null)
+            {
+                return Json(new { message = "Not Found" });
+            }
+            else if (loginUser.password != user.password)
+            {
+                return Json(new { message = "Incorrect Password" });
+            }
+            else
+            {
+                return Json(loginUser, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+
+        [HttpGet]
+        public ActionResult temp()
+        {
+            var users = db.Users.ToList();
+            db.Users.RemoveRange(users);
+            db.SaveChanges();
+
+            return Json(new { success = true, message = "All users have been removed." }, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         [HttpPost] // api/tours
@@ -43,7 +92,7 @@ namespace WebBackendProject.Controllers
                     Debug.WriteLine("False");
                 }
             }
-            Debug.WriteLine("Entering tours action");
+            Debug.WriteLine("Here");
             return Json(new {haha = "haha"}, JsonRequestBehavior.AllowGet);
         }
        

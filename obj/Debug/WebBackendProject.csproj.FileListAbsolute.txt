@@ -119,3 +119,4 @@ D:\Visual Studio 2022\WebBackendProject\bin\System.Text.Encodings.Web.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Text.Json.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Threading.Tasks.Extensions.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.ValueTuple.xml
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.AddUserTable.resources
