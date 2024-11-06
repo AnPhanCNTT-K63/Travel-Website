@@ -17,6 +17,7 @@ import getSignUpTheme from "./theme/getSignUpTheme";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
 import TemplateFrame from "./TemplateFrame";
 import Image from "react-bootstrap/Image";
+import { signup } from "../../api/services";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -122,18 +123,25 @@ export default function SignUp() {
     return isValid;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (nameError || emailError || passwordError) {
       event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
     console.log({
-      name: data.get("name"),
-      lastName: data.get("lastName"),
+      username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    try {
+      const user = await signup(data);
+      console.log(user);
+    } catch (err) {
+      console.log("Error s", err);
+    }
   };
 
   return (
@@ -170,10 +178,10 @@ export default function SignUp() {
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
               <FormControl>
-                <FormLabel htmlFor="name">Full name</FormLabel>
+                <FormLabel htmlFor="username">Username</FormLabel>
                 <TextField
                   autoComplete="name"
-                  name="name"
+                  name="username"
                   required
                   fullWidth
                   id="name"

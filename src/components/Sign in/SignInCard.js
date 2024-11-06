@@ -15,6 +15,7 @@ import { styled } from "@mui/material/styles";
 
 import ForgotPassword from "./ForgotPassword";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
+import { signin } from "../../api/services";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -49,7 +50,8 @@ export default function SignInCard() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (emailError || passwordError) {
       event.preventDefault();
       return;
@@ -59,6 +61,13 @@ export default function SignInCard() {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    try {
+      const user = await signin(data);
+      console.log(user);
+    } catch (err) {
+      console.log("Error", err);
+    }
   };
 
   const validateInputs = () => {

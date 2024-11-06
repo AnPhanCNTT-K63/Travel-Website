@@ -2,10 +2,9 @@ import axios from "axios";
 
 const API_BASE_URL = "https://localhost:44331/api";
 
-// Function to fetch all tours
 export const getTours = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/tours`); // https://localhost:44331/api/tours
+    const response = await axios.get(`${API_BASE_URL}/tours`);
     return response.data;
   } catch (error) {
     console.error("Error fetching tours:", error);
@@ -23,7 +22,24 @@ export const getTourDetail = async (id) => {
   }
 };
 
-// Function to add a new tour
+export const signup = async (user) => {
+  try {
+    const res = await axios.post(`${API_BASE_URL}/signup`, user);
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
+  }
+};
+
+export const signin = async (user) => {
+  try {
+    const res = await axios.post(`${API_BASE_URL}/signin`, user);
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
+  }
+};
+
 export const addTour = async (tourData) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/tours`, tourData);
@@ -34,7 +50,6 @@ export const addTour = async (tourData) => {
   }
 };
 
-// Function to update an existing tour
 export const updateTour = async (id, updatedTourData) => {
   try {
     const response = await axios.put(
@@ -48,7 +63,6 @@ export const updateTour = async (id, updatedTourData) => {
   }
 };
 
-// Function to delete a tour
 export const deleteTour = async (id) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/tours/${id}`);
