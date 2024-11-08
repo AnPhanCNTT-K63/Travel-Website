@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebBackendProject.Models;
@@ -11,19 +12,23 @@ namespace WebBackendProject.Controllers
 {
     public class apiController : Controller
     {
+        
         DbAppContext db = new DbAppContext();
         // GET: api
+        [AllowAnonymous]
         [HttpGet] // https://localhost:44331/api/tours
         public ActionResult tours()
-        {
+        {       
             var data = db.Tours.ToList();
+            Debug.Write(">??");
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        [JwtAuthorize]
         [HttpGet] // https://localhost:44331/api/tourDetail/?id={id}
-        public ActionResult tourDetail(int id)
+        public ActionResult tourDetail(int id)  
         {
-            var row = db.Tours.FirstOrDefault(model => model.id == id);
+            var row = db.Tours.FirstOrDefault(model => model.id == id);     
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 
@@ -61,8 +66,7 @@ namespace WebBackendProject.Controllers
             }
             else
             {
-                Debug.WriteLine("ahahaha");
-                var token = JwtHelper.GenerateToken(user.email);
+                var token = JwtHelper.GenerateToken(loginUser.email);
                 return Json(new {token = token}, JsonRequestBehavior.AllowGet);
             }    
         }
