@@ -16,7 +16,6 @@ namespace WebBackendProject.Models
         public string description { get; set; }
         public string image { get; set; }
         public Decimal price { get; set; }
-
         //date
     }
-}
+}   

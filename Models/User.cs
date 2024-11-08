@@ -21,5 +21,8 @@ namespace WebBackendProject.Models
         [Required]
         [StringLength(100, MinimumLength = 6)]
         public string password { get; set; }
+        [Required]
+        public string role { get; set; }
+
     }
 }

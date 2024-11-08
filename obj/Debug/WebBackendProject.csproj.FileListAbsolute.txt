@@ -132,3 +132,5 @@ D:\Visual Studio 2022\WebBackendProject\bin\System.Net.Http.Formatting.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.Cors.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.WebHost.xml
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations._202411040935218_InitialCreate.resources
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.InitialCreate1.resources

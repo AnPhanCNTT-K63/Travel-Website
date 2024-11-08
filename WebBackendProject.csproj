@@ -192,6 +192,7 @@
     <Compile Include="Authorization\JwtAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Helpers\JwtHelper.cs" />
     <Compile Include="Controllers\apiController.cs" />
     <Compile Include="Global.asax.cs">
@@ -204,6 +205,14 @@
     <Compile Include="Migrations\202411060207117_AddUserTable.cs" />
     <Compile Include="Migrations\202411060207117_AddUserTable.designer.cs">
       <DependentUpon>202411060207117_AddUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411080809206_202411040935218_InitialCreate.cs" />
+    <Compile Include="Migrations\202411080809206_202411040935218_InitialCreate.designer.cs">
+      <DependentUpon>202411080809206_202411040935218_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411080817455_InitialCreate1.cs" />
+    <Compile Include="Migrations\202411080817455_InitialCreate1.designer.cs">
+      <DependentUpon>202411080817455_InitialCreate1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DbAppContext.cs" />
@@ -228,6 +237,7 @@
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Tour\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202411040935218_InitialCreate.resx">
@@ -235,6 +245,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411060207117_AddUserTable.resx">
       <DependentUpon>202411060207117_AddUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411080809206_202411040935218_InitialCreate.resx">
+      <DependentUpon>202411080809206_202411040935218_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411080817455_InitialCreate1.resx">
+      <DependentUpon>202411080817455_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

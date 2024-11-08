@@ -12,6 +12,12 @@ using System.Diagnostics;
 public class JwtAuthorizeAttribute : AuthorizeAttribute
 {
     private const string SecretKey = "AnPhan12121212!@#SuperSecretKey123456";
+    private readonly string[] _allowedRoles;
+
+    public JwtAuthorizeAttribute(params string[] roles)
+    {
+        _allowedRoles = roles;
+    }
 
     protected override bool AuthorizeCore(HttpContextBase httpContext)
     {
@@ -45,26 +51,39 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
 
             Debug.WriteLine("Token validated successfully.");
 
-            // Decode and list claims in token
+            // Decode and check claims in token
             var jwtToken = (JwtSecurityToken)validatedToken;
-            foreach (var claim in jwtToken.Claims)
-            {
-                Debug.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
 
-            // Check if the unique_name claim exists
             var usernameClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "unique_name");
-            if (usernameClaim == null)
+            var roleClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "role");
+
+            Debug.WriteLine(usernameClaim);
+            Debug.WriteLine(roleClaim);
+
+            if (usernameClaim == null || roleClaim == null)
             {
-                Debug.WriteLine("Claim 'unique_name' not found in the token.");
+                Debug.WriteLine("Required claims (username or role) not found in the token.");
                 return false;
             }
 
             var username = usernameClaim.Value;
-            Debug.WriteLine($"Authenticated user: {username}");
+            var userRole = roleClaim.Value;
+
+            Debug.WriteLine($"Authenticated user: {username} with role: {userRole}");
+
+            // Check if the user's role is within the allowed roles
+            if (_allowedRoles.Length > 0 && !_allowedRoles.Contains(userRole))
+            {
+                Debug.WriteLine("User's role is not authorized for this resource.");
+                return false;
+            }
 
             // Attach user information to HttpContext for controller access
-            httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }));
+            httpContext.User = new ClaimsPrincipal(
+                new ClaimsIdentity(
+                    new[] { new Claim(ClaimTypes.Name, username), new Claim(ClaimTypes.Role, userRole) }
+                )
+            );
             return true;
         }
         catch (Exception ex)

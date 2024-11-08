@@ -12,7 +12,7 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
-        [AllowAnonymous]
+ 
         [HttpGet]
         public ActionResult tours() //GET: /Tour/tours
         {
@@ -21,7 +21,7 @@ namespace WebBackendProject.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        [JwtAuthorize]
+        [JwtAuthorize("User")]
         [HttpPost]
         public ActionResult tourCreate(Tour tour) //POST: /Tour/tours
         {
@@ -43,7 +43,7 @@ namespace WebBackendProject.Controllers
         }
 
 
-        [AllowAnonymous]
+        [JwtAuthorize("admin", "user")]
         [HttpGet]
         public ActionResult tourDetail(int id) //GET: /Tour/tourDetail/{id}
         {
