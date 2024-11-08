@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
   IconButton,
   Box,
+  Popover,
+  Divider,
   Button,
 } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
+import Person2Icon from "@mui/icons-material/Person2";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import RoomIcon from "@mui/icons-material/Room";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import Image from "react-bootstrap/Image";
 import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import SearchAppBar from "./SearchBar";
 import { signout } from "../../api/services";
+import UserMenu from "./UserMenu";
 
 const Header = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
   const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
 
-  const handleOnclick = async () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleAccountClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSignOut = async () => {
     try {
       const data = await signout();
       console.log(data);
@@ -30,6 +47,9 @@ const Header = () => {
       console.log("Error", err);
     }
   };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "account-popover" : undefined;
 
   return (
     <AppBar
@@ -92,78 +112,115 @@ const Header = () => {
         <IconButton color="black">
           <ShoppingCartIcon />
         </IconButton>
+
         {!token && (
-          <div className="signin_signup">
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                ml: "auto",
-                borderRadius: "50px",
-                backgroundColor: "whitesmoke",
-              }}
-            >
-              <Link
+          <IconButton onClick={handleAccountClick} color="black">
+            <AccountCircle />
+            <Typography variant="body1" sx={{ ml: 1 }}>
+              Account
+            </Typography>
+          </IconButton>
+        )}
+
+        {token && role == "user" && (
+          <>
+            <Typography color="black" variant="body1" sx={{ ml: 1 }}>
+              Hello,
+            </Typography>
+            <UserMenu username={username} handleSignOut={handleSignOut} />
+          </>
+        )}
+
+        {token && role == "admin" && (
+          <>
+            <Typography color="black" variant="body1" sx={{ ml: 1 }}>
+              Hello Admin,
+            </Typography>
+            <UserMenu username={username} handleSignOut={handleSignOut} />
+          </>
+        )}
+
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handlePopoverClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          PaperProps={{
+            sx: {
+              p: 2,
+              width: 200,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            },
+          }}
+        >
+          {!token ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                component={Link}
                 to="/login"
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  fontWeight: "500",
+                fullWidth
+                sx={{
+                  mb: 2,
+                  borderRadius: "25px",
+                  py: 1.5,
+                  backgroundColor: "orange",
+                  color: "white",
+                  fontWeight: "600",
                   fontFamily: "Verdana",
+                  "&:hover": {
+                    backgroundColor: "darkorange",
+                  },
                 }}
+                onClick={handlePopoverClose}
               >
-                Sign in
-              </Link>
-            </Button>
-            <Button
-              variant="contained"
-              color="orange"
-              sx={{
-                ml: "auto",
-                borderRadius: "50px",
-                backgroundColor: "orange",
-              }}
-            >
-              <Link
-                to="/register"
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  fontWeight: "500",
-                  fontFamily: "Verdana",
-                }}
-              >
-                Sign up
-              </Link>
-            </Button>
-          </div>
-        )}
+                Sign In
+              </Button>
 
-        {token && (
-          <Button
-            onClick={handleOnclick}
-            variant="contained"
-            color="orange"
-            sx={{
-              ml: "auto",
-              borderRadius: "50px",
-              backgroundColor: "orange",
-            }}
-          >
-            <Link
-              style={{
-                textDecoration: "none",
-                color: "black",
-                fontWeight: "500",
-                fontFamily: "Verdana",
-              }}
-            >
-              Sign Out
-            </Link>
-          </Button>
-        )}
-
-        <h4>/</h4>
+              <Box textAlign="center" sx={{ mt: 1 }}>
+                <Typography variant="body2" color="textSecondary">
+                  Don't have an account?
+                </Typography>
+                <Button
+                  component={Link}
+                  to="/register"
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    mt: 1,
+                    py: 1.2,
+                    borderRadius: "25px",
+                    borderColor: "orange",
+                    color: "orange",
+                    fontWeight: "600",
+                    fontFamily: "Verdana",
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: "orange",
+                      color: "white",
+                    },
+                  }}
+                  onClick={handlePopoverClose}
+                >
+                  Sign Up
+                </Button>
+              </Box>
+            </>
+          ) : (
+            <></>
+          )}
+        </Popover>
       </Toolbar>
     </AppBar>
   );

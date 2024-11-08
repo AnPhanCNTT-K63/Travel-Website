@@ -69,9 +69,12 @@ export default function SignInCard() {
       console.log(user);
       if (user && user.token) {
         localStorage.setItem("token", user.token);
+        localStorage.setItem("username", user.user.username);
+        localStorage.setItem("role", user.user.role);
         navigate("/");
         window.location.reload();
         console.log("Token stored in localStorage:", user.token);
+        console.log("User info:", user.user);
       }
     } catch (err) {
       console.log("Error", err);

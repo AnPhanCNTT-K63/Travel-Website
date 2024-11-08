@@ -66,7 +66,7 @@ export const signin = async (user) => {
 
 export const addTour = async (tourData) => {
   try {
-    const response = await axios.post(`${API_URL}/Tour/tourCreate`, tourData);
+    const response = await axios.post(`${API_URL}/Tour/tourCreate`, tourData); //POST: /Tour/tourCreate
     return response.data;
   } catch (error) {
     console.error("Error adding tour:", error);

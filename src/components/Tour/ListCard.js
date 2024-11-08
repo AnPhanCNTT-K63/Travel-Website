@@ -13,7 +13,7 @@ export default function ListCard() {
     const fetchTours = async () => {
       try {
         const data = await getTours();
-        setTours(data); // tours = data
+        setTours(data);
       } catch (err) {
         console.log(err);
       }
