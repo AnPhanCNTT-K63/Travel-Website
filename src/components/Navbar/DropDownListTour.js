@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 function DropdownListTour({ show }) {
@@ -9,24 +11,25 @@ function DropdownListTour({ show }) {
     };
 
     return (
-        <FormControl
-            fullWidth
-            sx={{
-                display: show === "Tour" ? "block" : "none", // Hiển thị dựa vào prop `show`
-                position: "absolute",
-                backgroundColor: "240,240,240,0.8",
-                color: "black",
-                zIndex: 100,
-            }}
+        <div
+            className="dropdown-menu"
+            style={{ display: show === "Tour" ? "block" : "none" }}
         >
-            <MenuItem value={10}>drop down của tour</MenuItem>
-            <MenuItem value={20}>Giá trị 2</MenuItem>
-            <MenuItem value={30}>Giá trị 3</MenuItem>
-            <MenuItem value={20}>Giá trị 2</MenuItem>
-            <MenuItem value={30}>Giá trị 3</MenuItem>
-            <MenuItem value={20}>Giá trị 2</MenuItem>
-            <MenuItem value={30}>Giá trị 3</MenuItem>
-        </FormControl>
+            <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+                <li>
+                    <a href="#">Culturals Tours</a>
+                </li>
+                <li>
+                    <a href="#">Cruises</a>
+                </li>
+                <li>
+                    <a href="#">Water activities</a>
+                </li>
+                <li>
+                    <a href="#">Outdoor & sports activities</a>
+                </li>
+            </ul>
+        </div>
     );
 }
 

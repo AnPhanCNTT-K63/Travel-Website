@@ -9,21 +9,24 @@ function DropdownListBlog({ show }) {
     };
 
     return (
-        <div>
-            <FormControl
-                fullWidth
-                sx={{
-                    display: show === "Blog" ? "block" : "none", // Hiển thị dựa vào prop `show`
-                    position: "absolute",
-                    backgroundColor: "240,240,240,0.8",
-                    color: "black",
-                    zIndex: 100,
-                }}
-            >
-                <MenuItem value={10}>sdsds</MenuItem>
-                <MenuItem value={20}>Giá trị 2</MenuItem>
-                <MenuItem value={30}>Giá trị 3</MenuItem>
-            </FormControl>
+        <div
+            className="dropdown-menu"
+            style={{ display: show === "Blog" ? "block" : "none" }}
+        >
+            <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+                <li>
+                    <a href="#">most likest</a>
+                </li>
+                <li>
+                    <a href="#">most shared</a>
+                </li>
+                <li>
+                    <a href="#">Water activities</a>
+                </li>
+                <li>
+                    <a href="#">Outdoor & sports activities</a>
+                </li>
+            </ul>
         </div>
     );
 }

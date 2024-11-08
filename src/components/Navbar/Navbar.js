@@ -68,7 +68,6 @@ const Navbar = () => {
                 flexGrow: 1,
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
                 height: "40px",
               }}
             >
@@ -81,12 +80,13 @@ const Navbar = () => {
                       px: 2,
                       py: 1,
                       borderRadius: "50px",
-                      position: "relative",
                       transition: "background-color 0.3s",
                       "&:hover": {
                         backgroundColor: "LightGray",
                       },
+                      position: "relative",
                     }}
+
                     onMouseEnter={() => handleMouseEnter(item)}
                     onMouseLeave={handleMouseLeave}
                   >
@@ -102,10 +102,11 @@ const Navbar = () => {
                       >
                         {item}
                       </Link>
-                      {showDropdown === "Home" && <DropdownListHome show={item} />}
-                      {showDropdown === "Tour" && <DropdownListTour show={item} />}
-                      {showDropdown === "Blog" && <DropdownListBlog show={item} />}
+
                     </Typography>
+                    {showDropdown === "Home" && <DropdownListHome show={item} />}
+                    {showDropdown === "Tour" && <DropdownListTour show={item} />}
+                    {showDropdown === "Blog" && <DropdownListBlog show={item} />}
                   </Box>
                 )
               )}

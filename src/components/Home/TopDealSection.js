@@ -6,7 +6,7 @@ import TopDealSlider from "./SideCardTopDeal";
 
 export default function TopDeal() {
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
+    <div id="top-deals" style={{ textAlign: "center", marginTop: "100px" }}>
       <hr />
       <h1 style={{ fontWeight: "900" }}>Today's Top Deals</h1>
       <TopDealSlider />

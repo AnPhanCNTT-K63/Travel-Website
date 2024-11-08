@@ -20,7 +20,7 @@ const Home = () => {
       <TrendingSection />
       <TipSection />
       <WhyChooseSection />
-      <TopDeal />
+      <TopDeal id="top-deals" />
     </div>
   );
 };

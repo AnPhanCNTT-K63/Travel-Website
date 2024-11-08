@@ -10,7 +10,7 @@ import styles from "../../styles/styles.module.css";
 
 export default function WhyChooseSection() {
   return (
-    <div style={{ textAlign: "center", marginTop: "30px" }}>
+    <div id="why-choose" style={{ textAlign: "center", marginTop: "30px" }}>
       <h1 style={{ fontWeight: "900" }}>Why Choose</h1>
       <hr
         style={{

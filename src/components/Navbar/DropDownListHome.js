@@ -1,29 +1,46 @@
-import React, { useState } from "react";
+
+import React, { useState } from 'react';
+import '../../styles/navbar.css';
 import { Select, MenuItem, FormControl, InputLabel, Link } from "@mui/material";
 
 function DropdownListHome({ show }) {
   const [selectedValue, setSelectedValue] = useState("");
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  // Hàm để cuộn tới phần tử với id đã xác định
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <div>
-      <FormControl
-        fullWidth
-        sx={{
-          display: show === "Home" ? "block" : "none", // Hiển thị dựa vào prop `show`
-          position: "absolute",
-          backgroundColor: "240,240,240,0.8",
-          color: "black",
-          zIndex: 100,
-        }}
-      >
-        <MenuItem value={10}>drop down của home</MenuItem>
-        <MenuItem value={20}>Giá trị 2</MenuItem>
-        <MenuItem value={30}>Giá trị 3</MenuItem>
-      </FormControl>
+    <div
+      className="dropdown-menu"
+      style={{ display: show === "Home" ? "block" : "none" }}
+    >
+      <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+        <li>
+          <a href="#" onClick={() => scrollToSection("top-destination")}>
+            Top Destination
+          </a>
+        </li>
+        <li>
+          <a href="#top-trending" onClick={() => scrollToSection("top-trending")}>
+            Top Trending
+          </a>
+        </li>
+        <li>
+          <a href="#why-choose" onClick={() => scrollToSection("why-choose")}>
+            Why Choose
+          </a>
+        </li>
+        <li>
+          <a href="#top-deals" onClick={() => scrollToSection("top-deals")}>
+            Today's Top Deals
+          </a>
+        </li>
+      </ul>
     </div>
   );
 }

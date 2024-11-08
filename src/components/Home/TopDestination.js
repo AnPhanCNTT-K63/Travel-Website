@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 export default function TopDestination() {
   return (
     <>
-      <div className="TopDestinationContainer" style={{ marginTop: "-100px" }}>
+      <div className="TopDestinationContainer" id="top-destination" style={{ marginTop: "-100px" }}>
         <h1
           style={{
             textAlign: "center",
