@@ -17,7 +17,7 @@ namespace WebBackendProject
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "api", action = "tours", id = UrlParameter.Optional }
+                defaults: new { controller = "Tour", action = "tours", id = UrlParameter.Optional }
             );
         }
     }

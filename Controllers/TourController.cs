@@ -23,7 +23,7 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("User")]
         [HttpPost]
-        public ActionResult tourCreate(Tour tour) //POST: /Tour/tours
+        public ActionResult tourCreate(Tour tour) //POST: /Tour/tourCreate
         {
             if (ModelState.IsValid)
             {
@@ -41,7 +41,6 @@ namespace WebBackendProject.Controllers
             Debug.WriteLine("Here");
             return Json(new { haha = "haha" }, JsonRequestBehavior.AllowGet);
         }
-
 
         [JwtAuthorize("admin", "user")]
         [HttpGet]

@@ -50,7 +50,7 @@ namespace WebBackendProject.Controllers
             {
                 var token = JwtHelper.GenerateToken(loginUser.email, loginUser.role);
                 Debug.WriteLine(loginUser.role);
-                return Json(new { token = token }, JsonRequestBehavior.AllowGet);
+                return Json(new { token = token, user = loginUser }, JsonRequestBehavior.AllowGet);
             }
         }
 
