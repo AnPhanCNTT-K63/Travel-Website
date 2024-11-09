@@ -1,36 +1,184 @@
-import React, { useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import React, { useState } from "react";
+import { MenuItem, FormControl } from "@mui/material";
+import Box from "@mui/material/Box";
 
 function DropdownListTour({ show }) {
-    const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
+  const [hoveredDomestic, setHoveredDomestic] = useState(false); // Trạng thái hover vào Domestic
+  const [hoveredInternational, setHoveredInternational] = useState(false); // Trạng thái hover vào International
+  const [isDomesticOpen, setIsDomesticOpen] = useState(false); // Trạng thái mở box con của Domestic
+  const [isInternationalOpen, setIsInternationalOpen] = useState(false); // Trạng thái mở box con của International
 
-    const handleChange = (event) => {
-        setSelectedValue(event.target.value);
-    };
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
 
-    return (
-        <div
-            className="dropdown-menu"
-            style={{ display: show === "Tour" ? "block" : "none" }}
+  // Đóng box con khi hover ra ngoài
+  const handleMouseLeave = (type) => {
+    if (type === "domestic") {
+      setHoveredDomestic(false);
+    }
+    if (type === "international") {
+      setHoveredInternational(false);
+    }
+  };
+
+  // Mở box con khi click vào menu chính
+  const handleClickDomestic = () => {
+    setIsDomesticOpen(!isDomesticOpen);
+  };
+
+  const handleClickInternational = () => {
+    setIsInternationalOpen(!isInternationalOpen);
+  };
+
+  return (
+    <FormControl
+      fullWidth
+      sx={{
+        display: show === "Tour" ? "block" : "none",
+        position: "absolute",
+        backgroundColor: "rgba(240, 240, 240, 0.8)",
+        color: "black",
+        zIndex: 100,
+      }}
+    >
+      <Box
+        sx={{
+          display: "inline-block",
+          textAlign: "left",
+          marginTop: "10px",
+          width: "auto",
+          padding: 2,
+          backgroundColor: "white",
+          borderRadius: 1,
+          boxShadow: 3,
+          position: "relative",
+        }}
+        onMouseLeave={() => handleMouseLeave("domestic")}
+      >
+        {/* Domestic Tour */}
+        <MenuItem
+          value={10}
+          onMouseEnter={() => setHoveredDomestic(true)} // Khi hover vào, thay đổi trạng thái hovered thành true
+          onClick={handleClickDomestic} // Khi click vào, mở/đóng box con
+          sx={{
+            "&:hover": {
+              backgroundColor: "#FFA500", // Màu nền khi hover
+            },
+          }}
         >
-            <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
-                <li>
-                    <a href="#">Culturals Tours</a>
-                </li>
-                <li>
-                    <a href="#">Cruises</a>
-                </li>
-                <li>
-                    <a href="#">Water activities</a>
-                </li>
-                <li>
-                    <a href="#">Outdoor & sports activities</a>
-                </li>
-            </ul>
-        </div>
-    );
+          Domestic Tour{" "}
+        </MenuItem>
+
+        {/* Hiển thị Box chứa các MenuItem (Bắc, Trung, Nam) khi hovered hoặc clicked vào Domestic Tour */}
+        {(hoveredDomestic || isDomesticOpen) && (
+          <Box
+            sx={{
+              position: "absolute",
+              left: "100%",
+              top: 0,
+              backgroundColor: "white",
+              padding: 1,
+              boxShadow: 3,
+              borderRadius: 1,
+              zIndex: 200,
+              width: "100%",
+            }}
+            onMouseLeave={() => handleMouseLeave("domestic")}
+          >
+            <MenuItem
+              value={30}
+              sx={{
+                display: "block",
+                "&:hover": { backgroundColor: "lightgreen" },
+              }}
+            >
+              Tour Miền Bắc
+            </MenuItem>
+            <MenuItem
+              value={31}
+              sx={{
+                display: "block",
+                "&:hover": { backgroundColor: "lightgreen" },
+              }}
+            >
+              Tour Miền Trung
+            </MenuItem>
+            <MenuItem
+              value={32}
+              sx={{
+                display: "block",
+                "&:hover": { backgroundColor: "lightgreen" },
+              }}
+            >
+              Tour Miền Nam
+            </MenuItem>
+          </Box>
+        )}
+
+        {/* International Tour */}
+        <MenuItem
+          value={20}
+          onMouseEnter={() => setHoveredInternational(true)} // Khi hover vào, thay đổi trạng thái hovered thành true
+          onClick={handleClickInternational} // Khi click vào, mở/đóng box con
+          sx={{
+            "&:hover": {
+              backgroundColor: "#FFA500", // Màu nền khi hover
+            },
+          }}
+        >
+          International Tour
+        </MenuItem>
+
+        {/* Hiển thị Box chứa các MenuItem (Châu Á, Châu Âu, Châu Mỹ) khi hovered hoặc clicked vào International Tour */}
+        {(hoveredInternational || isInternationalOpen) && (
+          <Box
+            sx={{
+              position: "absolute",
+              left: "100%",
+              top: 0,
+              backgroundColor: "white",
+              padding: 1,
+              boxShadow: 3,
+              borderRadius: 1,
+              zIndex: 200,
+              width: "100%",
+            }}
+            onMouseLeave={() => handleMouseLeave("international")}
+          >
+            <MenuItem
+              value={40}
+              sx={{
+                display: "block",
+                "&:hover": { backgroundColor: "lightblue" },
+              }}
+            >
+              Châu Á
+            </MenuItem>
+            <MenuItem
+              value={41}
+              sx={{
+                display: "block",
+                "&:hover": { backgroundColor: "lightblue" },
+              }}
+            >
+              Châu Âu
+            </MenuItem>
+            <MenuItem
+              value={42}
+              sx={{
+                display: "block",
+                "&:hover": { backgroundColor: "lightblue" },
+              }}
+            >
+              Châu Mỹ
+            </MenuItem>
+          </Box>
+        )}
+      </Box>
+    </FormControl>
+  );
 }
 
 export default DropdownListTour;
