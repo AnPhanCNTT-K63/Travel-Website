@@ -6,21 +6,32 @@ import Person2Icon from "@mui/icons-material/Person2";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import TourIcon from "@mui/icons-material/Tour";
+import Sidebar from "./Sidebar";
 
 import { Link } from "react-router-dom";
 
 export default function UserMenu({ username, handleSignOut }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false); // State for controlling sidebar visibility
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    toggleSidebar();
   };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   return (
     <div>
+      {/* Button to trigger sidebar */}
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -30,10 +41,11 @@ export default function UserMenu({ username, handleSignOut }) {
       >
         <Person2Icon color="primary" />@{username}
       </Button>
+
+      {/* Menu */}
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
         onClose={handleClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
@@ -81,6 +93,7 @@ export default function UserMenu({ username, handleSignOut }) {
           Logout
         </Button>
       </Menu>
+      <Sidebar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
     </div>
   );
 }

@@ -21,11 +21,12 @@ import SearchAppBar from "./SearchBar";
 import { signout } from "../../api/services";
 import UserMenu from "./UserMenu";
 
+const token = localStorage.getItem("token");
+const username = localStorage.getItem("username");
+const role = localStorage.getItem("role");
+
 const Header = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
-  const role = localStorage.getItem("role");
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -125,7 +126,7 @@ const Header = () => {
         {token && role == "user" && (
           <>
             <Typography color="black" variant="body1" sx={{ ml: 1 }}>
-              Hello,
+              Welcome,
             </Typography>
             <UserMenu username={username} handleSignOut={handleSignOut} />
           </>
