@@ -99,6 +99,10 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
     }
   };
 
+  const handleMenuItemClick = () => {
+    toggleSidebar();
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -111,35 +115,38 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
 
         <div>
           <div style={{ padding: "15px" }}>
-            <StyledMenuItem>
-              <AccountCircle style={{ fontSize: 20 }} /> Profile
-            </StyledMenuItem>
-            <StyledMenuItem>
+            <StyledLink to={"/profile"} onClick={handleMenuItemClick}>
+              <StyledMenuItem>
+                <AccountCircle style={{ fontSize: 20 }} /> Profile
+              </StyledMenuItem>
+            </StyledLink>
+
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <ManageAccounts style={{ fontSize: 20 }} /> My Account
             </StyledMenuItem>
-            <StyledMenuItem>
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <Tour style={{ fontSize: 20 }} /> My Tour
             </StyledMenuItem>
-            <StyledMenuItem>
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <YoutubeSearchedFor style={{ fontSize: 20 }} /> Transactions
               History
             </StyledMenuItem>
           </div>
 
           <div style={{ padding: "15px" }}>
-            <StyledMenuItem>
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <Chat style={{ fontSize: 20 }} /> Chat With Us
             </StyledMenuItem>
-            <StyledMenuItem>
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <CalendarToday style={{ fontSize: 20 }} /> Notification
             </StyledMenuItem>
           </div>
 
           <div style={{ padding: "15px" }}>
-            <StyledMenuItem>
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <PostAdd style={{ fontSize: 20 }} /> Post
             </StyledMenuItem>
-            <StyledMenuItem>
+            <StyledMenuItem onClick={handleMenuItemClick}>
               <LocalOffer style={{ fontSize: 20 }} /> Vouchers
             </StyledMenuItem>
           </div>

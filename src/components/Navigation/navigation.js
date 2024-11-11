@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Tour/CreateTour";
 import DetailPage from "../Tour/Detail";
+import Profile from "../views/examples/Profile";
 
 function Navigation() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function Navigation() {
         <Route path="/login" element={<SignInSide />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/create" element={<CreateTour />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
       </Routes>
 
