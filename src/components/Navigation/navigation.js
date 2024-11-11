@@ -1,18 +1,17 @@
-import Home from "../Home/Home";
-import Tour from "../Tour/Tour";
-import AboutUs from "../AboutUs/AboutUs";
-import Blog from "../Blog/Blog";
-import Gallery from "../Gallery/Gallery";
-import Sponsor from "../Sponsor/Sponsor";
+import Home from "../Pages/Home/Home";
+import Tour from "../Pages/Tour/Tour";
+import AboutUs from "../Pages/AboutUs/AboutUs";
+import Blog from "../Pages/Blog/Blog";
+import Gallery from "../Pages/Gallery/Gallery";
+import Sponsor from "../Pages/Sponsor/Sponsor";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Footer from "../Footer/Footer";
-import SignInSide from "../Sign in/SignInSide";
-import SignUp from "../Sign up/SignUp";
+import SignIn from "../Auth/Sign In/SignIn";
+import SignUp from "../Auth/Sign Up/SignUp";
 import { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import CreateTour from "../Tour/CreateTour";
-import DetailPage from "../Tour/Detail";
-import Profile from "../views/examples/Profile";
+import CreateTour from "../Pages/Tour/CreateTour";
+import DetailPage from "../Pages/Tour/Detail";
+import Profile from "../Profile/UserProfile/Profile";
 
 function Navigation() {
   const location = useLocation();
@@ -52,7 +51,7 @@ function Navigation() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/sponsor" element={<Sponsor />} />
-        <Route path="/login" element={<SignInSide />} />
+        <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/create" element={<CreateTour />} />
         <Route path="/profile" element={<Profile />} />
@@ -78,8 +77,6 @@ function Navigation() {
           <ArrowCircleUpIcon color="primary" fontSize="large" />
         </button>
       )}
-
-      {location.pathname !== "/gallery" && <Footer />}
     </>
   );
 }

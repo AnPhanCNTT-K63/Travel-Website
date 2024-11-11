@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+import Header from "../Header/Header";
 import DropdownListHome from "./DropDownListHome";
 import DropdownListTour from "./DropDownListTour";
 import DropdownListBlog from "./dropblog";
@@ -24,7 +24,6 @@ const Navbar = () => {
 
   const isMobile = useMediaQuery("(max-width:600px)");
 
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -33,17 +32,23 @@ const Navbar = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", width: 250 }}>
       <List>
-        {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor"].map((item, index) => (
-          <ListItem button component={Link} to={`/${item.toLowerCase().replace(" ", "-")}`} key={index}>
-            <ListItemText primary={item} />
-          </ListItem>
-        ))}
+        {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor"].map(
+          (item, index) => (
+            <ListItem
+              button
+              component={Link}
+              to={`/${item.toLowerCase().replace(" ", "-")}`}
+              key={index}
+            >
+              <ListItemText primary={item} />
+            </ListItem>
+          )
+        )}
       </List>
     </Box>
   );
   return (
     <>
-      <Header />
       <AppBar
         sx={{
           backgroundColor: "transparent",
@@ -55,10 +60,19 @@ const Navbar = () => {
         <Toolbar>
           {isMobile ? ( // Kiểm tra xem có ở chế độ mobile không
             <>
-              <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleDrawerToggle}
+              >
                 <MenuIcon />
               </IconButton>
-              <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
+              <Drawer
+                anchor="left"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+              >
                 {drawer}
               </Drawer>
             </>
@@ -86,7 +100,6 @@ const Navbar = () => {
                       },
                       position: "relative",
                     }}
-
                     onMouseEnter={() => handleMouseEnter(item)}
                     onMouseLeave={handleMouseLeave}
                   >
@@ -102,11 +115,16 @@ const Navbar = () => {
                       >
                         {item}
                       </Link>
-
                     </Typography>
-                    {showDropdown === "Home" && <DropdownListHome show={item} />}
-                    {showDropdown === "Tour" && <DropdownListTour show={item} />}
-                    {showDropdown === "Blog" && <DropdownListBlog show={item} />}
+                    {showDropdown === "Home" && (
+                      <DropdownListHome show={item} />
+                    )}
+                    {showDropdown === "Tour" && (
+                      <DropdownListTour show={item} />
+                    )}
+                    {showDropdown === "Blog" && (
+                      <DropdownListBlog show={item} />
+                    )}
                   </Box>
                 )
               )}
