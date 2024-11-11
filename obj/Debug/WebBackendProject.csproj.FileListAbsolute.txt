@@ -74,8 +74,6 @@ D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.csproj.CoreC
 D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.csproj.CopyComplete
 D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.dll
 D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.pdb
-D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.InitialCreate.resources
-D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.csproj.GenerateResource.cache
 D:\Visual Studio 2022\WebBackendProject\bin\Microsoft.AspNet.Identity.Core.dll
 D:\Visual Studio 2022\WebBackendProject\bin\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Visual Studio 2022\WebBackendProject\bin\Microsoft.Bcl.TimeProvider.dll
@@ -119,7 +117,6 @@ D:\Visual Studio 2022\WebBackendProject\bin\System.Text.Encodings.Web.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Text.Json.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Threading.Tasks.Extensions.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.ValueTuple.xml
-D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.AddUserTable.resources
 D:\Visual Studio 2022\WebBackendProject\bin\Newtonsoft.Json.Bson.dll
 D:\Visual Studio 2022\WebBackendProject\bin\System.Net.Http.Formatting.dll
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Cors.dll
@@ -132,5 +129,7 @@ D:\Visual Studio 2022\WebBackendProject\bin\System.Net.Http.Formatting.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.Cors.xml
 D:\Visual Studio 2022\WebBackendProject\bin\System.Web.Http.WebHost.xml
-D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations._202411040935218_InitialCreate.resources
-D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.InitialCreate1.resources
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations._new.resources
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.csproj.GenerateResource.cache
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.new_one.resources
+D:\Visual Studio 2022\WebBackendProject\obj\Debug\WebBackendProject.Migrations.new_one_1.resources

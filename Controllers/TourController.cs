@@ -8,7 +8,7 @@ using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
 {
-    public class TourController : Controller
+    public class TourController : Controller //Tour/
     {
         DbAppContext db = new DbAppContext();
 
@@ -46,7 +46,7 @@ namespace WebBackendProject.Controllers
         [HttpGet]
         public ActionResult tourDetail(int id) //GET: /Tour/tourDetail/{id}
         {
-            var row = db.Tours.FirstOrDefault(model => model.id == id);
+            var row = db.Tours.FirstOrDefault(model => model.Id == id);
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 

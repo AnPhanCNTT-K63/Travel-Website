@@ -11,5 +11,7 @@ namespace WebBackendProject.Models
         public DbAppContext() : base("name=DbAppContext") { }
         public virtual DbSet<Tour> Tours { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserProfile> UserProfiles { get; set; }
+
     }
 }

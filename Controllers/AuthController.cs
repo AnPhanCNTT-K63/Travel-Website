@@ -8,7 +8,7 @@ using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : Controller //Auth/
     {
         DbAppContext db = new DbAppContext();
 
@@ -37,19 +37,19 @@ namespace WebBackendProject.Controllers
         [HttpPost]
         public ActionResult signin(User user) //POST: Auth/signin
         {
-            var loginUser = db.Users.FirstOrDefault(model => model.email == user.email);
+            var loginUser = db.Users.FirstOrDefault(model => model.Email == user.Email);
             if (loginUser == null)
             {
                 return Json(new { message = "Not Found" });
             }
-            else if (loginUser.password != user.password)
+            else if (loginUser.Password != user.Password)
             {
                 return Json(new { message = "Incorrect Password" });
             }
             else
             {
-                var token = JwtHelper.GenerateToken(loginUser.email, loginUser.role);
-                Debug.WriteLine(loginUser.role);
+                var token = JwtHelper.GenerateToken(loginUser.Email, loginUser.Role);
+                Debug.WriteLine(loginUser.Role);
                 return Json(new { token = token, user = loginUser }, JsonRequestBehavior.AllowGet);
             }
         }

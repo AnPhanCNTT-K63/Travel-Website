@@ -11,11 +11,11 @@ namespace WebBackendProject.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int id {  get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string image { get; set; }
-        public Decimal price { get; set; }
-        //date
+        public int Id {  get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Image { get; set; }
+        public Decimal Price { get; set; }
+        public string Region { get; set; }
     }
 }   
