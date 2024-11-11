@@ -60,8 +60,8 @@ export default function SignInCard() {
     }
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+      email: data.get("Email"),
+      password: data.get("Password"),
     });
 
     try {
@@ -69,8 +69,8 @@ export default function SignInCard() {
       console.log(user);
       if (user && user.token) {
         localStorage.setItem("token", user.token);
-        localStorage.setItem("username", user.user.username);
-        localStorage.setItem("role", user.user.role);
+        localStorage.setItem("username", user.user.Username);
+        localStorage.setItem("role", user.user.Role);
         navigate("/");
         window.location.reload();
         console.log("Token stored in localStorage:", user.token);
@@ -137,7 +137,7 @@ export default function SignInCard() {
             helperText={emailErrorMessage}
             id="email"
             type="email"
-            name="email"
+            name="Email"
             placeholder="your@email.com"
             autoComplete="email"
             autoFocus
@@ -164,7 +164,7 @@ export default function SignInCard() {
           <TextField
             error={passwordError}
             helperText={passwordErrorMessage}
-            name="password"
+            name="Password"
             placeholder="••••••"
             type="password"
             id="password"

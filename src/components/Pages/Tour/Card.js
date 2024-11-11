@@ -11,20 +11,20 @@ export default function TourCard({ item }) {
     <Card sx={{ width: "100%", height: "100%" }}>
       <CardMedia
         sx={{ height: "150px ", width: "100%", objectFit: "cover" }}
-        image={`/${item.image}`}
+        image={`/${item.Image}`}
         title="green iguana"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {item.name}
+          {item.Name}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {item.description}
+          {item.Description}
         </Typography>
       </CardContent>
       <CardActions>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {item.price}
+          {item.Price}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           5 <StarIcon /> <StarIcon /> <StarIcon /> <StarIcon /> <StarIcon />

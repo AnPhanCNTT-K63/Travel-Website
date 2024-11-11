@@ -28,7 +28,7 @@ export default function ListCard() {
           return (
             <Col className="col-3">
               <div style={{ margin: "10px" }}>
-                <Link to={`/detail/${item.id}`}>
+                <Link to={`/detail/${item.Id}`}>
                   <TourCard item={item} />
                 </Link>
               </div>

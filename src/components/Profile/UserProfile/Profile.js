@@ -11,6 +11,7 @@ import {
   Col,
 } from "reactstrap";
 import UserHeader from "./UserHeader.js";
+import Post from "./PostList.js";
 
 const Profile = () => {
   return (
@@ -125,7 +126,7 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="lucky.jesse"
+                            defaultValue=""
                             id="input-username"
                             placeholder="Username"
                             type="text"
@@ -162,7 +163,7 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Lucky"
+                            defaultValue=""
                             id="input-first-name"
                             placeholder="First name"
                             type="text"
@@ -180,7 +181,7 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Jesse"
+                            defaultValue=""
                             id="input-last-name"
                             placeholder="Last name"
                             type="text"
@@ -200,7 +201,7 @@ const Profile = () => {
                   </h6>
                   <div className="pl-lg-4">
                     <Row>
-                      <Col md="12">
+                      <Col md="6">
                         <FormGroup>
                           <label
                             className="form-control-label"
@@ -210,10 +211,28 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            defaultValue=""
                             id="input-address"
                             placeholder="Home Address"
                             type="text"
+                            style={inputStyle}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-phone"
+                          >
+                            Phone
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue=""
+                            id="input-address"
+                            placeholder="Phone Number"
+                            type="number"
                             style={inputStyle}
                           />
                         </FormGroup>
@@ -230,7 +249,7 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="New York"
+                            defaultValue=""
                             id="input-city"
                             placeholder="City"
                             type="text"
@@ -248,7 +267,7 @@ const Profile = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="United States"
+                            defaultValue=""
                             id="input-country"
                             placeholder="Country"
                             type="text"
@@ -290,7 +309,7 @@ const Profile = () => {
                         className="form-control-alternative"
                         placeholder="A few words about you ..."
                         rows="4"
-                        defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and Open Source."
+                        defaultValue=""
                         type="textarea"
                         style={textareaStyle}
                       />
@@ -311,7 +330,9 @@ const Profile = () => {
             </Card>
           </Col>
         </Row>
-        <Row className="justify-content-center">Post list here</Row>
+        <Row className="justify-content-center" style={{ marginTop: "50px" }}>
+          <Post />
+        </Row>
       </Container>
     </>
   );

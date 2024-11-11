@@ -186,7 +186,7 @@ export default function SignUp() {
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <TextField
                   autoComplete="name"
-                  name="username"
+                  name="Username"
                   required
                   fullWidth
                   id="name"
@@ -203,7 +203,7 @@ export default function SignUp() {
                   fullWidth
                   id="email"
                   placeholder="your@email.com"
-                  name="email"
+                  name="Email"
                   autoComplete="email"
                   variant="outlined"
                   error={emailError}
@@ -216,7 +216,7 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="Password"
                   placeholder="••••••"
                   type="password"
                   id="password"
