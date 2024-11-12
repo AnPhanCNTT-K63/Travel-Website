@@ -1,7 +1,6 @@
 import Home from "../Pages/Home/Home";
 import Tour from "../Pages/Tour/Tour";
 import AboutUs from "../Pages/AboutUs/AboutUs";
-import Blog from "../Pages/Blog/Blog";
 import Gallery from "../Pages/Gallery/Gallery";
 import Sponsor from "../Pages/Sponsor/Sponsor";
 import { Route, Routes, useLocation } from "react-router-dom";
@@ -11,7 +10,8 @@ import { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Pages/Tour/CreateTour";
 import DetailPage from "../Pages/Tour/Detail";
-import Profile from "../Profile/UserProfile/Profile";
+import Profile from "../User/UserProfile/Profile";
+import BlogPage from "../Pages/Blog/BlogTest";
 
 function Navigation() {
   const location = useLocation();
@@ -47,7 +47,7 @@ function Navigation() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/tour" element={<Tour />} />
-        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/sponsor" element={<Sponsor />} />
