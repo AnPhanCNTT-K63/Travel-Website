@@ -197,19 +197,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202411111333480_new.cs" />
-    <Compile Include="Migrations\202411111333480_new.designer.cs">
-      <DependentUpon>202411111333480_new.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411111335267_new_one.cs" />
-    <Compile Include="Migrations\202411111335267_new_one.designer.cs">
-      <DependentUpon>202411111335267_new_one.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411111404425_new_one_1.cs" />
-    <Compile Include="Migrations\202411111404425_new_one_1.designer.cs">
-      <DependentUpon>202411111404425_new_one_1.cs</DependentUpon>
+    <Compile Include="Migrations\202411121539086_s7.cs" />
+    <Compile Include="Migrations\202411121539086_s7.designer.cs">
+      <DependentUpon>202411121539086_s7.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\DbAppContext.cs" />
     <Compile Include="Models\Tour.cs" />
     <Compile Include="Models\User.cs" />
@@ -236,14 +229,8 @@
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202411111333480_new.resx">
-      <DependentUpon>202411111333480_new.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411111335267_new_one.resx">
-      <DependentUpon>202411111335267_new_one.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411111404425_new_one_1.resx">
-      <DependentUpon>202411111404425_new_one_1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202411121539086_s7.resx">
+      <DependentUpon>202411121539086_s7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

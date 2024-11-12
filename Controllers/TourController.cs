@@ -12,7 +12,7 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
- 
+
         [HttpGet]
         public ActionResult tours() //GET: /Tour/tours
         {
@@ -50,6 +50,13 @@ namespace WebBackendProject.Controllers
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 
-       
-    }
+       /* [JwtAuthorize("user")]
+        [HttpPost]
+        public ActionResult creatPost(BlogPost blogPost)
+        {
+            return Json(new { haha = "kaka", JsonRequestBehavior.AllowGet });
+        }*/
+
+
+}
 }

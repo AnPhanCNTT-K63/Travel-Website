@@ -33,7 +33,6 @@ namespace WebBackendProject.Controllers
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public ActionResult signin(User user) //POST: Auth/signin
         {

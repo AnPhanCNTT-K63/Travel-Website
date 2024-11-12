@@ -16,6 +16,10 @@ namespace WebBackendProject.Models
         public string Description { get; set; }
         public string Image { get; set; }
         public Decimal Price { get; set; }
+        public int Ratings { get; set; }
+        public int Stars { get; set; }
+        public int Quantity { get; set; }
+
         public string Region { get; set; }
     }
 }   

@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace WebBackendProject.Models
+{
+    public class BlogPost
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Datetime { get; set; }
+
+        public string Image { get; set; }
+
+        public string Description { get; set; }
+
+        public string Hashtags { get; set; }
+
+        // Foreign Key to the User entity
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; } // Navigation property to the User entity
+
+    }
+}
