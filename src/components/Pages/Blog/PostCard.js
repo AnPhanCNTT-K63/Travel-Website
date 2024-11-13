@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, IconButton, Avatar } from "@mui/material";
 import { Favorite, Share, ChatBubbleOutline } from "@mui/icons-material";
 
-const BlogPost = ({ title, datetime, image, description, hashtags }) => {
+const PostCard = ({ title, datetime, image, content, hashtags }) => {
   return (
     <Box
       sx={{
@@ -56,15 +56,15 @@ const BlogPost = ({ title, datetime, image, description, hashtags }) => {
         alt={title}
         sx={{
           width: "100%",
-          height: 200, // Adjusted for compactness
+          height: 230, // Adjusted for compactness
           objectFit: "cover",
         }}
       />
 
-      {/* Description Section */}
+      {/* content Section */}
       <Box sx={{ px: 1, py: 0.5 }}>
         <Typography variant="body2" color="text.secondary" noWrap>
-          {description}
+          {content}
         </Typography>
       </Box>
 
@@ -84,4 +84,4 @@ const BlogPost = ({ title, datetime, image, description, hashtags }) => {
   );
 };
 
-export default BlogPost;
+export default PostCard;

@@ -11,7 +11,8 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Pages/Tour/CreateTour";
 import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
-import BlogPage from "../Pages/Blog/BlogTest";
+import Blog from "../Pages/Blog/Blog";
+import CreatePost from "../Pages/Blog/CreatePost";
 
 function Navigation() {
   const location = useLocation();
@@ -47,7 +48,7 @@ function Navigation() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/tour" element={<Tour />} />
-        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/sponsor" element={<Sponsor />} />
@@ -55,6 +56,7 @@ function Navigation() {
         <Route path="/register" element={<SignUp />} />
         <Route path="/create" element={<CreateTour />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/create/post" element={<CreatePost />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
       </Routes>
 

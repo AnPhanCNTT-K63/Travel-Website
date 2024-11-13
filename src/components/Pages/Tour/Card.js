@@ -11,7 +11,7 @@ export default function TourCard({ item }) {
     <Card sx={{ width: "100%", height: "100%" }}>
       <CardMedia
         sx={{ height: "150px ", width: "100%", objectFit: "cover" }}
-        image={`/${item.Image}`}
+        image={`/Tours/${item.Image}`}
         title="green iguana"
       />
       <CardContent>
