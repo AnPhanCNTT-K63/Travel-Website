@@ -1,13 +1,20 @@
 /* CSS cho dropdown menu */
 .dropdown-menu {
-    position: absolute;
     top: 100%;
     left: 0;
-    background-color: white;
-    padding: 10px;
+    padding: 10px !important;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 100;
+    position: relative;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.dropdown-menu-content {
+    background-color: #f1f1f1;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
 }
 
 /* CSS cho thẻ a bên trong dropdown */

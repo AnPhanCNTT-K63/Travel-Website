@@ -17,30 +17,32 @@ function DropdownListHome({ show }) {
   return (
     <div
       className="dropdown-menu"
-      style={{ display: show === "Home" ? "block" : "none" }}
+      style={{ display: show === "Home" ? "inline-block" : "none" }}
     >
-      <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
-        <li>
-          <a href="#" onClick={() => scrollToSection("top-destination")}>
-            Top Destination
-          </a>
-        </li>
-        <li>
-          <a href="#top-trending" onClick={() => scrollToSection("top-trending")}>
-            Top Trending
-          </a>
-        </li>
-        <li>
-          <a href="#why-choose" onClick={() => scrollToSection("why-choose")}>
-            Why Choose
-          </a>
-        </li>
-        <li>
-          <a href="#top-deals" onClick={() => scrollToSection("top-deals")}>
-            Today's Top Deals
-          </a>
-        </li>
-      </ul>
+      <div className="dropdown-menu-content">
+        <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+          <li>
+            <a href="#" onClick={() => scrollToSection("top-destination")}>
+              Top Destination
+            </a>
+          </li>
+          <li>
+            <a href="#top-trending" onClick={() => scrollToSection("top-trending")}>
+              Top Trending
+            </a>
+          </li>
+          <li>
+            <a href="#why-choose" onClick={() => scrollToSection("why-choose")}>
+              Why Choose
+            </a>
+          </li>
+          <li>
+            <a href="#top-deals" onClick={() => scrollToSection("top-deals")}>
+              Today's Top Deals
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

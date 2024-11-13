@@ -12,8 +12,19 @@ import {
 } from "reactstrap";
 import UserHeader from "./UserHeader.js";
 import Post from "./PostList.js";
+import { signout } from "../../../api/services.js";
 
 const Profile = () => {
+  const handleSignOut = async () => {
+    try {
+      const data = await signout();
+      console.log(data);
+      localStorage.removeItem("token");
+      window.location.reload();
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
   return (
     <>
       {/* Page content */}
@@ -318,8 +329,7 @@ const Profile = () => {
                   <div className="text-center" style={buttonContainerStyle}>
                     <Button
                       color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={(e) => e.preventDefault}
                       style={buttonStyle}
                     >
                       Save
