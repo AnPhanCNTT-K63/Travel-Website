@@ -15,6 +15,12 @@ namespace WebBackendProject
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+               name: "CreatePost",
+               url: "Post/create/post",
+               defaults: new { controller = "Post", action = "createPost" }
+           );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Tour", action = "tours", id = UrlParameter.Optional }

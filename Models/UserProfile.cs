@@ -9,9 +9,7 @@ namespace WebBackendProject.Models
 {
     public class UserProfile
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        public int Id { get; set; }
+      
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -27,9 +25,10 @@ namespace WebBackendProject.Models
         public string Avatar { get; set; }
         public string CoverAvatar { get; set; }
 
-
-        // Navigation property for one-to-one relationship
-        public virtual User User { get; set; }
+        [Key]
+        [ForeignKey("User")]
+        public int UserId { get; set; }
+        public  User User { get; set; }
 
     }
 }

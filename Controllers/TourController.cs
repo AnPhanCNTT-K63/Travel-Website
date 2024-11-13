@@ -17,7 +17,6 @@ namespace WebBackendProject.Controllers
         public ActionResult tours() //GET: /Tour/tours
         {
             var data = db.Tours.ToList();
-            Debug.Write(">??");
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

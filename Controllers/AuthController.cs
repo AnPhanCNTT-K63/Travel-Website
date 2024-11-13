@@ -33,6 +33,7 @@ namespace WebBackendProject.Controllers
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult signin(User user) //POST: Auth/signin
         {
@@ -48,7 +49,8 @@ namespace WebBackendProject.Controllers
             else
             {
                 var token = JwtHelper.GenerateToken(loginUser.Email, loginUser.Role);
-                Debug.WriteLine(loginUser.Role);
+                Debug.WriteLine(loginUser);
+                Debug.WriteLine(token);
                 return Json(new { token = token, user = loginUser }, JsonRequestBehavior.AllowGet);
             }
         }

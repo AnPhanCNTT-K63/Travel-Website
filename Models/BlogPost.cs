@@ -13,21 +13,18 @@ namespace WebBackendProject.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string Title { get; set; }
 
-        public DateTime Datetime { get; set; }
+        public DateTime? Datetime { get; set; }
 
+        [Required]
         public string Image { get; set; }
-
-        public string Description { get; set; }
-
+        [Required]
+        public string Content { get; set; }
+        [Required]
         public string Hashtags { get; set; }
-
-        // Foreign Key to the User entity
-        public int UserId { get; set; }
-
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; } // Navigation property to the User entity
-
+        public string Owner { get; set; }
+        public User User { get; set; }
     }
 }

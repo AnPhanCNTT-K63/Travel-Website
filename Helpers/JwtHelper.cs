@@ -28,9 +28,9 @@ public static class JwtHelper
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
-        Debug.WriteLine(ClaimTypes.Role);
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
+        Debug.WriteLine("Success generate token");
         return tokenHandler.WriteToken(token);
     }
 }

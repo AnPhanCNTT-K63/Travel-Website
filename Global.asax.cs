@@ -12,7 +12,7 @@ namespace WebBackendProject
         protected void Application_Start()
         {
             // Enable CORS globally
-            var cors = new EnableCorsAttribute("*", "*", "*");
+            var cors = new EnableCorsAttribute("http://localhost:3000", "*", "*");
             GlobalConfiguration.Configuration.EnableCors(cors);  // Enable CORS for all controllers
 
             // Register all areas, routes, and Web API configuration
@@ -25,7 +25,7 @@ namespace WebBackendProject
         protected void Application_BeginRequest()
         {
             // Allow only the specific origin
-            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 
             // Allow common methods
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");

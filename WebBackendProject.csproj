@@ -191,8 +191,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorization\JwtAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filter\AllowCrossSiteJsonAttribute.cs" />
     <Compile Include="Helpers\JwtHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,6 +202,74 @@
     <Compile Include="Migrations\202411121539086_s7.cs" />
     <Compile Include="Migrations\202411121539086_s7.designer.cs">
       <DependentUpon>202411121539086_s7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130145414_one_one_relation_1.cs" />
+    <Compile Include="Migrations\202411130145414_one_one_relation_1.designer.cs">
+      <DependentUpon>202411130145414_one_one_relation_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130148270_one_one_relation_2.cs" />
+    <Compile Include="Migrations\202411130148270_one_one_relation_2.designer.cs">
+      <DependentUpon>202411130148270_one_one_relation_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130154508_one_one_relation_3.cs" />
+    <Compile Include="Migrations\202411130154508_one_one_relation_3.designer.cs">
+      <DependentUpon>202411130154508_one_one_relation_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130159281_one_one_relation_4.cs" />
+    <Compile Include="Migrations\202411130159281_one_one_relation_4.designer.cs">
+      <DependentUpon>202411130159281_one_one_relation_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130215042_one_one_relation_5.cs" />
+    <Compile Include="Migrations\202411130215042_one_one_relation_5.designer.cs">
+      <DependentUpon>202411130215042_one_one_relation_5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130218502_one_one_relation_6.cs" />
+    <Compile Include="Migrations\202411130218502_one_one_relation_6.designer.cs">
+      <DependentUpon>202411130218502_one_one_relation_6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130221593_one_one_relation_7.cs" />
+    <Compile Include="Migrations\202411130221593_one_one_relation_7.designer.cs">
+      <DependentUpon>202411130221593_one_one_relation_7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130228107_one_one_relation_8.cs" />
+    <Compile Include="Migrations\202411130228107_one_one_relation_8.designer.cs">
+      <DependentUpon>202411130228107_one_one_relation_8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130321260_one_one_relation_9.cs" />
+    <Compile Include="Migrations\202411130321260_one_one_relation_9.designer.cs">
+      <DependentUpon>202411130321260_one_one_relation_9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130323317_one_one_relation_10.cs" />
+    <Compile Include="Migrations\202411130323317_one_one_relation_10.designer.cs">
+      <DependentUpon>202411130323317_one_one_relation_10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130353087_one_one_relation_11.cs" />
+    <Compile Include="Migrations\202411130353087_one_one_relation_11.designer.cs">
+      <DependentUpon>202411130353087_one_one_relation_11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130426189_one_one_relation_12.cs" />
+    <Compile Include="Migrations\202411130426189_one_one_relation_12.designer.cs">
+      <DependentUpon>202411130426189_one_one_relation_12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130452405_one_one_relation_13.cs" />
+    <Compile Include="Migrations\202411130452405_one_one_relation_13.designer.cs">
+      <DependentUpon>202411130452405_one_one_relation_13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130937192_Change_Attribute.cs" />
+    <Compile Include="Migrations\202411130937192_Change_Attribute.designer.cs">
+      <DependentUpon>202411130937192_Change_Attribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130946280_Change_Attribute_2.cs" />
+    <Compile Include="Migrations\202411130946280_Change_Attribute_2.designer.cs">
+      <DependentUpon>202411130946280_Change_Attribute_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411130959138_Change_Attribute_3.cs" />
+    <Compile Include="Migrations\202411130959138_Change_Attribute_3.designer.cs">
+      <DependentUpon>202411130959138_Change_Attribute_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411131003273_Change_Attribute_4.cs" />
+    <Compile Include="Migrations\202411131003273_Change_Attribute_4.designer.cs">
+      <DependentUpon>202411131003273_Change_Attribute_4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
@@ -224,6 +294,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\api\" />
     <Folder Include="Views\Auth\" />
+    <Folder Include="Views\Post\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Tour\" />
     <Folder Include="Views\User\" />
@@ -231,6 +302,57 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202411121539086_s7.resx">
       <DependentUpon>202411121539086_s7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130145414_one_one_relation_1.resx">
+      <DependentUpon>202411130145414_one_one_relation_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130148270_one_one_relation_2.resx">
+      <DependentUpon>202411130148270_one_one_relation_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130154508_one_one_relation_3.resx">
+      <DependentUpon>202411130154508_one_one_relation_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130159281_one_one_relation_4.resx">
+      <DependentUpon>202411130159281_one_one_relation_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130215042_one_one_relation_5.resx">
+      <DependentUpon>202411130215042_one_one_relation_5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130218502_one_one_relation_6.resx">
+      <DependentUpon>202411130218502_one_one_relation_6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130221593_one_one_relation_7.resx">
+      <DependentUpon>202411130221593_one_one_relation_7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130228107_one_one_relation_8.resx">
+      <DependentUpon>202411130228107_one_one_relation_8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130321260_one_one_relation_9.resx">
+      <DependentUpon>202411130321260_one_one_relation_9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130323317_one_one_relation_10.resx">
+      <DependentUpon>202411130323317_one_one_relation_10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130353087_one_one_relation_11.resx">
+      <DependentUpon>202411130353087_one_one_relation_11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130426189_one_one_relation_12.resx">
+      <DependentUpon>202411130426189_one_one_relation_12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130452405_one_one_relation_13.resx">
+      <DependentUpon>202411130452405_one_one_relation_13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130937192_Change_Attribute.resx">
+      <DependentUpon>202411130937192_Change_Attribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130946280_Change_Attribute_2.resx">
+      <DependentUpon>202411130946280_Change_Attribute_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411130959138_Change_Attribute_3.resx">
+      <DependentUpon>202411130959138_Change_Attribute_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411131003273_Change_Attribute_4.resx">
+      <DependentUpon>202411131003273_Change_Attribute_4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
