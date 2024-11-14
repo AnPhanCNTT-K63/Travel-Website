@@ -1,12 +1,13 @@
 import React from "react";
 import Slide4 from "../../Slideshow/Slide4";
-import BlogSection from "./BlogSection";
-//import "../../../styles/bLog.css";
+import BlobSection from "./BlogSection";
+import "../../../styles/bLog.css";
 
 const Blog = () => {
   return (
     <div className="blog-container">
-      <BlogSection />
+      <Slide4 />
+      <BlobSection />
     </div>
   );
 };

@@ -143,11 +143,9 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
           </div>
 
           <div style={{ padding: "15px" }}>
-            <StyledLink to={"/create/post"} onClick={handleMenuItemClick}>
-              <StyledMenuItem>
-                <PostAdd style={{ fontSize: 20 }} /> Post
-              </StyledMenuItem>
-            </StyledLink>
+            <StyledMenuItem onClick={handleMenuItemClick}>
+              <PostAdd style={{ fontSize: 20 }} /> Post
+            </StyledMenuItem>
             <StyledMenuItem onClick={handleMenuItemClick}>
               <LocalOffer style={{ fontSize: 20 }} /> Vouchers
             </StyledMenuItem>

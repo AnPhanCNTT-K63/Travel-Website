@@ -64,31 +64,12 @@ export const signin = async (user) => {
   }
 };
 
-export const getPosts = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/Post/posts`); //POST: /GET: /Post/posts
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
 export const addTour = async (tourData) => {
   try {
     const response = await axios.post(`${API_URL}/Tour/tourCreate`, tourData); //POST: /Tour/tourCreate
     return response.data;
   } catch (error) {
     console.error("Error adding tour:", error);
-    throw error;
-  }
-};
-
-export const createPost = async (postData) => {
-  try {
-    const res = await axios.post(`${API_URL}/Post/create/post`, postData); //Post: /Post/create/post
-    return res.data;
-  } catch (error) {
-    console.error("Error creating post: ", error);
     throw error;
   }
 };
