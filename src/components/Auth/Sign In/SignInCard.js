@@ -71,13 +71,10 @@ export default function SignInCard() {
         localStorage.setItem("token", user.token);
         localStorage.setItem("username", user.user.Username);
         localStorage.setItem("role", user.user.Role);
-        localStorage.setItem("user_id", user.user.Id);
         navigate("/");
         window.location.reload();
         console.log("Token stored in localStorage:", user.token);
         console.log("User info:", user.user);
-      } else {
-        console.log("Can't get user from server");
       }
     } catch (err) {
       console.log("Error", err);
