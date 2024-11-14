@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { MenuItem, FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 function DropdownListTour({ show }) {
+  const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState("");
   const [hoveredDomestic, setHoveredDomestic] = useState(false); // Trạng thái hover vào Domestic
   const [hoveredInternational, setHoveredInternational] = useState(false); // Trạng thái hover vào International
@@ -30,6 +32,11 @@ function DropdownListTour({ show }) {
 
   const handleClickInternational = () => {
     setIsInternationalOpen(!isInternationalOpen);
+  };
+
+  // Hàm điều hướng với đường dẫn tham số
+  const handleNavigate = (path) => {
+    navigate(path); 
   };
 
   return (
@@ -89,30 +96,33 @@ function DropdownListTour({ show }) {
           >
             <MenuItem
               value={30}
+              onClick={() => handleNavigate("/NorthTour")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightgreen" },
               }}
             >
-              Tour Miền Bắc
+              NorthTour
             </MenuItem>
             <MenuItem
               value={31}
+              onClick={() => handleNavigate("/MiddleTour")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightgreen" },
               }}
             >
-              Tour Miền Trung
+              MiddleTour
             </MenuItem>
             <MenuItem
               value={32}
+              onClick={() => handleNavigate("/SouthTour")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightgreen" },
               }}
             >
-              Tour Miền Nam
+              SouthTour
             </MenuItem>
           </Box>
         )}
@@ -149,30 +159,33 @@ function DropdownListTour({ show }) {
           >
             <MenuItem
               value={40}
+              onClick={() => handleNavigate("/AsiaTour")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightblue" },
               }}
             >
-              Châu Á
+              AsiaTour
             </MenuItem>
             <MenuItem
               value={41}
+              onClick={() => handleNavigate("/EuropeTour")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightblue" },
               }}
             >
-              Châu Âu
+              EuropeTour
             </MenuItem>
             <MenuItem
               value={42}
+              onClick={() => handleNavigate("/AmericaTour")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightblue" },
               }}
             >
-              Châu Mỹ
+              AmericaTour
             </MenuItem>
           </Box>
         )}

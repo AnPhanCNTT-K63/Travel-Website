@@ -12,6 +12,12 @@ import { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Tour/CreateTour";
 import DetailPage from "../Tour/Detail";
+import NorthTour from "../Tour/NorthTour";
+import MiddleTour from "../Tour/MiddleTour";
+import SouthTour from  "../Tour/SouthTour";
+import AsiaTour from  "../Tour/AsiaTour";
+import AmericaTour from "../Tour/AmericaTour";
+import EuropeTour from "../Tour/EuropeTour";
 
 function Navigation() {
   const location = useLocation();
@@ -55,6 +61,12 @@ function Navigation() {
         <Route path="/register" element={<SignUp />} />
         <Route path="/create" element={<CreateTour />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
+        <Route path="/NorthTour" element={<NorthTour />} />
+        <Route path="/SouthTour" element={<SouthTour />} />
+        <Route path="/MiddleTour" element={<MiddleTour />} />
+        <Route path="/AsiaTour" element={<AsiaTour />} />
+        <Route path="/AmericaTour" element={<AmericaTour />} />
+        <Route path="/EuropeTour" element={<EuropeTour />} />
       </Routes>
 
       {showArrow && (

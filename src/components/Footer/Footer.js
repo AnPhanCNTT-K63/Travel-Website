@@ -21,31 +21,6 @@ export default function Footer() {
         bgColor="f0f2f5"
         className="text-center text-lg-start text-muted"
       >
-        <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-          <div className="me-5 d-none d-lg-block">
-            <span>Get connected with us on social networks:</span>
-            <div>
-              <a href="" className="me-4 text-reset">
-                <FacebookIcon />
-              </a>
-              <a href="" className="me-4 text-reset">
-                <TwitterIcon />
-              </a>
-              <a href="" className="me-4 text-reset">
-                <GoogleIcon />
-              </a>
-              <a href="" className="me-4 text-reset">
-                <InstagramIcon />
-              </a>
-              <a href="" className="me-4 text-reset">
-                <LinkedInIcon />
-              </a>
-              <a href="" className="me-4 text-reset">
-                <GitHubIcon />
-              </a>
-            </div>
-          </div>
-        </section>
 
         <MDBRow className="mt-3">
           <MDBCol md="2" lg="2" xl="2" className="mx-auto mb-4">
@@ -132,6 +107,32 @@ export default function Footer() {
           </MDBCol>
         </MDBRow>
 
+        <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+          <div className="me-5 d-none d-lg-block">
+            <span>Get connected with us on social networks:</span>
+            <div>
+              <a href="" className="me-4 text-reset">
+                <FacebookIcon />
+              </a>
+              <a href="" className="me-4 text-reset">
+                <TwitterIcon />
+              </a>
+              <a href="" className="me-4 text-reset">
+                <GoogleIcon />
+              </a>
+              <a href="" className="me-4 text-reset">
+                <InstagramIcon />
+              </a>
+              <a href="" className="me-4 text-reset">
+                <LinkedInIcon />
+              </a>
+              <a href="" className="me-4 text-reset">
+                <GitHubIcon />
+              </a>
+            </div>
+          </div>
+        </section>
+
         <div
           className="text-center p-4"
           style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
@@ -146,6 +147,7 @@ export default function Footer() {
           </a>
         </div>
       </MDBFooter>
+
     </div>
   );
 }
