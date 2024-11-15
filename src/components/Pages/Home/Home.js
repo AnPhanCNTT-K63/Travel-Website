@@ -1,9 +1,8 @@
 import React from "react";
 import TopDestination from "./TopDestination";
-import CitiesSlider from "../Slideshow/CitiesSlider";
-import slides from "../Slideshow/CitiesSlider-infoList";
+import CitiesSlider from "../../Slideshow/CitiesSlider";
+import slides from "../../Slideshow/CitiesSlider-infoList";
 import TrendingSection from "./TrendingSection";
-import styles from "../../styles/styles.module.css";
 import TipSection from "./TipSection";
 import WhyChooseSection from "./WhyChooseSection";
 import TopDeal from "./TopDealSection";
@@ -20,7 +19,7 @@ const Home = () => {
       <TrendingSection />
       <TipSection />
       <WhyChooseSection />
-      <TopDeal />
+      <TopDeal id="top-deals" />
     </div>
   );
 };

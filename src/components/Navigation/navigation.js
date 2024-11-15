@@ -1,23 +1,24 @@
-import Home from "../Home/Home";
-import Tour from "../Tour/Tour";
-import AboutUs from "../AboutUs/AboutUs";
-import Blog from "../Blog/Blog";
-import Gallery from "../Gallery/Gallery";
-import Sponsor from "../Sponsor/Sponsor";
+import Home from "../Pages/Home/Home";
+import Tour from "../Pages/Tour/Tour";
+import AboutUs from "../Pages/AboutUs/AboutUs";
+import Gallery from "../Pages/Gallery/Gallery";
+import Sponsor from "../Pages/Sponsor/Sponsor";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Footer from "../Footer/Footer";
-import SignInSide from "../Sign in/SignInSide";
-import SignUp from "../Sign up/SignUp";
+import SignIn from "../Auth/Sign In/SignIn";
+import SignUp from "../Auth/Sign Up/SignUp";
 import { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import CreateTour from "../Tour/CreateTour";
-import DetailPage from "../Tour/Detail";
-import NorthTour from "../Tour/NorthTour";
-import MiddleTour from "../Tour/MiddleTour";
-import SouthTour from  "../Tour/SouthTour";
-import AsiaTour from  "../Tour/AsiaTour";
-import AmericaTour from "../Tour/AmericaTour";
-import EuropeTour from "../Tour/EuropeTour";
+import CreateTour from "../Pages/Tour/CreateTour";
+import DetailPage from "../Pages/Tour/Detail";
+import Profile from "../User/UserProfile/Profile";
+import Blog from "../Pages/Blog/Blog";
+import CreatePost from "../Pages/Blog/CreatePost";
+import NorthTour from "../Pages/Tour/NorthTour";
+import MiddleTour from "../Pages/Tour/MiddleTour";
+import SouthTour from "../Pages/Tour/SouthTour";
+import AsiaTour from "../Pages/Tour/AsiaTour";
+import EuropeTour from "../Pages/Tour/EuropeTour";
+import AmericaTour from "../Pages/Tour/AmericaTour";
 
 function Navigation() {
   const location = useLocation();
@@ -57,9 +58,11 @@ function Navigation() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/sponsor" element={<Sponsor />} />
-        <Route path="/login" element={<SignInSide />} />
+        <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/create" element={<CreateTour />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/create/post" element={<CreatePost />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/NorthTour" element={<NorthTour />} />
         <Route path="/SouthTour" element={<SouthTour />} />
@@ -88,8 +91,6 @@ function Navigation() {
           <ArrowCircleUpIcon color="primary" fontSize="large" />
         </button>
       )}
-
-      {location.pathname !== "/gallery" && <Footer />}
     </>
   );
 }
