@@ -13,6 +13,12 @@ import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Blog/CreatePost";
+import NorthTour from "../Pages/Tour/NorthTour";
+import MiddleTour from "../Pages/Tour/MiddleTour";
+import SouthTour from "../Pages/Tour/SouthTour";
+import AsiaTour from "../Pages/Tour/AsiaTour";
+import EuropeTour from "../Pages/Tour/EuropeTour";
+import AmericaTour from "../Pages/Tour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
 
 function Navigation() {
@@ -59,6 +65,12 @@ function Navigation() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/create/post" element={<CreatePost />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
+        <Route path="/NorthTour" element={<NorthTour />} />
+        <Route path="/SouthTour" element={<SouthTour />} />
+        <Route path="/MiddleTour" element={<MiddleTour />} />
+        <Route path="/AsiaTour" element={<AsiaTour />} />
+        <Route path="/AmericaTour" element={<AmericaTour />} />
+        <Route path="/EuropeTour" element={<EuropeTour />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
       </Routes>
 
