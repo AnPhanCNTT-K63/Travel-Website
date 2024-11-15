@@ -91,6 +91,59 @@ namespace WebBackendProject.Controllers
             return Json(new { message = "Invalid post data" }, JsonRequestBehavior.AllowGet);
         }
 
+        [JwtAuthorize("admin", "user")]
+        [HttpPut]
+        public ActionResult UpdatePost(BlogPost post, int id) //PUT: Post/update/post{id}
+        {
+            try
+            {
+                var existingPost = db.BlogPosts.Find(id);
+                if (existingPost == null)
+                {
+                    return Json(new { message = "Post not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                existingPost.Title = post.Title;        
+                existingPost.Content = post.Content;    
+                existingPost.Hashtags = post.Hashtags;  
+                existingPost.Image = post.Image;        
+
+                db.SaveChanges();
+
+                return Json(new { message = "Post updated successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "Error updating post: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [JwtAuthorize("admin", "user")]
+        [HttpDelete]
+        public ActionResult DeletePost(int id)
+        {
+            try
+            {
+                var existingPost = db.BlogPosts.Find(id);
+                if (existingPost == null)
+                {
+                    return Json(new { message = "Post not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                db.BlogPosts.Remove(existingPost);
+
+                db.SaveChanges();
+
+                return Json(new { message = "Post deleted successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "Error deleting post: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
 
     }
 }

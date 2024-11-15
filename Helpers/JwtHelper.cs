@@ -9,7 +9,7 @@ public static class JwtHelper
 {
 
     private const string SecretKey = "AnPhan12121212!@#SuperSecretKey123456";
-    private const int ExpiryDurationInMinutes = 30;
+    private const int ExpiryDurationInMinutes = 300000;
 
     public static string GenerateToken(string email, string username, string role, string userId)
     {

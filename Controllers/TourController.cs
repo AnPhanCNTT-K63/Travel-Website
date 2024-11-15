@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
@@ -52,5 +49,5 @@ namespace WebBackendProject.Controllers
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 
-}
+    }
 }

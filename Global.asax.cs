@@ -25,10 +25,10 @@ namespace WebBackendProject
         protected void Application_BeginRequest()
         {
             // Allow only the specific origin
-            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
 
             // Allow common methods
-            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
 
             // Allow the headers you need (for example, Authorization, Content-Type)
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");

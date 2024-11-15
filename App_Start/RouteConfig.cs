@@ -26,6 +26,17 @@ namespace WebBackendProject
               defaults: new { controller = "Post", action = "postDetail" }
           );
 
+            routes.MapRoute(
+              name: "PostUpdate",
+              url: "Post/update/post/{id}",
+              defaults: new { controller = "Post", action = "updatePost" }
+          );
+
+            routes.MapRoute(
+              name: "PostDelete",
+              url: "Post/delete/post/{id}",
+              defaults: new { controller = "Post", action = "DeletePost" }
+          );
 
             routes.MapRoute(
                 name: "Default",
