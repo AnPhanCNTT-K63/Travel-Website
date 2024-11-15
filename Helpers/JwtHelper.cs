@@ -11,7 +11,7 @@ public static class JwtHelper
     private const string SecretKey = "AnPhan12121212!@#SuperSecretKey123456";
     private const int ExpiryDurationInMinutes = 30;
 
-    public static string GenerateToken(string email, string role)
+    public static string GenerateToken(string email, string username, string role, string userId)
     {
         Debug.WriteLine(new string('-', 50)); // Divider
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -21,9 +21,11 @@ public static class JwtHelper
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim("unique_name", email),
-                new Claim("role", role)
-            }),
+            new Claim("unique_name", email),    // Keep email as unique_name
+            new Claim("username", username),     // Add username
+            new Claim("role", role),             // Add role
+            new Claim("user_id", userId)         // Add user_id
+        }),
             Expires = DateTime.UtcNow.AddMinutes(ExpiryDurationInMinutes),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -33,4 +35,5 @@ public static class JwtHelper
         Debug.WriteLine("Success generate token");
         return tokenHandler.WriteToken(token);
     }
+
 }

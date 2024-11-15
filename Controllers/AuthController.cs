@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 using System.Web.Mvc;
 using WebBackendProject.Models;
+using System.Web.Helpers;
 
 namespace WebBackendProject.Controllers
 {
@@ -16,8 +18,24 @@ namespace WebBackendProject.Controllers
         [HttpPost] 
         public ActionResult signup(User user) //POST: Auth/signup
         {
+            var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == user.Email);
+            var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == user.Username);
+
+
+            if (existedUserEmail != null)
+            {
+                return Json(new { error = "Email is already in use. Please login or click forgot password" }, JsonRequestBehavior.AllowGet);
+            }
+            if(existedUserUsername != null)
+            {
+                return Json(new { error = "user has been used by someone else" }, JsonRequestBehavior.AllowGet);
+            }
+
             if (ModelState.IsValid)
             {
+                user.CreatedAt = DateTime.UtcNow;
+                user.UpdatedAt = DateTime.UtcNow;
+                user.Role = "user";
                 db.Users.Add(user);
                 int a = db.SaveChanges();
                 if (a > 0)
@@ -29,33 +47,40 @@ namespace WebBackendProject.Controllers
                     Debug.WriteLine("False");
                 }
             }
-            Debug.WriteLine("Here");
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult signin(User user) //POST: Auth/signin
+        public ActionResult signin(User user) // POST: Auth/signin
         {
-            var loginUser = db.Users.FirstOrDefault(model => model.Email == user.Email);
+            var loginUser = db.Users
+                .FirstOrDefault(u => u.Email == user.Email);
+
             if (loginUser == null)
             {
-                return Json(new { message = "Not Found" });
+                return Json(new { error = "Email Not Found" });
             }
             else if (loginUser.Password != user.Password)
             {
-                return Json(new { message = "Incorrect Password" });
+                return Json(new { error = "Incorrect Password" });
             }
             else
             {
-                var token = JwtHelper.GenerateToken(loginUser.Email, loginUser.Role);
+                var token = JwtHelper.GenerateToken(loginUser.Email, loginUser.Username, loginUser.Role, loginUser.Id.ToString());
                 Debug.WriteLine(loginUser);
                 Debug.WriteLine(token);
-                return Json(new { token = token, user = loginUser }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    token = token,
+                    message = "Success"
+                }, JsonRequestBehavior.AllowGet);
             }
         }
 
-        [JwtAuthorize]
+
+
+        [JwtAuthorize("admin", "user")]
         [HttpGet]
         public ActionResult signout() //GET: Auth/signout
         {

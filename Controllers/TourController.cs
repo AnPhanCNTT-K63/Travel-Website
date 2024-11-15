@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
@@ -12,7 +13,7 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult tours() //GET: /Tour/tours
         {
@@ -20,12 +21,14 @@ namespace WebBackendProject.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        [JwtAuthorize("User")]
+        [JwtAuthorize("admin")]
         [HttpPost]
         public ActionResult tourCreate(Tour tour) //POST: /Tour/tourCreate
         {
             if (ModelState.IsValid)
             {
+                tour.CreatedAt = DateTime.UtcNow;
+                tour.UpdatedAt = DateTime.UtcNow;
                 db.Tours.Add(tour);
                 int a = db.SaveChanges();
                 if (a > 0)
@@ -48,14 +51,6 @@ namespace WebBackendProject.Controllers
             var row = db.Tours.FirstOrDefault(model => model.Id == id);
             return Json(row, JsonRequestBehavior.AllowGet);
         }
-
-       /* [JwtAuthorize("user")]
-        [HttpPost]
-        public ActionResult creatPost(BlogPost blogPost)
-        {
-            return Json(new { haha = "kaka", JsonRequestBehavior.AllowGet });
-        }*/
-
 
 }
 }

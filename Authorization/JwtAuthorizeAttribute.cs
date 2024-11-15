@@ -54,25 +54,31 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
             // Decode and check claims in token
             var jwtToken = (JwtSecurityToken)validatedToken;
 
-            var usernameClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "unique_name");
+            var emailClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "unique_name");
+            var usernameClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "username");
             var roleClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "role");
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "user_id");
 
+            Debug.WriteLine(emailClaim);
             Debug.WriteLine(usernameClaim);
             Debug.WriteLine(roleClaim);
+            Debug.WriteLine(userIdClaim);
 
-            if (usernameClaim == null || roleClaim == null)
+            if (emailClaim == null || usernameClaim == null || roleClaim == null || userIdClaim == null)
             {
-                Debug.WriteLine("Required claims (username or role) not found in the token.");
+                Debug.WriteLine("Required claims (email, username, role, or user_id) not found in the token.");
                 return false;
             }
 
+            var email = emailClaim.Value;
             var username = usernameClaim.Value;
-            var userRole = roleClaim.Value;
+            var role = roleClaim.Value;
+            var userId = userIdClaim.Value;
 
-            Debug.WriteLine($"Authenticated user: {username} with role: {userRole}");
+            Debug.WriteLine($"Authenticated user: {username} with email: {email}, role: {role}, and user_id: {userId}");
 
             // Check if the user's role is within the allowed roles
-            if (_allowedRoles.Length > 0 && !_allowedRoles.Contains(userRole))
+            if (_allowedRoles.Length > 0 && !_allowedRoles.Contains(role))
             {
                 Debug.WriteLine("User's role is not authorized for this resource.");
                 return false;
@@ -81,7 +87,13 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
             // Attach user information to HttpContext for controller access
             httpContext.User = new ClaimsPrincipal(
                 new ClaimsIdentity(
-                    new[] { new Claim(ClaimTypes.Name, username), new Claim(ClaimTypes.Role, userRole) }
+                    new[]
+                    {
+                    new Claim(ClaimTypes.Name, username),   // Attach username
+                    new Claim(ClaimTypes.Role, role),        // Attach role
+                    new Claim("user_id", userId),            // Attach user_id
+                    new Claim("email", email)                // Attach email (unique_name)
+                    }
                 )
             );
             return true;
@@ -92,6 +104,7 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
             return false;
         }
     }
+
 
     protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
     {

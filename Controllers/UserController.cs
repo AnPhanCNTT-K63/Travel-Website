@@ -12,6 +12,7 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
+        [JwtAuthorize("admin")]
         [HttpGet]
         public ActionResult users() //GET: /User/users
         {

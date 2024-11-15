@@ -7,20 +7,17 @@ using System.Web;
 
 namespace WebBackendProject.Models
 {
-    public class BlogPost
+    public class TourReview
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; }
-
-        public DateTime? Datetime { get; set; }
-        public string Image { get; set; }
-        public string Content { get; set; }
-        public string Hashtags { get; set; }
-        public string Owner { get; set; }
+        public int Star { get; set; }
+        public string Review { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set;}
+        public Tour Tour { get; set; }
         public User User { get; set; }
+
     }
 }

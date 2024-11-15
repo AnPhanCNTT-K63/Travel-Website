@@ -20,5 +20,6 @@ namespace WebBackendProject.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
+
     }
 }

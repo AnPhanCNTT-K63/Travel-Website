@@ -9,10 +9,7 @@ namespace WebBackendProject.Models
 {
     public class UserProfile
     {
-      
-        [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }

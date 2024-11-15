@@ -21,6 +21,13 @@ namespace WebBackendProject
            );
 
             routes.MapRoute(
+              name: "PostDetail",
+              url: "Post/detail/post/{id}",
+              defaults: new { controller = "Post", action = "postDetail" }
+          );
+
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Tour", action = "tours", id = UrlParameter.Optional }

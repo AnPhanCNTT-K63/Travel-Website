@@ -16,10 +16,12 @@ namespace WebBackendProject.Models
         public string Description { get; set; }
         public string Image { get; set; }
         public Decimal Price { get; set; }
-        public int Ratings { get; set; }
-        public int Stars { get; set; }
         public int Quantity { get; set; }
-
+        public string Activity { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public string Region { get; set; }
+        public Destination Destination { get; set; }
+        public ICollection<TourReview> tourReviews { get; set; }
     }
 }   

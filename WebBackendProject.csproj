@@ -194,7 +194,7 @@
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Filter\AllowCrossSiteJsonAttribute.cs" />
+    <Compile Include="Helpers\GetFullException.cs" />
     <Compile Include="Helpers\JwtHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,10 +271,36 @@
     <Compile Include="Migrations\202411131003273_Change_Attribute_4.designer.cs">
       <DependentUpon>202411131003273_Change_Attribute_4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411140806099_contra.cs" />
+    <Compile Include="Migrations\202411140806099_contra.designer.cs">
+      <DependentUpon>202411140806099_contra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411141505410_update_1.cs" />
+    <Compile Include="Migrations\202411141505410_update_1.designer.cs">
+      <DependentUpon>202411141505410_update_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411141517585_update_3.cs" />
+    <Compile Include="Migrations\202411141517585_update_3.designer.cs">
+      <DependentUpon>202411141517585_update_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411141524360_update_4.cs" />
+    <Compile Include="Migrations\202411141524360_update_4.designer.cs">
+      <DependentUpon>202411141524360_update_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411141530354_update_5.cs" />
+    <Compile Include="Migrations\202411141530354_update_5.designer.cs">
+      <DependentUpon>202411141530354_update_5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411150252471_change_null.cs" />
+    <Compile Include="Migrations\202411150252471_change_null.designer.cs">
+      <DependentUpon>202411150252471_change_null.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\DbAppContext.cs" />
+    <Compile Include="Models\Destination.cs" />
     <Compile Include="Models\Tour.cs" />
+    <Compile Include="Models\TourReview.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,6 +379,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411131003273_Change_Attribute_4.resx">
       <DependentUpon>202411131003273_Change_Attribute_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411140806099_contra.resx">
+      <DependentUpon>202411140806099_contra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411141505410_update_1.resx">
+      <DependentUpon>202411141505410_update_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411141517585_update_3.resx">
+      <DependentUpon>202411141517585_update_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411141524360_update_4.resx">
+      <DependentUpon>202411141524360_update_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411141530354_update_5.resx">
+      <DependentUpon>202411141530354_update_5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411150252471_change_null.resx">
+      <DependentUpon>202411150252471_change_null.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
