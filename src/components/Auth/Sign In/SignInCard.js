@@ -41,8 +41,13 @@ export default function SignInCard() {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  const [rememberMe, setRememberMe] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const handleRememberMeChange = (event) => {
+    setRememberMe(event.target.checked);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,18 +71,34 @@ export default function SignInCard() {
 
     try {
       const user = await signin(data);
-      console.log(user);
       if (user && user.token) {
-        localStorage.setItem("token", user.token);
-        localStorage.setItem("username", user.user.Username);
-        localStorage.setItem("role", user.user.Role);
-        localStorage.setItem("user_id", user.user.Id);
+        // if (rememberMe) {
+        //   localStorage.setItem("token", user.token);
+        //   localStorage.setItem("username", user.username);
+        //   localStorage.setItem("role", user.role);
+        //   localStorage.setItem("user_id", user.id);
+        // } else {
+        //   sessionStorage.setItem("token", user.token);
+        //   sessionStorage.setItem("username", user.username);
+        //   sessionStorage.setItem("role", user.role);
+        //   sessionStorage.setItem("user_id", user.id);
+        // }
+        if (rememberMe) {
+          localStorage.setItem("token", user.token);
+        } else {
+          sessionStorage.setItem("token", user.token);
+        }
         navigate("/");
         window.location.reload();
         console.log("Token stored in localStorage:", user.token);
-        console.log("User info:", user.user);
-      } else {
-        console.log("Can't get user from server");
+        console.log("User info:", user);
+      } else if (
+        user.error == "Email Not Found" ||
+        user.error == "Incorrect Password"
+      ) {
+        setEmailError(true);
+        setPasswordError(true);
+        setPasswordErrorMessage("Incorrect Email Or Password");
       }
     } catch (err) {
       console.log("Error", err);
@@ -180,7 +201,9 @@ export default function SignInCard() {
           />
         </FormControl>
         <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
+          control={
+            <Checkbox checked={rememberMe} onChange={handleRememberMeChange} />
+          }
           label="Remember me"
         />
         <ForgotPassword open={open} handleClose={handleClose} />

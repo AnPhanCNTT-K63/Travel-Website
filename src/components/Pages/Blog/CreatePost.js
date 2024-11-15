@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../../../UserContext";
 import {
   TextField,
   Button,
@@ -17,8 +18,11 @@ const CreatePost = () => {
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const role = localStorage.getItem("role");
-  const user_id = localStorage.getItem("user_id");
+
+  const user = useContext(UserContext);
+
+  const role = user.role;
+  const user_id = user.userId;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

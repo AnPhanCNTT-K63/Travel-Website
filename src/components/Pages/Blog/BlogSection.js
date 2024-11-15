@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Container, Typography, Box, Paper } from "@mui/material";
+import {
+  Grid,
+  Container,
+  Typography,
+  Box,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 import PostCard from "./PostCard";
 import { getPosts } from "../../../api/services";
 
 const BlogSection = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -12,10 +21,14 @@ const BlogSection = () => {
         setPosts(data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false); // Hide loading spinner once data is fetched
       }
     };
     fetchPost();
   }, []);
+
+  console.log(posts);
 
   // Sample top-rated posts for the sidebar
   const topRatedPosts = [
@@ -39,7 +52,12 @@ const BlogSection = () => {
   return (
     <Container maxWidth="lg" sx={{ padding: "2rem 0" }}>
       {/* Page Title */}
-      <Typography variant="h3" align="center" gutterBottom>
+      <Typography
+        variant="h3"
+        align="center"
+        gutterBottom
+        color="text.secondary"
+      >
         Our Latest Blog Posts
       </Typography>
 
@@ -55,7 +73,7 @@ const BlogSection = () => {
 
       {/* Main Content and Sidebar Grid */}
       <Grid container spacing={4}>
-        {/* Main Blog Posts */}
+        {/* Sidebar: Top Rated Posts */}
         <Grid item xs={12} md={2}>
           <Paper sx={{ padding: 2, boxShadow: 3 }}>
             <Typography variant="h5" gutterBottom>
@@ -84,28 +102,39 @@ const BlogSection = () => {
             </Grid>
           </Paper>
         </Grid>
+
+        {/* Main Blog Posts */}
         <Grid item xs={12} md={10}>
           <Grid container spacing={2}>
-            {posts.map((post) => {
-              const postHashtags = post.Hashtags
-                ? post.Hashtags.split(",")
-                : [];
-              return (
-                <Grid item key={post.id} xs={12} sm={6} md={4}>
-                  <PostCard
-                    title={post.Title}
-                    datetime={post.Datetime}
-                    image={post.Image}
-                    content={post.Content}
-                    hashtags={postHashtags} // Individual post hashtags
-                  />
+            {loading ? ( // Show loading spinner while data is being fetched
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  py: 4,
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : posts.length === 0 ? ( // Show message if no posts are available
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                align="center"
+                sx={{ width: "100%", py: 4 }}
+              >
+                No blog posts available at the moment.
+              </Typography>
+            ) : (
+              posts.map((post) => (
+                <Grid item key={post.Id} xs={12} sm={6} md={4}>
+                  <PostCard post={post} />
                 </Grid>
-              );
-            })}
+              ))
+            )}
           </Grid>
         </Grid>
-
-        {/* Sidebar with Top Rated Posts */}
       </Grid>
     </Container>
   );

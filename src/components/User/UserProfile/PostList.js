@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { Row, Col, Card, Button, Avatar, Upload, message } from "antd";
-import { VerticalAlignTopOutlined } from "@ant-design/icons";
+import { Row, Col, Card, Button, Avatar } from "antd";
+import { Link } from "react-router-dom";
 import profilavatar from "../../../assets/images/face-1.jpg";
 import convesionImg from "../../../assets/images/face-3.jpg";
 import convesionImg2 from "../../../assets/images/face-4.jpg";
@@ -10,47 +9,6 @@ import project2 from "../../../assets/images/home-decor-2.jpeg";
 import project3 from "../../../assets/images/home-decor-3.jpeg";
 
 export default function Post() {
-  const [imageURL, setImageURL] = useState(null);
-  const [, setLoading] = useState(false);
-
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must be smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  };
-
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj, (imageUrl) => {
-        setLoading(false);
-        setImageURL(imageUrl);
-      });
-    }
-  };
-
-  const uploadButton = (
-    <div className="ant-upload-text" style={{ textAlign: "center" }}>
-      <VerticalAlignTopOutlined style={{ fontSize: 24, color: "#1890ff" }} />
-      <div style={{ fontWeight: "bold", color: "#555" }}>Upload New Post</div>
-    </div>
-  );
-
   const projects = [
     {
       img: project1,
@@ -150,25 +108,24 @@ export default function Post() {
           </Col>
         ))}
         <Col span={24} md={12} xl={6}>
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader projects-uploader"
-            showUploadList={false}
-            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
           >
-            {imageURL ? (
-              <img
-                src={imageURL}
-                alt="avatar"
-                style={{ width: "100%", borderRadius: 12 }}
-              />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
+            <Link to="/create/post">
+              <Button
+                type="primary"
+                size="large"
+                style={{ fontWeight: "bold", width: "100%" }}
+              >
+                Add New Post
+              </Button>
+            </Link>
+          </div>
         </Col>
       </Row>
     </Card>

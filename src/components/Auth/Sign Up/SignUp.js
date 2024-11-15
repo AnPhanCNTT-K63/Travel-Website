@@ -79,6 +79,10 @@ export default function SignUp() {
     }
   }, []);
 
+  const formatDate = () => {
+    return new Date().toISOString();
+  };
+
   const toggleColorMode = () => {
     const newMode = mode === "dark" ? "light" : "dark";
     setMode(newMode);
@@ -134,9 +138,9 @@ export default function SignUp() {
     }
     const data = new FormData(event.currentTarget);
     console.log({
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
+      username: data.get("Username"),
+      email: data.get("Email"),
+      password: data.get("Password"),
     });
 
     try {
@@ -144,6 +148,16 @@ export default function SignUp() {
       navigate("/login");
       window.location.reload();
       console.log(user);
+      if (
+        user.error ==
+        "Email is already in use. Please login or click forgot password"
+      ) {
+        setEmailError(true);
+        setEmailErrorMessage(user.error);
+      } else if (user.error == "user has been used by someone else") {
+        setNameError(true);
+        setNameErrorMessage(user.error);
+      }
     } catch (err) {
       console.log("Error s", err);
     }
@@ -183,20 +197,6 @@ export default function SignUp() {
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
               <FormControl>
-                <FormLabel htmlFor="username">Username</FormLabel>
-                <TextField
-                  autoComplete="name"
-                  name="Username"
-                  required
-                  fullWidth
-                  id="name"
-                  placeholder="Jon Snow"
-                  error={nameError}
-                  helperText={nameErrorMessage}
-                  color={nameError ? "error" : "primary"}
-                />
-              </FormControl>
-              <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <TextField
                   required
@@ -209,6 +209,20 @@ export default function SignUp() {
                   error={emailError}
                   helperText={emailErrorMessage}
                   color={passwordError ? "error" : "primary"}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="username">Username</FormLabel>
+                <TextField
+                  autoComplete="name"
+                  name="Username"
+                  required
+                  fullWidth
+                  id="name"
+                  placeholder="Jon Snow"
+                  error={nameError}
+                  helperText={nameErrorMessage}
+                  color={nameError ? "error" : "primary"}
                 />
               </FormControl>
               <FormControl>

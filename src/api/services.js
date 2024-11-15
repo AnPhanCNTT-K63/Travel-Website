@@ -4,7 +4,8 @@ const API_URL = "https://localhost:44331";
 
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     } else {
@@ -18,7 +19,7 @@ axios.interceptors.request.use(
 
 export const getTours = async () => {
   try {
-    const response = await axios.get(`${API_URL}/Tour/tours`); // GET: /Tour/tours
+    const response = await axios.get(`/Tour/tours`); // GET: /Tour/tours
     return response.data;
   } catch (error) {
     console.error("Error fetching tours:", error);
@@ -29,7 +30,7 @@ export const getTours = async () => {
 export const getTourDetail = async (id) => {
   try {
     // console.log(localStorage.getItem("token"));
-    const response = await axios.get(`${API_URL}/Tour/tourDetail/${id}`); //GET: /Tour/tourDetail/{id}
+    const response = await axios.get(`/Tour/tourDetail/${id}`); //GET: /Tour/tourDetail/{id}
     return response.data;
   } catch (error) {
     console.error("Error fetching tour detail:", error);
@@ -39,7 +40,7 @@ export const getTourDetail = async (id) => {
 
 export const signup = async (user) => {
   try {
-    const res = await axios.post(`${API_URL}/Auth/signup`, user); //POST: /Auth/signup
+    const res = await axios.post(`/Auth/signup`, user); //POST: /Auth/signup
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -48,7 +49,7 @@ export const signup = async (user) => {
 
 export const signout = async () => {
   try {
-    const res = await axios.get(`${API_URL}/Auth/signout`); //POST: /Auth/signout
+    const res = await axios.get(`/Auth/signout`); //POST: /Auth/signout
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -57,7 +58,7 @@ export const signout = async () => {
 
 export const signin = async (user) => {
   try {
-    const res = await axios.post(`${API_URL}/Auth/signin`, user); //POST: /Auth/signin
+    const res = await axios.post(`/Auth/signin`, user); //POST: /Auth/signin
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -66,7 +67,16 @@ export const signin = async (user) => {
 
 export const getPosts = async () => {
   try {
-    const res = await axios.get(`${API_URL}/Post/posts`); //POST: /GET: /Post/posts
+    const res = await axios.get(`/Post/posts`); //GET: /Post/posts
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
+  }
+};
+
+export const getPostDetail = async (id) => {
+  try {
+    const res = await axios.get(`/Post/detail/post/${id}`); //GET: /Post/detail/post/{id}
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -75,7 +85,7 @@ export const getPosts = async () => {
 
 export const addTour = async (tourData) => {
   try {
-    const response = await axios.post(`${API_URL}/Tour/tourCreate`, tourData); //POST: /Tour/tourCreate
+    const response = await axios.post(`/Tour/tourCreate`, tourData); //POST: /Tour/tourCreate
     return response.data;
   } catch (error) {
     console.error("Error adding tour:", error);
@@ -85,7 +95,7 @@ export const addTour = async (tourData) => {
 
 export const createPost = async (postData) => {
   try {
-    const res = await axios.post(`${API_URL}/Post/create/post`, postData); //Post: /Post/create/post
+    const res = await axios.post(`/Post/create/post`, postData); //Post: /Post/create/post
     return res.data;
   } catch (error) {
     console.error("Error creating post: ", error);
@@ -95,7 +105,7 @@ export const createPost = async (postData) => {
 
 export const updateTour = async (id, updatedTourData) => {
   try {
-    const response = await axios.put(`${API_URL}/tours/${id}`, updatedTourData);
+    const response = await axios.put(`/tours/${id}`, updatedTourData);
     return response.data;
   } catch (error) {
     console.error("Error updating tour:", error);
@@ -105,7 +115,7 @@ export const updateTour = async (id, updatedTourData) => {
 
 export const deleteTour = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/tours/${id}`);
+    const response = await axios.delete(`/tours/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error deleting tour:", error);
