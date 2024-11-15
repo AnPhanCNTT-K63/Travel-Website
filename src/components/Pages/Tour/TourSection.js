@@ -28,7 +28,7 @@ export default function TourSection() {
       {components[page - 1]}
       <div style={{ marginLeft: "400px", marginTop: "80px" }}>
         <Pagination
-          count={10}
+          count={5}
           page={page}
           onChange={handlePageChange}
           color="secondary"

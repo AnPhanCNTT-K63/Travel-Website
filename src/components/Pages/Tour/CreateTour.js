@@ -8,6 +8,7 @@ const CreateTour = () => {
     description: "",
     image: "",
     price: "",
+    region: "",
   });
 
   const handleChange = (e) => {
@@ -75,7 +76,17 @@ const CreateTour = () => {
             required
           />
         </label>
-        <input type="submit" value="Submit" onSubmit={handleSubmit} />
+        <label>
+          Region:
+          <input
+            type="text"
+            name="region" // sửa lại name thành "region"
+            value={formData.region}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <input type="submit" value="Submit" />
       </form>
     </div>
   );
