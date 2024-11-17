@@ -11,10 +11,8 @@ export default function TourCard({ item }) {
   return (
     <Card sx={{ marginLeft: "100px", width: "100%", height: "100%" }}>
       <CardMedia
-
         sx={{ height: "150px ", width: "100%", objectFit: "cover" }}
         image={`/Tours/${item.Image}`}
-
         title="green iguana"
       />
       <CardContent>
@@ -22,14 +20,17 @@ export default function TourCard({ item }) {
           {item.Name}
         </Typography>
 
-        <Typography variant="body2" sx={{ height: 50, color: "text.secondary" }}>
+        <Typography
+          variant="body2"
+          sx={{ height: 50, color: "text.secondary" }}
+        >
           {item.description}
         </Typography>
       </CardContent>
       <CardActions>
         <Box sx={{ width: "100%" }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            <span style={{ fontWeight: 'bold' }}>Price:</span>
+            <span style={{ fontWeight: "bold" }}>Price:</span>
             <Box component="span" sx={{ ml: 1 }}>
               {item.price}$
             </Box>
@@ -43,8 +44,6 @@ export default function TourCard({ item }) {
             <StarIcon />
           </Box>
         </Box>
-
-
       </CardActions>
     </Card>
   );

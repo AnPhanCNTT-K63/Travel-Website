@@ -11,6 +11,7 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Pages/Tour/CreateTour";
 import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
+import AdminProfile from "../Admin/AdminProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Blog/CreatePost";
 import NorthTour from "../Pages/Tour/NorthTour";
@@ -20,11 +21,11 @@ import AsiaTour from "../Pages/Tour/AsiaTour";
 import EuropeTour from "../Pages/Tour/EuropeTour";
 import AmericaTour from "../Pages/Tour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
+import UpdatePost from "../Pages/Blog/UpdatePost";
 
 function Navigation() {
   const location = useLocation();
   const [showArrow, setShowArrow] = useState(false);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -63,15 +64,17 @@ function Navigation() {
         <Route path="/register" element={<SignUp />} />
         <Route path="/create" element={<CreateTour />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/admin" element={<AdminProfile />} />
         <Route path="/create/post" element={<CreatePost />} />
-        <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/NorthTour" element={<NorthTour />} />
         <Route path="/SouthTour" element={<SouthTour />} />
         <Route path="/MiddleTour" element={<MiddleTour />} />
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
+        <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route path="/update/post/:postId" element={<UpdatePost />} />
       </Routes>
 
       {showArrow && (

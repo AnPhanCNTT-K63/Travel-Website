@@ -95,10 +95,30 @@ export const addTour = async (tourData) => {
 
 export const createPost = async (postData) => {
   try {
-    const res = await axios.post(`/Post/create/post`, postData); //Post: /Post/create/post
+    const res = await axios.post(`/Post/create/post`, postData); //POST: /Post/create/post
     return res.data;
   } catch (error) {
     console.error("Error creating post: ", error);
+    throw error;
+  }
+};
+
+export const updatePost = async (postData, id) => {
+  try {
+    const res = await axios.put(`/Post/update/post/${id}`, postData); //PUT: /Post/update/post/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error updating post: ", error);
+    throw error;
+  }
+};
+
+export const deletePost = async (id) => {
+  try {
+    const res = await axios.delete(`/Post/delete/post/${id}`, id); //DELETE: /Post/delete/post/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error Deleting post: ", error);
     throw error;
   }
 };

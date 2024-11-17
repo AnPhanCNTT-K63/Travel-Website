@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
         username: decodedToken.username,
         role: decodedToken.role,
         userId: decodedToken.user_id,
+        email: decodedToken.unique_name,
       });
     }
   }, []);

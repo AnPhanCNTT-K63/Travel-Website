@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../../../UserContext";
 import {
   TextField,
@@ -15,14 +16,25 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hashtags, setHashtags] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null); // Store image file
+  const [imagePreview, setImagePreview] = useState(null); // Store image preview URL
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const user = useContext(UserContext);
-
   const role = user.role;
   const user_id = user.userId;
+
+  const navigate = useNavigate();
+
+  // Handle image file selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file.name); // Store the file
+      setImagePreview(URL.createObjectURL(file)); // Create a preview URL for the image
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +43,7 @@ const CreatePost = () => {
       setError("Title, content, and hashtags are required.");
       return;
     }
+
     const hashtagsArray = hashtags
       .split(",")
       .map((hashtag) => hashtag.trim())
@@ -40,23 +53,26 @@ const CreatePost = () => {
     const postData = {
       Title: title,
       Content: content,
-      Hashtags: hashtagsArray.toString(),
+      Hashtags: hashtagsArray,
       Owner: role,
       User_Id: user_id,
-      Image: image,
+      Image: image, // Send the image file (you can handle it in backend or local storage)
     };
+
     console.log(postData);
 
     setLoading(true);
 
     try {
+      // Assuming createPost handles image upload
       const post = await createPost(postData);
       console.log(post);
 
       setTitle("");
       setContent("");
       setHashtags("");
-      setImage(null);
+      setImage(null); // Reset image
+      setImagePreview(null); // Reset image preview
       setError(null);
       alert("Post created successfully!");
     } catch (error) {
@@ -64,6 +80,10 @@ const CreatePost = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoToProfile = () => {
+    navigate("/profile#posts");
   };
 
   return (
@@ -116,12 +136,29 @@ const CreatePost = () => {
             onChange={(e) => setHashtags(e.target.value)}
             sx={{ mb: 2 }}
           />
+          {/* File input for image */}
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files[0].name)}
+            onChange={handleImageChange}
             style={{ marginBottom: "1rem" }}
           />
+
+          {/* Display image preview */}
+          {imagePreview && (
+            <Box sx={{ textAlign: "center", mb: 2 }}>
+              <img
+                src={imagePreview}
+                alt="Image Preview"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "300px",
+                  objectFit: "contain",
+                }}
+              />
+            </Box>
+          )}
+
           <Box sx={{ textAlign: "center" }}>
             <Button
               type="submit"
@@ -134,6 +171,18 @@ const CreatePost = () => {
             </Button>
           </Box>
         </form>
+
+        {/* Button to go to the profile page */}
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleGoToProfile}
+            sx={{ width: "100%", padding: "10px" }}
+          >
+            Manage Posts
+          </Button>
+        </Box>
       </Box>
     </Container>
   );

@@ -12,7 +12,7 @@ import { getPosts } from "../../../api/services";
 
 const BlogSection = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {

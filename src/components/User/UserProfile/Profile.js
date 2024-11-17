@@ -1,3 +1,5 @@
+import React, { useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Button,
   Card,
@@ -12,19 +14,16 @@ import {
 } from "reactstrap";
 import UserHeader from "./UserHeader.js";
 import Post from "./PostList.js";
-import { signout } from "../../../api/services.js";
 
 const Profile = () => {
-  const handleSignOut = async () => {
-    try {
-      const data = await signout();
-      console.log(data);
-      localStorage.removeItem("token");
-      window.location.reload();
-    } catch (err) {
-      console.log("Error", err);
+  const postsSectionRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === "#posts" && postsSectionRef.current) {
+      postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }, [location]);
   return (
     <>
       {/* Page content */}
@@ -340,9 +339,11 @@ const Profile = () => {
             </Card>
           </Col>
         </Row>
-        <Row className="justify-content-center" style={{ marginTop: "50px" }}>
-          <Post />
-        </Row>
+        <div ref={postsSectionRef} id="posts">
+          <Row className="justify-content-center" style={{ marginTop: "50px" }}>
+            <Post />
+          </Row>
+        </div>
       </Container>
     </>
   );
