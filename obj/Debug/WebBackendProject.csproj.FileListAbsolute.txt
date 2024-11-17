@@ -289,3 +289,4 @@ D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.update_4.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.update_5.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.change_null.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one.resources

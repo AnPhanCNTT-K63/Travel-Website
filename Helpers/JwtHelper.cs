@@ -21,10 +21,10 @@ public static class JwtHelper
         {
             Subject = new ClaimsIdentity(new[]
             {
-            new Claim("unique_name", email),    // Keep email as unique_name
-            new Claim("username", username),     // Add username
-            new Claim("role", role),             // Add role
-            new Claim("user_id", userId)         // Add user_id
+            new Claim("unique_name", email),    
+            new Claim("username", username),     
+            new Claim("role", role),            
+            new Claim("user_id", userId) 
         }),
             Expires = DateTime.UtcNow.AddMinutes(ExpiryDurationInMinutes),
             SigningCredentials = new SigningCredentials(

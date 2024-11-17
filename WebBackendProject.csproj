@@ -295,10 +295,17 @@
     <Compile Include="Migrations\202411150252471_change_null.designer.cs">
       <DependentUpon>202411150252471_change_null.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411170333239_new_one.cs" />
+    <Compile Include="Migrations\202411170333239_new_one.designer.cs">
+      <DependentUpon>202411170333239_new_one.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
+    <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\BookingDetail.cs" />
     <Compile Include="Models\DbAppContext.cs" />
     <Compile Include="Models\Destination.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Tour.cs" />
     <Compile Include="Models\TourReview.cs" />
     <Compile Include="Models\User.cs" />
@@ -398,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411150252471_change_null.resx">
       <DependentUpon>202411150252471_change_null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411170333239_new_one.resx">
+      <DependentUpon>202411170333239_new_one.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

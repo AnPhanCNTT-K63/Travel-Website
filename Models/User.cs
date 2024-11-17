@@ -25,6 +25,7 @@ namespace WebBackendProject.Models
         public DateTime? UpdatedAt { get; set; }
         public UserProfile UserProfile { get; set; }
         public ICollection<BlogPost> Posts { get; set; }
-        public ICollection<TourReview> tourReviews { get; set; }
+        public ICollection<TourReview> TourReviews { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

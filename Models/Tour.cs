@@ -20,8 +20,8 @@ namespace WebBackendProject.Models
         public string Activity { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public string Region { get; set; }
         public Destination Destination { get; set; }
         public ICollection<TourReview> tourReviews { get; set; }
+        public ICollection<BookingDetail>  BookingDetails { get; set; }
     }
 }   
