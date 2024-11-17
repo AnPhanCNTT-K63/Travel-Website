@@ -73,7 +73,7 @@ export default function TopDestination() {
           </Row>
 
           <Row>
-            {/* 4 ảnh chia đều trong hàng thứ hai */}
+
             <Col md={3}>
               <Card className={styles.cardContainer}>
                 <Card.Img
