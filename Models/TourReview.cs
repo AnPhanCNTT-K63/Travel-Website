@@ -16,7 +16,7 @@ namespace WebBackendProject.Models
         public string Review { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set;}
-        public Tour Tour { get; set; }
+        public TourPackage TourPackage { get; set; }
         public User User { get; set; }
 
     }

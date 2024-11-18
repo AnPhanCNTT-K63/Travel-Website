@@ -10,10 +10,11 @@ namespace WebBackendProject.Models
     public class DbAppContext : DbContext
     {
         public DbAppContext() : base("name=DbAppContext") { }
-        public virtual DbSet<Tour> Tours { get; set; }
+        public virtual DbSet<TourPackage> TourPackages { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
         public virtual DbSet<BlogPost> BlogPosts { get; set; }
+        public virtual DbSet<Tour> Tours { get; set; }
             
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

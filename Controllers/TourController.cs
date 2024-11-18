@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -6,7 +7,7 @@ using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
 {
-    public class TourController : Controller //Tour/
+    public class TourController : Controller 
     {
         DbAppContext db = new DbAppContext();
 
@@ -20,30 +21,45 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin")]
         [HttpPost]
-        public ActionResult tourCreate(Tour tour) //POST: /Tour/tourCreate
+        public ActionResult tourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id) //POST: /Tour/create/tourAndPackages
         {
-            if (ModelState.IsValid)
+            try
             {
-                tour.CreatedAt = DateTime.UtcNow;
-                tour.UpdatedAt = DateTime.UtcNow;
-                db.Tours.Add(tour);
-                int a = db.SaveChanges();
-                if (a > 0)
+                if (ModelState.IsValid)
                 {
-                    Debug.WriteLine("True");
+                    var user = db.Users.Find(user_id);
+                    tour.User = user;
+                    tour.CreatedAt = DateTime.UtcNow;
+                    tour.UpdateAt = DateTime.UtcNow;
+                    db.Tours.Add(tour);
+                    db.SaveChanges();
+
+                    foreach (TourPackage package in tourPackages)
+                    {
+                        package.Tour = tour;
+                        package.CreatedAt = DateTime.UtcNow;
+                        package.UpdatedAt = DateTime.UtcNow;
+                        db.TourPackages.Add(package);
+                    }
+                    db.SaveChanges();
                 }
                 else
                 {
-                    Debug.WriteLine("False");
+                    return Json(new { message = "Invalid Object" }, JsonRequestBehavior.AllowGet);
                 }
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
-            Debug.WriteLine("Here");
-            return Json(new { haha = "haha" }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(new { error = "Error Create Tour and Packages: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+           
+
         }
 
         [JwtAuthorize("admin", "user")]
         [HttpGet]
-        public ActionResult tourDetail(int id) //GET: /Tour/tourDetail/{id}
+        public ActionResult tourDetail(int id) //GET: /Tour/detail/tour/{id}
         {
             var row = db.Tours.FirstOrDefault(model => model.Id == id);
             return Json(row, JsonRequestBehavior.AllowGet);

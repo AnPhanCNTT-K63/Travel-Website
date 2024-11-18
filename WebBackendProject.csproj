@@ -193,6 +193,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\TourPackageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Helpers\GetFullException.cs" />
     <Compile Include="Helpers\JwtHelper.cs" />
@@ -299,14 +300,50 @@
     <Compile Include="Migrations\202411170333239_new_one.designer.cs">
       <DependentUpon>202411170333239_new_one.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411170907296_rename_1.cs" />
+    <Compile Include="Migrations\202411170907296_rename_1.designer.cs">
+      <DependentUpon>202411170907296_rename_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411170919526_add_1000.cs" />
+    <Compile Include="Migrations\202411170919526_add_1000.designer.cs">
+      <DependentUpon>202411170919526_add_1000.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411170921554_add_1001.cs" />
+    <Compile Include="Migrations\202411170921554_add_1001.designer.cs">
+      <DependentUpon>202411170921554_add_1001.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411171318169_addTime.cs" />
+    <Compile Include="Migrations\202411171318169_addTime.designer.cs">
+      <DependentUpon>202411171318169_addTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411171319285_addTime_2.cs" />
+    <Compile Include="Migrations\202411171319285_addTime_2.designer.cs">
+      <DependentUpon>202411171319285_addTime_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411171403352_addTime_3.cs" />
+    <Compile Include="Migrations\202411171403352_addTime_3.designer.cs">
+      <DependentUpon>202411171403352_addTime_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411181320156_new_213213.cs" />
+    <Compile Include="Migrations\202411181320156_new_213213.designer.cs">
+      <DependentUpon>202411181320156_new_213213.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411181406379_new_213213123.cs" />
+    <Compile Include="Migrations\202411181406379_new_213213123.designer.cs">
+      <DependentUpon>202411181406379_new_213213123.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411181559069_new_213213123313.cs" />
+    <Compile Include="Migrations\202411181559069_new_213213123313.designer.cs">
+      <DependentUpon>202411181559069_new_213213123313.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\BookingDetail.cs" />
     <Compile Include="Models\DbAppContext.cs" />
-    <Compile Include="Models\Destination.cs" />
-    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Tour.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\TourPackage.cs" />
     <Compile Include="Models\TourReview.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProfile.cs" />
@@ -330,6 +367,7 @@
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Post\" />
     <Folder Include="Views\Shared\" />
+    <Folder Include="Views\TourPackage\" />
     <Folder Include="Views\Tour\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
@@ -408,6 +446,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411170333239_new_one.resx">
       <DependentUpon>202411170333239_new_one.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411170907296_rename_1.resx">
+      <DependentUpon>202411170907296_rename_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411170919526_add_1000.resx">
+      <DependentUpon>202411170919526_add_1000.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411170921554_add_1001.resx">
+      <DependentUpon>202411170921554_add_1001.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411171318169_addTime.resx">
+      <DependentUpon>202411171318169_addTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411171319285_addTime_2.resx">
+      <DependentUpon>202411171319285_addTime_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411171403352_addTime_3.resx">
+      <DependentUpon>202411171403352_addTime_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411181320156_new_213213.resx">
+      <DependentUpon>202411181320156_new_213213.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411181406379_new_213213123.resx">
+      <DependentUpon>202411181406379_new_213213123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411181559069_new_213213123313.resx">
+      <DependentUpon>202411181559069_new_213213123313.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

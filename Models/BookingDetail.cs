@@ -17,6 +17,6 @@ namespace WebBackendProject.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Booking Booking { get; set; }
-        public Tour Tour { get; set; }
+        public TourPackage TourPackage { get; set; }
     }
 }

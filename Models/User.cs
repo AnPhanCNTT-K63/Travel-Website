@@ -21,9 +21,12 @@ namespace WebBackendProject.Models
         [StringLength(100, MinimumLength = 6)]
         public string Password { get; set; }
         public string Role { get; set; }
+        public DateTime? LastActive { get; set; }
+        public Boolean IsOnline { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public UserProfile UserProfile { get; set; }
+        public ICollection<Tour> Tours { get; set; }
         public ICollection<BlogPost> Posts { get; set; }
         public ICollection<TourReview> TourReviews { get; set; }
         public ICollection<Booking> Bookings { get; set; }

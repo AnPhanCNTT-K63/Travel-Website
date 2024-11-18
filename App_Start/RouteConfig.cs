@@ -27,16 +27,40 @@ namespace WebBackendProject
           );
 
             routes.MapRoute(
-              name: "PostUpdate",
+              name: "PostByUserId",
+              url: "Post/findByUserId/post/{user_id}",
+              defaults: new { controller = "Post", action = "getPostsByUserId" }
+          );
+
+            routes.MapRoute(
+              name: "UpdatePost",
               url: "Post/update/post/{id}",
               defaults: new { controller = "Post", action = "updatePost" }
           );
 
             routes.MapRoute(
-              name: "PostDelete",
+              name: "DeletePost",
               url: "Post/delete/post/{id}",
               defaults: new { controller = "Post", action = "DeletePost" }
           );
+
+            routes.MapRoute(
+             name: "CreateTourAndPackages",
+             url: "Tour/create/tourAndPackages",
+             defaults: new { controller = "Tour", action = "tourAndPackagesCreate" }
+         );
+
+            routes.MapRoute(
+             name: "TourDetail",
+             url: "Tour/detail/tour/{id}",
+             defaults: new { controller = "Tour", action = "tourDetail" }
+         );
+
+            routes.MapRoute(
+             name: "CreateTourPackage",
+             url: "TourPackage/create/tourPackage",
+             defaults: new { controller = "TourPackage", action = "tourPackages" }
+         );
 
             routes.MapRoute(
                 name: "Default",

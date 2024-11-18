@@ -91,6 +91,35 @@ namespace WebBackendProject.Controllers
             return Json(new { message = "Invalid post data" }, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult getPostsByUserId(int? user_id) // GET: Post/findByUserId/post/{id}
+        {
+            if (user_id == null)
+            {
+                return Json(new { error = "User_Id is null" }, JsonRequestBehavior.AllowGet);
+            }
+            try
+            {
+                var posts = from post in db.BlogPosts
+                    where post.User.Id == user_id
+                   select post;
+                
+
+                if (!posts.Any())
+                {
+                    return Json(new { message = "User has no posts." }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(posts, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "Error fetching posts: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [JwtAuthorize("admin", "user")]
         [HttpPut]
         public ActionResult UpdatePost(BlogPost post, int id) //PUT: Post/update/post{id}
@@ -142,6 +171,8 @@ namespace WebBackendProject.Controllers
                 return Json(new { error = "Error deleting post: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
 
 
 
