@@ -2,25 +2,41 @@
   "name": "travel-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://localhost:44331",
   "dependencies": {
+    "@ant-design/icons": "^5.5.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@mui/icons-material": "^6.1.2",
     "@mui/material": "^6.1.2",
+    "@mui/styles": "^6.1.7",
     "@react-google-maps/api": "^2.19.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@toolpad/core": "^0.7.0",
+    "antd": "^5.22.1",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.6",
     "classnames": "^2.5.1",
+    "framer-motion": "^11.11.11",
+    "jwt-decode": "^4.0.0",
+    "mdb-react-ui-kit": "^9.0.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
+    "react-card-slider-component": "^1.0.9",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-material-ui-carousel": "^3.4.2",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "5.0.1",
-    "sass": "^1.79.4",
+    "react-scripts": "^5.0.1",
+    "react-slick": "^0.30.2",
+    "reactstrap": "^9.2.3",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.13",
+    "swiper": "^9.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -46,5 +62,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "postcss-loader": "^8.1.1",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.80.6",
+    "sass-loader": "^12.6.0"
   }
 }

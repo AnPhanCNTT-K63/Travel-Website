@@ -4,7 +4,7 @@ const Slide2 = () => {
   return (
     <iframe
       src="/html/templateSlide2/tempSlide.html"
-      style={{ width: "100%", height: "100vh", border: "none" }}
+      style={{ width: "100%", height: "700px", border: "none" }}
       title="Slide 2"
     />
   );

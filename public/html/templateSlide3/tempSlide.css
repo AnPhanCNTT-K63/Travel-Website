@@ -16,7 +16,6 @@ html {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to left bottom, #f2e3c6 0%, #a7a1a5 100%);
   overflow: hidden;
 }
 
@@ -43,11 +42,13 @@ html {
   left: 0;
 }
 .app__bgimg-image--1 {
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/537051/city22222.jpg") center center no-repeat;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/537051/city22222.jpg")
+    center center no-repeat;
   background-size: cover;
 }
 .app__bgimg-image--2 {
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/537051/forest.jpg") center center no-repeat;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/537051/forest.jpg")
+    center center no-repeat;
   background-size: cover;
   opacity: 0;
   transition: opacity 0ms 1300ms;
@@ -62,21 +63,31 @@ html {
   z-index: 1;
 }
 .app__text-line {
-  transition: transform 1500ms 400ms, opacity 750ms 500ms;
+  transition:
+    transform 1500ms 400ms,
+    opacity 750ms 500ms;
   will-change: transform, opacity;
   user-select: none;
 }
 .app__text-line--4 {
-  transition: transform 1500ms 1500ms, opacity 1500ms 1500ms;
+  transition:
+    transform 1500ms 1500ms,
+    opacity 1500ms 1500ms;
 }
 .app__text-line--3 {
-  transition: transform 1500ms 1600ms, opacity 1500ms 1750ms;
+  transition:
+    transform 1500ms 1600ms,
+    opacity 1500ms 1750ms;
 }
 .app__text-line--2 {
-  transition: transform 1500ms 1700ms, opacity 1500ms 2000ms;
+  transition:
+    transform 1500ms 1700ms,
+    opacity 1500ms 2000ms;
 }
 .app__text-line--1 {
-  transition: transform 1500ms 1800ms, opacity 1500ms 2250ms;
+  transition:
+    transform 1500ms 1800ms,
+    opacity 1500ms 2250ms;
 }
 .app__text-line--4 {
   font-size: 50px;
@@ -112,19 +123,27 @@ html {
 }
 .app__text--2 .app__text-line--4 {
   opacity: 0;
-  transition: transform 1500ms -75ms, opacity 400ms 125ms;
+  transition:
+    transform 1500ms -75ms,
+    opacity 400ms 125ms;
 }
 .app__text--2 .app__text-line--3 {
   opacity: 0;
-  transition: transform 1500ms 0ms, opacity 400ms 200ms;
+  transition:
+    transform 1500ms 0ms,
+    opacity 400ms 200ms;
 }
 .app__text--2 .app__text-line--2 {
   opacity: 0;
-  transition: transform 1500ms 75ms, opacity 400ms 275ms;
+  transition:
+    transform 1500ms 75ms,
+    opacity 400ms 275ms;
 }
 .app__text--2 .app__text-line--1 {
   opacity: 0;
-  transition: transform 1500ms 150ms, opacity 400ms 350ms;
+  transition:
+    transform 1500ms 150ms,
+    opacity 400ms 350ms;
 }
 .app__img {
   position: absolute;
@@ -144,22 +163,30 @@ html {
 }
 .initial .app__text--1 .app__text-line--1 {
   transform: translate3d(0, 0, 0);
-  transition: transform 1500ms 1400ms, opacity 400ms 1600ms;
+  transition:
+    transform 1500ms 1400ms,
+    opacity 400ms 1600ms;
   opacity: 1;
 }
 .initial .app__text--1 .app__text-line--2 {
   transform: translate3d(0, 0, 0);
-  transition: transform 1500ms 1475ms, opacity 400ms 1675ms;
+  transition:
+    transform 1500ms 1475ms,
+    opacity 400ms 1675ms;
   opacity: 1;
 }
 .initial .app__text--1 .app__text-line--3 {
   transform: translate3d(0, 0, 0);
-  transition: transform 1500ms 1550ms, opacity 400ms 1750ms;
+  transition:
+    transform 1500ms 1550ms,
+    opacity 400ms 1750ms;
   opacity: 1;
 }
 .initial .app__text--1 .app__text-line--4 {
   transform: translate3d(0, 0, 0);
-  transition: transform 1500ms 1625ms, opacity 400ms 1825ms;
+  transition:
+    transform 1500ms 1625ms,
+    opacity 400ms 1825ms;
   opacity: 1;
 }
 
@@ -181,22 +208,30 @@ html {
 }
 .active .app__text--1 .app__text-line--1 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 1500ms 300ms, opacity 400ms 500ms;
+  transition:
+    transform 1500ms 300ms,
+    opacity 400ms 500ms;
   opacity: 0;
 }
 .active .app__text--1 .app__text-line--2 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 1500ms 375ms, opacity 400ms 575ms;
+  transition:
+    transform 1500ms 375ms,
+    opacity 400ms 575ms;
   opacity: 0;
 }
 .active .app__text--1 .app__text-line--3 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 1500ms 450ms, opacity 400ms 650ms;
+  transition:
+    transform 1500ms 450ms,
+    opacity 400ms 650ms;
   opacity: 0;
 }
 .active .app__text--1 .app__text-line--4 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 1500ms 525ms, opacity 400ms 725ms;
+  transition:
+    transform 1500ms 525ms,
+    opacity 400ms 725ms;
   opacity: 0;
 }
 .active .app__text--2 {
@@ -204,22 +239,30 @@ html {
 }
 .active .app__text--2 .app__text-line--1 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 2500ms 1100ms, opacity 1300ms 1300ms;
+  transition:
+    transform 2500ms 1100ms,
+    opacity 1300ms 1300ms;
   opacity: 1;
 }
 .active .app__text--2 .app__text-line--2 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 2500ms 1175ms, opacity 1300ms 1575ms;
+  transition:
+    transform 2500ms 1175ms,
+    opacity 1300ms 1575ms;
   opacity: 1;
 }
 .active .app__text--2 .app__text-line--3 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 2500ms 1250ms, opacity 1300ms 1850ms;
+  transition:
+    transform 2500ms 1250ms,
+    opacity 1300ms 1850ms;
   opacity: 1;
 }
 .active .app__text--2 .app__text-line--4 {
   transform: translate3d(0, -125px, 0);
-  transition: transform 2500ms 1325ms, opacity 1300ms 2125ms;
+  transition:
+    transform 2500ms 1325ms,
+    opacity 1300ms 2125ms;
   opacity: 1;
 }
 
@@ -301,5 +344,3 @@ html {
   left: auto;
   right: 5px;
 }
-
-/*# sourceMappingURL=tempSlide.css.map */
