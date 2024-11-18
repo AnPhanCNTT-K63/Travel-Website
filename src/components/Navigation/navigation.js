@@ -6,7 +6,7 @@ import Sponsor from "../Pages/Sponsor/Sponsor";
 import { Route, Routes, useLocation } from "react-router-dom";
 import SignIn from "../Auth/Sign In/SignIn";
 import SignUp from "../Auth/Sign Up/SignUp";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Pages/Tour/CreateTour";
 import DetailPage from "../Pages/Tour/Detail";
@@ -22,10 +22,16 @@ import EuropeTour from "../Pages/Tour/EuropeTour";
 import AmericaTour from "../Pages/Tour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
 import UpdatePost from "../Pages/Blog/UpdatePost";
+import NotFoundPage from "../../view/NotFoundPage";
+import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
+import UserContext from "../../UserContext";
+import UserManagementPage from "../Admin/UserManagement/UserManagement";
 
 function Navigation() {
   const location = useLocation();
   const [showArrow, setShowArrow] = useState(false);
+  const user = useContext(UserContext);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -62,7 +68,13 @@ function Navigation() {
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
-        <Route path="/create" element={<CreateTour />} />
+        {user.role == "admin" && (
+          <>
+            <Route path="/createTour" element={<CreateTour />} />
+            <Route path="/createTourPackage" element={<CreateTourPackage />} />
+            <Route path="/userManagement" element={<UserManagementPage />} />
+          </>
+        )}
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/admin" element={<AdminProfile />} />
         <Route path="/create/post" element={<CreatePost />} />
@@ -75,6 +87,7 @@ function Navigation() {
         <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
         <Route path="/update/post/:postId" element={<UpdatePost />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       {showArrow && (

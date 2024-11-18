@@ -1,4 +1,7 @@
 import { styled } from "@mui/material/styles";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../UserContext";
 import {
   ShoppingCart,
   Chat,
@@ -12,7 +15,7 @@ import {
   YoutubeSearchedFor,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { signout } from "../../api/services";
+import { heartBeat, signout } from "../../api/services";
 
 // Styled Sidebar with transitions for visibility and opacity
 const StyledSidebar = styled("div")(({ theme, open }) => ({
@@ -88,11 +91,32 @@ const StyledLink = styled(Link)(({ theme }) => ({
 const username = localStorage.getItem("username");
 
 const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
+  const user = useContext(UserContext);
+  const user_id = user.userId;
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      try {
+        const data = await heartBeat(user_id);
+        console.log("Heartbeat data:", data);
+      } catch (error) {
+        console.error("Error in heartbeat:", error.message || error);
+      }
+    }, 30000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [user_id]);
+
+  const navigate = useNavigate();
+
   const handleSignOut = async () => {
     try {
       const data = await signout();
       console.log(data);
       localStorage.removeItem("token");
+      navigate("/login");
       window.location.reload();
     } catch (err) {
       console.log("Error", err);
@@ -115,22 +139,46 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
 
         <div>
           <div style={{ padding: "15px" }}>
-            <StyledLink to={"/profile"} onClick={handleMenuItemClick}>
-              <StyledMenuItem>
-                <AccountCircle style={{ fontSize: 20 }} /> Profile
-              </StyledMenuItem>
-            </StyledLink>
+            {user.role == "admin" && (
+              <>
+                <StyledLink to={"/profile/admin"} onClick={handleMenuItemClick}>
+                  <StyledMenuItem>
+                    <AccountCircle style={{ fontSize: 20 }} /> Profile
+                  </StyledMenuItem>
+                </StyledLink>
+                <StyledMenuItem onClick={handleMenuItemClick}>
+                  <ManageAccounts style={{ fontSize: 20 }} /> Admin Account
+                </StyledMenuItem>
+                <StyledLink to={"/createTour"}>
+                  <StyledMenuItem onClick={handleMenuItemClick}>
+                    <Tour style={{ fontSize: 20 }} /> Create Tour
+                  </StyledMenuItem>
+                </StyledLink>
+                <StyledMenuItem onClick={handleMenuItemClick}>
+                  <YoutubeSearchedFor style={{ fontSize: 20 }} /> Users Manager
+                </StyledMenuItem>
+              </>
+            )}
 
-            <StyledMenuItem onClick={handleMenuItemClick}>
-              <ManageAccounts style={{ fontSize: 20 }} /> My Account
-            </StyledMenuItem>
-            <StyledMenuItem onClick={handleMenuItemClick}>
-              <Tour style={{ fontSize: 20 }} /> My Tour
-            </StyledMenuItem>
-            <StyledMenuItem onClick={handleMenuItemClick}>
-              <YoutubeSearchedFor style={{ fontSize: 20 }} /> Transactions
-              History
-            </StyledMenuItem>
+            {user.role == "user" && (
+              <>
+                <StyledLink to={"/profile"} onClick={handleMenuItemClick}>
+                  <StyledMenuItem>
+                    <AccountCircle style={{ fontSize: 20 }} /> Profile
+                  </StyledMenuItem>
+                </StyledLink>
+                <StyledMenuItem onClick={handleMenuItemClick}>
+                  <ManageAccounts style={{ fontSize: 20 }} /> My Account
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleMenuItemClick}>
+                  <Tour style={{ fontSize: 20 }} /> My Tour
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleMenuItemClick}>
+                  <YoutubeSearchedFor style={{ fontSize: 20 }} /> Transactions
+                  History
+                </StyledMenuItem>
+              </>
+            )}
           </div>
 
           <div style={{ padding: "15px" }}>

@@ -1,94 +1,153 @@
-import styles from "../../../styles/HomePage.module.css";
 import React, { useState } from "react";
-import { addTour } from "../../../api/services";
+import {
+  Container,
+  Grid,
+  TextField,
+  Typography,
+  Button,
+  Paper,
+  Box,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const CreateTour = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    image: "",
-    price: "",
-    region: "",
+  const [tour, setTour] = useState({
+    Name: "",
+    Region: "",
+    Country: "",
+    City: "",
+    Image: "",
+    Opening: "",
+    Ending: "",
   });
 
-  const handleChange = (e) => {
+  const navigate = useNavigate();
+
+  const handleDestinationChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setTour({ ...tour, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCreateNew = () => {
+    navigate("/createTourPackage", { state: { tour } });
+  };
 
-    try {
-      const res = await addTour(formData);
-      console.log(res);
-    } catch (err) {
-      console.log("Error: " + err);
-    }
+  const handleManageTour = () => {
+    navigate("/profile");
   };
 
   return (
-    <div className={styles.formContainer}>
-      <h2>Create Tour</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Description:
-          <input
-            type="text"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Image:
-          <input
-            type="text"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Price ($):
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            min="0"
-            step="0.01"
-            required
-          />
-        </label>
-        <label>
-          Region:
-          <input
-            type="text"
-            name="region" // sửa lại name thành "region"
-            value={formData.region}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Create Tour
+      </Typography>
+      <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h6" gutterBottom>
+              Tour Details
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Name"
+              name="Name"
+              value={tour.Name}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Region"
+              name="Region"
+              value={tour.Region}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Country"
+              name="Country"
+              value={tour.Country}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="City"
+              name="City"
+              value={tour.City}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Image URL"
+              name="Image"
+              value={tour.Image}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField
+              fullWidth
+              type="time"
+              label="Tour Opening Time"
+              name="Opening"
+              value={tour.Opening}
+              InputLabelProps={{
+                shrink: true, // Ensures the label remains visible
+              }}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField
+              fullWidth
+              type="time"
+              label="Tour Ending Time"
+              name="Ending"
+              value={tour.Ending}
+              InputLabelProps={{
+                shrink: true, // Ensures the label remains visible
+              }}
+              onChange={handleDestinationChange}
+              required
+            />
+          </Grid>
+        </Grid>
+      </Paper>
+      <Box textAlign="center">
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handleCreateNew}
+          sx={{ mr: 2 }}
+        >
+          Create New
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          size="large"
+          onClick={handleManageTour}
+        >
+          Manage Tour
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

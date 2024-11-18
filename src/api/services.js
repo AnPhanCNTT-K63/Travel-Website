@@ -17,6 +17,19 @@ axios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+export const heartBeat = async (user_id) => {
+  try {
+    const response = await axios.post(`/User/heartBeat`, {
+      user_id,
+    }); // POST: /User/heartBeat
+    console.log("a");
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 export const getTours = async () => {
   try {
     const response = await axios.get(`/Tour/tours`); // GET: /Tour/tours
@@ -29,11 +42,20 @@ export const getTours = async () => {
 
 export const getTourDetail = async (id) => {
   try {
-    // console.log(localStorage.getItem("token"));
-    const response = await axios.get(`/Tour/tourDetail/${id}`); //GET: /Tour/tourDetail/{id}
+    const response = await axios.get(`/Tour/detail/tour/${id}`); //GET: /Tour/detail/tour/{id}
     return response.data;
   } catch (error) {
     console.error("Error fetching tour detail:", error);
+    throw error;
+  }
+};
+
+export const createTourAndPackages = async (data) => {
+  try {
+    const response = await axios.post(`/Tour/create/tourAndPackages`, data); //POST: /Tour/create/tourAndPackages
+    return response.data;
+  } catch (error) {
+    console.error("Error adding tour:", error);
     throw error;
   }
 };
@@ -83,13 +105,12 @@ export const getPostDetail = async (id) => {
   }
 };
 
-export const addTour = async (tourData) => {
+export const getPostByUserId = async (user_id) => {
   try {
-    const response = await axios.post(`/Tour/tourCreate`, tourData); //POST: /Tour/tourCreate
-    return response.data;
-  } catch (error) {
-    console.error("Error adding tour:", error);
-    throw error;
+    const res = await axios.get(`/Post/findByUserId/post/${user_id}`); //GET: /Post/findByUserId/post
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
   }
 };
 
@@ -119,6 +140,16 @@ export const deletePost = async (id) => {
     return res.data;
   } catch (error) {
     console.error("Error Deleting post: ", error);
+    throw error;
+  }
+};
+
+export const getUsers = async () => {
+  try {
+    const res = await axios.get(`/User/users`); //GET: /User/users
+    return res.data;
+  } catch (error) {
+    console.error("Error Get users: ", error);
     throw error;
   }
 };

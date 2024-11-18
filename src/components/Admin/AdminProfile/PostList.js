@@ -1,56 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Row, Col, Card, Button, Avatar, Popconfirm } from "antd";
+import { Card, Button, Avatar, Popconfirm } from "antd";
 import { Link } from "react-router-dom";
-import profilavatar from "../../../assets/images/face-1.jpg";
-import convesionImg from "../../../assets/images/face-3.jpg";
-import convesionImg2 from "../../../assets/images/face-4.jpg";
-import convesionImg3 from "../../../assets/images/face-5.jpeg";
-import { getPosts, deletePost } from "../../../api/services";
+import { deletePost, getPostByUserId } from "../../../api/services";
+import UserContext from "../../../UserContext";
 
 export default function Post() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 8;
+  const postsPerPage = 5; // Adjust the number of posts per page
+  const containerRef = useRef(null); // Ref for the scrollable container
+  const user = useContext(UserContext);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const data = await getPosts();
-        setPosts(data);
+        const data = await getPostByUserId(user.userId);
+        if (Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          console.error("Expected an array but got:", data);
+          setPosts([]);
+        }
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching posts:", err);
+        setPosts([]);
       }
     };
-    fetchPost();
-  }, []);
+    if (user?.userId) {
+      fetchPost();
+    }
+  }, [user]);
 
   const StyledLink = styled(Link)(({ theme }) => ({
     textDecoration: "none",
     color: theme.palette.common.black,
   }));
 
-  const totalPages = Math.ceil(posts.length / postsPerPage); // Total pages based on posts
+  const handleDelete = async (postId) => {
+    try {
+      await deletePost(postId);
+      setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+    }
+  };
+
+  // Pagination logic
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const currentPosts = posts.slice(startIndex, startIndex + postsPerPage);
 
   const nextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    scrollToTop(); // Reset position to the top
   };
 
   const prevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    scrollToTop(); // Reset position to the top
   };
 
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const currentPosts = posts.slice(startIndex, startIndex + postsPerPage);
-
-  const handleDelete = async (postId) => {
-    try {
-      const data = await deletePost(postId);
-      console.log(data);
-      setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
-    } catch (error) {
-      console.error("Failed to delete post:", error);
+  const scrollToTop = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -82,7 +96,19 @@ export default function Post() {
         </div>
       }
     >
-      <Row gutter={[24, 24]}>
+      <Box
+        sx={{
+          display: "flex",
+          overflowX: "auto",
+          gap: 2,
+          padding: 2,
+          "&::-webkit-scrollbar": { height: 8 },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+            borderRadius: 4,
+          },
+        }}
+      >
         {currentPosts.map((post, index) => {
           const postHashtags =
             post.Hashtags && typeof post.Hashtags === "string"
@@ -90,120 +116,78 @@ export default function Post() {
               : [];
 
           return (
-            <Col span={24} md={12} xl={6} key={post.Id}>
-              <Card
-                bordered={false}
-                style={{
-                  borderRadius: 12,
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-                  transition: "transform 0.3s ease",
-                }}
-                cover={
-                  <img
-                    alt={post.Title}
-                    src={post.Image}
-                    style={{
-                      borderTopLeftRadius: 12,
-                      borderTopRightRadius: 12,
-                      maxHeight: "150px",
-                      objectFit: "cover",
-                    }}
-                  />
-                }
-              >
-                <div
-                  className="card-tag"
-                  style={{ fontWeight: "bold", color: "#555" }}
-                >
-                  Your Post #{index + 1 + (currentPage - 1) * postsPerPage}
-                </div>
-
-                <Typography
-                  sx={{
-                    color: "#333",
-                    fontWeight: "bold",
+            <Card
+              key={post.Id}
+              bordered={false}
+              style={{
+                minWidth: "300px",
+                borderRadius: 12,
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+              cover={
+                <img
+                  alt={post.Title}
+                  src={`/${post.Image}`}
+                  style={{
+                    borderTopLeftRadius: 12,
+                    borderTopRightRadius: 12,
+                    maxHeight: "150px",
+                    objectFit: "cover",
                   }}
-                >
-                  <StyledLink to={`/post/${post.Id}`}>{post.Title}</StyledLink>
+                />
+              }
+            >
+              <div style={{ fontWeight: "bold", color: "#555" }}>
+                Post #{index + 1 + (currentPage - 1) * postsPerPage}
+              </div>
+              <Typography
+                sx={{
+                  color: "#333",
+                  fontWeight: "bold",
+                }}
+              >
+                <StyledLink to={`/post/${post.Id}`}>{post.Title}</StyledLink>
+              </Typography>
+              <Box sx={{ px: 1, py: 0.5 }}>
+                <Typography variant="caption" color="text.secondary">
+                  {postHashtags.map((hashtag, index) => (
+                    <span key={index} style={{ marginRight: 4 }}>
+                      {hashtag}
+                    </span>
+                  ))}
                 </Typography>
-
-                <Box sx={{ px: 1, py: 0.5 }}>
-                  <Typography variant="caption" color="text.secondary">
-                    {postHashtags.map((hashtag, index) => (
-                      <span key={index} style={{ marginRight: 4 }}>
-                        {hashtag}
-                      </span>
-                    ))}
-                  </Typography>
-                </Box>
-
-                <Row
-                  gutter={[6, 0]}
-                  className="card-footer"
-                  style={{ marginTop: 12 }}
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <StyledLink to={`/update/post/${[post.Id]}`}>
+                  <Button type="primary" style={{ fontWeight: "bold" }}>
+                    UPDATE
+                  </Button>
+                </StyledLink>
+                <Popconfirm
+                  title="Are you sure you want to delete this post?"
+                  onConfirm={() => handleDelete(post.Id)}
+                  okText="Yes"
+                  cancelText="No"
                 >
-                  <Col span={12}>
-                    <StyledLink to={`/post/${post.Id}`}>
-                      <Button
-                        type="primary"
-                        ghost
-                        style={{ width: "100%", fontWeight: "bold" }}
-                      >
-                        VIEW POST
-                      </Button>
-                    </StyledLink>
-                  </Col>
-                  <Col span={12}>
-                    <StyledLink to={`/update/post/${[post.Id]}`}>
-                      <Button
-                        type="primary"
-                        style={{ width: "100%", fontWeight: "bold" }}
-                      >
-                        UPDATE
-                      </Button>
-                    </StyledLink>
-                  </Col>
-                </Row>
-
-                <Row
-                  gutter={[6, 0]}
-                  style={{ marginTop: 12, justifyContent: "space-between" }}
-                >
-                  <Col span={12}>
-                    <Avatar.Group className="avatar-chips">
-                      <Avatar size="small" src={profilavatar} />
-                      <Avatar size="small" src={convesionImg} />
-                      <Avatar size="small" src={convesionImg2} />
-                      <Avatar size="small" src={convesionImg3} />
-                    </Avatar.Group>
-                  </Col>
-
-                  <Col span={12}>
-                    <Popconfirm
-                      title="Are you sure you want to delete this post?"
-                      onConfirm={() => handleDelete(post.Id)}
-                      okText="Yes"
-                      cancelText="No"
-                    >
-                      <Button
-                        style={{
-                          width: "100%",
-                          fontWeight: "bold",
-                          backgroundColor: "#ff4d4f",
-                          color: "#fff",
-                          borderColor: "#ff4d4f",
-                        }}
-                      >
-                        DELETE
-                      </Button>
-                    </Popconfirm>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
+                  <Button
+                    style={{
+                      fontWeight: "bold",
+                      backgroundColor: "#ff4d4f",
+                      color: "#fff",
+                      borderColor: "#ff4d4f",
+                    }}
+                  >
+                    DELETE
+                  </Button>
+                </Popconfirm>
+              </Box>
+            </Card>
           );
         })}
-      </Row>
+      </Box>
 
       {/* Pagination Controls */}
       <Box textAlign="center" mt={4}>
