@@ -154,9 +154,12 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
                     <Tour style={{ fontSize: 20 }} /> Create Tour
                   </StyledMenuItem>
                 </StyledLink>
-                <StyledMenuItem onClick={handleMenuItemClick}>
-                  <YoutubeSearchedFor style={{ fontSize: 20 }} /> Users Manager
-                </StyledMenuItem>
+                <StyledLink to={"/userManagement"}>
+                  <StyledMenuItem onClick={handleMenuItemClick}>
+                    <YoutubeSearchedFor style={{ fontSize: 20 }} /> Users
+                    Manager
+                  </StyledMenuItem>
+                </StyledLink>
               </>
             )}
 
