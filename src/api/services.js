@@ -20,7 +20,7 @@ axios.interceptors.request.use(
 export const heartBeat = async (user_id) => {
   try {
     const response = await axios.post(`/User/heartBeat`, {
-      user_id,
+      userId: user_id,
     }); // POST: /User/heartBeat
     console.log("a");
     return response.data;

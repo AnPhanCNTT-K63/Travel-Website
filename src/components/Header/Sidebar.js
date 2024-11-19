@@ -102,7 +102,7 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
       } catch (error) {
         console.error("Error in heartbeat:", error.message || error);
       }
-    }, 30000);
+    }, 10000);
 
     return () => {
       clearInterval(intervalId);
@@ -154,9 +154,13 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
                     <Tour style={{ fontSize: 20 }} /> Create Tour
                   </StyledMenuItem>
                 </StyledLink>
-                <StyledMenuItem onClick={handleMenuItemClick}>
-                  <YoutubeSearchedFor style={{ fontSize: 20 }} /> Users Manager
-                </StyledMenuItem>
+
+                <StyledLink to={"/userManagement"}>
+                  <StyledMenuItem onClick={handleMenuItemClick}>
+                    <YoutubeSearchedFor style={{ fontSize: 20 }} /> Users
+                    Manager
+                  </StyledMenuItem>
+                </StyledLink>
               </>
             )}
 
