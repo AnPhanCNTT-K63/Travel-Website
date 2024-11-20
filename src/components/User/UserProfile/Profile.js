@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useRef, useEffect, useState, useContext } from "react";
+import UserContext from "../../../UserContext.js";
+import { useLocation, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -14,16 +15,59 @@ import {
 } from "reactstrap";
 import UserHeader from "./UserHeader.js";
 import Post from "./PostList.js";
+import { getProfile } from "../../../api/services.js";
 
 const Profile = () => {
+  const user = useContext(UserContext);
+
+  const [userProfile, setProfile] = useState({
+    profile: {
+      FirstName: "",
+      LastName: "",
+      Address: "",
+      City: "",
+      Country: "",
+      PostalCode: "",
+      AboutMe: "",
+      FriendNum: "0",
+      PostNum: "0",
+      CommentNum: "0",
+      Avatar: "",
+      CoverAvatar: "",
+      Birthday: "",
+      QuickIntroduction: "",
+      UserId: user.userId,
+      User: null,
+    },
+    age: 0,
+  });
+
   const postsSectionRef = useRef(null);
+  const [showFullAboutMe, setShowFullAboutMe] = useState(false);
   const location = useLocation();
+  const { userId } = useParams();
 
   useEffect(() => {
     if (location.hash === "#posts" && postsSectionRef.current) {
       postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [location]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const result = await getProfile(userId);
+        setProfile(result);
+        console.log(result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
+
+  const toggleShowMore = () => setShowFullAboutMe(!showFullAboutMe);
+
   return (
     <>
       {/* Page content */}
@@ -31,7 +75,10 @@ const Profile = () => {
 
       <Container className="mt--7" fluid style={containerStyle}>
         <Row className="justify-content-center" style={{ marginTop: "-3rem" }}>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+          <Col
+            className="order-xl-2 mb-5 mb-xl-0"
+            xl={user.userId == userProfile.profile?.UserId ? "4" : "12"}
+          >
             <Card className="card-profile shadow" style={cardProfileStyle}>
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
@@ -44,7 +91,11 @@ const Profile = () => {
                         alt="..."
                         className="rounded-circle"
                         src="/team-4-800x800.jpg"
-                        style={imgStyle}
+                        style={
+                          user.userId == userProfile.profile?.UserId
+                            ? imgStyle
+                            : imgStyle2
+                        }
                       />
                     </a>
                   </div>
@@ -75,269 +126,289 @@ const Profile = () => {
                 </Row>
                 <div className="text-center">
                   <h3 style={nameStyle}>
-                    Jessica Jones
+                    {userProfile.profile?.FirstName || ""}{" "}
+                    {userProfile.profile?.LastName || ""}
                     <span className="font-weight-light" style={lightFontStyle}>
-                      , 27
+                      , {userProfile.age}
                     </span>
                   </h3>
                   <div className="h5 font-weight-300" style={locationStyle}>
                     <i className="ni location_pin mr-2" />
-                    Bucharest, Romania
+                    {userProfile.profile?.Country || ""},{" "}
+                    {userProfile.profile?.City || ""}
                   </div>
                   <div className="h5 mt-4" style={jobStyle}>
                     <i className="ni business_briefcase-24 mr-2" />
-                    Solution Manager - Creative Tim Officer
-                  </div>
-                  <div style={educationStyle}>
-                    <i className="ni education_hat mr-2" />
-                    University of Computer Science
+                    {userProfile.profile?.QuicIntroduction || ""}
                   </div>
                   <hr className="my-4" />
                   <p style={descriptionStyle}>
-                    Ryan — the name taken by Melbourne-raised, Brooklyn-based
-                    Nick Murphy — writes, performs and records all of his own
-                    music.
+                    {showFullAboutMe
+                      ? userProfile.profile?.AboutMe
+                      : userProfile.profile?.AboutMe?.split("\n")[0]}{" "}
                   </p>
                   <a
                     href="#pablo"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleShowMore();
+                    }}
                     style={showMoreLinkStyle}
                   >
-                    Show more
+                    {showFullAboutMe ? "Show less" : "Show more"}
                   </a>
                 </div>
               </CardBody>
             </Card>
           </Col>
-
-          <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow" style={settingsCardStyle}>
-              <CardHeader
-                className="bg-white border-0"
-                style={cardHeaderStyle}
-              ></CardHeader>
-              <CardBody style={cardBodyStyle}>
-                <Form>
-                  <h6
-                    className="heading-small text-muted mb-4"
-                    style={headingStyle}
-                  >
-                    User information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-username"
-                          >
-                            Username
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-username"
-                            placeholder="Username"
-                            type="text"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-email"
-                          >
-                            Email address
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-email"
-                            placeholder="jesse@example.com"
-                            type="email"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-first-name"
-                          >
-                            First name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-first-name"
-                            placeholder="First name"
-                            type="text"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-last-name"
-                          >
-                            Last name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-last-name"
-                            placeholder="Last name"
-                            type="text"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Address */}
-                  <h6
-                    className="heading-small text-muted mb-4"
-                    style={headingStyle}
-                  >
-                    Contact information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col md="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-address"
-                          >
-                            Address
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-address"
-                            placeholder="Home Address"
-                            type="text"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col md="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-phone"
-                          >
-                            Phone
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-address"
-                            placeholder="Phone Number"
-                            type="number"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-city"
-                          >
-                            City
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-city"
-                            placeholder="City"
-                            type="text"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Country
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue=""
-                            id="input-country"
-                            placeholder="Country"
-                            type="text"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Postal code
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-postal-code"
-                            placeholder="Postal code"
-                            type="number"
-                            style={inputStyle}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Description */}
-                  <h6
-                    className="heading-small text-muted mb-4"
-                    style={headingStyle}
-                  >
-                    About me
-                  </h6>
-                  <div className="pl-lg-4">
-                    <FormGroup>
-                      <label>About Me</label>
-                      <Input
-                        className="form-control-alternative"
-                        placeholder="A few words about you ..."
-                        rows="4"
-                        defaultValue=""
-                        type="textarea"
-                        style={textareaStyle}
-                      />
-                    </FormGroup>
-                  </div>
-                  <div className="text-center" style={buttonContainerStyle}>
-                    <Button
-                      color="primary"
-                      onClick={(e) => e.preventDefault}
-                      style={buttonStyle}
+          {user.userId == userProfile.profile?.UserId && (
+            <Col className="order-xl-1" xl="8">
+              <Card className="bg-secondary shadow" style={settingsCardStyle}>
+                <CardHeader
+                  className="bg-white border-0"
+                  style={cardHeaderStyle}
+                ></CardHeader>
+                <CardBody style={cardBodyStyle}>
+                  <Form>
+                    <h6
+                      className="heading-small text-muted mb-4"
+                      style={headingStyle}
                     >
-                      Save
-                    </Button>
-                  </div>
-                </Form>
-              </CardBody>
-            </Card>
-          </Col>
+                      User information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Username
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-username"
+                              placeholder="Username"
+                              type="text"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Email address
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-email"
+                              placeholder="jesse@example.com"
+                              type="email"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-first-name"
+                            >
+                              First name
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-first-name"
+                              placeholder="First name"
+                              type="text"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-last-name"
+                            >
+                              Last name
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-last-name"
+                              placeholder="Last name"
+                              type="text"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-birthday"
+                          >
+                            Birthday
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue=""
+                            id="input-birthday"
+                            placeholder="Birthday"
+                            type="date"
+                            style={inputStyle}
+                          />
+                        </FormGroup>
+                      </Row>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Address */}
+                    <h6
+                      className="heading-small text-muted mb-4"
+                      style={headingStyle}
+                    >
+                      Contact information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col md="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Address
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-address"
+                              placeholder="Home Address"
+                              type="text"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col md="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-phone"
+                            >
+                              Phone
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-address"
+                              placeholder="Phone Number"
+                              type="number"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="4">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-city"
+                            >
+                              City
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-city"
+                              placeholder="City"
+                              type="text"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="4">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-country"
+                            >
+                              Country
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue=""
+                              id="input-country"
+                              placeholder="Country"
+                              type="text"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="4">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-country"
+                            >
+                              Postal code
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-postal-code"
+                              placeholder="Postal code"
+                              type="number"
+                              style={inputStyle}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Description */}
+                    <h6
+                      className="heading-small text-muted mb-4"
+                      style={headingStyle}
+                    >
+                      About me
+                    </h6>
+                    <div className="pl-lg-4">
+                      <FormGroup>
+                        <label>About Me</label>
+                        <Input
+                          className="form-control-alternative"
+                          placeholder="A few words about you ..."
+                          rows="4"
+                          defaultValue=""
+                          type="textarea"
+                          style={textareaStyle}
+                        />
+                      </FormGroup>
+                    </div>
+                    <div className="text-center" style={buttonContainerStyle}>
+                      <Button
+                        color="primary"
+                        onClick={(e) => e.preventDefault}
+                        style={buttonStyle}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+          )}
         </Row>
         <div ref={postsSectionRef} id="posts">
           <Row className="justify-content-center" style={{ marginTop: "50px" }}>
@@ -365,6 +436,18 @@ const imgStyle = {
   position: "absolute", // Make the image position absolute
   top: "-30%", // Push the image upwards to overlap
   left: "-30%", // Push the image left to overlap
+  width: "100%", // Increase the size of the image
+  height: "100%", // Ensure it covers the full height
+  objectFit: "cover", // Keep the aspect ratio and cover the area
+  borderRadius: "50%", // Keep it rounded
+  border: "3px solid white", // Optional border for the image
+  zIndex: 10, // Ensure the image is above the other content
+};
+
+const imgStyle2 = {
+  position: "absolute", // Make the image position absolute
+  top: "-30%", // Push the image upwards to overlap
+  left: "20%", // Push the image left to overlap
   width: "100%", // Increase the size of the image
   height: "100%", // Ensure it covers the full height
   objectFit: "cover", // Keep the aspect ratio and cover the area

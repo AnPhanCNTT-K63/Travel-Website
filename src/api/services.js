@@ -22,7 +22,6 @@ export const heartBeat = async (user_id) => {
     const response = await axios.post(`${API_URL}/User/heartBeat`, {
       userId: user_id,
     }); // POST: /User/heartBeat
-    console.log("a");
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -157,22 +156,71 @@ export const getUsers = async () => {
   }
 };
 
-export const updateTour = async (id, updatedTourData) => {
+export const getProfile = async (user_id) => {
   try {
-    const response = await axios.put(`${API_URL}/tours/${id}`, updatedTourData);
-    return response.data;
+    const res = await axios.get(`${API_URL}/User/profile/${user_id}`); //GET: /User/profile/${user_id}
+    return res.data;
   } catch (error) {
-    console.error("Error updating tour:", error);
+    console.error("Error Get Profile: ", error);
     throw error;
   }
 };
 
-export const deleteTour = async (id) => {
+export const getAccountInfo = async (user_id) => {
   try {
-    const response = await axios.delete(`${API_URL}/tours/${id}`);
+    const res = await axios.get(`${API_URL}/User/account/${user_id}`); //GET: /User/account/${user_id}
+    return res.data;
+  } catch (error) {
+    console.error("Error Get Account Info: ", error);
+    throw error;
+  }
+};
+
+export const updateAccount = async (user) => {
+  try {
+    const res = await axios.put(`${API_URL}/User/update/account`, {
+      userInfo: user,
+    }); //PUT: User/update/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const passwordCheck = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/Auth/passwordCheck`, data); //POST: Auth/passwordCheck
     return response.data;
   } catch (error) {
-    console.error("Error deleting tour:", error);
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const deleteAccount = async (user_Id) => {
+  try {
+    const res = await axios.delete(
+      `${API_URL}/User/softDeleted/account/${user_Id}`,
+      {
+        user_id: user_Id,
+      }
+    ); //DELETE: User/delete/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const restoreAccount = async (user_Id) => {
+  try {
+    const res = await axios.post(`${API_URL}/User/restore/account`, {
+      user_id: user_Id,
+    }); //Post: User/restore/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
     throw error;
   }
 };
