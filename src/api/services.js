@@ -19,10 +19,9 @@ axios.interceptors.request.use(
 
 export const heartBeat = async (user_id) => {
   try {
-    const response = await axios.post(`/User/heartBeat`, {
+    const response = await axios.post(`${API_URL}/User/heartBeat`, {
       userId: user_id,
     }); // POST: /User/heartBeat
-    console.log("a");
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -32,7 +31,7 @@ export const heartBeat = async (user_id) => {
 
 export const getTours = async () => {
   try {
-    const response = await axios.get(`/Tour/tours`); // GET: /Tour/tours
+    const response = await axios.get(`${API_URL}/Tour/tours`); // GET: /Tour/tours
     return response.data;
   } catch (error) {
     console.error("Error fetching tours:", error);
@@ -42,7 +41,7 @@ export const getTours = async () => {
 
 export const getTourDetail = async (id) => {
   try {
-    const response = await axios.get(`/Tour/detail/tour/${id}`); //GET: /Tour/detail/tour/{id}
+    const response = await axios.get(`${API_URL}/Tour/detail/tour/${id}`); //GET: /Tour/detail/tour/{id}
     return response.data;
   } catch (error) {
     console.error("Error fetching tour detail:", error);
@@ -52,7 +51,10 @@ export const getTourDetail = async (id) => {
 
 export const createTourAndPackages = async (data) => {
   try {
-    const response = await axios.post(`/Tour/create/tourAndPackages`, data); //POST: /Tour/create/tourAndPackages
+    const response = await axios.post(
+      `${API_URL}/Tour/create/tourAndPackages`,
+      data
+    ); //POST: /Tour/create/tourAndPackages
     return response.data;
   } catch (error) {
     console.error("Error adding tour:", error);
@@ -62,7 +64,7 @@ export const createTourAndPackages = async (data) => {
 
 export const signup = async (user) => {
   try {
-    const res = await axios.post(`/Auth/signup`, user); //POST: /Auth/signup
+    const res = await axios.post(`${API_URL}/Auth/signup`, user); //POST: /Auth/signup
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -71,7 +73,7 @@ export const signup = async (user) => {
 
 export const signout = async () => {
   try {
-    const res = await axios.get(`/Auth/signout`); //POST: /Auth/signout
+    const res = await axios.get(`${API_URL}/Auth/signout`); //POST: /Auth/signout
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -80,7 +82,7 @@ export const signout = async () => {
 
 export const signin = async (user) => {
   try {
-    const res = await axios.post(`/Auth/signin`, user); //POST: /Auth/signin
+    const res = await axios.post(`${API_URL}/Auth/signin`, user); //POST: /Auth/signin
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -89,7 +91,7 @@ export const signin = async (user) => {
 
 export const getPosts = async () => {
   try {
-    const res = await axios.get(`/Post/posts`); //GET: /Post/posts
+    const res = await axios.get(`${API_URL}/Post/posts`); //GET: /Post/posts
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -98,7 +100,7 @@ export const getPosts = async () => {
 
 export const getPostDetail = async (id) => {
   try {
-    const res = await axios.get(`/Post/detail/post/${id}`); //GET: /Post/detail/post/{id}
+    const res = await axios.get(`${API_URL}/Post/detail/post/${id}`); //GET: /Post/detail/post/{id}
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -107,7 +109,7 @@ export const getPostDetail = async (id) => {
 
 export const getPostByUserId = async (user_id) => {
   try {
-    const res = await axios.get(`/Post/findByUserId/post/${user_id}`); //GET: /Post/findByUserId/post
+    const res = await axios.get(`${API_URL}/Post/findByUserId/post/${user_id}`); //GET: /Post/findByUserId/post
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
@@ -116,7 +118,7 @@ export const getPostByUserId = async (user_id) => {
 
 export const createPost = async (postData) => {
   try {
-    const res = await axios.post(`/Post/create/post`, postData); //POST: /Post/create/post
+    const res = await axios.post(`${API_URL}/Post/create/post`, postData); //POST: /Post/create/post
     return res.data;
   } catch (error) {
     console.error("Error creating post: ", error);
@@ -126,7 +128,7 @@ export const createPost = async (postData) => {
 
 export const updatePost = async (postData, id) => {
   try {
-    const res = await axios.put(`/Post/update/post/${id}`, postData); //PUT: /Post/update/post/{id}
+    const res = await axios.put(`${API_URL}/Post/update/post/${id}`, postData); //PUT: /Post/update/post/{id}
     return res.data;
   } catch (error) {
     console.error("Error updating post: ", error);
@@ -136,7 +138,7 @@ export const updatePost = async (postData, id) => {
 
 export const deletePost = async (id) => {
   try {
-    const res = await axios.delete(`/Post/delete/post/${id}`, id); //DELETE: /Post/delete/post/{id}
+    const res = await axios.delete(`${API_URL}/Post/delete/post/${id}`, id); //DELETE: /Post/delete/post/{id}
     return res.data;
   } catch (error) {
     console.error("Error Deleting post: ", error);
@@ -146,7 +148,7 @@ export const deletePost = async (id) => {
 
 export const getUsers = async () => {
   try {
-    const res = await axios.get(`/User/users`); //GET: /User/users
+    const res = await axios.get(`${API_URL}/User/users`); //GET: /User/users
     return res.data;
   } catch (error) {
     console.error("Error Get users: ", error);
@@ -154,22 +156,59 @@ export const getUsers = async () => {
   }
 };
 
-export const updateTour = async (id, updatedTourData) => {
+export const getProfile = async (user_id) => {
   try {
-    const response = await axios.put(`/tours/${id}`, updatedTourData);
-    return response.data;
+    const res = await axios.get(`${API_URL}/User/profile/${user_id}`); //GET: /User/profile/${user_id}
+    return res.data;
   } catch (error) {
-    console.error("Error updating tour:", error);
+    console.error("Error Get Profile: ", error);
     throw error;
   }
 };
 
-export const deleteTour = async (id) => {
+export const getAccountInfo = async (user_id) => {
   try {
-    const response = await axios.delete(`/tours/${id}`);
+    const res = await axios.get(`${API_URL}/User/account/${user_id}`); //GET: /User/account/${user_id}
+    return res.data;
+  } catch (error) {
+    console.error("Error Get Account Info: ", error);
+    throw error;
+  }
+};
+
+export const updateAccount = async (user) => {
+  try {
+    const res = await axios.put(`${API_URL}/User/update/account`, {
+      userInfo: user,
+    }); //PUT: User/update/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const passwordCheck = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/Auth/passwordCheck`, data); //POST: Auth/passwordCheck
     return response.data;
   } catch (error) {
-    console.error("Error deleting tour:", error);
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const deleteAccount = async (user_Id) => {
+  try {
+    const res = await axios.delete(
+      `${API_URL}/User/softDeleted/account/${user_Id}`,
+      {
+        user_id: user_Id,
+      }
+    ); //DELETE: User/delete/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
     throw error;
   }
 };

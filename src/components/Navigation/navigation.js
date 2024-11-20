@@ -11,7 +11,6 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import CreateTour from "../Pages/Tour/CreateTour";
 import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
-import AdminProfile from "../Admin/AdminProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Blog/CreatePost";
 import NorthTour from "../Pages/Tour/NorthTour";
@@ -23,6 +22,7 @@ import AmericaTour from "../Pages/Tour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
 import UpdatePost from "../Pages/Blog/UpdatePost";
 import NotFoundPage from "../../view/NotFoundPage";
+import AccountPage from "../Pages/Account/AccountPage";
 import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
 import UserContext from "../../UserContext";
 import UserManagementPage from "../Admin/UserManagement/UserManagement";
@@ -68,6 +68,7 @@ function Navigation() {
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
+
         {user.role == "admin" && (
           <>
             <Route path="/createTour" element={<CreateTour />} />
@@ -75,8 +76,7 @@ function Navigation() {
             <Route path="/userManagement" element={<UserManagementPage />} />
           </>
         )}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/admin" element={<AdminProfile />} />
+
         <Route path="/create/post" element={<CreatePost />} />
         <Route path="/NorthTour" element={<NorthTour />} />
         <Route path="/SouthTour" element={<SouthTour />} />
@@ -84,6 +84,8 @@ function Navigation() {
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
+        <Route path="/account/:userId" element={<AccountPage />} />
+        <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
         <Route path="/update/post/:postId" element={<UpdatePost />} />

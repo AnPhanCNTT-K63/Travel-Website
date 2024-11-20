@@ -97,12 +97,13 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
   useEffect(() => {
     const intervalId = setInterval(async () => {
       try {
+        console.log(user_id);
         const data = await heartBeat(user_id);
         console.log("Heartbeat data:", data);
       } catch (error) {
         console.error("Error in heartbeat:", error.message || error);
       }
-    }, 10000);
+    }, 60000);
 
     return () => {
       clearInterval(intervalId);
@@ -141,14 +142,22 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
           <div style={{ padding: "15px" }}>
             {user.role == "admin" && (
               <>
-                <StyledLink to={"/profile/admin"} onClick={handleMenuItemClick}>
+                <StyledLink
+                  to={`/profile/${user.userId}`}
+                  onClick={handleMenuItemClick}
+                >
                   <StyledMenuItem>
                     <AccountCircle style={{ fontSize: 20 }} /> Profile
                   </StyledMenuItem>
                 </StyledLink>
-                <StyledMenuItem onClick={handleMenuItemClick}>
-                  <ManageAccounts style={{ fontSize: 20 }} /> Admin Account
-                </StyledMenuItem>
+                <StyledLink
+                  to={`/account/${user.userId}`}
+                  onClick={handleMenuItemClick}
+                >
+                  <StyledMenuItem>
+                    <ManageAccounts style={{ fontSize: 20 }} /> Admin Account
+                  </StyledMenuItem>
+                </StyledLink>
                 <StyledLink to={"/createTour"}>
                   <StyledMenuItem onClick={handleMenuItemClick}>
                     <Tour style={{ fontSize: 20 }} /> Create Tour
@@ -166,14 +175,22 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
 
             {user.role == "user" && (
               <>
-                <StyledLink to={"/profile"} onClick={handleMenuItemClick}>
+                <StyledLink
+                  to={`/profile/${user.userId}`}
+                  onClick={handleMenuItemClick}
+                >
                   <StyledMenuItem>
                     <AccountCircle style={{ fontSize: 20 }} /> Profile
                   </StyledMenuItem>
                 </StyledLink>
-                <StyledMenuItem onClick={handleMenuItemClick}>
-                  <ManageAccounts style={{ fontSize: 20 }} /> My Account
-                </StyledMenuItem>
+                <StyledLink
+                  to={`/account/${user.userId}`}
+                  onClick={handleMenuItemClick}
+                >
+                  <StyledMenuItem>
+                    <ManageAccounts style={{ fontSize: 20 }} /> My Account
+                  </StyledMenuItem>
+                </StyledLink>
                 <StyledMenuItem onClick={handleMenuItemClick}>
                   <Tour style={{ fontSize: 20 }} /> My Tour
                 </StyledMenuItem>

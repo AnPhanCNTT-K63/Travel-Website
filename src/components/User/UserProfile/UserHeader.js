@@ -1,6 +1,6 @@
-import { Button, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 
-const UserHeader = () => {
+const UserHeader = (username) => {
   return (
     <>
       <div style={{ maxWidth: "1200px", margin: "0 auto", marginTop: "30px" }}>
@@ -19,15 +19,7 @@ const UserHeader = () => {
         >
           <Container className="mt--7" fluid style={containerStyle}>
             <Row>
-              <Col lg="7" md="10">
-                <h1 className="display-2 text-white">
-                  Hello @{localStorage.getItem("username")}
-                </h1>
-                <p className="text-white mt-0 mb-5">
-                  This is your profile page. You can see the progress you've
-                  made with your work and manage your post or cart.
-                </p>
-              </Col>
+              <Col lg="7" md="10"></Col>
             </Row>
           </Container>
         </div>
