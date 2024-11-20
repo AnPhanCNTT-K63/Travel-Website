@@ -212,3 +212,15 @@ export const deleteAccount = async (user_Id) => {
     throw error;
   }
 };
+
+export const restoreAccount = async (user_Id) => {
+  try {
+    const res = await axios.post(`${API_URL}/User/restore/account`, {
+      user_id: user_Id,
+    }); //Post: User/restore/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};

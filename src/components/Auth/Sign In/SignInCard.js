@@ -93,12 +93,18 @@ export default function SignInCard() {
         console.log("Token stored in localStorage:", user.token);
         console.log("User info:", user);
       } else if (
-        user.error == "Email Not Found" ||
-        user.error == "Incorrect Password"
+        user.error === "Email Not Found" ||
+        user.error === "Incorrect Password"
       ) {
         setEmailError(true);
         setPasswordError(true);
         setPasswordErrorMessage("Incorrect Email Or Password");
+      } else if (
+        user.error ===
+        "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days"
+      ) {
+        setEmailError(true);
+        setEmailErrorMessage(user.error);
       }
     } catch (err) {
       console.log("Error", err);

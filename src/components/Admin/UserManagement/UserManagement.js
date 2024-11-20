@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -13,9 +14,11 @@ import {
   Box,
   Avatar,
   IconButton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { getUsers } from "../../../api/services";
+import { getUsers, restoreAccount } from "../../../api/services";
 import { Visibility, Block, AccountCircle } from "@mui/icons-material";
 
 const useStyles = makeStyles({
@@ -73,6 +76,11 @@ const useStyles = makeStyles({
 const UserManagementPage = () => {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    severity: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -97,6 +105,42 @@ const UserManagementPage = () => {
 
   const handleBanUser = (userId) => {
     console.log(`Banned user ID: ${userId}`);
+  };
+
+  const restoreUserAccount = async (userId) => {
+    const confirmRestore = await Swal.fire({
+      title: "Are you sure?",
+      text: "This will restore the user account!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, restore it!",
+    });
+
+    if (confirmRestore.isConfirmed) {
+      try {
+        const res = await restoreAccount(userId);
+        if (res.message === "User restored successfully") {
+          Swal.fire(
+            "Restored!",
+            "The user account has been restored.",
+            "success"
+          );
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.Id === userId ? { ...user, IsDeleted: false } : user
+            )
+          );
+        }
+      } catch (error) {
+        Swal.fire("Error!", "Failed to restore user account.", "error");
+      }
+    }
+  };
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false });
   };
 
   const renderUsers = (users) =>
@@ -134,23 +178,39 @@ const UserManagementPage = () => {
             <Block />
           </IconButton>
         </TableCell>
+        <TableCell>
+          {user.IsDeleted && (
+            <Typography color="red">
+              Soft Deleted{" "}
+              <Button
+                sx={{ marginLeft: "20px" }}
+                color="success"
+                variant="contained"
+                onClick={() => restoreUserAccount(user.Id)}
+              >
+                Restore
+              </Button>
+            </Typography>
+          )}
+        </TableCell>
       </TableRow>
     ));
 
   return (
-    <Box>
+    <Box marginRight={"-110px"}>
       <Typography variant="h4" gutterBottom align="center">
         User Management
       </Typography>
-      <TableContainer component={Paper} elevation={4}>
+      <TableContainer component={Paper} elevation={5}>
         <Box className={classes.sectionHeader}>Admins</Box>
         <Table className={classes.table} aria-label="admin user table">
           <TableHead>
             <TableRow>
               <TableCell>Username</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Online Status</TableCell>
               <TableCell>Actions</TableCell>
+              <TableCell>Account Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -161,7 +221,7 @@ const UserManagementPage = () => {
 
       <TableContainer
         component={Paper}
-        elevation={4}
+        elevation={5}
         sx={{ marginTop: "20px" }}
       >
         <Box className={classes.sectionHeaderUser}>Users</Box>
@@ -170,8 +230,9 @@ const UserManagementPage = () => {
             <TableRow>
               <TableCell>Username</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Online Status</TableCell>
               <TableCell>Actions</TableCell>
+              <TableCell>Account Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -179,6 +240,17 @@ const UserManagementPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseAlert} severity={alert.severity}>
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

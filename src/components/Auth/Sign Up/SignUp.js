@@ -145,10 +145,15 @@ export default function SignUp() {
 
     try {
       const user = await signup(data);
-      navigate("/login");
-      window.location.reload();
+
       console.log(user);
       if (
+        (user.error =
+          "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days")
+      ) {
+        setEmailError(true);
+        setEmailErrorMessage(user.error);
+      } else if (
         user.error ==
         "Email is already in use. Please login or click forgot password"
       ) {
@@ -157,6 +162,9 @@ export default function SignUp() {
       } else if (user.error == "user has been used by someone else") {
         setNameError(true);
         setNameErrorMessage(user.error);
+      } else {
+        navigate("/login");
+        window.location.reload();
       }
     } catch (err) {
       console.log("Error s", err);
