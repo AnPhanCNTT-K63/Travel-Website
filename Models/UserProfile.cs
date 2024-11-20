@@ -21,6 +21,8 @@ namespace WebBackendProject.Models
         public string CommentNum { get; set; }
         public string Avatar { get; set; }
         public string CoverAvatar { get; set; }
+        public DateTime? Birthday { get; set; }
+        public string QuickIntroduction { get; set; }
 
         [Key]
         [ForeignKey("User")]

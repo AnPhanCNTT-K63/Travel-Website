@@ -63,9 +63,27 @@ namespace WebBackendProject
          );
 
             routes.MapRoute(
+             name: "UserProfileDetail",
+             url: "User/profile/{user_id}",
+             defaults: new { controller = "User", action = "getProfileByUserId" }
+         );
+
+            routes.MapRoute(
+            name: "UserAccount",
+            url: "User/account/{user_id}",
+            defaults: new { controller = "User", action = "getAccountInfo" }
+        );
+
+            routes.MapRoute(
+            name: "UpdateAccount",
+            url: "User/update/account",
+            defaults: new { controller = "User", action = "updateAccount" }
+        );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Tour", action = "tours", id = UrlParameter.Optional }
+                defaults: new { controller = "Hangfire", action = "ShowProcess", id = UrlParameter.Optional }
             );
         }
     }

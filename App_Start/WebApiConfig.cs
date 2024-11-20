@@ -9,7 +9,7 @@ namespace WebBackendProject.App_Start
         public static void Register(HttpConfiguration config)
         {
             // Enable CORS
-            config.EnableCors(new EnableCorsAttribute("http://localhost:3000", "*", "*"));
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             // Other Web API configuration...
         }

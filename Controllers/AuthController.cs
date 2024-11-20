@@ -86,5 +86,19 @@ namespace WebBackendProject.Controllers
         {
             return Json(new { message = "Log out success" }, JsonRequestBehavior.AllowGet);
         }
+
+        [JwtAuthorize("admin", "user")]
+        [HttpPost]
+        public ActionResult passwordCheck(string password, int? user_id) //POST: Auth/passwordCheck
+        {
+            var user = db.Users.Find(user_id);
+            if(user.Password != password)
+            {
+                return Json(new { message = "Invalid Password" }, JsonRequestBehavior.AllowGet);
+            }
+            else { return Json(new { message = "Success"}, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
     }
 }

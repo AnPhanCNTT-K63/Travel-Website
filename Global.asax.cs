@@ -12,7 +12,7 @@ namespace WebBackendProject
         protected void Application_Start()
         {
             // Enable CORS globally
-            var cors = new EnableCorsAttribute("http://localhost:3000", "*", "*");
+            var cors = new EnableCorsAttribute("*", "*", "*");
             GlobalConfiguration.Configuration.EnableCors(cors);  // Enable CORS for all controllers
 
             // Register all areas, routes, and Web API configuration
