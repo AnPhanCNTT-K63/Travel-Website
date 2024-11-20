@@ -81,6 +81,12 @@ namespace WebBackendProject
         );
 
             routes.MapRoute(
+            name: "SoftDeleteAccount",
+            url: "User/softDeleted/account/{user_id}",
+            defaults: new { controller = "User", action = "SoftDeleteAccount" }
+        );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Hangfire", action = "ShowProcess", id = UrlParameter.Optional }

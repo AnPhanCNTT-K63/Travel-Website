@@ -23,6 +23,7 @@ namespace WebBackendProject.Models
         public string Role { get; set; }
         public DateTime? LastActive { get; set; }
         public Boolean IsOnline { get; set; }
+        public Boolean IsDeleted { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public UserProfile UserProfile { get; set; }

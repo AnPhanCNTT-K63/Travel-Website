@@ -321,3 +321,5 @@ D:\Visual Studio 2022\WebBackendProject2\bin\zh\Hangfire.Core.resources.dll
 D:\Visual Studio 2022\WebBackendProject2\bin\zh-TW\Hangfire.Core.resources.dll
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_323.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_32341.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_attribute_1.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.add_new_231231313.resources
