@@ -32,7 +32,7 @@ const Navbar = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", width: 250 }}>
       <List>
-        {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor"].map(
+        {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor", "Payment"].map(
           (item, index) => (
             <ListItem
               button
@@ -85,7 +85,7 @@ const Navbar = () => {
                 height: "40px",
               }}
             >
-              {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor"].map(
+              {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor", "Payment"].map(
                 (item, index) => (
                   <Box
                     key={index}

@@ -13,6 +13,7 @@ import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Blog/CreatePost";
+import Payment from "../Pages/Payment/Payment";
 
 function Navigation() {
   const location = useLocation();
@@ -58,6 +59,8 @@ function Navigation() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/create/post" element={<CreatePost />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
+        <Route path="/payment" element={<Payment />} />
+
       </Routes>
 
       {showArrow && (
