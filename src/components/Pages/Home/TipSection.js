@@ -1,38 +1,63 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import React from "react";
+import { Button, Typography, Box } from "@mui/material";
 
 export default function TipSection() {
   return (
-    <div
-      style={{ position: "relative", textAlign: "center", marginTop: "50px" }}
-    >
-      <img
+    <Box sx={{ position: "relative", textAlign: "center", mt: 8 }}>
+      {/* Background Image */}
+      <Box
+        component="img"
         src="/travelTrip.jpg"
-        style={{ objectFit: "cover", height: "500px", width: "100%" }}
+        alt="Travel Tips"
+        sx={{
+          width: "100%",
+          height: "500px",
+          objectFit: "cover",
+          filter: "brightness(0.7)",
+        }}
       />
-      <h2
-        style={{
+      {/* Overlay Content */}
+      <Box
+        sx={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
+          textAlign: "center",
           color: "white",
-          margin: 0,
         }}
       >
-        TRAVEL TIPS
-        <h2>
-          Northern Ireland’s is now contingent. Britain is getting a divorce
-          Northern Ireland is being offered a trial separation for Britain there
-          is a one
-        </h2>
+        <Typography variant="h3" component="h1" gutterBottom>
+          TRAVEL TIPS
+        </Typography>
+        <Typography
+          variant="body1"
+          component="p"
+          sx={{
+            maxWidth: "600px",
+            mx: "auto",
+            mb: 3,
+            fontSize: "18px",
+            lineHeight: 1.6,
+          }}
+        >
+          Northern Ireland’s is now contingent. Britain is getting a divorce.
+          Northern Ireland is being offered a trial separation from Britain.
+        </Typography>
         <Button
           variant="contained"
-          style={{ fontSize: "20px", padding: "10px 20px", marginTop: "20px" }}
+          color="primary"
+          size="large"
+          sx={{
+            fontSize: "18px",
+            px: 4,
+            py: 1.5,
+            textTransform: "uppercase",
+          }}
         >
-          GET Inspired
+          Get Inspired
         </Button>
-      </h2>
-    </div>
+      </Box>
+    </Box>
   );
 }

@@ -1,4 +1,4 @@
-import TrendingCard from "./TrendingCard";
+import TourCard from "./Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getTours } from "../../../api/services";
 import { Link } from "react-router-dom";
 
-export default function ListTrendingCardTour() {
+export default function ListCard() {
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
@@ -21,19 +21,21 @@ export default function ListTrendingCardTour() {
     fetchTours();
   }, []);
 
-  // Chỉ lấy tối đa 6 phần tử
-  const displayedTours = tours.slice(0, 6);
-
+  console.log(tours);
   return (
     <Container>
       <Row>
-        {displayedTours.map((item, index) => (
-          <Col key={index} md={4} className="mb-4">
-            <Link to={`/detail/${item.Id}`}>
-              <TrendingCard item={item} />
-            </Link>
-          </Col>
-        ))}
+        {tours.map((item) => {
+          return (
+            <Col className="col-3">
+              <div style={{ margin: "10px" }}>
+                <Link to={`/detail/${item.Id}`}>
+                  <TourCard item={item} />
+                </Link>
+              </div>
+            </Col>
+          );
+        })}
       </Row>
     </Container>
   );

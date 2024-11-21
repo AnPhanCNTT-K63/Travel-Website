@@ -6,16 +6,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function TopDealCard({ title, content, source }) {
+export default function TopDealCard({ item }) {
   return (
     <Card sx={{ maxWidth: 345, objectFit: "cover" }}>
-      <CardMedia component="img" height="140" image={source} />
+      <CardMedia component="img" height="140" image={`/Tours/${item.Image}`} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {title}
+          {item.Name}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {content}
+          {item.Description}
         </Typography>
       </CardContent>
       <CardActions></CardActions>

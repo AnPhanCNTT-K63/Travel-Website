@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../../UserContext";
 import {
   AppBar,
   Toolbar,
@@ -19,11 +20,13 @@ import SearchAppBar from "./SearchBar";
 import { signout } from "../../api/services";
 import UserMenu from "./UserMenu";
 
-const token = localStorage.getItem("token");
-const username = localStorage.getItem("username");
-const role = localStorage.getItem("role");
+const token = sessionStorage.getItem("token") || localStorage.getItem("token");
 
 const Header = () => {
+  const user = useContext(UserContext);
+  const username = user.username;
+  const role = user.role;
+
   const isMobile = useMediaQuery("(max-width:600px)");
 
   const [anchorEl, setAnchorEl] = useState(null);
