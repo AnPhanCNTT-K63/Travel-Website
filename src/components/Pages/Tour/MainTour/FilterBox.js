@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../../styles/filterBox.css";
+import "../../../../styles/filterBox.css";
 import StarIcon from "@mui/icons-material/Star";
 
 export default function FilterBox() {
@@ -18,7 +18,10 @@ export default function FilterBox() {
   };
 
   return (
-    <div className="filter-box" style={{ marginTop: "80px" }}>
+    <div
+      className="filter-box"
+      style={{ height: "1155px", marginTop: "100px" }}
+    >
       <h2 style={{ marginBottom: "50px" }}>Tour Search</h2>
       <div className="search-box" style={{ marginBottom: "100px" }}>
         <input

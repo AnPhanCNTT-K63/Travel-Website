@@ -1,76 +1,72 @@
-import { useState } from "react";
-import { Row, Col, Card, Button, Avatar, Upload, message } from "antd";
-import { VerticalAlignTopOutlined } from "@ant-design/icons";
-import profilavatar from "../../../assets/images/face-1.jpg";
-import convesionImg from "../../../assets/images/face-3.jpg";
-import convesionImg2 from "../../../assets/images/face-4.jpg";
-import convesionImg3 from "../../../assets/images/face-5.jpeg";
-import project1 from "../../../assets/images/home-decor-1.jpeg";
-import project2 from "../../../assets/images/home-decor-2.jpeg";
-import project3 from "../../../assets/images/home-decor-3.jpeg";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { Typography, Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Card, Button, Avatar, Popconfirm } from "antd";
+import { Link } from "react-router-dom";
+import { deletePost, getPostByUserId } from "../../../api/services";
+import UserContext from "../../../UserContext";
 
 export default function Post() {
-  const [imageURL, setImageURL] = useState(null);
-  const [, setLoading] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 5; // Adjust the number of posts per page
+  const containerRef = useRef(null); // Ref for the scrollable container
+  const user = useContext(UserContext);
 
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result));
-    reader.readAsDataURL(img);
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const data = await getPostByUserId(user.userId);
+        if (Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          console.error("Expected an array but got:", data);
+          setPosts([]);
+        }
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+        setPosts([]);
+      }
+    };
+    if (user?.userId) {
+      fetchPost();
+    }
+  }, [user]);
+
+  const StyledLink = styled(Link)(({ theme }) => ({
+    textDecoration: "none",
+    color: theme.palette.common.black,
+  }));
+
+  const handleDelete = async (postId) => {
+    try {
+      await deletePost(postId);
+      setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+    }
   };
 
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must be smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
+  // Pagination logic
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const currentPosts = posts.slice(startIndex, startIndex + postsPerPage);
+
+  const nextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    scrollToTop(); // Reset position to the top
   };
 
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj, (imageUrl) => {
-        setLoading(false);
-        setImageURL(imageUrl);
-      });
-    }
+  const prevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    scrollToTop(); // Reset position to the top
   };
 
-  const uploadButton = (
-    <div className="ant-upload-text" style={{ textAlign: "center" }}>
-      <VerticalAlignTopOutlined style={{ fontSize: 24, color: "#1890ff" }} />
-      <div style={{ fontWeight: "bold", color: "#555" }}>Upload New Post</div>
-    </div>
-  );
-
-  const projects = [
-    {
-      img: project1,
-      titlesub: "Project #1",
-      title: "Modern",
-      description: "Uber’s extensive internal management transformation.",
-    },
-    {
-      img: project2,
-      titlesub: "Project #2",
-      title: "Scandinavian",
-      description: "Music’s diversity of opinion and taste.",
-    },
-    {
-      img: project3,
-      titlesub: "Project #3",
-      title: "Minimalist",
-      description: "Exploring different tastes in music and decor.",
-    },
-  ];
+  const scrollToTop = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <Card
@@ -81,27 +77,60 @@ export default function Post() {
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.15)",
       }}
       title={
-        <>
-          <h6 style={{ fontSize: "1.25rem", fontWeight: "bold" }}>Posts</h6>
-          <p style={{ color: "#888" }}>Your Posts on the Blog Page</p>
-        </>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <h6 style={{ fontSize: "1.25rem", fontWeight: "bold" }}>Posts</h6>
+            <p style={{ color: "#888" }}>Your Posts on the Blog Page</p>
+          </div>
+          <Link to="/create/post">
+            <Button type="primary" size="large" style={{ fontWeight: "bold" }}>
+              Add New Post
+            </Button>
+          </Link>
+        </div>
       }
     >
-      <Row gutter={[24, 24]}>
-        {projects.map((project, index) => (
-          <Col span={24} md={12} xl={6} key={index}>
+      <Box
+        sx={{
+          display: "flex",
+          overflowX: "auto",
+          gap: 2,
+          padding: 2,
+          "&::-webkit-scrollbar": { height: 8 },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+            borderRadius: 4,
+          },
+        }}
+      >
+        {currentPosts.map((post, index) => {
+          const postHashtags =
+            post.Hashtags && typeof post.Hashtags === "string"
+              ? post.Hashtags.split(",")
+              : [];
+
+          return (
             <Card
+              key={post.Id}
               bordered={false}
-              hoverable
               style={{
+                minWidth: "300px",
                 borderRadius: 12,
                 boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-                transition: "transform 0.3s ease",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
               cover={
                 <img
-                  alt={project.title}
-                  src={project.img}
+                  alt={post.Title}
+                  src={`/${post.Image}`}
                   style={{
                     borderTopLeftRadius: 12,
                     borderTopRightRadius: 12,
@@ -111,66 +140,77 @@ export default function Post() {
                 />
               }
             >
-              <div
-                className="card-tag"
-                style={{ fontWeight: "bold", color: "#555" }}
-              >
-                {project.titlesub}
+              <div style={{ fontWeight: "bold", color: "#555" }}>
+                Post #{index + 1 + (currentPage - 1) * postsPerPage}
               </div>
-              <h5 style={{ color: "#333", fontWeight: "bold" }}>
-                {project.title}
-              </h5>
-              <p style={{ color: "#777", fontSize: "0.9rem" }}>
-                {project.description}
-              </p>
-              <Row
-                gutter={[6, 0]}
-                className="card-footer"
-                style={{ marginTop: 12 }}
+              <Typography
+                sx={{
+                  color: "#333",
+                  fontWeight: "bold",
+                }}
               >
-                <Col span={12}>
-                  <Button
-                    type="primary"
-                    ghost
-                    style={{ width: "100%", fontWeight: "bold" }}
-                  >
-                    VIEW PROJECT
+                <StyledLink to={`/post/${post.Id}`}>{post.Title}</StyledLink>
+              </Typography>
+              <Box sx={{ px: 1, py: 0.5 }}>
+                <Typography variant="caption" color="text.secondary">
+                  {postHashtags.map((hashtag, index) => (
+                    <span key={index} style={{ marginRight: 4 }}>
+                      {hashtag}
+                    </span>
+                  ))}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <StyledLink to={`/update/post/${[post.Id]}`}>
+                  <Button type="primary" style={{ fontWeight: "bold" }}>
+                    UPDATE
                   </Button>
-                </Col>
-                <Col span={12} className="text-right">
-                  <Avatar.Group className="avatar-chips">
-                    <Avatar size="small" src={profilavatar} />
-                    <Avatar size="small" src={convesionImg} />
-                    <Avatar size="small" src={convesionImg2} />
-                    <Avatar size="small" src={convesionImg3} />
-                  </Avatar.Group>
-                </Col>
-              </Row>
+                </StyledLink>
+                <Popconfirm
+                  title="Are you sure you want to delete this post?"
+                  onConfirm={() => handleDelete(post.Id)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button
+                    style={{
+                      fontWeight: "bold",
+                      backgroundColor: "#ff4d4f",
+                      color: "#fff",
+                      borderColor: "#ff4d4f",
+                    }}
+                  >
+                    DELETE
+                  </Button>
+                </Popconfirm>
+              </Box>
             </Card>
-          </Col>
-        ))}
-        <Col span={24} md={12} xl={6}>
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader projects-uploader"
-            showUploadList={false}
-            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
-          >
-            {imageURL ? (
-              <img
-                src={imageURL}
-                alt="avatar"
-                style={{ width: "100%", borderRadius: 12 }}
-              />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
-        </Col>
-      </Row>
+          );
+        })}
+      </Box>
+
+      {/* Pagination Controls */}
+      <Box textAlign="center" mt={4}>
+        <Button
+          type="secondary"
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          style={{ fontWeight: "bold", marginRight: "1rem" }}
+        >
+          Previous
+        </Button>
+        <span style={{ fontWeight: "bold" }}>
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          type="primary"
+          onClick={nextPage}
+          disabled={currentPage === totalPages}
+          style={{ fontWeight: "bold", marginLeft: "1rem" }}
+        >
+          Next
+        </Button>
+      </Box>
     </Card>
   );
 }

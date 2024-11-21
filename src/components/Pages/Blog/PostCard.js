@@ -1,8 +1,32 @@
 import React from "react";
-import { Box, Typography, IconButton, Avatar } from "@mui/material";
-import { Favorite, Share, ChatBubbleOutline } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
 
-const PostCard = ({ title, datetime, image, content, hashtags }) => {
+import { Box, Typography, IconButton, Avatar } from "@mui/material";
+import {
+  Favorite,
+  Share,
+  ChatBubbleOutline,
+  AccessTime,
+} from "@mui/icons-material";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+
+const PostCard = ({ post }) => {
+  // Ensure hashtags are properly split
+  const postHashtags =
+    post.Hashtags && typeof post.Hashtags === "string"
+      ? post.Hashtags.split(",")
+      : [];
+
+  // Fallback for missing or undefined post data
+  const postTitle = post.Title || "Untitled Post";
+  const postDatetime = post.Datetime || "No Date Provided";
+  const postImage = post.Image || "https://example.com/default-image.jpg";
+  const postContent = post.Content || "No content available.";
+  const StyledLink = styled(Link)(({ theme }) => ({
+    textDecoration: "none",
+    color: theme.palette.common.black,
+  }));
   return (
     <Box
       sx={{
@@ -30,10 +54,16 @@ const PostCard = ({ title, datetime, image, content, hashtags }) => {
         />
         <Box flexGrow={1}>
           <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-            {title}
+            <StyledLink to={`/post/${post.Id}`}>{postTitle}</StyledLink>
           </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {datetime}
+
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            {postDatetime}
+            <AccessTime sx={{ marginLeft: "10px" }} />
           </Typography>
         </Box>
       </Box>
@@ -41,7 +71,7 @@ const PostCard = ({ title, datetime, image, content, hashtags }) => {
       {/* Hashtags Section */}
       <Box sx={{ px: 1, py: 0.5 }}>
         <Typography variant="caption" color="text.secondary">
-          {hashtags.map((hashtag, index) => (
+          {postHashtags.map((hashtag, index) => (
             <span key={index} style={{ marginRight: 4 }}>
               #{hashtag}
             </span>
@@ -50,22 +80,37 @@ const PostCard = ({ title, datetime, image, content, hashtags }) => {
       </Box>
 
       {/* Image Section */}
-      <Box
-        component="img"
-        src={image}
-        alt={title}
-        sx={{
-          width: "100%",
-          height: 230, // Adjusted for compactness
-          objectFit: "cover",
-        }}
-      />
+      <StyledLink to={`/post/${post.Id}`}>
+        <Box
+          component="img"
+          src={postImage}
+          alt={postTitle}
+          sx={{
+            width: "100%",
+            height: 230, // Adjusted for compactness
+            objectFit: "cover",
+          }}
+        />
+      </StyledLink>
 
-      {/* content Section */}
+      {/* Content Section */}
       <Box sx={{ px: 1, py: 0.5 }}>
-        <Typography variant="body2" color="text.secondary" noWrap>
-          {content}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            WebkitLineClamp: 1,
+          }}
+        >
+          {postContent}
         </Typography>
+        <StyledLink to={`/post/${post.Id}`}>
+          <Button variant="text">Read More...</Button>
+        </StyledLink>
       </Box>
 
       {/* Icons (Chat, Like, Share) Section */}

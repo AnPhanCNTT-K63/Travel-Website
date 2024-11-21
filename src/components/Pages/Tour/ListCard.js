@@ -20,6 +20,7 @@ export default function ListCard() {
     };
     fetchTours();
   }, []);
+
   console.log(tours);
   return (
     <Container>

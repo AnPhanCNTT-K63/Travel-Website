@@ -4,7 +4,8 @@ const API_URL = "https://localhost:44331";
 
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     } else {
@@ -15,6 +16,18 @@ axios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
+export const heartBeat = async (user_id) => {
+  try {
+    const response = await axios.post(`${API_URL}/User/heartBeat`, {
+      userId: user_id,
+    }); // POST: /User/heartBeat
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
 export const getTours = async () => {
   try {
@@ -28,11 +41,23 @@ export const getTours = async () => {
 
 export const getTourDetail = async (id) => {
   try {
-    // console.log(localStorage.getItem("token"));
-    const response = await axios.get(`${API_URL}/Tour/tourDetail/${id}`); //GET: /Tour/tourDetail/{id}
+    const response = await axios.get(`${API_URL}/Tour/detail/tour/${id}`); //GET: /Tour/detail/tour/{id}
     return response.data;
   } catch (error) {
     console.error("Error fetching tour detail:", error);
+    throw error;
+  }
+};
+
+export const createTourAndPackages = async (data) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/Tour/create/tourAndPackages`,
+      data
+    ); //POST: /Tour/create/tourAndPackages
+    return response.data;
+  } catch (error) {
+    console.error("Error adding tour:", error);
     throw error;
   }
 };
@@ -66,26 +91,34 @@ export const signin = async (user) => {
 
 export const getPosts = async () => {
   try {
-    const res = await axios.get(`${API_URL}/Post/posts`); //POST: /GET: /Post/posts
+    const res = await axios.get(`${API_URL}/Post/posts`); //GET: /Post/posts
     return res.data;
   } catch (err) {
     console.log("Error When Fetching Api", err);
   }
 };
 
-export const addTour = async (tourData) => {
+export const getPostDetail = async (id) => {
   try {
-    const response = await axios.post(`${API_URL}/Tour/tourCreate`, tourData); //POST: /Tour/tourCreate
-    return response.data;
-  } catch (error) {
-    console.error("Error adding tour:", error);
-    throw error;
+    const res = await axios.get(`${API_URL}/Post/detail/post/${id}`); //GET: /Post/detail/post/{id}
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
+  }
+};
+
+export const getPostByUserId = async (user_id) => {
+  try {
+    const res = await axios.get(`${API_URL}/Post/findByUserId/post/${user_id}`); //GET: /Post/findByUserId/post
+    return res.data;
+  } catch (err) {
+    console.log("Error When Fetching Api", err);
   }
 };
 
 export const createPost = async (postData) => {
   try {
-    const res = await axios.post(`${API_URL}/Post/create/post`, postData); //Post: /Post/create/post
+    const res = await axios.post(`${API_URL}/Post/create/post`, postData); //POST: /Post/create/post
     return res.data;
   } catch (error) {
     console.error("Error creating post: ", error);
@@ -93,22 +126,101 @@ export const createPost = async (postData) => {
   }
 };
 
-export const updateTour = async (id, updatedTourData) => {
+export const updatePost = async (postData, id) => {
   try {
-    const response = await axios.put(`${API_URL}/tours/${id}`, updatedTourData);
-    return response.data;
+    const res = await axios.put(`${API_URL}/Post/update/post/${id}`, postData); //PUT: /Post/update/post/{id}
+    return res.data;
   } catch (error) {
-    console.error("Error updating tour:", error);
+    console.error("Error updating post: ", error);
     throw error;
   }
 };
 
-export const deleteTour = async (id) => {
+export const deletePost = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/tours/${id}`);
+    const res = await axios.delete(`${API_URL}/Post/delete/post/${id}`, id); //DELETE: /Post/delete/post/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error Deleting post: ", error);
+    throw error;
+  }
+};
+
+export const getUsers = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/User/users`); //GET: /User/users
+    return res.data;
+  } catch (error) {
+    console.error("Error Get users: ", error);
+    throw error;
+  }
+};
+
+export const getProfile = async (user_id) => {
+  try {
+    const res = await axios.get(`${API_URL}/User/profile/${user_id}`); //GET: /User/profile/${user_id}
+    return res.data;
+  } catch (error) {
+    console.error("Error Get Profile: ", error);
+    throw error;
+  }
+};
+
+export const getAccountInfo = async (user_id) => {
+  try {
+    const res = await axios.get(`${API_URL}/User/account/${user_id}`); //GET: /User/account/${user_id}
+    return res.data;
+  } catch (error) {
+    console.error("Error Get Account Info: ", error);
+    throw error;
+  }
+};
+
+export const updateAccount = async (user) => {
+  try {
+    const res = await axios.put(`${API_URL}/User/update/account`, {
+      userInfo: user,
+    }); //PUT: User/update/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const passwordCheck = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/Auth/passwordCheck`, data); //POST: Auth/passwordCheck
     return response.data;
   } catch (error) {
-    console.error("Error deleting tour:", error);
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const deleteAccount = async (user_Id) => {
+  try {
+    const res = await axios.delete(
+      `${API_URL}/User/softDeleted/account/${user_Id}`,
+      {
+        user_id: user_Id,
+      }
+    ); //DELETE: User/delete/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const restoreAccount = async (user_Id) => {
+  try {
+    const res = await axios.post(`${API_URL}/User/restore/account`, {
+      user_id: user_Id,
+    }); //Post: User/restore/account
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
     throw error;
   }
 };
