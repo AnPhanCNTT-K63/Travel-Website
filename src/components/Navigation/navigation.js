@@ -1,5 +1,5 @@
 import Home from "../Pages/Home/Home";
-import Tour from "../Pages/Tour/Tour";
+import Tour from "../Pages/Tour/MainTour/Tour";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Gallery from "../Pages/Gallery/Gallery";
 import Sponsor from "../Pages/Sponsor/Sponsor";
@@ -13,12 +13,12 @@ import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Blog/CreatePost";
-import NorthTour from "../Pages/Tour/NorthTour";
-import MiddleTour from "../Pages/Tour/MiddleTour";
-import SouthTour from "../Pages/Tour/SouthTour";
-import AsiaTour from "../Pages/Tour/AsiaTour";
-import EuropeTour from "../Pages/Tour/EuropeTour";
-import AmericaTour from "../Pages/Tour/AmericaTour";
+import NorthTour from "../Pages/Tour/DomesticTour/NorthTour";
+import MiddleTour from "../Pages/Tour/DomesticTour/MiddleTour";
+import SouthTour from "../Pages/Tour/DomesticTour/SouthTour";
+import AsiaTour from "../Pages/Tour/InternationalTour/AsiaTour";
+import EuropeTour from "../Pages/Tour/InternationalTour/EuropeTour";
+import AmericaTour from "../Pages/Tour/InternationalTour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
 import UpdatePost from "../Pages/Blog/UpdatePost";
 import NotFoundPage from "../../view/NotFoundPage";
@@ -26,6 +26,7 @@ import AccountPage from "../Pages/Account/AccountPage";
 import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
 import UserContext from "../../UserContext";
 import UserManagementPage from "../Admin/UserManagement/UserManagement";
+
 
 function Navigation() {
   const location = useLocation();

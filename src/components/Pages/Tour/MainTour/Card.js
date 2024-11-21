@@ -6,25 +6,30 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import StarIcon from "@mui/icons-material/Star";
 import Box from "@mui/material/Box";
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 export default function TourCard({ item }) {
   return (
-    <Card sx={{ marginLeft: "100px", width: "100%", height: "100%" }}>
+    <Card sx={{ marginLeft: "100px", width: "100%", height: "100%" , marginTop:"50px"}}>
       <CardMedia
-        sx={{ height: "150px ", width: "100%", objectFit: "cover" }}
-        image={`/Tours/${item.Image}`}
+
+
+        sx={{ height: "180px ", width: "100%", objectFit: "cover" }}
+        image={""}
+
+
         title="green iguana"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {item.Name}
+       
         </Typography>
 
-        <Typography
-          variant="body2"
-          sx={{ height: 50, color: "text.secondary" }}
-        >
-          {item.description}
+
+        <Typography variant="body2" sx={{ height: 50, color: "text.secondary" }}>
+         
+
         </Typography>
       </CardContent>
       <CardActions>
@@ -32,7 +37,7 @@ export default function TourCard({ item }) {
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             <span style={{ fontWeight: "bold" }}>Price:</span>
             <Box component="span" sx={{ ml: 1 }}>
-              {item.price}$
+              $
             </Box>
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
@@ -40,8 +45,8 @@ export default function TourCard({ item }) {
             <StarIcon sx={{ color: "gold" }} />
             <StarIcon sx={{ color: "gold" }} />
             <StarIcon sx={{ color: "gold" }} />
-            <StarIcon />
-            <StarIcon />
+            <StarHalfIcon sx={{ color : "gold"}} />
+            <StarBorderIcon sx={{ color : "gold"}} />
           </Box>
         </Box>
       </CardActions>
