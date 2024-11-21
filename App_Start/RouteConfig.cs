@@ -87,6 +87,22 @@ namespace WebBackendProject
         );
 
             routes.MapRoute(
+            name: "RestoreAccount",
+            url: "User/restore/account",
+            defaults: new { controller = "User", action = "RestoreAccount" }
+        );
+            routes.MapRoute(
+            name: "GetBooking",
+            url: "Booking/info/{tourPackageId}",
+            defaults: new { controller = "Booking", action = "getBookingInfo" }
+        );
+            routes.MapRoute(
+            name: "GetContactInfo",
+            url: "User/contact/info/{user_id}",
+            defaults: new { controller = "User", action = "ContactInfo" }
+        );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Hangfire", action = "ShowProcess", id = UrlParameter.Optional }

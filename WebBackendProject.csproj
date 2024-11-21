@@ -201,6 +201,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorization\JwtAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HangfireController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
@@ -364,15 +365,46 @@
     <Compile Include="Migrations\202411200445334_add_new_231231313.designer.cs">
       <DependentUpon>202411200445334_add_new_231231313.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411200823100_new_Booking.cs" />
+    <Compile Include="Migrations\202411200823100_new_Booking.designer.cs">
+      <DependentUpon>202411200823100_new_Booking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411200834474_new_pae.cs" />
+    <Compile Include="Migrations\202411200834474_new_pae.designer.cs">
+      <DependentUpon>202411200834474_new_pae.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411200837279_new_paeas.cs" />
+    <Compile Include="Migrations\202411200837279_new_paeas.designer.cs">
+      <DependentUpon>202411200837279_new_paeas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411200909416_new_paeasad.cs" />
+    <Compile Include="Migrations\202411200909416_new_paeasad.designer.cs">
+      <DependentUpon>202411200909416_new_paeasad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411200930410_new_paeasad13.cs" />
+    <Compile Include="Migrations\202411200930410_new_paeasad13.designer.cs">
+      <DependentUpon>202411200930410_new_paeasad13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411201620104_new_23123123131.cs" />
+    <Compile Include="Migrations\202411201620104_new_23123123131.designer.cs">
+      <DependentUpon>202411201620104_new_23123123131.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411210151016_new_23123131e31ee.cs" />
+    <Compile Include="Migrations\202411210151016_new_23123131e31ee.designer.cs">
+      <DependentUpon>202411210151016_new_23123131e31ee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\BookingDetail.cs" />
     <Compile Include="Models\DbAppContext.cs" />
+    <Compile Include="Models\Schedule.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Tour.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\TourPackage.cs" />
     <Compile Include="Models\TourReview.cs" />
+    <Compile Include="Models\Travler.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserInfoUpdate.cs" />
     <Compile Include="Models\UserProfile.cs" />
@@ -395,6 +427,7 @@
     <Folder Include="Content\Images\" />
     <Folder Include="Views\api\" />
     <Folder Include="Views\Auth\" />
+    <Folder Include="Views\Booking\" />
     <Folder Include="Views\Hangfire\" />
     <Folder Include="Views\Post\" />
     <Folder Include="Views\Shared\" />
@@ -516,6 +549,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411200445334_add_new_231231313.resx">
       <DependentUpon>202411200445334_add_new_231231313.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411200823100_new_Booking.resx">
+      <DependentUpon>202411200823100_new_Booking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411200834474_new_pae.resx">
+      <DependentUpon>202411200834474_new_pae.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411200837279_new_paeas.resx">
+      <DependentUpon>202411200837279_new_paeas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411200909416_new_paeasad.resx">
+      <DependentUpon>202411200909416_new_paeasad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411200930410_new_paeasad13.resx">
+      <DependentUpon>202411200930410_new_paeasad13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411201620104_new_23123123131.resx">
+      <DependentUpon>202411201620104_new_23123123131.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411210151016_new_23123131e31ee.resx">
+      <DependentUpon>202411210151016_new_23123131e31ee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

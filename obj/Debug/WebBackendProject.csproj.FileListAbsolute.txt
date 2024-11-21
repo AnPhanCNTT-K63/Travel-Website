@@ -323,3 +323,10 @@ D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_32341.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_attribute_1.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.add_new_231231313.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_Booking.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_pae.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_paeas.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_paeasad.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_paeasad13.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_23123123131.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_23123131e31ee.resources

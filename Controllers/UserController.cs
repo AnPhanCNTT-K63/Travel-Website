@@ -89,7 +89,7 @@ namespace WebBackendProject.Controllers
             }
         }
 
-        [JwtAuthorize("admin", "user")]
+        //[JwtAuthorize("admin", "user")]
         [HttpGet]
         public ActionResult getAccountInfo(int? user_id) // GET: User/account/{user_id}
         {
@@ -195,7 +195,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult RestoreAccount(int user_id)
+        public ActionResult RestoreAccount(int user_id) //POST: User/restore/account
         {
             try
             {
@@ -215,6 +215,12 @@ namespace WebBackendProject.Controllers
             {
                 return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpGet]
+        public ActionResult ContactInfo(int user_id) //GET: User/contact/info/{user_id}
+        {
+            return Json(new {message = "aa"}, JsonRequestBehavior.AllowGet);
         }
 
 

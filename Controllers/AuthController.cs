@@ -20,6 +20,7 @@ namespace WebBackendProject.Controllers
         {
             var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == user.Email);
             var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == user.Username);
+            var softDeletedUserEmail = db.Users.FirstOrDefault(u => u.IsDeleted == true);
 
 
             if (existedUserEmail != null)
@@ -29,6 +30,10 @@ namespace WebBackendProject.Controllers
             if(existedUserUsername != null)
             {
                 return Json(new { error = "user has been used by someone else" }, JsonRequestBehavior.AllowGet);
+            }
+            if (softDeletedUserEmail != null)
+            {
+                return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" }, JsonRequestBehavior.AllowGet);
             }
 
             if (ModelState.IsValid)
@@ -64,6 +69,10 @@ namespace WebBackendProject.Controllers
             else if (loginUser.Password != user.Password)
             {
                 return Json(new { error = "Incorrect Password" });
+            }
+            else if(loginUser.IsDeleted == true)
+            {
+                return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" });
             }
             else
             {

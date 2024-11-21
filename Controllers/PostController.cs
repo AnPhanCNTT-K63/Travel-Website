@@ -20,7 +20,7 @@ namespace WebBackendProject.Controllers
         [HttpGet]
         public ActionResult posts() //GET: /Post/post
         {
-            var posts = db.BlogPosts.ToList();
+            var posts = db.BlogPosts.Where(p => p.User.IsDeleted == false).ToList();
 
             var formattedPosts = posts.Select(post => new
             {
