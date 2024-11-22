@@ -13,6 +13,7 @@ import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Blog/CreatePost";
+import Payment from "../Pages/Payment/Payment";
 import NorthTour from "../Pages/Tour/DomesticTour/NorthTour";
 import MiddleTour from "../Pages/Tour/DomesticTour/MiddleTour";
 import SouthTour from "../Pages/Tour/DomesticTour/SouthTour";
@@ -88,6 +89,7 @@ function Navigation() {
         <Route path="/account/:userId" element={<AccountPage />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
         <Route path="/update/post/:postId" element={<UpdatePost />} />
         <Route path="*" element={<NotFoundPage />} />
