@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Input, Button, Upload, message } from "antd";
+import { Input, Button, message } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPostDetail, updatePost } from "../../../api/services";
 import { Box } from "@mui/material";
-import { UploadOutlined } from "@ant-design/icons";
 
 export default function UpdatePost() {
   const { postId } = useParams();
@@ -13,7 +12,7 @@ export default function UpdatePost() {
   const [hashtags, setHashtags] = useState("");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null); // Store image preview URL
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -47,7 +46,7 @@ export default function UpdatePost() {
       console.log(data);
 
       message.success("Post updated successfully!");
-      navigate("/profile");
+      navigate("/blog");
     } catch (err) {
       console.error(err);
       message.error("Failed to update post.");

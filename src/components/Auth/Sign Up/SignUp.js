@@ -79,10 +79,6 @@ export default function SignUp() {
     }
   }, []);
 
-  const formatDate = () => {
-    return new Date().toISOString();
-  };
-
   const toggleColorMode = () => {
     const newMode = mode === "dark" ? "light" : "dark";
     setMode(newMode);
@@ -136,30 +132,30 @@ export default function SignUp() {
       event.preventDefault();
       return;
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get("Username"),
-      email: data.get("Email"),
-      password: data.get("Password"),
-    });
-
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      Username: formData.get("Username"),
+      Email: formData.get("Email"),
+      Password: formData.get("Password"),
+    };
     try {
       const user = await signup(data);
+      console.log(data);
 
       console.log(user);
       if (
-        (user.error =
-          "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days")
+        user.error ===
+        "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days"
       ) {
         setEmailError(true);
         setEmailErrorMessage(user.error);
       } else if (
-        user.error ==
+        user.error ===
         "Email is already in use. Please login or click forgot password"
       ) {
         setEmailError(true);
         setEmailErrorMessage(user.error);
-      } else if (user.error == "user has been used by someone else") {
+      } else if (user.error === "user has been used by someone else") {
         setNameError(true);
         setNameErrorMessage(user.error);
       } else {

@@ -19,7 +19,6 @@ const CreateTourPackage = () => {
   const location = useLocation();
   const user = useContext(UserContext);
   const user_id = user.userId;
-
   const [tour, setTour] = useState(
     location.state?.tour || {
       Name: "",

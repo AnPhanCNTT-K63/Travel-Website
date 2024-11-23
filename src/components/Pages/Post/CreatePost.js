@@ -83,7 +83,7 @@ const CreatePost = () => {
   };
 
   const handleGoToProfile = () => {
-    navigate("/profile#posts");
+    navigate(`/profile/${user.userId}/#posts`);
   };
 
   return (

@@ -29,6 +29,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-material-ui-carousel": "^3.4.2",
+    "react-qr-code": "^2.0.15",
     "react-router-dom": "^6.26.2",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",
