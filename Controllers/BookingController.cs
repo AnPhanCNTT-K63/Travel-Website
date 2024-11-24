@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using WebBackendProject.Models;
+using WebBackendProject.Models.DTO;
+using System.Diagnostics;
 
 namespace WebBackendProject.Controllers
 {
@@ -30,9 +32,9 @@ namespace WebBackendProject.Controllers
             })
             .ToList();
 
-            var totalQuantity = schedule.Sum(s => s.Quantity);
-            var formatDate = schedule.Select(s => s.TravelDay?.ToString("dd/MM/yyyy")).ToList();
-                
+                var totalQuantity = schedule.Sum(s => s.Quantity);
+                var formatDate = schedule.Select(s => s.TravelDay?.ToString("dd/MM/yyyy")).ToList();
+
 
                 var result = new { tourPackage, totalQuantity, formatDate };
 
@@ -40,6 +42,72 @@ namespace WebBackendProject.Controllers
             }
             return Json(new { message = "can't get booking" }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult getContactInfo(int? user_id) //GET: Booking/contact/info/{user_id}
+        {
+            try
+            {
+                var data = db.Users
+                    .Include(d => d.UserProfile)
+                    .Where(d => d.Id == user_id)
+                    .Select(d => new
+                    {
+                        Name = d.UserProfile.FirstName + " " + d.UserProfile.LastName,
+                         d.UserProfile.Phone,
+                         d.Email
+                    }).FirstOrDefault();
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Exception = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult storeBookingInfo(BookingInfo info, int User_Id)
+        {
+            try
+            {
+                var booking = info.Booking;
+                var user = db.Users.Find(User_Id);
+                booking.User = user;
+                booking.CreatedAt = DateTime.UtcNow;
+                booking.UpdatedAt = DateTime.UtcNow;
+                booking.Status = "Pending";
+                db.Bookings.Add(booking);
+                db.SaveChanges();
+
+                var contact = info.Contact;
+                contact.Booking = booking;
+                db.Contacts.Add(contact);
+
+                List<Traveler> travelers = info.Traveler;
+
+                foreach(var traveler in travelers)
+                {
+                    traveler.Booking = booking;
+                    db.Travelers.Add(traveler);
+                }
+
+                db.SaveChanges();
+
+                return Json(new {message = "Success"}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
 
     }
 }

@@ -96,11 +96,30 @@ namespace WebBackendProject
             url: "Booking/info/{tourPackageId}",
             defaults: new { controller = "Booking", action = "getBookingInfo" }
         );
+          
+            routes.MapRoute(
+            name: "StoreBookingInfo",
+            url: "Booking/store",
+            defaults: new { controller = "Booking", action = "storeBookingInfo" }
+        );
+
             routes.MapRoute(
             name: "GetContactInfo",
-            url: "User/contact/info/{user_id}",
-            defaults: new { controller = "User", action = "ContactInfo" }
+            url: "Booking/contact/info/{user_id}",
+            defaults: new { controller = "Booking", action = "getContactInfo" }
         );
+
+            routes.MapRoute(
+           name: "GetVoucher",
+           url: "TourPackage/vouchers/{id}",
+           defaults: new { controller = "TourPackage", action = "tourPackageVoucher" }
+       );
+
+            routes.MapRoute(
+           name: "GetVAT",
+           url: "TourPackage/VAT/{id}",
+           defaults: new { controller = "TourPackage", action = "GetVat" }
+       );
 
             routes.MapRoute(
                 name: "Default",

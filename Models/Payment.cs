@@ -19,7 +19,7 @@ namespace WebBackendProject.Models
 
         [Key]
         [ForeignKey("Booking")]
-        public int Booking_Id { get; set; }
+        public int BookingId { get; set; }
         public Booking Booking { get; set; }
     }
 }

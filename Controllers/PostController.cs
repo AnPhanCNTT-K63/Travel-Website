@@ -9,6 +9,7 @@ using System.Web.Http.Cors;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using WebBackendProject.Models;
+using WebBackendProject.Models.DTO;
 
 namespace WebBackendProject.Controllers
 {
@@ -122,7 +123,7 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin", "user")]
         [HttpPut]
-        public ActionResult UpdatePost(BlogPost post, int id) //PUT: Post/update/post{id}
+        public ActionResult UpdatePost(PostInfoUpdate post, int id) //PUT: Post/update/post/{id}
         {
             try
             {

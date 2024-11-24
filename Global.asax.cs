@@ -4,6 +4,8 @@ using System.Web.Routing;
 using System.Web.Http.Cors;
 using System.Web;
 using WebBackendProject.App_Start;
+using System.Data.Entity;
+using System;
 
 namespace WebBackendProject
 {

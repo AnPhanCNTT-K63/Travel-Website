@@ -31,5 +31,6 @@ namespace WebBackendProject.Models
         public ICollection<BlogPost> Posts { get; set; }
         public ICollection<TourReview> TourReviews { get; set; }
         public ICollection<Booking> Bookings { get; set; }
+        public ICollection<PaymentCard> PaymentCards { get; set; }
     }
 }

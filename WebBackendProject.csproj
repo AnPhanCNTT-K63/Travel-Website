@@ -194,7 +194,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="dbconnection.txt" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -203,6 +202,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HangfireController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\TourPackageController.cs" />
@@ -213,201 +213,47 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202411121539086_s7.cs" />
-    <Compile Include="Migrations\202411121539086_s7.designer.cs">
-      <DependentUpon>202411121539086_s7.cs</DependentUpon>
+    <Compile Include="Migrations\202411220334556_initial.cs" />
+    <Compile Include="Migrations\202411220334556_initial.designer.cs">
+      <DependentUpon>202411220334556_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202411130145414_one_one_relation_1.cs" />
-    <Compile Include="Migrations\202411130145414_one_one_relation_1.designer.cs">
-      <DependentUpon>202411130145414_one_one_relation_1.cs</DependentUpon>
+    <Compile Include="Migrations\202411230342118_new_Model.cs" />
+    <Compile Include="Migrations\202411230342118_new_Model.designer.cs">
+      <DependentUpon>202411230342118_new_Model.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202411130148270_one_one_relation_2.cs" />
-    <Compile Include="Migrations\202411130148270_one_one_relation_2.designer.cs">
-      <DependentUpon>202411130148270_one_one_relation_2.cs</DependentUpon>
+    <Compile Include="Migrations\202411240111436_new_Model1.cs" />
+    <Compile Include="Migrations\202411240111436_new_Model1.designer.cs">
+      <DependentUpon>202411240111436_new_Model1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202411130154508_one_one_relation_3.cs" />
-    <Compile Include="Migrations\202411130154508_one_one_relation_3.designer.cs">
-      <DependentUpon>202411130154508_one_one_relation_3.cs</DependentUpon>
+    <Compile Include="Migrations\202411240202126_new_Attribute_1.cs" />
+    <Compile Include="Migrations\202411240202126_new_Attribute_1.designer.cs">
+      <DependentUpon>202411240202126_new_Attribute_1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202411130159281_one_one_relation_4.cs" />
-    <Compile Include="Migrations\202411130159281_one_one_relation_4.designer.cs">
-      <DependentUpon>202411130159281_one_one_relation_4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130215042_one_one_relation_5.cs" />
-    <Compile Include="Migrations\202411130215042_one_one_relation_5.designer.cs">
-      <DependentUpon>202411130215042_one_one_relation_5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130218502_one_one_relation_6.cs" />
-    <Compile Include="Migrations\202411130218502_one_one_relation_6.designer.cs">
-      <DependentUpon>202411130218502_one_one_relation_6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130221593_one_one_relation_7.cs" />
-    <Compile Include="Migrations\202411130221593_one_one_relation_7.designer.cs">
-      <DependentUpon>202411130221593_one_one_relation_7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130228107_one_one_relation_8.cs" />
-    <Compile Include="Migrations\202411130228107_one_one_relation_8.designer.cs">
-      <DependentUpon>202411130228107_one_one_relation_8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130321260_one_one_relation_9.cs" />
-    <Compile Include="Migrations\202411130321260_one_one_relation_9.designer.cs">
-      <DependentUpon>202411130321260_one_one_relation_9.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130323317_one_one_relation_10.cs" />
-    <Compile Include="Migrations\202411130323317_one_one_relation_10.designer.cs">
-      <DependentUpon>202411130323317_one_one_relation_10.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130353087_one_one_relation_11.cs" />
-    <Compile Include="Migrations\202411130353087_one_one_relation_11.designer.cs">
-      <DependentUpon>202411130353087_one_one_relation_11.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130426189_one_one_relation_12.cs" />
-    <Compile Include="Migrations\202411130426189_one_one_relation_12.designer.cs">
-      <DependentUpon>202411130426189_one_one_relation_12.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130452405_one_one_relation_13.cs" />
-    <Compile Include="Migrations\202411130452405_one_one_relation_13.designer.cs">
-      <DependentUpon>202411130452405_one_one_relation_13.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130937192_Change_Attribute.cs" />
-    <Compile Include="Migrations\202411130937192_Change_Attribute.designer.cs">
-      <DependentUpon>202411130937192_Change_Attribute.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130946280_Change_Attribute_2.cs" />
-    <Compile Include="Migrations\202411130946280_Change_Attribute_2.designer.cs">
-      <DependentUpon>202411130946280_Change_Attribute_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411130959138_Change_Attribute_3.cs" />
-    <Compile Include="Migrations\202411130959138_Change_Attribute_3.designer.cs">
-      <DependentUpon>202411130959138_Change_Attribute_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411131003273_Change_Attribute_4.cs" />
-    <Compile Include="Migrations\202411131003273_Change_Attribute_4.designer.cs">
-      <DependentUpon>202411131003273_Change_Attribute_4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411140806099_contra.cs" />
-    <Compile Include="Migrations\202411140806099_contra.designer.cs">
-      <DependentUpon>202411140806099_contra.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411141505410_update_1.cs" />
-    <Compile Include="Migrations\202411141505410_update_1.designer.cs">
-      <DependentUpon>202411141505410_update_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411141517585_update_3.cs" />
-    <Compile Include="Migrations\202411141517585_update_3.designer.cs">
-      <DependentUpon>202411141517585_update_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411141524360_update_4.cs" />
-    <Compile Include="Migrations\202411141524360_update_4.designer.cs">
-      <DependentUpon>202411141524360_update_4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411141530354_update_5.cs" />
-    <Compile Include="Migrations\202411141530354_update_5.designer.cs">
-      <DependentUpon>202411141530354_update_5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411150252471_change_null.cs" />
-    <Compile Include="Migrations\202411150252471_change_null.designer.cs">
-      <DependentUpon>202411150252471_change_null.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411170333239_new_one.cs" />
-    <Compile Include="Migrations\202411170333239_new_one.designer.cs">
-      <DependentUpon>202411170333239_new_one.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411170907296_rename_1.cs" />
-    <Compile Include="Migrations\202411170907296_rename_1.designer.cs">
-      <DependentUpon>202411170907296_rename_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411170919526_add_1000.cs" />
-    <Compile Include="Migrations\202411170919526_add_1000.designer.cs">
-      <DependentUpon>202411170919526_add_1000.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411170921554_add_1001.cs" />
-    <Compile Include="Migrations\202411170921554_add_1001.designer.cs">
-      <DependentUpon>202411170921554_add_1001.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411171318169_addTime.cs" />
-    <Compile Include="Migrations\202411171318169_addTime.designer.cs">
-      <DependentUpon>202411171318169_addTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411171319285_addTime_2.cs" />
-    <Compile Include="Migrations\202411171319285_addTime_2.designer.cs">
-      <DependentUpon>202411171319285_addTime_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411171403352_addTime_3.cs" />
-    <Compile Include="Migrations\202411171403352_addTime_3.designer.cs">
-      <DependentUpon>202411171403352_addTime_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411181320156_new_213213.cs" />
-    <Compile Include="Migrations\202411181320156_new_213213.designer.cs">
-      <DependentUpon>202411181320156_new_213213.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411181406379_new_213213123.cs" />
-    <Compile Include="Migrations\202411181406379_new_213213123.designer.cs">
-      <DependentUpon>202411181406379_new_213213123.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411181559069_new_213213123313.cs" />
-    <Compile Include="Migrations\202411181559069_new_213213123313.designer.cs">
-      <DependentUpon>202411181559069_new_213213123313.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411190736316_new_323.cs" />
-    <Compile Include="Migrations\202411190736316_new_323.designer.cs">
-      <DependentUpon>202411190736316_new_323.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411190800085_new_32341.cs" />
-    <Compile Include="Migrations\202411190800085_new_32341.designer.cs">
-      <DependentUpon>202411190800085_new_32341.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200349474_new_attribute_1.cs" />
-    <Compile Include="Migrations\202411200349474_new_attribute_1.designer.cs">
-      <DependentUpon>202411200349474_new_attribute_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200445334_add_new_231231313.cs" />
-    <Compile Include="Migrations\202411200445334_add_new_231231313.designer.cs">
-      <DependentUpon>202411200445334_add_new_231231313.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200823100_new_Booking.cs" />
-    <Compile Include="Migrations\202411200823100_new_Booking.designer.cs">
-      <DependentUpon>202411200823100_new_Booking.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200834474_new_pae.cs" />
-    <Compile Include="Migrations\202411200834474_new_pae.designer.cs">
-      <DependentUpon>202411200834474_new_pae.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200837279_new_paeas.cs" />
-    <Compile Include="Migrations\202411200837279_new_paeas.designer.cs">
-      <DependentUpon>202411200837279_new_paeas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200909416_new_paeasad.cs" />
-    <Compile Include="Migrations\202411200909416_new_paeasad.designer.cs">
-      <DependentUpon>202411200909416_new_paeasad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411200930410_new_paeasad13.cs" />
-    <Compile Include="Migrations\202411200930410_new_paeasad13.designer.cs">
-      <DependentUpon>202411200930410_new_paeasad13.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411201620104_new_23123123131.cs" />
-    <Compile Include="Migrations\202411201620104_new_23123123131.designer.cs">
-      <DependentUpon>202411201620104_new_23123123131.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202411210151016_new_23123131e31ee.cs" />
-    <Compile Include="Migrations\202411210151016_new_23123131e31ee.designer.cs">
-      <DependentUpon>202411210151016_new_23123131e31ee.cs</DependentUpon>
+    <Compile Include="Migrations\202411240305042_new_Attribute_2.cs" />
+    <Compile Include="Migrations\202411240305042_new_Attribute_2.designer.cs">
+      <DependentUpon>202411240305042_new_Attribute_2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
-    <Compile Include="Models\BookingDetail.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\DbAppContext.cs" />
+    <Compile Include="Models\DTO\BookingInfo.cs" />
+    <Compile Include="Models\DTO\PostInfoUpdate.cs" />
+    <Compile Include="Models\DTO\SignInInfo.cs" />
+    <Compile Include="Models\DTO\SignUpInfo.cs" />
+    <Compile Include="Models\DTO\TicketInfo.cs" />
+    <Compile Include="Models\PaymentCard.cs" />
     <Compile Include="Models\Schedule.cs" />
-    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Tour.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\TourPackage.cs" />
     <Compile Include="Models\TourReview.cs" />
-    <Compile Include="Models\Travler.cs" />
+    <Compile Include="Models\Traveler.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserInfoUpdate.cs" />
+    <Compile Include="Models\DTO\UserInfoUpdate.cs" />
     <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\Voucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -415,11 +261,12 @@
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
     </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -428,7 +275,9 @@
     <Folder Include="Views\api\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Booking\" />
+    <Folder Include="Views\ContactBookingInfo\" />
     <Folder Include="Views\Hangfire\" />
+    <Folder Include="Views\Payment\" />
     <Folder Include="Views\Post\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\TourPackage\" />
@@ -436,140 +285,20 @@
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202411121539086_s7.resx">
-      <DependentUpon>202411121539086_s7.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202411220334556_initial.resx">
+      <DependentUpon>202411220334556_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130145414_one_one_relation_1.resx">
-      <DependentUpon>202411130145414_one_one_relation_1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202411230342118_new_Model.resx">
+      <DependentUpon>202411230342118_new_Model.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130148270_one_one_relation_2.resx">
-      <DependentUpon>202411130148270_one_one_relation_2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202411240111436_new_Model1.resx">
+      <DependentUpon>202411240111436_new_Model1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130154508_one_one_relation_3.resx">
-      <DependentUpon>202411130154508_one_one_relation_3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202411240202126_new_Attribute_1.resx">
+      <DependentUpon>202411240202126_new_Attribute_1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130159281_one_one_relation_4.resx">
-      <DependentUpon>202411130159281_one_one_relation_4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130215042_one_one_relation_5.resx">
-      <DependentUpon>202411130215042_one_one_relation_5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130218502_one_one_relation_6.resx">
-      <DependentUpon>202411130218502_one_one_relation_6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130221593_one_one_relation_7.resx">
-      <DependentUpon>202411130221593_one_one_relation_7.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130228107_one_one_relation_8.resx">
-      <DependentUpon>202411130228107_one_one_relation_8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130321260_one_one_relation_9.resx">
-      <DependentUpon>202411130321260_one_one_relation_9.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130323317_one_one_relation_10.resx">
-      <DependentUpon>202411130323317_one_one_relation_10.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130353087_one_one_relation_11.resx">
-      <DependentUpon>202411130353087_one_one_relation_11.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130426189_one_one_relation_12.resx">
-      <DependentUpon>202411130426189_one_one_relation_12.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130452405_one_one_relation_13.resx">
-      <DependentUpon>202411130452405_one_one_relation_13.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130937192_Change_Attribute.resx">
-      <DependentUpon>202411130937192_Change_Attribute.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130946280_Change_Attribute_2.resx">
-      <DependentUpon>202411130946280_Change_Attribute_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411130959138_Change_Attribute_3.resx">
-      <DependentUpon>202411130959138_Change_Attribute_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411131003273_Change_Attribute_4.resx">
-      <DependentUpon>202411131003273_Change_Attribute_4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411140806099_contra.resx">
-      <DependentUpon>202411140806099_contra.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411141505410_update_1.resx">
-      <DependentUpon>202411141505410_update_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411141517585_update_3.resx">
-      <DependentUpon>202411141517585_update_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411141524360_update_4.resx">
-      <DependentUpon>202411141524360_update_4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411141530354_update_5.resx">
-      <DependentUpon>202411141530354_update_5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411150252471_change_null.resx">
-      <DependentUpon>202411150252471_change_null.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411170333239_new_one.resx">
-      <DependentUpon>202411170333239_new_one.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411170907296_rename_1.resx">
-      <DependentUpon>202411170907296_rename_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411170919526_add_1000.resx">
-      <DependentUpon>202411170919526_add_1000.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411170921554_add_1001.resx">
-      <DependentUpon>202411170921554_add_1001.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411171318169_addTime.resx">
-      <DependentUpon>202411171318169_addTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411171319285_addTime_2.resx">
-      <DependentUpon>202411171319285_addTime_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411171403352_addTime_3.resx">
-      <DependentUpon>202411171403352_addTime_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411181320156_new_213213.resx">
-      <DependentUpon>202411181320156_new_213213.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411181406379_new_213213123.resx">
-      <DependentUpon>202411181406379_new_213213123.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411181559069_new_213213123313.resx">
-      <DependentUpon>202411181559069_new_213213123313.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411190736316_new_323.resx">
-      <DependentUpon>202411190736316_new_323.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411190800085_new_32341.resx">
-      <DependentUpon>202411190800085_new_32341.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200349474_new_attribute_1.resx">
-      <DependentUpon>202411200349474_new_attribute_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200445334_add_new_231231313.resx">
-      <DependentUpon>202411200445334_add_new_231231313.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200823100_new_Booking.resx">
-      <DependentUpon>202411200823100_new_Booking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200834474_new_pae.resx">
-      <DependentUpon>202411200834474_new_pae.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200837279_new_paeas.resx">
-      <DependentUpon>202411200837279_new_paeas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200909416_new_paeasad.resx">
-      <DependentUpon>202411200909416_new_paeasad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411200930410_new_paeasad13.resx">
-      <DependentUpon>202411200930410_new_paeasad13.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411201620104_new_23123123131.resx">
-      <DependentUpon>202411201620104_new_23123123131.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202411210151016_new_23123131e31ee.resx">
-      <DependentUpon>202411210151016_new_23123131e31ee.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202411240305042_new_Attribute_2.resx">
+      <DependentUpon>202411240305042_new_Attribute_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

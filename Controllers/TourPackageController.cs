@@ -50,5 +50,39 @@ namespace WebBackendProject.Controllers
             var tourPackage = db.TourPackages.FirstOrDefault(model => model.Id == id);
             return Json(tourPackage, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult tourPackageVoucher(int? id) //GET: /TourPackage/vouchers/{id}
+        {
+
+            var vouchers = db.Vouchers
+        .Where(v => v.TourPackage.Id == id)
+        .Select(v => v)
+        .ToList();
+
+            if (!vouchers.Any())
+            {
+                return Json(new { message = "No voucher" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(vouchers, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetVat(int id) //GET: /TourPackage/VAT/{id}
+        {
+            var vat = db.TourPackages
+                .Where(t => t.Id == id)
+                .Select(t => t.VAT)
+                .FirstOrDefault();
+
+            if (vat == 0)
+            {
+                return Json(new { message = "No VAT" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(vat, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

@@ -68,7 +68,6 @@ namespace WebBackendProject.Controllers
             }
         }
 
-        [JwtAuthorize("admin", "user")]
         [HttpGet]
         public ActionResult getProfileByUserId(int user_id) //GET: User/profile/{user_id}
         {
@@ -217,14 +216,6 @@ namespace WebBackendProject.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult ContactInfo(int user_id) //GET: User/contact/info/{user_id}
-        {
-            return Json(new {message = "aa"}, JsonRequestBehavior.AllowGet);
-        }
-
-
-
-
+       
     }
 }

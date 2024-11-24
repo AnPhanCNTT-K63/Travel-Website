@@ -57,7 +57,6 @@ namespace WebBackendProject.Controllers
 
         }
 
-        [JwtAuthorize("admin", "user")]
         [HttpGet]
         public ActionResult tourDetail(int id) //GET: /Tour/detail/tour/{id}
         {
