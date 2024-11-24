@@ -224,3 +224,53 @@ export const restoreAccount = async (user_Id) => {
     throw error;
   }
 };
+
+export const getBookingInfo = async (tourPackageId) => {
+  try {
+    const res = await axios.get(`${API_URL}/Booking/info/${tourPackageId}`); //GET: Booking/info/{tourPackage_Id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const getContactInfo = async (user_id) => {
+  try {
+    const res = await axios.get(`${API_URL}/Booking/contact/info/${user_id}`); //GET: Booking/contact/info/{user_id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const sendBookingInfo = async (info) => {
+  try {
+    const res = await axios.post(`${API_URL}/Booking/store`, info); //POST: Booking/store
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const getVoucher = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/TourPackage/vouchers/${id}`); //GET: /TourPackage/vouchers/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const getVAT = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/TourPackage/VAT/${id}`); //GET: /TourPackage/VAT/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
