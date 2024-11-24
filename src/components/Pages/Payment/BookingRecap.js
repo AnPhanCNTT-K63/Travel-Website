@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBCol } from "mdb-react-ui-kit";
 
-export default function BookingRecap() {
+export default function BookingRecap({ paymentInfo }) {
   return (
     <MDBCol md="5" xl="4" offsetXl="1">
       <div className="py-4 d-flex justify-content-end">
@@ -47,7 +47,7 @@ export default function BookingRecap() {
         <div className="p-2 d-flex pt-3">
           <MDBCol size="8">Number of people</MDBCol>
           <div className="ms-auto">
-            <b>2</b>
+            <b>{paymentInfo.NumOfPeople}</b>
           </div>
         </div>
         <div className="p-2 d-flex">
@@ -55,16 +55,21 @@ export default function BookingRecap() {
             Price <span className="fa fa-question-circle text-dark"></span>
           </MDBCol>
           <div className="ms-auto">
-            <b>$71.76</b>
+            <b>
+              {paymentInfo.NumOfPeople} x ${paymentInfo.pricePerson} = $
+              {paymentInfo.totalTemp}
+            </b>
           </div>
         </div>
+        <div className="border-top px-2 mx-2"></div>
+
         <div className="p-2 d-flex">
           <MDBCol size="8">
             Total Discount{" "}
             <span className="fa fa-question-circle text-dark"></span>
           </MDBCol>
           <div className="ms-auto">
-            <b>-$1.76</b>
+            <b>-${paymentInfo.totalDiscount}</b>
           </div>
         </div>
         <div className="p-2 d-flex">
@@ -72,7 +77,7 @@ export default function BookingRecap() {
             VAT <span className="fa fa-question-circle text-dark"></span>
           </MDBCol>
           <div className="ms-auto">
-            <b>-$1.76</b>
+            <b>+${paymentInfo.VATCost}</b>
           </div>
         </div>
         <div className="border-top px-2 mx-2"></div>
@@ -81,7 +86,7 @@ export default function BookingRecap() {
             <b>Total</b>
           </MDBCol>
           <div className="ms-auto">
-            <b className="text-success">$85.00</b>
+            <b className="text-success">${paymentInfo.total}</b>
           </div>
         </div>
       </div>

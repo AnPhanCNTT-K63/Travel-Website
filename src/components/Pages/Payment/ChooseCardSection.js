@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 
-export default function ChooseCardSection({ paymentOptions, styles }) {
+export default function ChooseCardSection({
+  paymentOptions,
+  styles,
+  getSelectedPayment,
+}) {
   const [selectedPayment, setSelectedPayment] = useState(null); // State to manage selected payment method
-
+  getSelectedPayment(selectedPayment);
   return (
     <>
       <h5 className={`${styles.sectionTitle} pt-4 text-primary`}>
@@ -35,7 +39,7 @@ export default function ChooseCardSection({ paymentOptions, styles }) {
                 <p className="mb-0 fw-bold">{option.label}</p>
                 <div className="text-muted">
                   {option.method === "cash"
-                    ? "Pay at Delivery"
+                    ? "Pay at Ticket Checkpoint"
                     : `****${option.lastDigits}`}
                 </div>
               </div>

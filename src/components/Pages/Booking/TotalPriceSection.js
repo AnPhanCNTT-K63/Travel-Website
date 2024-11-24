@@ -11,10 +11,10 @@ import {
 
 export default function TotalPriceSection({
   ticket,
-  handleOnClick,
   total,
   discount,
   VAT,
+  handleOnclick,
   VATCost,
 }) {
   return (
@@ -88,6 +88,7 @@ export default function TotalPriceSection({
       />
       <Button
         variant="contained"
+        onClick={handleOnclick}
         sx={{
           mt: 3,
           width: "100%",
@@ -100,7 +101,6 @@ export default function TotalPriceSection({
           py: 1.5,
         }}
         size="large"
-        onClick={handleOnClick}
       >
         Proceed to Payment
       </Button>

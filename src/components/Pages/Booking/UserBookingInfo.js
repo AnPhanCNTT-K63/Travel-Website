@@ -113,19 +113,23 @@ export default function UserBookingPage() {
   const total = totalTemp - voucher + VATCost;
 
   const dataTransfer = {
-    Booking,
-    total,
+    TourPackageId: tourPackageId,
+    BookingDate: ticket.date,
+    Status: "pending",
+    NumOfPeople: ticket.travelerNum,
+    totalTemp: totalTemp,
+    VATCost: VATCost,
+    total: total,
+    totalDiscount: voucher,
+    pricePerson: ticket.price,
   };
 
   const handleOnclick = async () => {
-    if (!contactInfo.Name || !contactInfo.Phone || !contactInfo.Email) {
-      alert("Please fill in all contact information.");
-      return;
-    }
-    if (peopleInfo.some((person) => !person.name || !person.phone)) {
-      alert("Please fill in all traveler details.");
-      return;
-    }
+    console.log("a");
+    // if (!contactInfo.Name || !contactInfo.Phone || !contactInfo.Email) {
+    //   alert("Please fill in all contact information.");
+    //   return;
+    // }
 
     // try {
     //   const res = await sendBookingInfo(data);

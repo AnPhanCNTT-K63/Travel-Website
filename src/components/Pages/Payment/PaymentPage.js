@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import UserContext from "../../../UserContext";
 import {
   MDBCard,
   MDBCardBody,
@@ -12,47 +13,73 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BookingRecap from "./BookingRecap";
 import styles from "../../../styles/PaymentPage.module.css";
 import ChooseCardSection from "./ChooseCardSection";
+import { getPaymentCard } from "../../../api/services";
 
 export default function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [card, setCard] = useState([]);
   const { tourPackageId } = useParams();
+  const [selectedPayment, setSelectedPayment] = useState(null);
   const [paymentInfo, setPaymentInfo] = useState(
     location.state?.dataTransfer || {
-      Total: "",
+      NumOfPeople: "",
+      totalTemp: "",
+      VATCost: "",
+      total: "",
+      totalDiscount: "",
+      pricePerson: "",
     }
   );
-  // const [voucherCode, setVoucherCode] = useState(""); // State to manage voucher code
-  // const [selectedPayment, setSelectedPayment] = useState(null); // State to manage selected payment method
-  // const [selectedVoucher, setSelectedVoucher] = useState(null); // State to manage selected voucher
 
-  // const handleVoucherClick = (voucher) => {
-  //   setVoucherCode(voucher.code); // Set the voucher code in the state
-  //   setSelectedVoucher(voucher.code); // Set the selected voucher
-  // };
+  const data = location.state.dataTransfer;
 
-  const handleClickToQR = () => {
-    navigate(`/QR/${tourPackageId}`);
+  const dataTransfer = {
+    data,
+    selectedPayment,
   };
 
-  const paymentOptions = [
+  const getSelectedPayment = (selected) => {
+    setSelectedPayment(selected);
+  };
+
+  const handleClickToQR = () => {
+    navigate(`/QR/${tourPackageId}`, { state: { dataTransfer } });
+  };
+
+  const user = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchCard = async () => {
+      try {
+        const res = await getPaymentCard(user.userId);
+        setCard(res);
+        console.log(res);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchCard();
+  }, [user.userId]);
+
+  const predefinedPayments = [
     {
-      method: "visa",
+      method: "Visa",
       label: "Visa Debit Card",
       image: "/visa.png",
-      lastDigits: "3456",
+      lastDigits: "",
     },
     {
-      method: "mastercard",
+      method: "Mastercard",
       label: "Mastercard Office",
       image: "/mastercard.png",
-      lastDigits: "1038",
+      lastDigits: "",
     },
     {
-      method: "momo",
+      method: "Momo",
       label: "Momo Wallet",
       image: "/momo.png",
-      lastDigits: "user@email.com",
+      lastDigits: "",
     },
     {
       method: "cash",
@@ -61,6 +88,14 @@ export default function PaymentPage() {
       lastDigits: "",
     },
   ];
+
+  const paymentOptions = predefinedPayments.map((payment, index) => {
+    const cardData = card[index]; // Match card data to the predefined payment array
+    return {
+      ...payment, // Keep existing fields (label, image)
+      lastDigits: cardData?.Last4Digits || "No Data", // Update lastDigits or fallback
+    };
+  });
 
   return (
     <MDBContainer
@@ -97,6 +132,7 @@ export default function PaymentPage() {
               <ChooseCardSection
                 paymentOptions={paymentOptions}
                 styles={styles}
+                getSelectedPayment={getSelectedPayment}
               />
 
               <Button
@@ -128,7 +164,7 @@ export default function PaymentPage() {
             </MDBCol>
 
             {/* Order Recap Section */}
-            <BookingRecap />
+            <BookingRecap paymentInfo={paymentInfo} />
           </MDBRow>
         </MDBCardBody>
       </MDBCard>

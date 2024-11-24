@@ -274,3 +274,23 @@ export const getVAT = async (id) => {
     throw error;
   }
 };
+
+export const getPaymentCard = async (userId) => {
+  try {
+    const res = await axios.get(`${API_URL}/Payment/card/${userId}`); //GET: Payment/card/{userId}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const storePaymentInfo = async (id) => {
+  try {
+    const res = await axios.post(`${API_URL}/Payment/store/${id}`); //POST: Payment/store/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
