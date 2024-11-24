@@ -20,19 +20,12 @@ export default function EuropeTour({ item }) {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const text = `Miền Bắc Việt Nam là một khái niệm để chỉ vùng địa lý ở phía bắc nước Việt Nam. Tuy nhiên, tùy theo từng thời điểm lịch sử và thói quen sử dụng mà khái niệm này đôi lúc còn được dùng để chỉ các vùng lãnh thổ chính trị khác nhau một cách không chính thức.
-
-Miền Bắc Việt Nam có thể là:
-- Phân định địa lý đồng nghĩa với Bắc Bộ Việt Nam
-- Phân định địa chính trị ở phía bắc sông Gianh (nay thuộc tỉnh Quảng Bình) (Đàng Ngoài)
-- Phân định hành chính đồng nghĩa với Bắc Kỳ hay Bắc Thành của nhà Nguyễn vào thời Pháp thuộc và là một trong 3 vùng lãnh thổ chính (gồm Bắc Bộ, Trung Bộ và Nam Bộ) của Việt Nam.
-- Phân định theo Hiệp định Genève là khu vực tập kết quân sự tạm thời của Quân đội nhân dân Việt Nam và khu vực thuộc quyền quản lý hành chính tạm thời của Việt Nam Dân chủ Cộng hòa nằm phía bắc giới tuyến quân sự tạm thời là vĩ tuyến 17. Căn cứ Điều 14, Khoản a trong Hiệp định Geneve 1954, Việt Nam Dân chủ Cộng hòa có chủ quyền trên toàn bộ lãnh thổ Việt Nam, tạm thời có quyền quản lý hành chính phía bắc vĩ tuyến 17 cho tới khi tổ chức tổng tuyển cử trên toàn Việt Nam. Liên hiệp Pháp từ bỏ chủ quyền và quyền chủ quyền ở Việt Nam nhưng vẫn có quyền quản lý hành chính phía Nam vĩ tuyến 17.
-- Ngày nay, miền Bắc Việt Nam được hiểu là phần lãnh thổ các tỉnh từ Hà Giang tới Ninh Bình.`;
+  const text = `Châu Âu hay Âu Châu (tiếng Latinh: Europa, tiếng Anh: Europe) về mặt địa chất và địa lý là một bán đảo hay tiểu lục địa, hình thành nên phần cực tây của đại lục Á-Âu, hay thậm chí Âu-Phi-Á, tùy cách nhìn. Theo quy ước, nó được coi là lục địa, trong trường hợp này chỉ là sự phân biệt thuần về văn hóa hơn là địa lý. Phía Bắc giáp Bắc Băng Dương, phía Tây giáp Đại Tây Dương, phía Nam giáp Địa Trung Hải và biển Đen, tuy nhiên về phía Đông thì hiện không rõ ràng. Tuy nhiên có thể coi dãy núi Ural được coi là vùng đất với địa lý và kiến tạo rõ rệt đánh dấu ranh giới giữa châu Á và châu Âu (xem chi tiết trong bài Địa lý châu Âu). Khi được coi là lục địa thì châu Âu thuộc loại nhỏ thứ 2 thế giới về diện tích, vào khoảng 10.180.000 km², và chỉ lớn hơn Châu Đại Dương. Xét về dân số thì nó là lục địa xếp thứ 4 sau châu Á, châu Phi và châu Mỹ.`;
 
   return (
     <>
       <SlideEuropeTour />
-      <p className={styles.tilte_introduction}>NorthTour( Việt Nam )</p>
+      <p className={styles.tilte_introduction}>EuropeTour( Châu Âu )</p>
       <div role="presentation" onClick={handleClick}>
         <Breadcrumbs
           aria-label="breadcrumb"
@@ -81,7 +74,7 @@ Miền Bắc Việt Nam có thể là:
               fontWeight: "bold", // Màu và kiểu chữ cho Typography
             }}
           >
-            NorthTour
+            EuropeTour
           </Typography>
         </Breadcrumbs>
       </div>
@@ -103,7 +96,7 @@ Miền Bắc Việt Nam có thể là:
           <TipsAndUpdatesIcon />
         </div>
         <div className={styles.text}>
-          <p className={styles.mainText}>Discover NorthTour</p>
+          <p className={styles.mainText}>Discover EuropeTour</p>
           <p className={styles.subText}>
             Tour the highlights of this destination
           </p>
@@ -119,7 +112,7 @@ Miền Bắc Việt Nam có thể là:
             fontSize: "24px",
           }}
         >
-          Famous Northern tourist attractions
+          Famous Europe tourist attractions
         </h2>
         <TourSection2 />
         <hr className={styles.separator} />
@@ -131,7 +124,7 @@ Miền Bắc Việt Nam có thể là:
             fontSize: "24px",
           }}
         >
-          Famous destinations in the North
+          Famous destinations in the Europe
         </h2>
         <TourSection2 />
         <hr className={styles.separator} />
@@ -154,7 +147,7 @@ Miền Bắc Việt Nam có thể là:
           </div>
           <div className={styles.tasktext}>
             <p className={styles.mainTaskText}>
-              Travel tips when visiting Northern
+              Travel tips when visiting Europe
             </p>
             <p className={styles.subTaskText}>
               Things you need to know before coming here
@@ -189,29 +182,32 @@ Miền Bắc Việt Nam có thể là:
             <div className={styles.transportInfo}>
               {selectedOption === "Weather" && (
                 <p>
-                  Miền Bắc Việt Nam có bốn mùa rõ rệt: Xuân, Hạ, Thu, Đông. Mùa
-                  thu (tháng 9-11) với khí hậu mát mẻ và nắng dịu là thời điểm
-                  lý tưởng nhất để du lịch. Mùa đông (tháng 12-2) khá lạnh, đặc
-                  biệt tại các vùng núi như Sapa, có thể xuống dưới 0°C. Đừng
-                  quên chuẩn bị trang phục phù hợp với thời tiết!
+                  Châu Âu có khí hậu ôn đới với bốn mùa rõ rệt. Mùa xuân (tháng
+                  3-5) và mùa thu (tháng 9-11) là thời điểm lý tưởng nhất để du
+                  lịch, với thời tiết mát mẻ và cảnh sắc thiên nhiên rực rỡ. Mùa
+                  đông (tháng 12-2) là mùa của lễ hội và các hoạt động trượt
+                  tuyết, trong khi mùa hè (tháng 6-8) lại là mùa du lịch cao
+                  điểm với nhiệt độ ấm áp.
                 </p>
               )}
               {selectedOption === "Vehicles" && (
                 <p>
-                  Các phương tiện di chuyển phổ biến ở miền Bắc gồm xe khách,
-                  tàu hỏa, và máy bay. Nếu thăm Hà Nội, bạn có thể sử dụng taxi
-                  hoặc xe buýt để khám phá thành phố. Với các điểm đến như Sapa
-                  hay Hà Giang, xe máy là lựa chọn lý tưởng để chiêm ngưỡng cảnh
-                  đẹp. Hãy chọn phương tiện phù hợp với lịch trình của bạn!
+                  Châu Âu có hệ thống giao thông phát triển với tàu cao tốc, xe
+                  buýt và máy bay giá rẻ. Tàu điện ngầm là phương tiện phổ biến
+                  tại các thành phố lớn như Paris, London, hay Berlin. Để khám
+                  phá các vùng nông thôn, xe hơi hoặc xe đạp là lựa chọn lý
+                  tưởng. Hãy sử dụng thẻ Eurail để tiết kiệm chi phí khi di
+                  chuyển giữa các quốc gia!
                 </p>
               )}
               {selectedOption === "Activities" && (
                 <p>
-                  Các hoạt động nổi bật tại miền Bắc gồm trekking tại Sapa, chèo
-                  thuyền kayak ở vịnh Hạ Long, và tham quan phố cổ Hà Nội. Bạn
-                  cũng có thể khám phá các bản làng dân tộc thiểu số để trải
-                  nghiệm văn hóa đặc sắc. Đừng bỏ lỡ cơ hội thưởng thức ẩm thực
-                  địa phương như phở, bún chả, và chả cá Lã Vọng!
+                  Châu Âu nổi tiếng với các hoạt động văn hóa và lịch sử như
+                  tham quan tháp Eiffel, đấu trường La Mã Colosseum, hoặc khám
+                  phá lâu đài Neuschwanstein. Bạn cũng có thể trải nghiệm các lễ
+                  hội độc đáo như Oktoberfest ở Đức hay lễ hội ánh sáng tại
+                  Lyon. Đừng quên thử các món ăn nổi tiếng như pizza Ý, bánh
+                  sừng bò Pháp và xúc xích Đức!
                 </p>
               )}
             </div>
