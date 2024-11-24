@@ -20,19 +20,14 @@ export default function SouthTour({ item }) {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const text = `Miền Bắc Việt Nam là một khái niệm để chỉ vùng địa lý ở phía bắc nước Việt Nam. Tuy nhiên, tùy theo từng thời điểm lịch sử và thói quen sử dụng mà khái niệm này đôi lúc còn được dùng để chỉ các vùng lãnh thổ chính trị khác nhau một cách không chính thức.
+  const text = `Nam Bộ (hay còn gọi là Miền Nam) là một trong 3 miền địa lý của Việt Nam (gồm Bắc Bộ, Trung Bộ và Nam Bộ). Phần lớn địa hình Nam Bộ là đồng bằng phù sa thuộc hệ thống sông Đồng Nai và sông Cửu Long, Nam Bộ được chia làm hai vùng là Đông Nam Bộ và Đồng bằng sông Cửu Long (hay còn gọi là Tây Nam Bộ, miền Tây). Từ thế kỷ 17, Nam Bộ là phần lãnh thổ mới nhất của Việt Nam trong quá trình Nam tiến, và từng được gọi là Gia Định rồi Nam Kỳ (1832–1945). Năm 1945, nơi này được Đế quốc Việt Nam gọi là "Nam Bộ" và tên gọi này từ 1975 được tái sử dụng.
 
-Miền Bắc Việt Nam có thể là:
-- Phân định địa lý đồng nghĩa với Bắc Bộ Việt Nam
-- Phân định địa chính trị ở phía bắc sông Gianh (nay thuộc tỉnh Quảng Bình) (Đàng Ngoài)
-- Phân định hành chính đồng nghĩa với Bắc Kỳ hay Bắc Thành của nhà Nguyễn vào thời Pháp thuộc và là một trong 3 vùng lãnh thổ chính (gồm Bắc Bộ, Trung Bộ và Nam Bộ) của Việt Nam.
-- Phân định theo Hiệp định Genève là khu vực tập kết quân sự tạm thời của Quân đội nhân dân Việt Nam và khu vực thuộc quyền quản lý hành chính tạm thời của Việt Nam Dân chủ Cộng hòa nằm phía bắc giới tuyến quân sự tạm thời là vĩ tuyến 17. Căn cứ Điều 14, Khoản a trong Hiệp định Geneve 1954, Việt Nam Dân chủ Cộng hòa có chủ quyền trên toàn bộ lãnh thổ Việt Nam, tạm thời có quyền quản lý hành chính phía bắc vĩ tuyến 17 cho tới khi tổ chức tổng tuyển cử trên toàn Việt Nam. Liên hiệp Pháp từ bỏ chủ quyền và quyền chủ quyền ở Việt Nam nhưng vẫn có quyền quản lý hành chính phía Nam vĩ tuyến 17.
-- Ngày nay, miền Bắc Việt Nam được hiểu là phần lãnh thổ các tỉnh từ Hà Giang tới Ninh Bình.`;
+Thời Pháp thuộc, Nam Bộ là một xứ thuộc địa với tên gọi Nam Kỳ, vốn xuất hiện từ thời vua Minh Mạng của Nhà Nguyễn. Tên gọi Nam Bộ ra đời từ thời Đế quốc Việt Nam năm 1945. Nam Bộ còn được gọi là Nam Việt (1949-1954) và sau đấy là Nam Phần (1954-1975) thời Quốc gia Việt Nam và Việt Nam Cộng hòa.[1]`;
 
   return (
     <>
       <SlideSouthTour />
-      <p className={styles.tilte_introduction}>NorthTour( Việt Nam )</p>
+      <p className={styles.tilte_introduction}>SouthTour( Việt Nam )</p>
       <div role="presentation" onClick={handleClick}>
         <Breadcrumbs
           aria-label="breadcrumb"
@@ -81,7 +76,7 @@ Miền Bắc Việt Nam có thể là:
               fontWeight: "bold", // Màu và kiểu chữ cho Typography
             }}
           >
-            NorthTour
+            SouthTour
           </Typography>
         </Breadcrumbs>
       </div>
@@ -103,7 +98,7 @@ Miền Bắc Việt Nam có thể là:
           <TipsAndUpdatesIcon />
         </div>
         <div className={styles.text}>
-          <p className={styles.mainText}>Discover NorthTour</p>
+          <p className={styles.mainText}>Discover SouthTour</p>
           <p className={styles.subText}>
             Tour the highlights of this destination
           </p>
@@ -119,7 +114,7 @@ Miền Bắc Việt Nam có thể là:
             fontSize: "24px",
           }}
         >
-          Famous Northern tourist attractions
+          Famous Southern tourist attractions
         </h2>
         <TourSection2 />
         <hr className={styles.separator} />
@@ -131,7 +126,7 @@ Miền Bắc Việt Nam có thể là:
             fontSize: "24px",
           }}
         >
-          Famous destinations in the North
+          Famous destinations in the South
         </h2>
         <TourSection2 />
         <hr className={styles.separator} />
@@ -154,7 +149,7 @@ Miền Bắc Việt Nam có thể là:
           </div>
           <div className={styles.tasktext}>
             <p className={styles.mainTaskText}>
-              Travel tips when visiting Northern
+              Travel tips when visiting Southern
             </p>
             <p className={styles.subTaskText}>
               Things you need to know before coming here
@@ -189,29 +184,30 @@ Miền Bắc Việt Nam có thể là:
             <div className={styles.transportInfo}>
               {selectedOption === "Weather" && (
                 <p>
-                  Miền Bắc Việt Nam có bốn mùa rõ rệt: Xuân, Hạ, Thu, Đông. Mùa
-                  thu (tháng 9-11) với khí hậu mát mẻ và nắng dịu là thời điểm
-                  lý tưởng nhất để du lịch. Mùa đông (tháng 12-2) khá lạnh, đặc
-                  biệt tại các vùng núi như Sapa, có thể xuống dưới 0°C. Đừng
-                  quên chuẩn bị trang phục phù hợp với thời tiết!
+                  Miền Nam Việt Nam có hai mùa rõ rệt: mùa mưa (tháng 5-11) và
+                  mùa khô (tháng 12-4). Mùa khô là thời điểm lý tưởng nhất để
+                  tham quan, với thời tiết nắng đẹp và ít mưa. Nhiệt độ ở miền
+                  Nam thường ổn định, dao động từ 25-35°C. Đừng quên mang mũ,
+                  kính râm và kem chống nắng để bảo vệ cơ thể khi khám phá!
                 </p>
               )}
               {selectedOption === "Vehicles" && (
                 <p>
-                  Các phương tiện di chuyển phổ biến ở miền Bắc gồm xe khách,
-                  tàu hỏa, và máy bay. Nếu thăm Hà Nội, bạn có thể sử dụng taxi
-                  hoặc xe buýt để khám phá thành phố. Với các điểm đến như Sapa
-                  hay Hà Giang, xe máy là lựa chọn lý tưởng để chiêm ngưỡng cảnh
-                  đẹp. Hãy chọn phương tiện phù hợp với lịch trình của bạn!
+                  Các phương tiện phổ biến để di chuyển tại miền Nam gồm xe
+                  khách, tàu hỏa, máy bay, và xe máy. Tại TP. Hồ Chí Minh, bạn
+                  có thể sử dụng xe buýt, taxi, hoặc xe máy công nghệ để di
+                  chuyển linh hoạt. Với các địa điểm như miền Tây hay Phú Quốc,
+                  xe khách và tàu cao tốc là lựa chọn hợp lý. Hãy lên kế hoạch
+                  để tận hưởng chuyến đi của bạn!
                 </p>
               )}
               {selectedOption === "Activities" && (
                 <p>
-                  Các hoạt động nổi bật tại miền Bắc gồm trekking tại Sapa, chèo
-                  thuyền kayak ở vịnh Hạ Long, và tham quan phố cổ Hà Nội. Bạn
-                  cũng có thể khám phá các bản làng dân tộc thiểu số để trải
-                  nghiệm văn hóa đặc sắc. Đừng bỏ lỡ cơ hội thưởng thức ẩm thực
-                  địa phương như phở, bún chả, và chả cá Lã Vọng!
+                  Miền Nam có nhiều hoạt động thú vị như tham quan chợ nổi Cái
+                  Răng, khám phá rừng tràm Trà Sư, và thư giãn trên các bãi biển
+                  ở Phú Quốc hay Vũng Tàu. Bạn cũng có thể trải nghiệm cuộc sống
+                  đồng quê tại miền Tây sông nước và thưởng thức các món đặc sản
+                  như hủ tiếu, cá kho tộ, và bánh xèo Nam Bộ!
                 </p>
               )}
             </div>

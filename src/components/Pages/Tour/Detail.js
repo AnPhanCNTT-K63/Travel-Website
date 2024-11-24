@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTourDetail } from "../../../api/services";
 import TourCard from "./MainTour/Card";
+import DetailCard from "./DetailCard";
 
 export default function DetailPage() {
   const { tourId } = useParams();
@@ -25,7 +26,7 @@ export default function DetailPage() {
   if (!tour) return <div>No tour found.</div>;
   return (
     <div>
-      <TourCard item={tour} />
+      <DetailCard/>
     </div>
   );
 }
