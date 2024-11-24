@@ -17,31 +17,47 @@ import { getContactInfo } from "../../../api/services";
 
 export default function ContactInfo({ setContactInformation }) {
   const user = useContext(UserContext);
-  const [contactInfo, setContactInfo] = useState({});
+  const [contactInfo, setContactInfo] = useState({
+    Name: "",
+    Phone: "",
+    Email: "",
+  });
+  const [isEditingContact, setIsEditingContact] = useState(false);
 
+  // Fetch contact info when component mounts
   useEffect(() => {
-    const getContact = async () => {
-      const res = await getContactInfo(user.userId);
-      setContactInfo(res);
+    const fetchContactInfo = async () => {
+      try {
+        const res = await getContactInfo(user.userId);
+        setContactInfo(res);
+        setContactInformation(res);
+      } catch (error) {
+        console.error("Failed to fetch contact info:", error);
+      }
     };
-    getContact();
-  }, [user.userId]);
+    fetchContactInfo();
+  }, [user.userId, setContactInformation]);
 
-  useEffect(() => {
-    if (contactInfo.Name) {
-      setContactInformation(contactInfo);
-    }
-  }, [contactInfo, setContactInformation]);
-
+  // Save contact changes
   const handleSaveContact = () => {
     setIsEditingContact(false);
+    // Add API call for saving updates here
   };
 
-  const [isEditingContact, setIsEditingContact] = useState(false);
+  // Rendered JSX
   return (
-    <Card sx={{ mb: 4, boxShadow: 4, border: "1px solid #bbdefb" }}>
+    <Card
+      sx={{
+        mb: 4,
+        boxShadow: 4,
+        border: "1px solid #bbdefb",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
+    >
       <CardHeader
-        title="Contact Information (your information or someone we can contact to confirm)"
+        title="Contact Information"
+        subheader="Your information or someone we can contact to confirm."
         avatar={<Person sx={{ color: "#1e88e5" }} />}
         action={
           isEditingContact && (
@@ -52,12 +68,16 @@ export default function ContactInfo({ setContactInformation }) {
             </Tooltip>
           )
         }
-        sx={{ background: "#e3f2fd" }}
+        sx={{
+          background: "#e3f2fd",
+          py: 2,
+          "& .MuiCardHeader-title": { fontWeight: "bold", fontSize: "1.2rem" },
+        }}
       />
       <Divider sx={{ backgroundColor: "#90caf9" }} />
       <CardContent>
         {isEditingContact ? (
-          <Box>
+          <Box component="form" noValidate autoComplete="off">
             <TextField
               label="Full Name"
               value={contactInfo.Name}
@@ -94,9 +114,15 @@ export default function ContactInfo({ setContactInformation }) {
           </Box>
         ) : (
           <Box>
-            <Typography variant="h6">Name: {contactInfo.Name}</Typography>
-            <Typography variant="h6">Phone: {contactInfo.Phone}</Typography>
-            <Typography variant="h6">Email: {contactInfo.Email}</Typography>
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              <strong>Name:</strong> {contactInfo.Name || "Not provided"}
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              <strong>Phone:</strong> {contactInfo.Phone || "Not provided"}
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              <strong>Email:</strong> {contactInfo.Email || "Not provided"}
+            </Typography>
             <Button
               variant="outlined"
               onClick={() => setIsEditingContact(true)}
@@ -104,6 +130,7 @@ export default function ContactInfo({ setContactInformation }) {
                 mt: 2,
                 color: "#0d47a1",
                 borderColor: "#0d47a1",
+                fontWeight: "bold",
                 "&:hover": {
                   backgroundColor: "#0d47a1",
                   color: "#fff",

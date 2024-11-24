@@ -254,3 +254,23 @@ export const sendBookingInfo = async (info) => {
     throw error;
   }
 };
+
+export const getVoucher = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/TourPackage/vouchers/${id}`); //GET: /TourPackage/vouchers/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const getVAT = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/TourPackage/VAT/${id}`); //GET: /TourPackage/VAT/{id}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};

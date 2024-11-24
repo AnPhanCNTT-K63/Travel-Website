@@ -1,95 +1,144 @@
 import React from "react";
 import {
+  Box,
+  Card,
   Typography,
   Divider,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-  Box,
+  Avatar,
+  Stack,
+  Link,
 } from "@mui/material";
-import {
-  LocalOffer,
-  CalendarToday,
-  People,
-  Sync,
-  MonetizationOn,
-  Info,
-} from "@mui/icons-material";
+import { AccessTime, Person, Event, Info } from "@mui/icons-material";
 
-export default function Ticket({ ticket }) {
+export default function Ticket({ ticket, tourPackageId }) {
   return (
     <Card
       sx={{
-        mb: 4,
-        borderRadius: 3,
+        maxWidth: 400,
+        p: 2,
+        borderRadius: 2,
         boxShadow: 3,
-        bgcolor: "#f9f9f9",
+        bgcolor: "background.paper",
+        border: "1px solid",
+        borderColor: "divider",
       }}
     >
-      <CardHeader
-        title="Ticket Information"
-        avatar={<LocalOffer fontSize="large" sx={{ color: "#4caf50" }} />}
-        titleTypographyProps={{
-          variant: "h5",
-          fontWeight: "bold",
-          color: "primary",
+      {/* Header */}
+      <Typography
+        variant="h6"
+        fontWeight="bold"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          color: "error.main",
+          mb: 2,
         }}
-      />
-      <Divider />
-      <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Info sx={{ color: "#3f51b5", mr: 1 }} />
-              <Typography variant="h6" component="span">
-                <strong>TourPackage:</strong> {ticket.name}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Info sx={{ color: "#3f51b5", mr: 1 }} />
-              <Typography variant="h6" component="span">
-                <strong>Description:</strong> {ticket.description}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex" alignItems="center">
-              <CalendarToday sx={{ color: "#ff5722", mr: 1 }} />
-              <Typography variant="body1">
-                <strong>Date of Travel:</strong> {ticket.date}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex" alignItems="center">
-              <People sx={{ color: "#2196f3", mr: 1 }} />
-              <Typography variant="body1">
-                <strong>Number of Travelers:</strong> {ticket.travelerNum}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex" alignItems="center">
-              <Sync sx={{ color: "#9c27b0", mr: 1 }} />
-              <Typography variant="body1">
-                <strong>Can Change Schedule:</strong>{" "}
-                {ticket.isChangeSchedule ? "Yes" : "No"}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex" alignItems="center">
-              <MonetizationOn sx={{ color: "#4caf50", mr: 1 }} />
-              <Typography variant="body1">
-                <strong>Refundable:</strong> {ticket.isRefund ? "Yes" : "No"}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </CardContent>
+      >
+        <Info fontSize="small" sx={{ mr: 1 }} /> Booking Summary
+      </Typography>
+
+      {/* Content */}
+      <Stack direction="row" spacing={2} mb={2}>
+        <Avatar
+          src={`/${ticket.image || "default-image.jpg"}`} // Fallback for missing image
+          alt={ticket.name || "Ticket Image"}
+          variant="square"
+          sx={{ width: 170, height: 100, borderRadius: 2 }}
+        />
+        <Box>
+          <Typography
+            variant="subtitle1"
+            fontWeight="bold"
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              color: "text.primary",
+            }}
+          >
+            {ticket.name || "No Name Available"}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {ticket.description || "No description provided."}
+          </Typography>
+        </Box>
+      </Stack>
+
+      <Divider sx={{ mb: 2 }} />
+
+      {/* Booking Details */}
+      <Stack spacing={1.5}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Event fontSize="small" sx={{ color: "primary.main" }} />
+          <Typography variant="body2" fontWeight="bold">
+            Day of Travel
+          </Typography>
+          <Typography variant="body2">
+            {ticket.date || "Date not specified"}
+          </Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Person fontSize="small" sx={{ color: "primary.main" }} />
+          <Typography variant="body2" fontWeight="bold">
+            Apply for
+          </Typography>
+          <Typography variant="body2">
+            People: {ticket.travelerNum || 0}
+          </Typography>
+        </Stack>
+      </Stack>
+
+      <Divider sx={{ my: 2 }} />
+
+      {/* Additional Details */}
+      <Stack spacing={1}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <AccessTime fontSize="small" sx={{ color: "primary.main" }} />
+          <Typography variant="body2">
+            Effective on {ticket.date || "N/A"}
+          </Typography>
+        </Stack>
+        {[
+          {
+            label: "Refunds",
+            condition: ticket.isRefund,
+            positive: "Can Refunds",
+            negative: "No refunds",
+          },
+          {
+            label: "Change Schedule",
+            condition: ticket.isChangeSchedule,
+            positive: "Can Change Schedule",
+            negative: "Can't Change Schedule",
+          },
+        ].map((detail, index) => (
+          <Stack direction="row" alignItems="center" spacing={1} key={index}>
+            <Info fontSize="small" sx={{ color: "primary.main" }} />
+            <Typography
+              variant="body2"
+              color={detail.condition ? "success.main" : "error.main"}
+            >
+              {detail.condition ? detail.positive : detail.negative}
+            </Typography>
+          </Stack>
+        ))}
+      </Stack>
+
+      {/* Footer */}
+      <Typography
+        variant="caption"
+        sx={{ display: "block", mt: 2, color: "primary.main" }}
+      >
+        For more details of this ticket,{" "}
+        <Link
+          component="a"
+          href={`/booking/${tourPackageId}`}
+          underline="hover"
+          color="primary"
+        >
+          Please see here.
+        </Link>
+      </Typography>
     </Card>
   );
 }

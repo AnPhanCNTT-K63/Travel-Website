@@ -30,6 +30,7 @@ const BookingPage = () => {
     const fetchingBooking = async () => {
       try {
         const res = await getBookingInfo(tourPackageId);
+        console.log(res);
         setTourPackage(res.tourPackage || {});
         setTourDates(res.formatDate || []);
         setTotalQuantity(res.totalQuantity || 0);
@@ -49,6 +50,7 @@ const BookingPage = () => {
     isRefund: tourPackage.IsRefund,
     price: tourPackage.Price,
     totalPrice: totalPrice,
+    image: tourPackage.Image,
   };
 
   return (

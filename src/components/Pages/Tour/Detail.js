@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTourDetail } from "../../../api/services";
-import TourCard from "./Card";
+import TourCard from "./MainTour/Card";
 
 export default function DetailPage() {
   const { tourId } = useParams();

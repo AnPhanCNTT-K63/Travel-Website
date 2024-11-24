@@ -1,198 +1,134 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  MDBBtn,
   MDBCard,
   MDBCardBody,
   MDBCol,
   MDBContainer,
   MDBIcon,
-  MDBRadio,
   MDBRow,
 } from "mdb-react-ui-kit";
+import { Button } from "@mui/material";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import BookingRecap from "./BookingRecap";
+import styles from "../../../styles/PaymentPage.module.css";
+import ChooseCardSection from "./ChooseCardSection";
 
 export default function PaymentPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { tourPackageId } = useParams();
+  const [paymentInfo, setPaymentInfo] = useState(
+    location.state?.dataTransfer || {
+      Total: "",
+    }
+  );
+  // const [voucherCode, setVoucherCode] = useState(""); // State to manage voucher code
+  // const [selectedPayment, setSelectedPayment] = useState(null); // State to manage selected payment method
+  // const [selectedVoucher, setSelectedVoucher] = useState(null); // State to manage selected voucher
+
+  // const handleVoucherClick = (voucher) => {
+  //   setVoucherCode(voucher.code); // Set the voucher code in the state
+  //   setSelectedVoucher(voucher.code); // Set the selected voucher
+  // };
+
+  const handleClickToQR = () => {
+    navigate(`/QR/${tourPackageId}`);
+  };
+
+  const paymentOptions = [
+    {
+      method: "visa",
+      label: "Visa Debit Card",
+      image: "/visa.png",
+      lastDigits: "3456",
+    },
+    {
+      method: "mastercard",
+      label: "Mastercard Office",
+      image: "/mastercard.png",
+      lastDigits: "1038",
+    },
+    {
+      method: "momo",
+      label: "Momo Wallet",
+      image: "/momo.png",
+      lastDigits: "user@email.com",
+    },
+    {
+      method: "cash",
+      label: "Cash Payment",
+      image: "/cash.png",
+      lastDigits: "",
+    },
+  ];
+
   return (
-    <MDBContainer fluid className="p-5" style={{ backgroundColor: "#eee" }}>
-      <MDBCard>
+    <MDBContainer
+      fluid
+      className={`p-5 ${styles.pageBackground}`}
+      style={{
+        minHeight: "100vh",
+      }}
+    >
+      <MDBCard
+        className={`${styles.cardWithShadow} rounded-5`}
+        style={{ backgroundColor: "#f0f2f5" }}
+      >
         <MDBCardBody>
           <MDBRow className="d-flex justify-content-center pb-5">
+            {/* Payment Section */}
             <MDBCol md="7" xl="5" className="mb-4 mb-md-0">
-              <div className="py-4 d-flex flex-row">
-                <h5>
-                  <span className="far fa-check-square pe-2"></span>
-                  <b>ELIGIBLE</b> |
+              <div className="py-4 d-flex flex-row align-items-center">
+                <h5 className={styles.eligibility}>
+                  <MDBIcon
+                    fas
+                    icon="check-circle"
+                    className="pe-2 text-success"
+                  />
+                  <b>ELIGIBLE</b>
                 </h5>
-                <span className="ps-2">Pay</span>
+                <span className="ps-2 text-muted">| Pay</span>
               </div>
-              <h4 className="text-success">$85.00</h4>
-              <h4>Diabetes Pump &amp; Supplies</h4>
-              <div className="d-flex pt-2">
-                <div>
-                  <p>
-                    <b>
-                      Insurance Responsibility{" "}
-                      <span className="text-success">$71.76</span>
-                    </b>
-                  </p>
-                </div>
-                <div className="ms-auto">
-                  <p className="text-primary">
-                    <MDBIcon
-                      fas
-                      icon="plus-circle"
-                      className="text-primary pe-1"
-                    />
-                    Add insurance card
-                  </p>
-                </div>
-              </div>
-              <p>
-                Insurance claims and all necessary dependencies will be
-                submitted to your insurer for the coverred portion of this order
-              </p>
-              <div
-                className="rounded d-flex"
-                style={{ backgroundColor: "#f8f9fa" }}
+              <h4 className={`${styles.paymentAmount} text-success fw-bold`}>
+                ${paymentInfo.total}
+              </h4>
+
+              {/* Choose Card Section */}
+              <ChooseCardSection
+                paymentOptions={paymentOptions}
+                styles={styles}
+              />
+
+              <Button
+                onClick={handleClickToQR}
+                block
+                size="lg"
+                className="mt-4 fw-bold"
+                style={{
+                  backgroundColor: "#2575fc",
+                  color: "white",
+                  borderRadius: "8px",
+                  padding: "12px 20px",
+                  border: "none",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#1e63db";
+                  e.currentTarget.style.boxShadow =
+                    "0 6px 10px rgba(0, 0, 0, 0.2)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#2575fc";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 6px rgba(0, 0, 0, 0.1)";
+                }}
               >
-                <div className="p-2">Aetna-Open Access</div>
-                <div className="ms-auto p-2">OAP</div>
-              </div>
-              <hr />
-              <div className="pt-2">
-                <div className="d-flex pb-2">
-                  <div>
-                    <p>
-                      <b>
-                        Patient Balance{" "}
-                        <span className="text-success">$13.24</span>
-                      </b>
-                    </p>
-                  </div>
-                  <div className="ms-auto">
-                    <p className="text-primary">
-                      <MDBIcon
-                        fas
-                        icon="plus-circle"
-                        className="text-primary pe-1"
-                      />
-                      Add payment card
-                    </p>
-                  </div>
-                </div>
-                <p>
-                  This is an estimate for the portion of your order (not covered
-                  by insurance) due today . once insurance finalizes their
-                  review refunds and/or balances will reconcile automatically.
-                </p>
-                <div className="d-flex flex-row pb-3">
-                  <div className="d-flex align-items-center pe-2">
-                    <MDBRadio name="radioNoLabel" id="radioNoLabel1" checked />
-                  </div>
-                  <div className="rounded border d-flex w-100 p-3 align-items-center">
-                    <p className="mb-0">
-                      <MDBIcon
-                        fab
-                        icon="cc-visa"
-                        size="lg"
-                        className="text-primary pe-2"
-                      />{" "}
-                      Visa Debit Card
-                    </p>
-                    <div className="ms-auto">************3456</div>
-                  </div>
-                </div>
-                <div className="d-flex flex-row pb-3">
-                  <div className="d-flex align-items-center pe-2">
-                    <MDBRadio name="radioNoLabel" id="radioNoLabel1" checked />
-                  </div>
-                  <div className="rounded border d-flex w-100 p-3 align-items-center">
-                    <p className="mb-0">
-                      <MDBIcon
-                        fab
-                        icon="cc-mastercard"
-                        size="lg"
-                        className="text-dark pe-2"
-                      />{" "}
-                      Mastercard Office
-                    </p>
-                    <div className="ms-auto">************1038</div>
-                  </div>
-                </div>
-                <MDBBtn block size="lg">
-                  Proceed to payment
-                </MDBBtn>
-              </div>
+                Proceed to Payment
+              </Button>
             </MDBCol>
-            <MDBCol md="5" xl="4" offsetXl="1">
-              {" "}
-              <div className="py-4 d-flex justify-content-end">
-                <h6>
-                  <a href="#!">Cancel and return to website</a>
-                </h6>
-              </div>
-              <div
-                className="rounded d-flex flex-column p-2"
-                style={{ backgroundColor: "#f8f9fa" }}
-              >
-                <div className="p-2 me-3">
-                  <h4>Order Recap</h4>
-                </div>
-                <div className="p-2 d-flex">
-                  <MDBCol size="8">Contracted Price</MDBCol>
-                  <div className="ms-auto">$186.76</div>
-                </div>
-                <div className="p-2 d-flex">
-                  <MDBCol size="8">Amount toward deductible</MDBCol>
-                  <div className="ms-auto">$0.00</div>
-                </div>
-                <div className="p-2 d-flex">
-                  <MDBCol size="8">Coinsurance(0%)</MDBCol>
-                  <div className="ms-auto">+ $0.00</div>
-                </div>
-                <div className="p-2 d-flex">
-                  <MDBCol size="8">Copayment</MDBCol>
-                  <div className="ms-auto">+ $40.00</div>
-                </div>
-                <div className="border-top px-2 mx-2"></div>
-                <div className="p-2 d-flex pt-3">
-                  <MDBCol size="8">
-                    Total Deductible, Coinsurance, and Copay
-                  </MDBCol>
-                  <div className="ms-auto">$40.00</div>
-                </div>
-                <div className="p-2 d-flex">
-                  <MDBCol size="8">
-                    Maximum out-of-pocket on Insurance Policy (not reached)
-                  </MDBCol>
-                  <div className="ms-auto">$6500.00</div>
-                </div>
-                <div className="border-top px-2 mx-2"></div>
-                <div className="p-2 d-flex pt-3">
-                  <MDBCol size="8">Insurance Responsibility</MDBCol>
-                  <div className="ms-auto">
-                    <b>$71.76</b>
-                  </div>
-                </div>
-                <div className="p-2 d-flex">
-                  <MDBCol size="8">
-                    Patient Balance{" "}
-                    <span className="fa fa-question-circle text-dark"></span>
-                  </MDBCol>
-                  <div className="ms-auto">
-                    <b>$71.76</b>
-                  </div>
-                </div>
-                <div className="border-top px-2 mx-2"></div>
-                <div className="p-2 d-flex pt-3">
-                  <MDBCol size="8">
-                    <b>Total</b>
-                  </MDBCol>
-                  <div className="ms-auto">
-                    <b className="text-success">$85.00</b>
-                  </div>
-                </div>
-              </div>
-            </MDBCol>
+
+            {/* Order Recap Section */}
+            <BookingRecap />
           </MDBRow>
         </MDBCardBody>
       </MDBCard>
