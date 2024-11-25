@@ -9,6 +9,9 @@ namespace WebBackendProject.Models
 {
     public class Booking
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; }
         public DateTime BookingDate { get; set; }
         public string Status { get; set; }
         public int NumOfPeople { get; set; }
@@ -19,7 +22,6 @@ namespace WebBackendProject.Models
         public ICollection<Traveler> Travelers { get; set; }
         public Contact Contact { get; set; }
             
-        [Key]
         [ForeignKey("TourPackage")]
         public int TourPackageId { get; set; }
         public TourPackage TourPackage { get; set; }

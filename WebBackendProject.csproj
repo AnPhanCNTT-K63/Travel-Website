@@ -233,12 +233,22 @@
     <Compile Include="Migrations\202411240305042_new_Attribute_2.designer.cs">
       <DependentUpon>202411240305042_new_Attribute_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411250121432_new_one_1.cs" />
+    <Compile Include="Migrations\202411250121432_new_one_1.designer.cs">
+      <DependentUpon>202411250121432_new_one_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411250122389_new_one_2.cs" />
+    <Compile Include="Migrations\202411250122389_new_one_2.designer.cs">
+      <DependentUpon>202411250122389_new_one_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\DbAppContext.cs" />
     <Compile Include="Models\DTO\BookingInfo.cs" />
+    <Compile Include="Models\DTO\MyBooking.cs" />
+    <Compile Include="Models\DTO\PaymentInfo.cs" />
     <Compile Include="Models\DTO\PostInfoUpdate.cs" />
     <Compile Include="Models\DTO\SignInInfo.cs" />
     <Compile Include="Models\DTO\SignUpInfo.cs" />
@@ -299,6 +309,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411240305042_new_Attribute_2.resx">
       <DependentUpon>202411240305042_new_Attribute_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411250121432_new_one_1.resx">
+      <DependentUpon>202411250121432_new_one_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411250122389_new_one_2.resx">
+      <DependentUpon>202411250122389_new_one_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -122,6 +122,23 @@ namespace WebBackendProject
        );
 
             routes.MapRoute(
+           name: "GetPaymentCard",
+           url: "Payment/card/{userId}",
+           defaults: new { controller = "Payment", action = "getPaymentCard" }
+       );
+            routes.MapRoute(
+           name: "StorePayment",
+           url: "Payment/store",
+           defaults: new { controller = "Payment", action = "storePaymentInfo" }
+       );
+
+            routes.MapRoute(
+           name: "GetUserBooking",
+           url: "Booking/user/{userId}",
+           defaults: new { controller = "Booking", action = "getMyBooking" }
+       );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Hangfire", action = "ShowProcess", id = UrlParameter.Optional }

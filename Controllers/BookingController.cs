@@ -81,6 +81,13 @@ namespace WebBackendProject.Controllers
                 db.SaveChanges();
 
                 var contact = info.Contact;
+                if (contact == null)
+                {
+                    return Json(new
+                    {
+                        message = "Contact information is required."
+                    }, JsonRequestBehavior.AllowGet);
+                }
                 contact.Booking = booking;
                 db.Contacts.Add(contact);
 
@@ -106,6 +113,37 @@ namespace WebBackendProject.Controllers
             }
         }
 
+        private List<MyBooking> setMyBooking(int userId)
+        {
+            var bookings = db.Bookings
+                .Include(b => b.TourPackage)
+                .Where(b => b.User.Id == userId)
+                .Select(b => b).ToList();
+
+            var myBookings = new List<MyBooking>();
+
+            foreach(var booking in bookings)
+            {
+                var mappedBooking = new MyBooking
+                {
+                    Id = booking.Id,
+                    Name = booking.TourPackage.Name,
+                    Price = booking.TourPackage.Price,
+                    Status = booking.Status,
+                };
+
+                myBookings.Add(mappedBooking);
+            }
+
+            return myBookings;
+        }
+
+        [HttpGet]
+        public ActionResult getMyBooking(int userId) //GET: Booking/user/{userId}
+        {
+            var bookings = setMyBooking(userId);
+            return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
 
 
 

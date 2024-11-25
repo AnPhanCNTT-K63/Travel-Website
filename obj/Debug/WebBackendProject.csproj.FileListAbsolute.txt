@@ -290,3 +290,5 @@ D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_Model1.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_Attribute_1.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_Attribute_2.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one_1.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one_2.resources

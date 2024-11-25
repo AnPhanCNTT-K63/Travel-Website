@@ -68,7 +68,7 @@ namespace WebBackendProject.Controllers
             return Json(vouchers, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
+        [HttpGet]   
         public ActionResult GetVat(int id) //GET: /TourPackage/VAT/{id}
         {
             var vat = db.TourPackages
