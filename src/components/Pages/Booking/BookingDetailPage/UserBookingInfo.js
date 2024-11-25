@@ -125,12 +125,12 @@ export default function UserBookingPage() {
   };
 
   const handleOnclick = async () => {
-    // try {
-    //   const res = await sendBookingInfo(data);
-    //   console.log(res);
-    // } catch (err) {
-    //   console.error("Error when sending booking info: ", err);
-    // }
+    try {
+      const res = await sendBookingInfo(data);
+      console.log(res);
+    } catch (err) {
+      console.error("Error when sending booking info: ", err);
+    }
 
     navigate(`/payment/${tourPackageId}`, { state: { dataTransfer } });
     window.location.reload();

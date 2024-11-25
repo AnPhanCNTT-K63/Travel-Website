@@ -6,36 +6,36 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import StarIcon from "@mui/icons-material/Star";
 import Box from "@mui/material/Box";
-import StarHalfIcon from '@mui/icons-material/StarHalf';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 export default function TourCard({ item }) {
   return (
-    <Card sx={{ marginLeft: "100px", width: "100%", height: "100%" , marginTop:"50px"}}>
+    <Card
+      sx={{
+        marginLeft: "100px",
+        width: "100%",
+        height: "100%",
+        marginTop: "50px",
+      }}
+    >
       <CardMedia
-
-
         sx={{ height: "180px ", width: "100%", objectFit: "cover" }}
-        image={""}
-
-
+        image={`/${item.Image}`}
         title="green iguana"
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-       
-        </Typography>
+        <Typography gutterBottom variant="h5" component="div"></Typography>
 
-
-        <Typography variant="body2" sx={{ height: 50, color: "text.secondary" }}>
-         
-
-        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ height: 50, color: "text.secondary" }}
+        ></Typography>
       </CardContent>
       <CardActions>
         <Box sx={{ width: "100%" }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            <span style={{ fontWeight: "bold" }}>Price:</span>
+            <span style={{ fontWeight: "bold" }}>Price: {item.MinPrice}</span>
             <Box component="span" sx={{ ml: 1 }}>
               $
             </Box>
@@ -45,8 +45,8 @@ export default function TourCard({ item }) {
             <StarIcon sx={{ color: "gold" }} />
             <StarIcon sx={{ color: "gold" }} />
             <StarIcon sx={{ color: "gold" }} />
-            <StarHalfIcon sx={{ color : "gold"}} />
-            <StarBorderIcon sx={{ color : "gold"}} />
+            <StarHalfIcon sx={{ color: "gold" }} />
+            <StarBorderIcon sx={{ color: "gold" }} />
           </Box>
         </Box>
       </CardActions>

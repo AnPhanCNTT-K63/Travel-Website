@@ -1,4 +1,4 @@
-import TourCard from "./Card";
+import TourCard from "./MainTour/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -14,6 +14,7 @@ export default function ListCard() {
       try {
         const data = await getTours();
         setTours(data);
+        console.log(data);
       } catch (err) {
         console.log(err);
       }

@@ -1,71 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import PurchaseCard from "./PurchaseCard";
-import { Link } from "@mui/material";
 import styles from "../../../../styles/MyBookingPage.module.css";
-
-// Simulating fetched booking data (this could be replaced with an API call)
-const sampleBookings = [
-  {
-    id: "1201176040",
-    title: "Sun World Ba Na Hills in Da Nang",
-    status: "Awaiting Selection of Payment Method · 27:09",
-    isPaid: false,
-  },
-  {
-    id: "1201176041",
-    title: "Nguyen Dynasty Tour",
-    status: "Paid · 0:00",
-    isPaid: true,
-  },
-  {
-    id: "1201176042",
-    title: "Hoi An Ancient Town",
-    status: "Awaiting Selection of Payment Method · 12:35",
-    isPaid: false,
-  },
-];
+import { getMyBooking } from "../../../../api/services";
+import Commercial from "./Commercial";
+import NotFoundBooking from "./NotFoundBooking";
+import TimerContext from "../../../../TimerContext";
 
 export default function MyBookingPage() {
   const location = useLocation();
+  const { userId } = useParams();
   const [bookings, setBookings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const {
+    timeRemaining,
+    setTimeRemaining,
+    timerExpired,
+    setTimerExpired,
+    setTimerActive,
+  } = useContext(TimerContext);
+
+  const detailOnclick = (tourPackageId, bookingData) => {
+    navigate(`/payment/${tourPackageId}`, {
+      state: {
+        dataTransfer: bookingData,
+      },
+    });
+  };
 
   useEffect(() => {
-    // Simulating fetching booking data.
-    setTimeout(() => {
+    setTimerActive(true); // Start the timer when the page is loaded
+    const fetchMyBooking = async () => {
       try {
-        setBookings(sampleBookings);
+        setIsLoading(true);
+        const res = await getMyBooking(userId);
+        setBookings(res);
       } catch (err) {
         setError("Failed to load bookings.");
       } finally {
         setIsLoading(false);
       }
-    }, 1000); // Simulate a delay for fetching data
-  }, []);
+    };
+    fetchMyBooking();
+
+    // Clean up the timer when the component is unmounted
+    return () => {
+      setTimerActive(false); // Stop the timer when leaving the page
+    };
+  }, [userId, setTimerActive]);
 
   return (
     <div className={styles.page}>
-      <div className={styles.leftSide}>
-        <img
-          src="/app.png" // Image uploaded by the user
-          alt="How to Download App"
-          style={{ objectFit: "cover" }}
-          className={styles.instructionImage}
-        />
-        <h2 className={styles.instructionTitle}>
-          How to Buy VVBA Gift Voucher
-        </h2>
-        <ol className={styles.instructionList}>
-          <li>Choose the occasion</li>
-          <li>Select design, amount, and delivery method</li>
-          <li>Review and proceed to payment</li>
-        </ol>
-        <Link href="https://www.traveloka.com/en-id" className={styles.link}>
-          Corporate Gift Vouchers also available here.
-        </Link>
-      </div>
+      <Commercial />
 
       <div className={styles.rightSide}>
         <h1 className={styles.pageTitle}>My Bookings</h1>
@@ -82,24 +71,22 @@ export default function MyBookingPage() {
         ) : bookings.length > 0 ? (
           <div className={styles.bookingList}>
             {bookings.map((booking) => (
-              <PurchaseCard styles={styles} booking={booking} />
+              <PurchaseCard
+                key={booking.Id}
+                styles={styles}
+                booking={booking}
+                detailOnclick={() =>
+                  detailOnclick(booking.TourPackageId, booking)
+                }
+                timeRemained={timeRemaining}
+                timerExpire={timerExpired}
+                getTimeRemaining={setTimeRemaining}
+                getTimerExpired={setTimerExpired}
+              />
             ))}
           </div>
         ) : (
-          <div className={styles.noBookingsContainer}>
-            <img
-              src="/NoBooking.png" // Add a nice placeholder image
-              alt="No bookings"
-              style={{ width: "100%" }}
-              className={styles.noBookingsImage}
-            />
-            <p className={styles.noBookings}>
-              You haven't made any bookings yet. Explore some amazing tours!
-            </p>
-            <Link to="/tours" className={styles.exploreToursButton}>
-              Explore Tours
-            </Link>
-          </div>
+          <NotFoundBooking styles={styles} />
         )}
       </div>
     </div>

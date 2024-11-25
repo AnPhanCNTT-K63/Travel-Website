@@ -294,3 +294,13 @@ export const storePaymentInfo = async (info) => {
     throw error;
   }
 };
+
+export const getMyBooking = async (userId) => {
+  try {
+    const res = await axios.get(`${API_URL}/Booking/user/${userId}`); //GET: Booking/user/{userId}
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};

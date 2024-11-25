@@ -77,7 +77,6 @@ function Navigation() {
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
-        <Route path="/user/booking" element={<MyBookingPage />} />
 
         {user.role == "admin" && (
           <>
@@ -95,6 +94,7 @@ function Navigation() {
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
+        <Route path="/user/booking/:userId" element={<MyBookingPage />} />
         <Route path="/QR/:tourPackageId" element={<QRPaymentPage />} />
         <Route path="/payment/:tourPackageId" element={<PaymentPage />} />
         <Route path="/booking/:tourPackageId" element={<BookingPage />} />

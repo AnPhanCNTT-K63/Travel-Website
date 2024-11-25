@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import styles from "../../../../styles/PaymentPage.module.css";
 
-export default function CountdownSection({ getTimerExpired, getTimeRemain }) {
-  const [timeRemaining, setTimeRemaining] = useState(30 * 60);
-  const [timerExpired, setTimerExpired] = useState(false);
+export default function CountdownSection({
+  getTimerExpired,
+  getTimeRemain,
+  timeRemained,
+  timerExpiring,
+}) {
+  const [timeRemaining, setTimeRemaining] = useState(timeRemained);
+  const [timerExpired, setTimerExpired] = useState(timerExpiring);
   getTimerExpired(timerExpired);
   getTimeRemain(timeRemaining);
   useEffect(() => {
@@ -17,7 +22,7 @@ export default function CountdownSection({ getTimerExpired, getTimeRemain }) {
     } else {
       setTimerExpired(true);
     }
-  }, [timeRemaining]);
+  }, [timeRemaining, setTimeRemaining, setTimerExpired]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);

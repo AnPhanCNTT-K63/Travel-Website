@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserContext from "../../../../UserContext";
+import TimerContext from "../../../../TimerContext";
 import {
   MDBCard,
   MDBCardBody,
@@ -23,6 +24,8 @@ export default function PaymentPage() {
   const [card, setCard] = useState([]);
   const { tourPackageId } = useParams();
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const { timeRemaining, setTimeRemaining, timerExpired, setTimerExpired } =
+    useContext(TimerContext);
   const [paymentInfo, setPaymentInfo] = useState(
     location.state?.dataTransfer || {
       NumOfPeople: "",
@@ -34,14 +37,22 @@ export default function PaymentPage() {
     }
   );
 
-  const dataContain = location.state.dataTransferm;
+  useEffect(() => {
+    if (!timeRemaining && location.state?.timeRemaining) {
+      setTimeRemaining(location.state.timeRemaining);
+    }
+    if (!timerExpired && location.state?.timerExpired) {
+      setTimerExpired(location.state.timerExpired);
+    }
+  }, [location.state, setTimeRemaining, setTimerExpired]);
 
-  const [timerExpired, setTimerExpired] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(30 * 60);
+  const dataContain = location.state.dataTransfer;
 
   const dataToTranfer = {
+    tourPackageId,
     dataContain,
     timeRemaining,
+    timerExpired,
   };
 
   const getTimerExpired = (timerExpired) => {
@@ -147,7 +158,7 @@ export default function PaymentPage() {
   };
 
   const handleCancle = () => {
-    navigate("/user/booking", { state: { dataToTranfer } });
+    navigate(`/user/booking/${user.userId}`, { state: { dataToTranfer } });
   };
 
   return (
@@ -167,8 +178,10 @@ export default function PaymentPage() {
             <MDBRow className="d-flex justify-content-center pb-5">
               {/* Countdown Timer */}
               <CountdownSection
-                getTimerExpired={getTimerExpired}
-                getTimeRemain={getTimeRemain}
+                getTimerExpired={setTimerExpired}
+                getTimeRemain={setTimeRemaining}
+                timeRemained={timeRemaining}
+                timerExpiring={timerExpired}
               />
               {/* Payment Section */}
               <MDBCol md="7" xl="5" className="mb-4 mb-md-0">
