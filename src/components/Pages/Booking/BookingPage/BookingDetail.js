@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 export default function BookingDetail({
   tourDates,
@@ -27,6 +28,21 @@ export default function BookingDetail({
 
   const totalPrice = quantity * tourPackage?.Price;
   setTotal(totalPrice);
+
+  const handleBookNow = () => {
+    if (!selectedDate) {
+      // Display SweetAlert2 warning if no date is selected
+      Swal.fire({
+        title: "Please choose a travel date",
+        icon: "warning",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#1976d2",
+      });
+    } else {
+      // Proceed with the booking logic
+      handleClickBook();
+    }
+  };
 
   return (
     <Paper elevation={8} sx={{ p: 4, borderRadius: 2, boxShadow: 5 }}>
@@ -93,45 +109,66 @@ export default function BookingDetail({
         <Typography
           variant="h6"
           gutterBottom
-          sx={{ color: "#455a64", fontWeight: "600" }}
+          sx={{
+            color: "#455a64",
+            fontWeight: "600",
+            textAlign: "center",
+          }}
         >
           Selected Date
         </Typography>
-        <TextField
-          value={
-            selectedDate
-              ? new Date(selectedDate).toLocaleDateString()
-              : "No date selected"
-          }
-          fullWidth
-          disabled
+        <Box
           sx={{
-            "& .Mui-disabled": { color: "#616161" },
-            backgroundColor: "#f1f1f1",
-            borderRadius: "20px",
-            padding: "12px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "60px",
+            borderRadius: "12px",
+            border: "1px solid #ddd",
+            backgroundColor: "#f9f9f9",
+            color: selectedDate ? "#1976d2" : "#757575",
             fontWeight: "500",
+            fontSize: "18px",
+            padding: "8px 16px",
+            boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
           }}
-        />
+        >
+          {selectedDate
+            ? new Date(selectedDate).toLocaleDateString("en-US", {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })
+            : "No date selected"}
+        </Box>
       </Box>
 
-      {/* Part 3: Price / Person */}
-      <Box sx={{ mb: 5 }}>
+      {/* Part 3: Price per Person */}
+      <Box
+        sx={{ mb: 5, backgroundColor: "#e3f2fd", p: 2, borderRadius: "10px" }}
+      >
         <Typography
           variant="h6"
           gutterBottom
-          sx={{ color: "#455a64", fontWeight: "600" }}
+          sx={{ color: "#1976d2", fontWeight: "600", fontSize: "20px" }}
         >
           Price per Person
         </Typography>
-        <Typography variant="h10">
+        <Typography variant="body2" sx={{ color: "#455a64" }}>
           (If you are a group of more than 10 people, please contact us for the
           best price.)
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography
-            variant="h5"
-            sx={{ flex: 1, fontWeight: "600", color: "#1976d2" }}
+            variant="h4"
+            sx={{
+              flex: 1,
+              fontWeight: "700",
+              color: "#1976d2",
+              fontSize: "24px",
+            }}
           >
             ${tourPackage?.Price}
           </Typography>
@@ -160,12 +197,10 @@ export default function BookingDetail({
               <Add />
             </IconButton>
           </Box>
-          <Typography variant="body2" sx={{ color: "#455a64" }}>
-            Remaining: {totalQuantity ? totalQuantity : "N/A"}
-          </Typography>
         </Box>
-
-        {/* Remaining Quantity */}
+        <Typography variant="body2" sx={{ color: "#455a64" }}>
+          Remaining: {totalQuantity ? totalQuantity : "N/A"}
+        </Typography>
       </Box>
 
       {/* Part 4: Total Price and Book Button */}
@@ -191,7 +226,7 @@ export default function BookingDetail({
           color="primary"
           fullWidth
           size="large"
-          onClick={() => handleClickBook()}
+          onClick={handleBookNow} // Use the new function to handle booking
           sx={{
             mt: 2,
             backgroundColor: "#1976d2",

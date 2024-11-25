@@ -26,12 +26,14 @@ import NotFoundPage from "../../view/NotFoundPage";
 import AccountPage from "../Pages/Account/AccountPage";
 import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
 import UserContext from "../../UserContext";
-import BookingPage from "../Pages/Booking/BookingPage";
+import BookingPage from "../Pages/Booking/BookingPage/BookingPage";
 import UserManagementPage from "../Admin/UserManagement/UserManagement";
-import UserBookingPage from "../Pages/Booking/UserBookingInfo";
-import PaymentPage from "../Pages/Payment/PaymentPage";
-import AddPaymemt from "../Pages/Payment/AddPayment";
-import QRPaymentPage from "../Pages/Payment/QRPaymentPage";
+import UserBookingPage from "../Pages/Booking/BookingDetailPage/UserBookingInfo";
+import PaymentPage from "../Pages/Payment/PaymentPage/PaymentPage";
+import AddPaymemt from "../Pages/Payment/AddPaymentPage/AddPayment";
+import QRPaymentPage from "../Pages/Payment/QRPage/QRPaymentPage";
+import ScrollToTop from "./ScrollToTop";
+import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
 
 function Navigation() {
   const location = useLocation();
@@ -64,6 +66,7 @@ function Navigation() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
@@ -74,6 +77,7 @@ function Navigation() {
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
+        <Route path="/user/booking" element={<MyBookingPage />} />
 
         {user.role == "admin" && (
           <>

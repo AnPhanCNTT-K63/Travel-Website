@@ -4,11 +4,7 @@ import { MDBCol } from "mdb-react-ui-kit";
 export default function BookingRecap({ paymentInfo }) {
   return (
     <MDBCol md="5" xl="4" offsetXl="1">
-      <div className="py-4 d-flex justify-content-end">
-        <h6>
-          <a href="#!">Cancel and return to website</a>
-        </h6>
-      </div>
+      <div className="py-4 d-flex justify-content-end"></div>
       <div
         className="rounded d-flex flex-column p-2"
         style={{ backgroundColor: "#f8f9fa" }}

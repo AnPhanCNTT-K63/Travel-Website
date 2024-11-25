@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Typography, Divider } from "@mui/material";
 import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router-dom";
-import { storePaymentInfo } from "../../../api/services";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { storePaymentInfo } from "../../../../api/services";
 
-export default function ConfirmSection() {
+export default function ConfirmSection({ data }) {
   const navigate = useNavigate();
-  const { tourPackageId } = useParams();
+  const location = useLocation();
+
+  const paymentInfo = {
+    PaymentMethod: data.selectedPayment,
+    PaymentAmount: data.data.total,
+    PaymentStatus: "pending",
+    // TransactionId: "",
+    BookingId: data.data.TourPackageId,
+    BookingDate: data.data.BookingDate,
+  };
+
   const onClickAccept = async () => {
     // Swal.fire({
     //   title: "Confirm Payment?",
@@ -31,14 +41,13 @@ export default function ConfirmSection() {
     // });
 
     try {
-      const res = await storePaymentInfo(tourPackageId);
+      const res = await storePaymentInfo(paymentInfo);
       console.log(res);
     } catch (err) {
       console.error("Error sending: ", err);
     }
+    ///console.log(paymentInfo);
   };
-
-  const paymentInfo = {};
 
   return (
     <Box

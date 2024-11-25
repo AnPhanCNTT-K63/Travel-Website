@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { getBookingInfo } from "../../../api/services";
+import { getBookingInfo } from "../../../.././api/services";
 import PackageInfo from "./PackageInfo";
 import BookingDetail from "./BookingDetail";
 

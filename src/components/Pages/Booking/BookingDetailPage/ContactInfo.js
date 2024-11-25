@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import UserContext from "../../../UserContext";
+import UserContext from "../../../../UserContext";
 import {
   Box,
   Typography,
@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Edit, Save, Person } from "@mui/icons-material";
-import { getContactInfo } from "../../../api/services";
+import { getContactInfo } from "../../../../api/services";
 
 export default function ContactInfo({ setContactInformation }) {
   const user = useContext(UserContext);
@@ -22,9 +22,10 @@ export default function ContactInfo({ setContactInformation }) {
     Phone: "",
     Email: "",
   });
+  setContactInformation(contactInfo);
+
   const [isEditingContact, setIsEditingContact] = useState(false);
 
-  // Fetch contact info when component mounts
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {

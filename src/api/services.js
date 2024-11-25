@@ -285,9 +285,9 @@ export const getPaymentCard = async (userId) => {
   }
 };
 
-export const storePaymentInfo = async (id) => {
+export const storePaymentInfo = async (info) => {
   try {
-    const res = await axios.post(`${API_URL}/Payment/store/${id}`); //POST: Payment/store/{id}
+    const res = await axios.post(`${API_URL}/Payment/store`, info); //POST: Payment/store
     return res.data;
   } catch (error) {
     console.error("Error: ", error);

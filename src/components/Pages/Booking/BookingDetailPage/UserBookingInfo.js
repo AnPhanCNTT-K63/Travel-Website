@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import UserContext from "../../../UserContext";
+import UserContext from "../../../../UserContext";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { Box, Typography, Grid } from "@mui/material";
 import Ticket from "./Ticket";
 import TotalPriceSection from "./TotalPriceSection";
 import ContactInfo from "./ContactInfo";
 import TravelerInfo from "./TravelerInfo";
-import { getVAT, getVoucher, sendBookingInfo } from "../../../api/services";
+import { getVAT, getVoucher, sendBookingInfo } from "../../../../api/services";
 import ChooseVoucherSection from "./ChooseVoucherSection";
-import styles from "../../../styles/PaymentPage.module.css";
+import styles from "../../../../styles/PaymentPage.module.css";
 
 // Custom hook for fetching data
 const useFetchData = (fetchFunction, dependency) => {
@@ -125,37 +125,63 @@ export default function UserBookingPage() {
   };
 
   const handleOnclick = async () => {
-    console.log("a");
-    // if (!contactInfo.Name || !contactInfo.Phone || !contactInfo.Email) {
-    //   alert("Please fill in all contact information.");
-    //   return;
-    // }
-
     // try {
     //   const res = await sendBookingInfo(data);
     //   console.log(res);
     // } catch (err) {
-    //   console.log(err);
+    //   console.error("Error when sending booking info: ", err);
     // }
 
     navigate(`/payment/${tourPackageId}`, { state: { dataTransfer } });
+    window.location.reload();
   };
 
   return (
     <Box sx={{ p: 20, minHeight: "100vh" }}>
-      <Typography
-        variant="h3"
-        gutterBottom
-        align="center"
+      <Box
         sx={{
-          fontWeight: "bold",
-          color: "#0d47a1",
+          p: 4,
           mb: 4,
-          textShadow: "1px 1px 3px rgba(0,0,0,0.2)",
+          marginTop: "-100px",
+          borderRadius: "8px",
+          background: "linear-gradient(to right, #0d47a1, #1976d2)",
+          color: "white",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+          textAlign: "center",
         }}
       >
-        Booking Details
-      </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: "bold",
+            mb: 1,
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)",
+            fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+          }}
+        >
+          Booking Details
+        </Typography>
+
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontSize: { xs: "1rem", sm: "1.2rem" },
+            fontStyle: "italic",
+            opacity: 0.9,
+          }}
+        >
+          Review and confirm your details before proceeding
+        </Typography>
+        <Box
+          sx={{
+            mt: 3,
+            height: "3px",
+            backgroundColor: "white",
+            width: "50%",
+            margin: "0 auto",
+          }}
+        />
+      </Box>
 
       <Grid container spacing={4}>
         {/* Left Section: User Info */}

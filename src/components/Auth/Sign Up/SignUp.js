@@ -142,7 +142,7 @@ export default function SignUp() {
       const user = await signup(data);
       console.log(data);
 
-      console.log(user);
+      // console.log(user);
       if (
         user.error ===
         "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days"

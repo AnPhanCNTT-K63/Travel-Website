@@ -82,7 +82,7 @@ export default function QRPaymentPage() {
         <QRCodeSection data={data} />
 
         {/* Confirmation Section */}
-        <ConfirmSection />
+        <ConfirmSection data={data} />
       </Box>
 
       {/* Payment Details Section */}

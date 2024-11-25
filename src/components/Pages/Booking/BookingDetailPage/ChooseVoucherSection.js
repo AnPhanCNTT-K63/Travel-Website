@@ -31,20 +31,33 @@ export default function ChooseVoucherSection({
       transition: "background-color 0.3s, box-shadow 0.3s",
     },
     selected: {
-      backgroundColor: "#d1e7ff",
-      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+      backgroundColor: "#d8f3dc", // Soft green for a positive and elegant highlight
+      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
     },
     default: {
-      backgroundColor: "#f1f4f6",
+      backgroundColor: "#f8f9fa", // Subtle light gray
     },
+  };
+
+  const sectionBackgroundStyle = {
+    backgroundColor: "#fdfdfd", // Clean white with a slight warmth
+    borderRadius: "16px",
+    padding: "20px",
+    boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.05)", // Subtle shadow for depth
+    border: "1px solid #e9ecef", // Soft border for structure
+  };
+
+  const titleStyle = {
+    fontWeight: "bold",
+    color: "#495057", // Neutral dark gray for readability
   };
 
   return (
     <>
-      <h5 className={`${styles.sectionTitle} pt-5 text-primary`}>
+      <h5 className={`${styles.sectionTitle} pt-5`} style={titleStyle}>
         Choose a Voucher
       </h5>
-      <div className="pt-3">
+      <div className="pt-3" style={sectionBackgroundStyle}>
         {vouchers.map((voucher) => (
           <div
             key={voucher.Code}
@@ -63,12 +76,18 @@ export default function ChooseVoucherSection({
               fas
               icon="ticket-alt"
               size="lg"
-              className="text-warning pe-2"
+              className="text-primary pe-2" // Changed to a calm blue
             />
-            <p className="mb-0">
+            <p
+              className="mb-0"
+              style={{ color: "#343a40", fontSize: "0.95rem" }}
+            >
               {voucher.Title} - Code: <b>{voucher.Code}</b>
             </p>
-            <div className="ms-auto text-success fw-bold">
+            <div
+              className="ms-auto text-success fw-bold"
+              style={{ fontSize: "0.9rem" }}
+            >
               -${voucher.Discount}
             </div>
           </div>
@@ -81,8 +100,10 @@ export default function ChooseVoucherSection({
           className="mt-3"
           style={{
             borderRadius: "10px",
-            border: "1px solid #ced4da",
+            border: "1px solid #dee2e6", // Neutral gray for contrast
             padding: "10px",
+            backgroundColor: "#ffffff", // Clean white
+            color: "#495057", // Dark gray for better readability
           }}
         />
       </div>
