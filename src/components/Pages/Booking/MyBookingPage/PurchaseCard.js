@@ -3,8 +3,29 @@ import classNames from "classnames";
 import TimerContext from "../../../../TimerContext";
 
 const PurchaseCard = ({ styles, booking, detailOnclick }) => {
-  const { timeRemaining, setTimeRemaining, timerExpired, setTimerExpired } =
-    useContext(TimerContext);
+  const { getTimer, updateTimer } = useContext(TimerContext);
+
+  const { timeRemaining, timerExpired } = getTimer(booking.Id);
+
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timer = setInterval(() => {
+        updateTimer(booking.Id, timeRemaining - 1, false);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (!timerExpired) {
+      updateTimer(booking.Id, 0, true);
+    }
+  }, [timeRemaining, timerExpired, booking.Id, updateTimer]);
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -17,20 +38,6 @@ const PurchaseCard = ({ styles, booking, detailOnclick }) => {
       default:
         return "";
     }
-  };
-
-  useEffect(() => {
-    if (timeRemaining <= 0) {
-      setTimerExpired(true);
-    }
-  }, [timeRemaining, setTimerExpired]);
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
   };
 
   return (

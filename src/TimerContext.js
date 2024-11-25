@@ -1,49 +1,44 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
+// Create the context
 const TimerContext = createContext();
 
+// TimerProvider Component
 export const TimerProvider = ({ children }) => {
-  const [timeRemaining, setTimeRemaining] = useState(
-    parseInt(localStorage.getItem("timeRemaining")) || 300 // 5 minutes default
-  );
-  const [timerExpired, setTimerExpired] = useState(false);
-  const [timerActive, setTimerActive] = useState(false); // Track if the timer is active
+  const [timers, setTimers] = useState({});
 
-  // Start the timer when it's active
-  useEffect(() => {
-    if (timerActive && timeRemaining > 0) {
-      const timer = setInterval(() => {
-        setTimeRemaining((prevTime) => {
-          const newTime = prevTime - 1;
-          if (newTime <= 0) {
-            setTimerExpired(true);
-            clearInterval(timer);
-            return 0;
-          }
-          return newTime;
-        });
-      }, 1000);
+  const setTimerForBooking = (bookingId, duration) => {
+    setTimers((prev) => ({
+      ...prev,
+      [bookingId]: { timeRemaining: duration, timerExpired: false },
+    }));
+  };
 
-      // Save to localStorage every second
-      return () => clearInterval(timer);
-    } else if (timeRemaining <= 0) {
-      setTimerExpired(true);
-    }
-  }, [timeRemaining, timerActive]);
+  const updateTimer = (bookingId, timeRemaining, timerExpired) => {
+    setTimers((prev) => ({
+      ...prev,
+      [bookingId]: { timeRemaining, timerExpired },
+    }));
+  };
 
-  // Persist timeRemaining in localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("timeRemaining", timeRemaining);
-  }, [timeRemaining]);
+  const setTimerExpired = (bookingId) => {
+    setTimers((prev) => ({
+      ...prev,
+      [bookingId]: { ...prev[bookingId], timerExpired: true },
+    }));
+  };
+
+  const getTimer = (bookingId) => {
+    return timers[bookingId] || { timeRemaining: 0, timerExpired: false };
+  };
 
   return (
     <TimerContext.Provider
       value={{
-        timeRemaining,
-        setTimeRemaining,
-        timerExpired,
+        setTimerForBooking,
+        updateTimer,
         setTimerExpired,
-        setTimerActive, // Provide a way to control the timer active state
+        getTimer,
       }}
     >
       {children}

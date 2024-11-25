@@ -15,13 +15,7 @@ export default function MyBookingPage() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const {
-    timeRemaining,
-    setTimeRemaining,
-    timerExpired,
-    setTimerExpired,
-    setTimerActive,
-  } = useContext(TimerContext);
+  const { setTimerForBooking } = useContext(TimerContext);
 
   const detailOnclick = (tourPackageId, bookingData) => {
     navigate(`/payment/${tourPackageId}`, {
@@ -32,25 +26,27 @@ export default function MyBookingPage() {
   };
 
   useEffect(() => {
-    setTimerActive(true); // Start the timer when the page is loaded
     const fetchMyBooking = async () => {
       try {
         setIsLoading(true);
         const res = await getMyBooking(userId);
         setBookings(res);
+
+        // Set timers for bookings with pending status
+        res.forEach((booking) => {
+          if (booking.Status === "Pending") {
+            setTimerForBooking(booking.Id, 300); // Set 5 minutes for pending bookings
+          }
+        });
       } catch (err) {
         setError("Failed to load bookings.");
       } finally {
         setIsLoading(false);
       }
     };
-    fetchMyBooking();
 
-    // Clean up the timer when the component is unmounted
-    return () => {
-      setTimerActive(false); // Stop the timer when leaving the page
-    };
-  }, [userId, setTimerActive]);
+    fetchMyBooking();
+  }, [userId, setTimerForBooking]);
 
   return (
     <div className={styles.page}>
@@ -78,10 +74,6 @@ export default function MyBookingPage() {
                 detailOnclick={() =>
                   detailOnclick(booking.TourPackageId, booking)
                 }
-                timeRemained={timeRemaining}
-                timerExpire={timerExpired}
-                getTimeRemaining={setTimeRemaining}
-                getTimerExpired={setTimerExpired}
               />
             ))}
           </div>
