@@ -34,7 +34,7 @@ const ShippingAddress = ({ onSubmit }) => {
         <Box sx={{ minWidth: '50%', padding: 2, maxWidth: '50%' }}>
             <Paper sx={{ padding: 2 }}>
                 <Typography variant="h6" gutterBottom>
-                    Shipping Address
+                    ____
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={2}>

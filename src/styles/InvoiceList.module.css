@@ -1,0 +1,85 @@
+.container {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 300px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.viewAllButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.viewAllButton:hover {
+    background-color: #0056b3;
+}
+
+.invoiceList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.invoiceItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.invoiceItem:last-child {
+    border-bottom: none;
+}
+
+.date {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.id {
+    font-size: 12px;
+    color: #555;
+    margin: 0;
+}
+
+.amountContainer {
+    display: flex;
+    align-items: center;
+}
+
+.amount {
+    font-size: 14px;
+    margin: 0;
+    margin-right: 8px;
+}
+
+.pdfLink {
+    font-size: 12px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.pdfLink:hover {
+    text-decoration: underline;
+}

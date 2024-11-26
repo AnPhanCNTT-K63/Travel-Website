@@ -12,10 +12,10 @@ const OrderSummary = ({ order }) => {
     const total = subtotal + taxes;
 
     return (
-        <Box sx={{ width: '100%', padding: 2 }}>
+        <Box sx={{ width: '80%', padding: 2 }}>
             <Paper sx={{ padding: 2 }}>
                 <Typography variant="h6" gutterBottom>
-                    Order Summary
+                    Transaction History
                 </Typography>
 
                 {/* Lặp qua danh sách sản phẩm để hiển thị thông tin */}
@@ -43,9 +43,9 @@ const OrderSummary = ({ order }) => {
                             </Grid>
                             <Grid item xs={2}>
                                 <Typography variant="body1" color="textSecondary">
-                                    Quantity:
+                                    Purchase Date:
                                 </Typography>
-                                <Typography variant="body1">{product.quantity}</Typography>
+                                <Typography variant="body1">{product.PurchaseDate}</Typography>
                             </Grid>
                             <Grid item xs={2}>
                                 <Typography variant="body1" color="textSecondary">
