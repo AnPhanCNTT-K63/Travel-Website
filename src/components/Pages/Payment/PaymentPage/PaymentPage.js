@@ -24,8 +24,13 @@ export default function PaymentPage() {
   const [card, setCard] = useState([]);
   const { bookingId } = useParams();
   const [selectedPayment, setSelectedPayment] = useState(null);
-  const { timeRemaining, setTimeRemaining, timerExpired, setTimerExpired } =
-    useContext(TimerContext);
+  const {
+    timeRemaining,
+    setTimeRemaining,
+    timerExpired,
+    setTimerExpired,
+    stopTimer,
+  } = useContext(TimerContext);
   const [paymentInfo, setPaymentInfo] = useState(
     location.state?.dataTransfer || {
       NumOfPeople: "",
@@ -36,14 +41,13 @@ export default function PaymentPage() {
       pricePerson: "",
     }
   );
-
   useEffect(() => {
     if (timerExpired) {
       const updateStatus = async () => {
         try {
           const res = await setStatus({
             bookingId: bookingId,
-            status: "Cancel",
+            status: "cancel",
           });
           console.log("Status updated:", res);
         } catch (err) {
@@ -65,8 +69,6 @@ export default function PaymentPage() {
   }, [location.state, setTimeRemaining, setTimerExpired]);
 
   const dataContain = location.state?.dataTransfer;
-
-  localStorage.setItem("dataTransfer", JSON.stringify(dataContain));
 
   const dataToTranfer = {
     dataContain,
@@ -161,6 +163,7 @@ export default function PaymentPage() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
+        stopTimer();
         handleClickToQR();
       }
     });
@@ -217,7 +220,7 @@ export default function PaymentPage() {
                 />
 
                 <Button
-                  onClick={handleProceedToPayment} // Use SweetAlert2 confirmation before proceeding
+                  onClick={handleProceedToPayment}
                   block
                   size="lg"
                   className="mt-4 fw-bold"

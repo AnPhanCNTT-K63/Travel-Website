@@ -61,7 +61,7 @@ const PurchaseCard = ({
         <span
           className={classNames(styles.status, getStatusClass(booking.Status))}
         >
-          {booking.Status === "Pending" &&
+          {booking.Status === "pending" &&
             `${
               timerExpired
                 ? "⚠️ Payment Cancelled"
@@ -70,7 +70,7 @@ const PurchaseCard = ({
           {booking.Status === "Paid" && "Payment Successful"}
         </span>
       </div>
-      {booking.Status === "Pending" && (
+      {booking.Status === "pending" && (
         <div className={styles.footer}>
           <span className={styles.seeDetails} onClick={detailOnclick}>
             See Details
@@ -78,7 +78,7 @@ const PurchaseCard = ({
           <span className={styles.dot}></span>
         </div>
       )}
-      {booking.Status === "Paid" && (
+      {booking.Status === "paid" && (
         <div className={styles.footer}>
           <span className={styles.seeDetails} onClick={seeTicketOnclick}>
             Click here to see Your Ticket
@@ -86,7 +86,7 @@ const PurchaseCard = ({
           <span className={styles.dot}></span>
         </div>
       )}
-      {booking.Status === "Cancel" && (
+      {booking.Status === "cancel" && (
         <div className={styles.footer}>
           <span className={styles.seeDetails} onClick={deleteOnclick}>
             Payment has been Cancelled

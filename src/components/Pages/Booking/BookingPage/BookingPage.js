@@ -25,7 +25,7 @@ const BookingPage = () => {
 
   const handleClickBook = async () => {
     try {
-      const res = await checkStatus();
+      const res = await checkStatus(user.userId);
       if (res.message === "Has booking Pending") {
         Swal.fire({
           title: "Pending Payment Detected",
