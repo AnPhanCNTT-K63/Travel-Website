@@ -8,22 +8,30 @@ import NotFoundBooking from "./NotFoundBooking";
 import TimerContext from "../../../../TimerContext";
 
 export default function MyBookingPage() {
-  const location = useLocation();
   const { userId } = useParams();
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const storedData = JSON.parse(localStorage.getItem("dataTransfer"));
+  const dataTransfer = storedData;
+
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const { setTimerForBooking } = useContext(TimerContext);
+  const { timeRemaining, setTimeRemaining, timerExpired, setTimerExpired } =
+    useContext(TimerContext);
 
-  const detailOnclick = (tourPackageId, bookingData) => {
-    navigate(`/payment/${tourPackageId}`, {
+  const detailOnclick = (bookingId) => {
+    navigate(`/payment/${bookingId}`, {
       state: {
-        dataTransfer: bookingData,
+        dataTransfer,
       },
     });
   };
+
+  const seeTicketOnclick = () => {};
+
+  const deleteOnclick = () => {};
 
   useEffect(() => {
     const fetchMyBooking = async () => {
@@ -31,22 +39,14 @@ export default function MyBookingPage() {
         setIsLoading(true);
         const res = await getMyBooking(userId);
         setBookings(res);
-
-        // Set timers for bookings with pending status
-        res.forEach((booking) => {
-          if (booking.Status === "Pending") {
-            setTimerForBooking(booking.Id, 300); // Set 5 minutes for pending bookings
-          }
-        });
       } catch (err) {
         setError("Failed to load bookings.");
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchMyBooking();
-  }, [userId, setTimerForBooking]);
+  }, [userId]);
 
   return (
     <div className={styles.page}>
@@ -71,9 +71,13 @@ export default function MyBookingPage() {
                 key={booking.Id}
                 styles={styles}
                 booking={booking}
-                detailOnclick={() =>
-                  detailOnclick(booking.TourPackageId, booking)
-                }
+                detailOnclick={() => detailOnclick(booking.Id)}
+                timeRemained={timeRemaining}
+                timerExpire={timerExpired}
+                getTimeRemaining={setTimeRemaining}
+                getTimerExpired={setTimerExpired}
+                seeTicketOnclick={seeTicketOnclick}
+                deleteOnclick={deleteOnclick}
               />
             ))}
           </div>

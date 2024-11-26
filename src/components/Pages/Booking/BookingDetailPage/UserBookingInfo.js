@@ -34,6 +34,7 @@ export default function UserBookingPage() {
   const location = useLocation();
   const user = useContext(UserContext);
   const { tourPackageId } = useParams();
+  const [bookingId, setBookingId] = useState(0);
   const navigate = useNavigate();
 
   // States
@@ -127,14 +128,23 @@ export default function UserBookingPage() {
   const handleOnclick = async () => {
     try {
       const res = await sendBookingInfo(data);
+      setBookingId(res);
       console.log(res);
     } catch (err) {
       console.error("Error when sending booking info: ", err);
     }
-
-    navigate(`/payment/${tourPackageId}`, { state: { dataTransfer } });
-    window.location.reload();
   };
+
+  localStorage.setItem("time", 30);
+  localStorage.setItem("dataTransfer", JSON.stringify(dataTransfer));
+
+  useEffect(() => {
+    if (bookingId !== 0) {
+      console.log(bookingId);
+      navigate(`/payment/${bookingId}`, { state: { dataTransfer } });
+      window.location.reload();
+    }
+  }, [bookingId]);
 
   return (
     <Box sx={{ p: 20, minHeight: "100vh" }}>

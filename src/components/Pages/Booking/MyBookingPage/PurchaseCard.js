@@ -1,32 +1,17 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
-import TimerContext from "../../../../TimerContext";
 
-const PurchaseCard = ({ styles, booking, detailOnclick }) => {
-  const { getTimer, updateTimer } = useContext(TimerContext);
-
-  const { timeRemaining, timerExpired } = getTimer(booking.Id);
-
-  useEffect(() => {
-    if (timeRemaining > 0) {
-      const timer = setInterval(() => {
-        updateTimer(booking.Id, timeRemaining - 1, false);
-      }, 1000);
-
-      return () => clearInterval(timer);
-    } else if (!timerExpired) {
-      updateTimer(booking.Id, 0, true);
-    }
-  }, [timeRemaining, timerExpired, booking.Id, updateTimer]);
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
+const PurchaseCard = ({
+  styles,
+  booking,
+  detailOnclick,
+  timeRemained,
+  getTimeRemaining,
+  timerExpire,
+  getTimerExpired,
+  seeTicketOnclick,
+  deleteOnclick,
+}) => {
   const getStatusClass = (status) => {
     switch (status) {
       case "Pending":
@@ -38,6 +23,32 @@ const PurchaseCard = ({ styles, booking, detailOnclick }) => {
       default:
         return "";
     }
+  };
+
+  const [timeRemaining, setTimeRemaining] = useState(timeRemained);
+  const [timerExpired, setTimerExpired] = useState(timerExpire);
+
+  getTimeRemaining(timeRemaining);
+  getTimerExpired(timerExpired);
+
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prevTime) => prevTime - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else {
+      setTimerExpired(true);
+    }
+  }, [timeRemaining, setTimeRemaining, setTimerExpired]);
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   return (
@@ -53,19 +64,36 @@ const PurchaseCard = ({ styles, booking, detailOnclick }) => {
           {booking.Status === "Pending" &&
             `${
               timerExpired
-                ? "⚠️ Payment session expired. Restart payment process."
+                ? "⚠️ Payment Cancelled"
                 : `⏳ Time remaining: ${formatTime(timeRemaining)}`
             }`}
-          {booking.Status === "Cancel" && "Payment Cancelled"}
           {booking.Status === "Paid" && "Payment Successful"}
         </span>
       </div>
-      <div className={styles.footer}>
-        <span className={styles.seeDetails} onClick={detailOnclick}>
-          See Details
-        </span>
-        <span className={styles.dot}></span>
-      </div>
+      {booking.Status === "Pending" && (
+        <div className={styles.footer}>
+          <span className={styles.seeDetails} onClick={detailOnclick}>
+            See Details
+          </span>
+          <span className={styles.dot}></span>
+        </div>
+      )}
+      {booking.Status === "Paid" && (
+        <div className={styles.footer}>
+          <span className={styles.seeDetails} onClick={seeTicketOnclick}>
+            Click here to see Your Ticket
+          </span>
+          <span className={styles.dot}></span>
+        </div>
+      )}
+      {booking.Status === "Cancel" && (
+        <div className={styles.footer}>
+          <span className={styles.seeDetails} onClick={deleteOnclick}>
+            Payment has been Cancelled
+          </span>
+          <span className={styles.dot}></span>
+        </div>
+      )}
     </div>
   );
 };

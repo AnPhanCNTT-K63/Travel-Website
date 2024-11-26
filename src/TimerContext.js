@@ -1,44 +1,38 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
-// Create the context
 const TimerContext = createContext();
 
-// TimerProvider Component
 export const TimerProvider = ({ children }) => {
-  const [timers, setTimers] = useState({});
+  const initialTime = parseInt(localStorage.getItem("time"));
+  const [timeRemaining, setTimeRemaining] = useState(initialTime);
+  const [timerExpired, setTimerExpired] = useState(false);
 
-  const setTimerForBooking = (bookingId, duration) => {
-    setTimers((prev) => ({
-      ...prev,
-      [bookingId]: { timeRemaining: duration, timerExpired: false },
-    }));
-  };
+  useEffect(() => {
+    localStorage.setItem("time", timeRemaining);
 
-  const updateTimer = (bookingId, timeRemaining, timerExpired) => {
-    setTimers((prev) => ({
-      ...prev,
-      [bookingId]: { timeRemaining, timerExpired },
-    }));
-  };
+    if (timeRemaining <= 0) {
+      setTimerExpired(true);
+    }
+  }, [timeRemaining]);
 
-  const setTimerExpired = (bookingId) => {
-    setTimers((prev) => ({
-      ...prev,
-      [bookingId]: { ...prev[bookingId], timerExpired: true },
-    }));
-  };
+  useEffect(() => {
+    // Countdown logic: decrease time every second
+    if (timeRemaining > 0) {
+      const interval = setInterval(() => {
+        setTimeRemaining((prev) => prev - 1);
+      }, 1000);
 
-  const getTimer = (bookingId) => {
-    return timers[bookingId] || { timeRemaining: 0, timerExpired: false };
-  };
+      return () => clearInterval(interval); // Cleanup on unmount
+    }
+  }, [timeRemaining]);
 
   return (
     <TimerContext.Provider
       value={{
-        setTimerForBooking,
-        updateTimer,
+        timeRemaining,
+        setTimeRemaining,
+        timerExpired,
         setTimerExpired,
-        getTimer,
       }}
     >
       {children}

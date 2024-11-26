@@ -304,3 +304,23 @@ export const getMyBooking = async (userId) => {
     throw error;
   }
 };
+
+export const setStatus = async (data) => {
+  try {
+    const res = await axios.patch(`${API_URL}/Booking/status/update`, data); //PATCH: Booking/status/update
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const checkStatus = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/Booking/status/check`); //PATCH: Booking/status/update
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};

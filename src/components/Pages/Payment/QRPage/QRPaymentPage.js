@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import Instructions from "./QRInstructions";
 import PaymentDetail from "./PaymentDetai";
 import QRCodeSection from "./QRCodeSection";
 import CountdownSection from "./CountdownSection";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ConfirmSection from "./ConfirmSection";
 
 export default function QRPaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { bookingId } = useParams();
   const [data, setData] = useState(location.state.dataTransfer);
 
   const onClickCancel = () => {
@@ -26,7 +27,7 @@ export default function QRPaymentPage() {
       cancelButtonText: "Stay Here",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate("/"); // Navigate to home or cancel route
+        navigate("/");
       }
     });
   };

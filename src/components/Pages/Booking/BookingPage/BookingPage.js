@@ -1,29 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import UserContext from "../../../../UserContext";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { getBookingInfo } from "../../../.././api/services";
+import { checkStatus, getBookingInfo } from "../../../.././api/services";
 import PackageInfo from "./PackageInfo";
 import BookingDetail from "./BookingDetail";
+import Swal from "sweetalert2";
 
 const BookingPage = () => {
   const { tourPackageId } = useParams();
   const [tourPackage, setTourPackage] = useState({});
   const [tourDates, setTourDates] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
   const [travelerNum, setTravelerNum] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const user = useContext(UserContext);
   const navigate = useNavigate();
 
   const setTravelDay = (Date) => setDate(Date);
   const setTravlerNumber = (ravelerNum) => setTravelerNum(ravelerNum);
   const setTotal = (total) => setTotalPrice(total);
 
-  const handleClickBook = () => {
-    navigate(`/traveler/info/${tourPackageId}`, {
-      state: { ticket, tourPackageId },
-    });
+  const handleClickBook = async () => {
+    try {
+      const res = await checkStatus();
+      if (res.message === "Has booking Pending") {
+        Swal.fire({
+          title: "Pending Payment Detected",
+          text: "You need to complete or cancel the payment for your existing booking before proceeding with a new one.",
+          icon: "warning",
+          confirmButtonText: "See detail",
+          showCancelButton: true,
+          cancelButtonText: "Cancel",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/user/booking/${user.userId}`);
+          }
+        });
+      } else if (res.message === "No booking Pending") {
+        navigate(`/traveler/info/${tourPackageId}`, {
+          state: { ticket, tourPackageId },
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong while checking the booking status. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   useEffect(() => {

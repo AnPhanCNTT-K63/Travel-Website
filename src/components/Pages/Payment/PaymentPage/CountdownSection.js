@@ -1,29 +1,32 @@
-import React, { useEffect, useContext } from "react";
-import TimerContext from "../../../../TimerContext";
+// CountdownSection Component
+import React, { useEffect, useState } from "react";
 import styles from "../../../../styles/PaymentPage.module.css";
 
-export default function CountdownSection({ tourPackageId }) {
-  const { getTimer, updateTimer, setTimerExpired } = useContext(TimerContext);
+export default function CountdownSection({
+  getTimerExpired,
+  getTimeRemain,
+  timeRemained,
+  timerExpiring,
+}) {
+  const [timeRemaining, setTimeRemaining] = useState(timeRemained);
+  const [timerExpired, setTimerExpired] = useState(timerExpiring);
 
-  const { timeRemaining, timerExpired } = getTimer(tourPackageId);
+  useEffect(() => {
+    getTimerExpired(timerExpired); // Update parent component on timer expiry
+    getTimeRemain(timeRemaining); // Update parent component with remaining time
+  }, [timerExpired, timeRemaining, getTimerExpired, getTimeRemain]);
 
   useEffect(() => {
     if (timeRemaining > 0) {
       const timer = setInterval(() => {
-        updateTimer(tourPackageId, timeRemaining - 1, false);
+        setTimeRemaining((prevTime) => prevTime - 1);
       }, 1000);
 
       return () => clearInterval(timer);
-    } else if (!timerExpired) {
-      setTimerExpired(tourPackageId);
+    } else {
+      setTimerExpired(true);
     }
-  }, [
-    timeRemaining,
-    timerExpired,
-    tourPackageId,
-    updateTimer,
-    setTimerExpired,
-  ]);
+  }, [timeRemaining]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -34,7 +37,20 @@ export default function CountdownSection({ tourPackageId }) {
   };
 
   return (
-    <div className={styles.timerContainer}>
+    <div
+      className={styles.timerContainer}
+      style={{
+        backgroundColor: "#f8d7da",
+        color: "#721c24",
+        padding: "12px 20px",
+        borderRadius: "8px",
+        fontSize: "1.2rem",
+        fontWeight: "bold",
+        textAlign: "center",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        marginBottom: "20px",
+      }}
+    >
       <p className={styles.timerText}>
         {timerExpired
           ? "⚠️ Payment session expired. Restart payment process."
