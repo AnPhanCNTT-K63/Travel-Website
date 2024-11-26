@@ -203,9 +203,18 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
           </div>
 
           <div style={{ padding: "15px" }}>
-            <StyledMenuItem onClick={handleMenuItemClick}>
-              <Chat style={{ fontSize: 20 }} /> Chat With Us
-            </StyledMenuItem>
+            {user.role == "user" ? (
+              <StyledMenuItem onClick={handleMenuItemClick}>
+                <Chat style={{ fontSize: 20 }} /> Chat With Us
+              </StyledMenuItem>
+            ) : (
+              <StyledLink to={"/user/request"} onClick={handleMenuItemClick}>
+                <StyledMenuItem>
+                  <Chat style={{ fontSize: 20 }} /> User Request
+                </StyledMenuItem>
+              </StyledLink>
+            )}
+
             <StyledMenuItem onClick={handleMenuItemClick}>
               <CalendarToday style={{ fontSize: 20 }} /> Notification
             </StyledMenuItem>

@@ -34,6 +34,7 @@ const Profile = () => {
       CommentNum: "0",
       Avatar: "",
       CoverAvatar: "",
+      Phone: "",
       Birthday: "",
       QuickIntroduction: "",
       UserId: user.userId,

@@ -63,26 +63,17 @@ export default function SignInCard() {
       event.preventDefault();
       return;
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("Email"),
-      password: data.get("Password"),
-    });
+    const formData = new FormData(event.currentTarget);
+
+    const data = {
+      Email: formData.get("Email"),
+      Password: formData.get("Password"),
+    };
 
     try {
       const user = await signin(data);
+      console.log(data);
       if (user && user.token) {
-        // if (rememberMe) {
-        //   localStorage.setItem("token", user.token);
-        //   localStorage.setItem("username", user.username);
-        //   localStorage.setItem("role", user.role);
-        //   localStorage.setItem("user_id", user.id);
-        // } else {
-        //   sessionStorage.setItem("token", user.token);
-        //   sessionStorage.setItem("username", user.username);
-        //   sessionStorage.setItem("role", user.role);
-        //   sessionStorage.setItem("user_id", user.id);
-        // }
         if (rememberMe) {
           localStorage.setItem("token", user.token);
         } else {

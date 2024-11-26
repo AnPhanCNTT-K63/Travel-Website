@@ -5,17 +5,20 @@ import Navigation from "./components/Navigation/navigation";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import { UserProvider } from "./UserContext";
+import { TimerProvider } from "./TimerContext";
 
 function App() {
   return (
     <div className="App">
       <UserProvider>
-        <Router>
-          <Header />
-          <Navbar />
-          <Navigation />
-          <Footer />
-        </Router>
+        <TimerProvider>
+          <Router>
+            <Header />
+            <Navbar />
+            <Navigation />
+            <Footer />
+          </Router>
+        </TimerProvider>
       </UserProvider>
     </div>
   );
