@@ -12,8 +12,9 @@ import CreateTour from "../Pages/Tour/CreateTour";
 import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
-import CreatePost from "../Pages/Blog/CreatePost";
-import Payment from "../Pages/Payment/Payment";
+import CreatePost from "../Pages/Post/CreatePost";
+import Payment from "../Pages/Billing/Payment";
+import UpdatePost from "../Pages/Post/UpdatePost";
 import NorthTour from "../Pages/Tour/DomesticTour/NorthTour";
 import MiddleTour from "../Pages/Tour/DomesticTour/MiddleTour";
 import SouthTour from "../Pages/Tour/DomesticTour/SouthTour";
@@ -21,13 +22,18 @@ import AsiaTour from "../Pages/Tour/InternationalTour/AsiaTour";
 import EuropeTour from "../Pages/Tour/InternationalTour/EuropeTour";
 import AmericaTour from "../Pages/Tour/InternationalTour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
-import UpdatePost from "../Pages/Blog/UpdatePost";
 import NotFoundPage from "../../view/NotFoundPage";
 import AccountPage from "../Pages/Account/AccountPage";
 import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
 import UserContext from "../../UserContext";
+import BookingPage from "../Pages/Booking/BookingPage/BookingPage";
 import UserManagementPage from "../Admin/UserManagement/UserManagement";
-
+import UserBookingPage from "../Pages/Booking/BookingDetailPage/UserBookingInfo";
+import PaymentPage from "../Pages/Payment/PaymentPage/PaymentPage";
+import AddPaymemt from "../Pages/Payment/AddPaymentPage/AddPayment";
+import QRPaymentPage from "../Pages/Payment/QRPage/QRPaymentPage";
+import ScrollToTop from "./ScrollToTop";
+import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
 
 function Navigation() {
   const location = useLocation();
@@ -60,6 +66,7 @@ function Navigation() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
@@ -86,11 +93,19 @@ function Navigation() {
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
+        <Route path="/payment/add" element={<AddPaymemt />} />
+        <Route path="/user/booking/:userId" element={<MyBookingPage />} />
+        <Route path="/QR/:tourPackageId" element={<QRPaymentPage />} />
+        <Route path="/payment/:tourPackageId" element={<PaymentPage />} />
+        <Route path="/booking/:tourPackageId" element={<BookingPage />} />
         <Route path="/account/:userId" element={<AccountPage />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
-        <Route path="/payment" element={<Payment />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route
+          path="/traveler/info/:tourPackageId"
+          element={<UserBookingPage />}
+        />
         <Route path="/update/post/:postId" element={<UpdatePost />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

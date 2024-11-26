@@ -7,12 +7,16 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Image from "react-bootstrap/Image";
+import { Line } from "react-chartjs-2";
 
 export default function Footer() {
   return (
     <div style={{ marginTop: "50px" }}>
       <MDBFooter
-        bgColor="light"
+        style={{
+          backgroundColor: "rgb(28,41,48)",
+          color: "rgb(255,255,255)",
+        }}
         className="text-center text-lg-start text-muted"
       >
         {/* Footer Content */}
@@ -25,33 +29,75 @@ export default function Footer() {
                 style={{ width: "120px", height: "120px" }}
                 roundedCircle
               />
-              <h6 className="mt-3 text-uppercase fw-bold">VVBA</h6>
-              <p className="text-muted small">
+              <h6
+                className="mt-3 text-uppercase fw-bold"
+                style={{ color: "rgb(255,255,255)" }}
+              >
+                VVBA
+              </h6>
+              <p style={{ color: "rgb(255,255,255)" }}>
                 Join our mailing list to get the latest updates and offers.
               </p>
             </MDBCol>
 
             {/* Products */}
             <MDBCol md="2" lg="2" xl="2" className="mx-auto">
-              <h6 className="text-uppercase fw-bold">Products</h6>
+              <h6
+                className="text-uppercase fw-bold"
+                style={{ color: "rgb(255,255,255)" }}
+              >
+                Products
+              </h6>
               <ul className="list-unstyled small">
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Terms of Use
                   </a>
                 </li>
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Privacy Policy
                   </a>
                 </li>
@@ -60,25 +106,63 @@ export default function Footer() {
 
             {/* Useful Links */}
             <MDBCol md="2" lg="2" xl="2" className="mx-auto">
-              <h6 className="text-uppercase fw-bold">Useful Links</h6>
+              <h6
+                className="text-uppercase fw-bold"
+                style={{ color: "rgb(255,255,255)" }}
+              >
+                Useful Links
+              </h6>
               <ul className="list-unstyled small">
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Investor Relations
                   </a>
                 </li>
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Account
                   </a>
                 </li>
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Legal
                   </a>
                 </li>
                 <li>
-                  <a href="#!" className="text-reset">
+                  <a
+                    href="#!"
+                    className="text-reset"
+                    style={{
+                      color: "rgb(255,255,255)",
+                      textDecoration: "none",
+                      display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                      marginBottom: "5px", // Tạo khoảng cách dưới mỗi thẻ a
+                    }} // Thay đổi màu ở đây
+                  >
                     Help
                   </a>
                 </li>
@@ -87,20 +171,49 @@ export default function Footer() {
 
             {/* Contact */}
             <MDBCol md="4" lg="3" xl="3" className="mx-auto">
-              <h6 className="text-uppercase fw-bold">Contact</h6>
+              <h6
+                className="text-uppercase fw-bold"
+                style={{ color: "rgb(255,255,255)" }}
+              >
+                Contact
+              </h6>
               <ul className="list-unstyled small">
-                <li>
+                <li
+                  style={{
+                    color: "rgb(255,255,255)",
+                    display: "block",
+                    marginBottom: "5px",
+                  }}
+                >
                   <MDBIcon icon="home" className="me-2" />
-                  Phan Duc An
+                  Team VVBA
                 </li>
-                <li>
+                <li
+                  style={{
+                    color: "rgb(255,255,255)",
+                    display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                    marginBottom: "5px",
+                  }}
+                >
                   <MDBIcon icon="envelope" className="me-2" />
                   info@example.com
                 </li>
-                <li>
+                <li
+                  style={{
+                    color: "rgb(255,255,255)",
+                    display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                    marginBottom: "5px",
+                  }}
+                >
                   <MDBIcon icon="phone" className="me-2" />+ 01 234 567 88
                 </li>
-                <li>
+                <li
+                  style={{
+                    color: "rgb(255,255,255)",
+                    display: "block", // Đảm bảo rằng thẻ a chiếm toàn bộ chiều rộng của phần tử li
+                    marginBottom: "5px",
+                  }}
+                >
                   <MDBIcon icon="print" className="me-2" />+ 01 234 567 89
                 </li>
               </ul>
@@ -110,43 +223,63 @@ export default function Footer() {
 
         {/* Social Media Section */}
         <section
-          className="d-flex justify-content-center justify-content-lg-between p-3"
-          style={{ backgroundColor: "#f8f9fa", color: "#343a40" }}
+          className="text-center text-lg-start p-3"
+          style={{
+            backgroundColor: "rgb(28,41,48)",
+            color: "rgb(255,255,255)",
+          }}
         >
-          <div className="me-3 d-none d-lg-block">
-            <span>Connect with us on social media:</span>
-          </div>
           <div>
-            <a href="#" className="me-3" style={{ color: "#4267B2" }}>
-              <FacebookIcon fontSize="medium" />
-            </a>
-            <a href="#" className="me-3" style={{ color: "#1DA1F2" }}>
-              <TwitterIcon fontSize="medium" />
-            </a>
-            <a href="#" className="me-3" style={{ color: "#DB4437" }}>
-              <GoogleIcon fontSize="medium" />
-            </a>
-            <a href="#" className="me-3" style={{ color: "#E1306C" }}>
-              <InstagramIcon fontSize="medium" />
-            </a>
-            <a href="#" className="me-3" style={{ color: "#0077B5" }}>
-              <LinkedInIcon fontSize="medium" />
-            </a>
-            <a href="#" className="me-3" style={{ color: "#171515" }}>
-              <GitHubIcon fontSize="medium" />
-            </a>
+            <div className="mb-2">
+              <span style={{ color: "rgb(255,255,255)",marginLeft:"30px" }}>
+                Connect with us on social media:
+              </span>
+            </div>
+            <div className="d-flex justify-content-center justify-content-lg-start">
+              <a href="#" className="me-3" style={{ color: "#4267B2",marginLeft:"30px" }}>
+                <FacebookIcon fontSize="medium" />
+              </a>
+              <a href="#" className="me-3" style={{ color: "#1DA1F2" }}>
+                <TwitterIcon fontSize="medium" />
+              </a>
+              <a href="#" className="me-3" style={{ color: "#DB4437" }}>
+                <GoogleIcon fontSize="medium" />
+              </a>
+              <a href="#" className="me-3" style={{ color: "#E1306C" }}>
+                <InstagramIcon fontSize="medium" />
+              </a>
+              <a href="#" className="me-3" style={{ color: "#0077B5" }}>
+                <LinkedInIcon fontSize="medium" />
+              </a>
+              <a href="#" className="me-3" style={{ color: "#171515" }}>
+                <GitHubIcon fontSize="medium" />
+              </a>
+            </div>
           </div>
         </section>
 
         {/* Footer Bottom */}
         <div
           className="text-center p-2"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
+          style={{
+            backgroundColor: "rgb(20,28,34)",
+            color: "rgb(255,255,255)",
+          }}
         >
-          © 2024 Copyright:
-          <a className="text-reset fw-bold ms-1" href="#">
-            Nhom Bai Tap Lon
-          </a>
+          <hr
+            style={{
+              fontWeight: "bold",
+              borderColor: "rgb(255,255,255)",
+              marginTop: "5px",
+            }}
+          />
+          <p>
+            {" "}
+            Công ty TNHH VVBA Việt Nam. Mã số DN: 0413584779. Tòa nhà 7 tầng,
+            448 Lê Văn Việt, P. Tăng Nhơn Phú A, Q. 9, TPHCM{" "}
+          </p>
+
+          <strong>Copyright © 2024 Traveloka. All rights reserved</strong>
         </div>
       </MDBFooter>
     </div>

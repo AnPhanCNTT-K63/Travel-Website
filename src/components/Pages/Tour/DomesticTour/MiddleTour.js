@@ -20,19 +20,16 @@ export default function MiddleTour({ item }) {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const text = `Miền Bắc Việt Nam là một khái niệm để chỉ vùng địa lý ở phía bắc nước Việt Nam. Tuy nhiên, tùy theo từng thời điểm lịch sử và thói quen sử dụng mà khái niệm này đôi lúc còn được dùng để chỉ các vùng lãnh thổ chính trị khác nhau một cách không chính thức.
+  const text = `Trung Bộ (hay còn gọi là Miền Trung) là khu vực địa lý nằm ở phần giữa đất liền của Việt Nam, nối Bắc Bộ với Nam Bộ. Hiện nay, Trung Bộ là miền có diện tích lớn nhất trong 3 miền tại Việt Nam với 151.234 km². Trung Bộ có nhiều đồi núi lan sát ra biển, chia cắt các đồng bằng nhỏ hẹp. Khí hậu và phần lớn đất đai thường khắc nghiệt hơn hai miền còn lại. Trung Bộ được chia thành 3 khu vực là vùng Bắc Trung Bộ, vùng Duyên hải Nam Trung Bộ và vùng Tây Nguyên; với trung tâm là thành phố TW Đà Nẵng. Tùy vào ngữ cảnh, một phần của Bắc Trung Bộ cùng với vùng Bắc Bộ được gọi chung là Miền Bắc Việt Nam; Tây Nguyên, Duyên hải Nam Trung Bộ, phần còn lại của Bắc Trung Bộ cùng với vùng Nam Bộ được gọi chung là Miền Nam Việt Nam.
 
-Miền Bắc Việt Nam có thể là:
-- Phân định địa lý đồng nghĩa với Bắc Bộ Việt Nam
-- Phân định địa chính trị ở phía bắc sông Gianh (nay thuộc tỉnh Quảng Bình) (Đàng Ngoài)
-- Phân định hành chính đồng nghĩa với Bắc Kỳ hay Bắc Thành của nhà Nguyễn vào thời Pháp thuộc và là một trong 3 vùng lãnh thổ chính (gồm Bắc Bộ, Trung Bộ và Nam Bộ) của Việt Nam.
-- Phân định theo Hiệp định Genève là khu vực tập kết quân sự tạm thời của Quân đội nhân dân Việt Nam và khu vực thuộc quyền quản lý hành chính tạm thời của Việt Nam Dân chủ Cộng hòa nằm phía bắc giới tuyến quân sự tạm thời là vĩ tuyến 17. Căn cứ Điều 14, Khoản a trong Hiệp định Geneve 1954, Việt Nam Dân chủ Cộng hòa có chủ quyền trên toàn bộ lãnh thổ Việt Nam, tạm thời có quyền quản lý hành chính phía bắc vĩ tuyến 17 cho tới khi tổ chức tổng tuyển cử trên toàn Việt Nam. Liên hiệp Pháp từ bỏ chủ quyền và quyền chủ quyền ở Việt Nam nhưng vẫn có quyền quản lý hành chính phía Nam vĩ tuyến 17.
-- Ngày nay, miền Bắc Việt Nam được hiểu là phần lãnh thổ các tỉnh từ Hà Giang tới Ninh Bình.`;
+Trung Bộ nằm ở vị trí chuyển tiếp giữa Bắc Bộ và Nam Bộ. Ngoài hai xứ Thanh – Nghệ, Trung Bộ chứng kiến quá trình Nam tiến của người Việt diễn ra trên lãnh thổ từng thuộc nước Chăm Pa cổ. Các xung đột quân sự và ranh giới chia cắt Việt Nam trong một số thời kỳ lịch sử như thời Trịnh – Nguyễn phân tranh và Chiến tranh Việt Nam cũng nằm trên Trung Bộ.
+
+Thời Pháp thuộc, Trung Bộ là một xứ bảo hộ lấy tên là Trung Kỳ, vốn có từ thời vua Minh Mạng của Nhà Nguyễn. Tên gọi Trung Bộ ra đời từ thời Đế quốc Việt Nam năm 1945. Trung Bộ còn được gọi là Trung Phần (1948–1975) dưới thời Quốc gia Việt Nam và Việt Nam Cộng hòa.`;
 
   return (
     <>
       <SlideMiddleTour />
-      <p className={styles.tilte_introduction}>NorthTour( Việt Nam )</p>
+      <p className={styles.tilte_introduction}>MiddleTour( Việt Nam )</p>
       <div role="presentation" onClick={handleClick}>
         <Breadcrumbs
           aria-label="breadcrumb"
@@ -81,7 +78,7 @@ Miền Bắc Việt Nam có thể là:
               fontWeight: "bold", // Màu và kiểu chữ cho Typography
             }}
           >
-            NorthTour
+            MiddleTour
           </Typography>
         </Breadcrumbs>
       </div>
@@ -103,7 +100,7 @@ Miền Bắc Việt Nam có thể là:
           <TipsAndUpdatesIcon />
         </div>
         <div className={styles.text}>
-          <p className={styles.mainText}>Discover NorthTour</p>
+          <p className={styles.mainText}>Discover MiddleTour</p>
           <p className={styles.subText}>
             Tour the highlights of this destination
           </p>
@@ -119,7 +116,7 @@ Miền Bắc Việt Nam có thể là:
             fontSize: "24px",
           }}
         >
-          Famous Northern tourist attractions
+          Famous Midthern tourist attractions
         </h2>
         <TourSection2 />
         <hr className={styles.separator} />
@@ -131,7 +128,7 @@ Miền Bắc Việt Nam có thể là:
             fontSize: "24px",
           }}
         >
-          Famous destinations in the North
+          Famous destinations in the Middle
         </h2>
         <TourSection2 />
         <hr className={styles.separator} />
@@ -154,7 +151,7 @@ Miền Bắc Việt Nam có thể là:
           </div>
           <div className={styles.tasktext}>
             <p className={styles.mainTaskText}>
-              Travel tips when visiting Northern
+              Travel tips when visiting Midthern
             </p>
             <p className={styles.subTaskText}>
               Things you need to know before coming here
@@ -189,29 +186,31 @@ Miền Bắc Việt Nam có thể là:
             <div className={styles.transportInfo}>
               {selectedOption === "Weather" && (
                 <p>
-                  Miền Bắc Việt Nam có bốn mùa rõ rệt: Xuân, Hạ, Thu, Đông. Mùa
-                  thu (tháng 9-11) với khí hậu mát mẻ và nắng dịu là thời điểm
-                  lý tưởng nhất để du lịch. Mùa đông (tháng 12-2) khá lạnh, đặc
-                  biệt tại các vùng núi như Sapa, có thể xuống dưới 0°C. Đừng
-                  quên chuẩn bị trang phục phù hợp với thời tiết!
+                  Miền Trung Việt Nam có khí hậu nhiệt đới gió mùa, chia thành
+                  hai mùa chính: mùa mưa (tháng 9-12) và mùa khô (tháng 1-8).
+                  Mùa khô là thời điểm lý tưởng nhất để khám phá, với bầu trời
+                  trong xanh và nắng nhẹ. Trong mùa mưa, một số vùng có thể bị
+                  ảnh hưởng bởi bão, đặc biệt từ tháng 9-11. Đừng quên kiểm tra
+                  thời tiết trước khi lên kế hoạch!
                 </p>
               )}
               {selectedOption === "Vehicles" && (
                 <p>
-                  Các phương tiện di chuyển phổ biến ở miền Bắc gồm xe khách,
-                  tàu hỏa, và máy bay. Nếu thăm Hà Nội, bạn có thể sử dụng taxi
-                  hoặc xe buýt để khám phá thành phố. Với các điểm đến như Sapa
-                  hay Hà Giang, xe máy là lựa chọn lý tưởng để chiêm ngưỡng cảnh
-                  đẹp. Hãy chọn phương tiện phù hợp với lịch trình của bạn!
+                  Các phương tiện phổ biến để khám phá miền Trung bao gồm xe
+                  khách, tàu hỏa và máy bay. Nếu tham quan các thành phố như Đà
+                  Nẵng, Hội An, bạn có thể thuê xe máy hoặc xe đạp để di chuyển
+                  linh hoạt. Với các điểm xa hơn như Huế hay Phong Nha, tàu hỏa
+                  và xe khách là lựa chọn hợp lý. Hãy chọn phương tiện phù hợp
+                  với nhu cầu của bạn!
                 </p>
               )}
               {selectedOption === "Activities" && (
                 <p>
-                  Các hoạt động nổi bật tại miền Bắc gồm trekking tại Sapa, chèo
-                  thuyền kayak ở vịnh Hạ Long, và tham quan phố cổ Hà Nội. Bạn
-                  cũng có thể khám phá các bản làng dân tộc thiểu số để trải
-                  nghiệm văn hóa đặc sắc. Đừng bỏ lỡ cơ hội thưởng thức ẩm thực
-                  địa phương như phở, bún chả, và chả cá Lã Vọng!
+                  Các hoạt động thú vị tại miền Trung gồm tham quan phố cổ Hội
+                  An, khám phá di sản Huế, và tắm biển tại Đà Nẵng hoặc Nha
+                  Trang. Bạn cũng có thể trải nghiệm đi thuyền trên sông Hương
+                  hay khám phá hệ thống hang động ở Phong Nha - Kẻ Bàng. Đừng
+                  quên thưởng thức đặc sản như mì Quảng, bánh xèo, và cao lầu!
                 </p>
               )}
             </div>

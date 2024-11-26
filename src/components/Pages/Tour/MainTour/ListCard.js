@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Pagination from "@mui/material/Pagination";
 import { Link } from "react-router-dom";
 import TourCard from "./../MainTour/Card";
+import { getTours } from "../../../../api/services";
 
 export default function ListCard({ allTours, cardsPerPage }) {
   const [page, setPage] = useState(1);
@@ -15,6 +16,17 @@ export default function ListCard({ allTours, cardsPerPage }) {
     page * cardsPerPage
   );
 
+  const [tours, setTours] = useState([]);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      const res = await getTours();
+      setTours(res);
+      console.log(res);
+    };
+    fetchTours();
+  }, []);
+
   // Xử lý khi đổi trang
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -23,7 +35,7 @@ export default function ListCard({ allTours, cardsPerPage }) {
   return (
     <Container>
       <Row>
-        {currentPageData.map((item, index) => (
+        {tours.map((item, index) => (
           <Col
             className="col-4"
             key={item.Id}
