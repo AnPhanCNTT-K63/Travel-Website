@@ -25,7 +25,7 @@ const PaymentForm = ({ onSubmit }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={styles.paymentForm}>
+        <form onSubmit={handleSubmit} className={styles.paymentForm} >
             <h2 className={styles.title}>Payment Information</h2>
             <div className={styles.inputGroup}>
                 <label htmlFor="cardName" className={styles.label}>Cardholder Name</label>
