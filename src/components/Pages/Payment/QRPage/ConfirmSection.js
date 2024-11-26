@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Typography, Divider } from "@mui/material";
 import Swal from "sweetalert2";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { storePaymentInfo } from "../../../../api/services";
+import { createPaymentInfo } from "../../../../api/services";
 
 export default function ConfirmSection({ data }) {
   const navigate = useNavigate();
@@ -41,12 +41,12 @@ export default function ConfirmSection({ data }) {
     // });
 
     try {
-      const res = await storePaymentInfo(paymentInfo);
+      const res = await createPaymentInfo(paymentInfo);
       console.log(res);
     } catch (err) {
       console.error("Error sending: ", err);
     }
-    ///console.log(paymentInfo);
+    console.log(paymentInfo);
   };
 
   return (

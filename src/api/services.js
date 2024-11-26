@@ -285,9 +285,9 @@ export const getPaymentCard = async (userId) => {
   }
 };
 
-export const storePaymentInfo = async (info) => {
+export const createPaymentInfo = async (info) => {
   try {
-    const res = await axios.post(`${API_URL}/Payment/store`, info); //POST: Payment/store
+    const res = await axios.post(`${API_URL}/Payment/create`, info); //POST: Payment/store
     return res.data;
   } catch (error) {
     console.error("Error: ", error);
@@ -315,9 +315,11 @@ export const setStatus = async (data) => {
   }
 };
 
-export const checkStatus = async () => {
+export const checkStatus = async (userId) => {
   try {
-    const res = await axios.get(`${API_URL}/Booking/status/check`); //PATCH: Booking/status/update
+    const res = await axios.post(`${API_URL}/Booking/status/check`, {
+      User_Id: userId,
+    }); //POST: Booking/status/check
     return res.data;
   } catch (error) {
     console.error("Error: ", error);

@@ -135,7 +135,7 @@ export default function UserBookingPage() {
     }
   };
 
-  localStorage.setItem("time", 30);
+  localStorage.setItem("time", 60);
   localStorage.setItem("dataTransfer", JSON.stringify(dataTransfer));
 
   useEffect(() => {
