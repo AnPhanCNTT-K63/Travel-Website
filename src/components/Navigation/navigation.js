@@ -13,7 +13,7 @@ import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Post/CreatePost";
-import Payment from "../Pages/Billing/Payment";
+import Payment from "../Pages/Billing/Billing";
 import UpdatePost from "../Pages/Post/UpdatePost";
 import NorthTour from "../Pages/Tour/DomesticTour/NorthTour";
 import MiddleTour from "../Pages/Tour/DomesticTour/MiddleTour";
@@ -34,6 +34,7 @@ import AddPaymemt from "../Pages/Payment/AddPaymentPage/AddPayment";
 import QRPaymentPage from "../Pages/Payment/QRPage/QRPaymentPage";
 import ScrollToTop from "./ScrollToTop";
 import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
+import Billing from "../Pages/Billing/Billing";
 
 function Navigation() {
   const location = useLocation();
@@ -108,6 +109,7 @@ function Navigation() {
         />
         <Route path="/update/post/:postId" element={<UpdatePost />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/billing" element={<Billing />} />
       </Routes>
 
       {showArrow && (

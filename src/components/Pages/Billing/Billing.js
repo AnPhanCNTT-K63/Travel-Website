@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import OrderSummary from "../Billing/TransactionHistory";
-import ShippingAddress from "./UserInformation";
+import OrderSummary from "./TransactionHistory";
+import ShippingAddress from "../Payment/UserInformation";
 import PaymentForm from "./PaymentForm";
 import PaymentSuccess from "./PaymentSuccess";
 import PaymentError from "./PaymentError";
 import { Box, Typography, Grid } from "@mui/material";
-import PaymentCard from "../Billing/CreditCard";
-import InvoiceList from "../Billing/InvoiceList";
-import MediaCard from "../Billing/MediaCard";
-import MethodPayment from "../Billing/MethodPayment";
+import PaymentCard from "./CreditCard";
+import InvoiceList from "./InvoiceList";
+import MediaCard from "./MediaCard";
+import MethodPayment from "./MethodPayment";
 import example from "../../../assets/images/mastercard-logo.png";
 import exampleLogo from "../../../assets/images/visa-logo.png";
 
-const Payment = () => {
+const Billing = () => {
   const [paymentStatus, setPaymentStatus] = useState(null); // success, error, null
 
   const handlePayment = async (paymentData) => {
@@ -103,4 +103,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default Billing;
