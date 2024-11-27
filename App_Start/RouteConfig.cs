@@ -128,14 +128,40 @@ namespace WebBackendProject
        );
             routes.MapRoute(
            name: "StorePayment",
-           url: "Payment/store",
-           defaults: new { controller = "Payment", action = "storePaymentInfo" }
+           url: "Payment/create",
+           defaults: new { controller = "Payment", action = "createPaymentInfo" }
        );
 
             routes.MapRoute(
            name: "GetUserBooking",
            url: "Booking/user/{userId}",
            defaults: new { controller = "Booking", action = "getMyBooking" }
+       );
+            routes.MapRoute(
+           name: "SetStatusBooking",
+           url: "Booking/status/update",
+           defaults: new { controller = "Booking", action = "setStatus" }
+       );
+            routes.MapRoute(
+           name: "CheckStatus",
+           url: "Booking/status/check",
+           defaults: new { controller = "Booking", action = "checkStatusPending" }
+       );
+            routes.MapRoute(
+           name: "GetUserRequest",
+           url: "User/request/payment",
+           defaults: new { controller = "User", action = "getUserPaymentRequest" }
+       );
+
+            routes.MapRoute(
+           name: "UpdatePaymentStatus",
+           url: "Payment/status/update",
+           defaults: new { controller = "Payment", action = "setPaymentStatus" }
+       );
+            routes.MapRoute(
+           name: "SoftDeleteBooking",
+           url: "Booking/delete/soft",
+           defaults: new { controller = "Booking", action = "softDeleted" }
        );
 
             routes.MapRoute(

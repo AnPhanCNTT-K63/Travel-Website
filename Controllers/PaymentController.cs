@@ -24,7 +24,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult storePaymentInfo(PaymentInfo info) //POST: Payment/store
+        public ActionResult createPaymentInfo(PaymentInfo info) //POST: Payment/create
         {
             Payment payment = new Payment
             {
@@ -38,15 +38,44 @@ namespace WebBackendProject.Controllers
             };
 
             db.Payments.Add(payment);
-            db.SaveChanges();
+            db.SaveChanges();            
 
-
-
-            var result = new { payment };
-            
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(new {message = "Success"}, JsonRequestBehavior.AllowGet);
         }
-        
+
+        [HttpPatch]
+        public ActionResult setPaymentStatus(int bookingId, string status) // PATCH: Payment/status/update
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(status))
+                {
+                    return Json(new { message = "Status cannot be null or empty." }, JsonRequestBehavior.AllowGet);
+                }
+
+                var payment = new Payment { BookingId = bookingId };
+
+                db.Payments.Attach(payment);
+
+                payment.PaymentStatus = status;
+
+                db.Entry(payment).Property(b => b.PaymentStatus).IsModified = true;
+
+                db.SaveChanges();
+
+                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+      
+
     }
 }

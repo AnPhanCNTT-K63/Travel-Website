@@ -23,7 +23,6 @@ namespace WebBackendProject.Controllers
             var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == info.Username);
             var softDeletedUserEmail = db.Users.FirstOrDefault(u => u.IsDeleted == true);
 
-
             if (existedUserEmail != null)
             {
                 return Json(new { error = "Email is already in use. Please login or click forgot password" }, JsonRequestBehavior.AllowGet);

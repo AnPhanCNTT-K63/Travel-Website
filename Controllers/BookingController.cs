@@ -14,6 +14,20 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
+        [HttpGet]
+        public ActionResult bookings() // GET: Booking/bookings
+        {
+            try
+            {
+                var bookings = db.Bookings.ToList();
+                return Json(bookings, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Exception = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public ActionResult getBookingInfo(int? tourPackageId) // GET: Booking/info/{tourPackage_id}
@@ -67,7 +81,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult storeBookingInfo(BookingInfo info, int User_Id)
+        public ActionResult storeBookingInfo(BookingInfo info, int User_Id) //POST: Booking/store
         {
             try
             {
@@ -76,7 +90,7 @@ namespace WebBackendProject.Controllers
                 booking.User = user;
                 booking.CreatedAt = DateTime.UtcNow;
                 booking.UpdatedAt = DateTime.UtcNow;
-                booking.Status = "Pending";
+                booking.Status = "pending";
                 db.Bookings.Add(booking);
                 db.SaveChanges();
 
@@ -101,7 +115,7 @@ namespace WebBackendProject.Controllers
 
                 db.SaveChanges();
 
-                return Json(new {message = "Success"}, JsonRequestBehavior.AllowGet);
+                return Json(booking.Id, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -117,7 +131,7 @@ namespace WebBackendProject.Controllers
         {
             var bookings = db.Bookings
                 .Include(b => b.TourPackage)
-                .Where(b => b.User.Id == userId)
+                .Where(b => b.User.Id == userId && b.IsDeleted != true)
                 .Select(b => b).ToList();
 
             var myBookings = new List<MyBooking>();
@@ -127,6 +141,7 @@ namespace WebBackendProject.Controllers
                 var mappedBooking = new MyBooking
                 {
                     Id = booking.Id,
+                    TourPackageId = booking.TourPackageId,
                     Name = booking.TourPackage.Name,
                     Price = booking.TourPackage.Price,
                     Status = booking.Status,
@@ -145,7 +160,96 @@ namespace WebBackendProject.Controllers
             return Json(bookings, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPatch]
+        public ActionResult setStatus(int bookingId, string status) // PATCH: Booking/status/update
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(status))
+                {
+                    return Json(new { message = "Status cannot be null or empty." }, JsonRequestBehavior.AllowGet);
+                }
 
+                var booking = new Booking { Id = bookingId };
+
+                db.Bookings.Attach(booking);
+
+                booking.Status = status;
+
+                db.Entry(booking).Property(b => b.Status).IsModified = true;
+
+                db.SaveChanges();
+
+                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult checkStatusPending(int User_Id) //POST: Booking/status/check
+        {
+            try
+            {
+                var bookings = db.Bookings.Include(b => b.User).Where(b => b.User.Id == User_Id);
+
+                if (bookings == null)
+                {
+                    return Json(new { message = "No booking Pending" }, JsonRequestBehavior.AllowGet);
+
+                }
+                foreach (var booking in bookings)
+                {
+                    if (booking.Status == "pending")
+                    {
+                        return Json(new { message = "Has booking Pending" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+                return Json(new { message = "No booking Pending" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPatch]
+        public ActionResult softDeleted(int bookingId) // PATCH: Booking/delete/soft
+        {
+            try
+            {
+                var booking = new Booking { Id = bookingId };
+
+                db.Bookings.Attach(booking);
+
+                booking.IsDeleted = true;
+
+                db.Entry(booking).Property(b => b.IsDeleted).IsModified = true;
+
+                db.SaveChanges();
+
+                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

@@ -15,6 +15,7 @@ namespace WebBackendProject.Models
         public DateTime BookingDate { get; set; }
         public string Status { get; set; }
         public int NumOfPeople { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public User User { get; set; }

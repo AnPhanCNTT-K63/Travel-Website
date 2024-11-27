@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -13,11 +14,23 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult tours() //GET: /Tour/tours
+        public ActionResult Tours() // GET: /Tour/Tours
         {
-            var data = db.Tours.ToList();
-            return Json(data, JsonRequestBehavior.AllowGet);
+            var toursWithMinPrice = db.Tours
+                .Select(t => new
+                {
+                    t.Id,
+                    t.Name,
+                    MinPrice = db.TourPackages
+                        .Where(tp => tp.Tour.Id == t.Id)
+                        .Min(tp => (decimal?)tp.Price) // Use decimal? to handle tours without packages
+                        ?? 0 // Default to 0 if no packages exist
+                })
+                .ToList();
+
+            return Json(toursWithMinPrice, JsonRequestBehavior.AllowGet);
         }
+
 
         [JwtAuthorize("admin")]
         [HttpPost]

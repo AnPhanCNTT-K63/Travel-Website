@@ -241,6 +241,14 @@
     <Compile Include="Migrations\202411250122389_new_one_2.designer.cs">
       <DependentUpon>202411250122389_new_one_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411271519283_new_one_100.cs" />
+    <Compile Include="Migrations\202411271519283_new_one_100.designer.cs">
+      <DependentUpon>202411271519283_new_one_100.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411271530047_new_one_1001.cs" />
+    <Compile Include="Migrations\202411271530047_new_one_1001.designer.cs">
+      <DependentUpon>202411271530047_new_one_1001.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -253,6 +261,7 @@
     <Compile Include="Models\DTO\SignInInfo.cs" />
     <Compile Include="Models\DTO\SignUpInfo.cs" />
     <Compile Include="Models\DTO\TicketInfo.cs" />
+    <Compile Include="Models\DTO\UserRequest.cs" />
     <Compile Include="Models\PaymentCard.cs" />
     <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\Tour.cs" />
@@ -315,6 +324,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411250122389_new_one_2.resx">
       <DependentUpon>202411250122389_new_one_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411271519283_new_one_100.resx">
+      <DependentUpon>202411271519283_new_one_100.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411271530047_new_one_1001.resx">
+      <DependentUpon>202411271530047_new_one_1001.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Web.Services.Description;
 using System.Web.UI;
 using WebBackendProject.Models;
+using Newtonsoft.Json.Linq;
 
 namespace WebBackendProject.Controllers
 {
@@ -31,8 +32,6 @@ namespace WebBackendProject.Controllers
         }
 
 
-
-        [JwtAuthorize("admin")]
         [HttpGet]
         public ActionResult users() //GET: /User/users
         {
@@ -216,6 +215,41 @@ namespace WebBackendProject.Controllers
             }
         }
 
-       
+        [HttpGet]
+        public ActionResult getUserPaymentRequest() //GET: /User/request/payment
+        {
+            try
+            {
+                var bookings = db.Bookings
+                .Include(b => b.User)
+                .Include(b => b.Payment)
+                .Include(b => b.TourPackage)
+                .Where(b => b.Status != "cancel")
+                .ToList()
+                .Select(b => new
+                {
+                    User_Id = b.User.Id,
+                    User_Name = b.User.Username,
+                    Booking_Date = b.BookingDate.ToLocalTime().ToString("MMMM dd, yyyy hh:mm tt"),
+                    Booking_Id = b.Id,
+                    TourPackage_Id = b.TourPackageId,
+                    TourPackage_Name = b.TourPackage.Name,
+                    Total_Price = b.Payment.PaymentAmount,
+                    Payment_Method = b.Payment.PaymentMethod,
+                    Payment_Status = b.Payment.PaymentStatus,
+                }).ToList();
+                
+
+                return Json(bookings, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

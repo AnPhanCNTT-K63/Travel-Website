@@ -52,21 +52,26 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult tourPackageVoucher(int? id) //GET: /TourPackage/vouchers/{id}
+        public ActionResult TourPackageVoucher(int? id) // GET: /TourPackage/vouchers/{id}
         {
-
             var vouchers = db.Vouchers
-        .Where(v => v.TourPackage.Id == id)
-        .Select(v => v)
-        .ToList();
+                .Where(v => v.TourPackage.Id == id)
+                .Select(v => new
+                {
+                    v.Code,
+                    v.Title,
+                    v.Discount
+                }) 
+                .ToList();
 
             if (!vouchers.Any())
             {
-                return Json(new { message = "No voucher" }, JsonRequestBehavior.AllowGet);
+                return Json(vouchers, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(vouchers, JsonRequestBehavior.AllowGet);
+            return Json( vouchers , JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpGet]   
         public ActionResult GetVat(int id) //GET: /TourPackage/VAT/{id}

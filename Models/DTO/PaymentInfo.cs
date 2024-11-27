@@ -11,7 +11,6 @@ namespace WebBackendProject.Models.DTO
         public string PaymentAmount { get; set; }
         public string PaymentStatus { get; set; }
         public string TransactionId { get; set; }
-        public DateTime BookingDate { get; set; }
         public int BookingId { get; set; }
     }
 }
