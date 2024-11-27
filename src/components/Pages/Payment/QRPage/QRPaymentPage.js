@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import TimerContext from "../../../../TimerContext";
 import { Box, Button } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import Swal from "sweetalert2";
@@ -6,30 +7,76 @@ import Instructions from "./QRInstructions";
 import PaymentDetail from "./PaymentDetai";
 import QRCodeSection from "./QRCodeSection";
 import CountdownSection from "./CountdownSection";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ConfirmSection from "./ConfirmSection";
+import {
+  createPaymentInfo,
+  setPaymentStatus,
+  setStatus,
+} from "../../../../api/services";
 
 export default function QRPaymentPage() {
-  const location = useLocation();
   const navigate = useNavigate();
   const { bookingId } = useParams();
-  const [data, setData] = useState(location.state.dataTransfer);
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("dataTransfer"))
+  );
+
+  const {
+    timeRemaining,
+    setTimeRemaining,
+    timerExpired,
+    setTimerExpired,
+    stopTimer,
+  } = useContext(TimerContext);
+
+  const selectedPayment = localStorage.getItem("selectedPayment");
+
+  const paymentInfo = {
+    PaymentMethod: selectedPayment,
+    PaymentAmount: data.total,
+    PaymentStatus: "pending",
+    TransactionId: "",
+    BookingId: bookingId,
+  };
 
   const onClickCancel = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "If you leave, the transaction will be saved in your billing page. You can continue the process within 24 hours.",
+      text: "If you leave, the transaction will be canceled",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Leave Process",
       cancelButtonText: "Stay Here",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
+        try {
+          await setPaymentStatus({
+            bookingId: bookingId,
+            status: "cancel",
+          });
+        } catch (err) {
+          console.error(err);
+        }
         navigate("/");
       }
     });
+  };
+
+  const onConfirmClick = async () => {
+    try {
+      await createPaymentInfo(paymentInfo);
+      await setStatus({
+        bookingId: bookingId,
+        status: "waiting",
+      });
+    } catch (err) {
+      console.error("Error sending: ", err);
+    }
+    stopTimer();
+    navigate("/user/booking");
   };
 
   return (
@@ -63,7 +110,12 @@ export default function QRPaymentPage() {
       </Button>
 
       {/* Countdown Section */}
-      <CountdownSection />
+      <CountdownSection
+        getTimerExpired={setTimerExpired}
+        getTimeRemain={setTimeRemaining}
+        timeRemained={timeRemaining}
+        timerExpiring={timerExpired}
+      />
 
       {/* QR Code and Confirmation Section */}
       <Box
@@ -83,7 +135,11 @@ export default function QRPaymentPage() {
         <QRCodeSection data={data} />
 
         {/* Confirmation Section */}
-        <ConfirmSection data={data} />
+        <ConfirmSection
+          data={data}
+          paymentInfo={paymentInfo}
+          onConfirmClick={onConfirmClick}
+        />
       </Box>
 
       {/* Payment Details Section */}

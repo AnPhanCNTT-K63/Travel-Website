@@ -114,6 +114,7 @@ export default function UserBookingPage() {
   const total = totalTemp - voucher + VATCost;
 
   const dataTransfer = {
+    bookingId: bookingId,
     TourPackageId: tourPackageId,
     BookingDate: ticket.date,
     Status: "pending",

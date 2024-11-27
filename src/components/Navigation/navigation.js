@@ -95,7 +95,7 @@ function Navigation() {
         <Route path="/EuropeTour" element={<EuropeTour />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
         <Route path="/user/request" element={<UserRequest />} />
-        <Route path="/user/booking/:userId" element={<MyBookingPage />} />
+        <Route path="/user/booking" element={<MyBookingPage />} />
         <Route path="/QR/:bookingId" element={<QRPaymentPage />} />
         <Route path="/payment/:bookingId" element={<PaymentPage />} />
         <Route path="/booking/:tourPackageId" element={<BookingPage />} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Table,
@@ -10,64 +10,96 @@ import {
   Paper,
   Box,
 } from "@mui/material";
-import { CheckCircle, Cancel } from "@mui/icons-material"; // Adding icons for better UX
+import { CheckCircle, Cancel } from "@mui/icons-material";
+import { Chip } from "@mui/material";
+import Swal from "sweetalert2";
 import styles from "../../../styles/UserRequest.module.css";
+import {
+  setStatus,
+  getUserPaymentRequest,
+  setPaymentStatus,
+} from "../../../api/services";
 
 const UserRequest = () => {
-  // Updated mock data with required columns
-  const mockPaymentRequests = [
-    {
-      userId: "U001",
-      userName: "John Doe",
-      bookingDate: "2024-11-25",
-      bookingId: "B123",
-      tourPackageId: "T001",
-      tourPackageName: "Disneyland - Full Experience",
-      totalPrice: 250.0,
-      paymentMethod: "Credit Card",
-    },
-    {
-      userId: "U002",
-      userName: "Jane Smith",
-      bookingDate: "2024-11-20",
-      bookingId: "B124",
-      tourPackageId: "T002",
-      tourPackageName: "Universal Studios - VIP Tour",
-      totalPrice: 350.0,
-      paymentMethod: "PayPal",
-    },
-    {
-      userId: "U003",
-      userName: "Alice Johnson",
-      bookingDate: "2024-11-15",
-      bookingId: "B125",
-      tourPackageId: "T003",
-      tourPackageName: "Eiffel Tower - Guided Tour",
-      totalPrice: 150.0,
-      paymentMethod: "Bank Transfer",
-    },
-  ];
+  const [paymentRequests, setPaymentRequests] = useState([]);
 
-  const [paymentRequests, setPaymentRequests] = useState(mockPaymentRequests);
+  useEffect(() => {
+    const fetchPaymentRequest = async () => {
+      const res = await getUserPaymentRequest();
+      setPaymentRequests(res);
+      console.log(res);
+    };
+    fetchPaymentRequest();
+  }, []);
 
-  // Handle Accept Action
-  const handleAccept = (id) => {
-    setPaymentRequests(
-      paymentRequests.map((request) =>
-        request.bookingId === id ? { ...request, status: "Accepted" } : request
-      )
-    );
-    alert("Payment accepted!");
+  const handleAccept = async (id) => {
+    try {
+      await setStatus({
+        bookingId: id,
+        status: "success",
+      });
+
+      await setPaymentStatus({
+        bookingId: id,
+        status: "success",
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Payment Accepted!",
+        text: "The payment request has been successfully accepted.",
+      });
+
+      setPaymentRequests((prevRequests) =>
+        prevRequests.map((request) =>
+          request.Booking_Id === id
+            ? { ...request, Payment_Status: "success" }
+            : request
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while accepting the payment. Please try again.",
+      });
+    }
   };
 
-  // Handle Decline Action
-  const handleDecline = (id) => {
-    setPaymentRequests(
-      paymentRequests.map((request) =>
-        request.bookingId === id ? { ...request, status: "Declined" } : request
-      )
-    );
-    alert("Payment declined!");
+  const handleDecline = async (id) => {
+    try {
+      await setStatus({
+        bookingId: id,
+        status: "fail",
+      });
+
+      await setPaymentStatus({
+        bookingId: id,
+        status: "fail",
+      });
+
+      Swal.fire({
+        icon: "info",
+        title: "Payment Declined",
+        text: "The payment request has been declined.",
+      });
+
+      setPaymentRequests((prevRequests) =>
+        prevRequests.map((request) =>
+          request.Booking_Id === id
+            ? { ...request, Payment_Status: "fail" }
+            : request
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while declining the payment. Please try again.",
+      });
+    }
   };
 
   return (
@@ -96,35 +128,54 @@ const UserRequest = () => {
               {paymentRequests.map((request, index) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{request.userId}</TableCell>
-                  <TableCell>{request.userName}</TableCell>
-                  <TableCell>{request.bookingDate}</TableCell>
-                  <TableCell>{request.bookingId}</TableCell>
-                  <TableCell>{request.tourPackageId}</TableCell>
-                  <TableCell>{request.tourPackageName}</TableCell>
-                  <TableCell>${request.totalPrice.toFixed(2)}</TableCell>
-                  <TableCell>{request.paymentMethod}</TableCell>
+                  <TableCell>{request.User_Id}</TableCell>
+                  <TableCell>{request.User_Name}</TableCell>
+                  <TableCell>{request.Booking_Date}</TableCell>
+                  <TableCell>{request.Booking_Id}</TableCell>
+                  <TableCell>{request.TourPackage_Id}</TableCell>
+                  <TableCell>{request.TourPackage_Name}</TableCell>
+                  <TableCell>${request.Total_Price}</TableCell>
+                  <TableCell>{request.Payment_Method}</TableCell>
                   <TableCell>
                     <Box display="flex" justifyContent="space-between">
-                      <Button
-                        variant="contained"
-                        color="success"
-                        className={styles.acceptButton}
-                        onClick={() => handleAccept(request.bookingId)}
-                        startIcon={<CheckCircle />}
-                        style={{ marginRight: "10px" }}
-                      >
-                        Accept
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        className={styles.declineButton}
-                        onClick={() => handleDecline(request.bookingId)}
-                        startIcon={<Cancel />}
-                      >
-                        Decline
-                      </Button>
+                      {request.Payment_Status === "success" ||
+                      request.Payment_Status === "fail" ? (
+                        <Chip
+                          label={request.Payment_Status}
+                          color={
+                            request.Payment_Status === "success"
+                              ? "success"
+                              : "error"
+                          }
+                          style={{
+                            fontWeight: "bold",
+                            textTransform: "capitalize",
+                            marginRight: "10px",
+                          }}
+                        />
+                      ) : (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="success"
+                            className={styles.acceptButton}
+                            onClick={() => handleAccept(request.Booking_Id)}
+                            startIcon={<CheckCircle />}
+                            style={{ marginRight: "10px" }}
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            className={styles.declineButton}
+                            onClick={() => handleDecline(request.Booking_Id)}
+                            startIcon={<Cancel />}
+                          >
+                            Decline
+                          </Button>
+                        </>
+                      )}
                     </Box>
                   </TableCell>
                 </TableRow>

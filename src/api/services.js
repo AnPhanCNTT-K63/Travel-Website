@@ -287,7 +287,7 @@ export const getPaymentCard = async (userId) => {
 
 export const createPaymentInfo = async (info) => {
   try {
-    const res = await axios.post(`${API_URL}/Payment/create`, info); //POST: Payment/store
+    const res = await axios.post(`${API_URL}/Payment/create`, { info: info }); //POST: Payment/store
     return res.data;
   } catch (error) {
     console.error("Error: ", error);
@@ -297,7 +297,7 @@ export const createPaymentInfo = async (info) => {
 
 export const getMyBooking = async (userId) => {
   try {
-    const res = await axios.get(`${API_URL}/Booking/user/${userId}`); //GET: Booking/user/{userId}
+    const res = await axios.get(`${API_URL}/Booking/user/${userId}`); //GET: /Booking/user/{userId}
     return res.data;
   } catch (error) {
     console.error("Error: ", error);
@@ -307,7 +307,7 @@ export const getMyBooking = async (userId) => {
 
 export const setStatus = async (data) => {
   try {
-    const res = await axios.patch(`${API_URL}/Booking/status/update`, data); //PATCH: Booking/status/update
+    const res = await axios.patch(`${API_URL}/Booking/status/update`, data); //PATCH: /Booking/status/update
     return res.data;
   } catch (error) {
     console.error("Error: ", error);
@@ -319,7 +319,39 @@ export const checkStatus = async (userId) => {
   try {
     const res = await axios.post(`${API_URL}/Booking/status/check`, {
       User_Id: userId,
-    }); //POST: Booking/status/check
+    }); //POST: /Booking/status/check
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const getUserPaymentRequest = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/User/request/payment`); //GET: /User/request/payment
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const setPaymentStatus = async (data) => {
+  try {
+    const res = await axios.patch(`${API_URL}/Payment/status/update`, data); //PATCH: Payment/status/update
+    return res.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error;
+  }
+};
+
+export const softDeleteBooking = async (bookingId) => {
+  try {
+    const res = await axios.patch(`${API_URL}/Booking/delete/soft`, {
+      bookingId: bookingId,
+    }); //PATCH: Booking/delete/soft
     return res.data;
   } catch (error) {
     console.error("Error: ", error);

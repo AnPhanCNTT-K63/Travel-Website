@@ -36,7 +36,7 @@ const BookingPage = () => {
           cancelButtonText: "Cancel",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate(`/user/booking/${user.userId}`);
+            navigate(`/user/booking`);
           }
         });
       } else if (res.message === "No booking Pending") {

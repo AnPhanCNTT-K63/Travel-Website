@@ -139,7 +139,7 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
         <StyledName>Enjoy Our Service, @{username}</StyledName>
 
         <div>
-          <div style={{ padding: "15px" }}>
+          <div>
             {user.role == "admin" && (
               <>
                 <StyledLink
@@ -194,6 +194,11 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
                 <StyledMenuItem onClick={handleMenuItemClick}>
                   <Tour style={{ fontSize: 20 }} /> My Tour
                 </StyledMenuItem>
+                <StyledLink to={`/user/booking`}>
+                  <StyledMenuItem onClick={handleMenuItemClick}>
+                    <YoutubeSearchedFor style={{ fontSize: 20 }} /> My Booking
+                  </StyledMenuItem>
+                </StyledLink>
                 <StyledMenuItem onClick={handleMenuItemClick}>
                   <YoutubeSearchedFor style={{ fontSize: 20 }} /> Transactions
                   History
@@ -202,7 +207,7 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
             )}
           </div>
 
-          <div style={{ padding: "15px" }}>
+          <div>
             {user.role == "user" ? (
               <StyledMenuItem onClick={handleMenuItemClick}>
                 <Chat style={{ fontSize: 20 }} /> Chat With Us
@@ -220,7 +225,7 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
             </StyledMenuItem>
           </div>
 
-          <div style={{ padding: "15px" }}>
+          <div>
             <StyledLink to={"/create/post"} onClick={handleMenuItemClick}>
               <StyledMenuItem>
                 <PostAdd style={{ fontSize: 20 }} /> Post
@@ -231,7 +236,7 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
             </StyledMenuItem>
           </div>
 
-          <div style={{ padding: "15px" }}>
+          <div>
             <StyledMenuItem onClick={handleSignOut}>
               <Logout style={{ fontSize: 20 }} /> Log Out
             </StyledMenuItem>

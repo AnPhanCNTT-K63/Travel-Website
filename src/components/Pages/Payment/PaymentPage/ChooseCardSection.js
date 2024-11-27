@@ -17,12 +17,10 @@ export default function ChooseCardSection({
           <div
             key={option.method}
             className={`d-flex flex-row pb-3 align-items-center rounded-4 shadow-sm`}
-            onClick={() => setSelectedPayment(option.method)} // Set the selected payment method
+            onClick={() => setSelectedPayment(option.method)}
             style={{
               backgroundColor:
-                selectedPayment === option.method
-                  ? "#d1e7ff" // Highlight color for selected card
-                  : "#f8f9fa", // Default background color
+                selectedPayment === option.method ? "#d1e7ff" : "#f8f9fa",
               padding: "12px",
               cursor: "pointer",
               transition: "background-color 0.3s",

@@ -68,25 +68,13 @@ export default function PaymentPage() {
     }
   }, [location.state, setTimeRemaining, setTimerExpired]);
 
-  const dataContain = location.state?.dataTransfer;
-
-  const dataToTranfer = {
-    dataContain,
-  };
-
-  const data = location.state?.dataTransfer;
-
-  const dataTransfer = {
-    data,
-    selectedPayment,
-  };
-
   const getSelectedPayment = (selected) => {
     setSelectedPayment(selected);
   };
 
   const handleClickToQR = () => {
-    navigate(`/QR/${bookingId}`, { state: { dataTransfer } });
+    localStorage.setItem("selectedPayment", selectedPayment);
+    navigate(`/QR/${bookingId}`);
   };
 
   const user = useContext(UserContext);
@@ -106,27 +94,27 @@ export default function PaymentPage() {
 
   const predefinedPayments = [
     {
-      method: "Visa",
+      method: "visa",
       label: "Visa Debit Card",
       image: "/visa.png",
       lastDigits: "",
     },
     {
-      method: "Mastercard",
+      method: "mastercard",
       label: "Mastercard Office",
       image: "/mastercard.png",
       lastDigits: "",
     },
     {
-      method: "Momo",
+      method: "momo",
       label: "Momo Wallet",
       image: "/momo.png",
       lastDigits: "",
     },
     {
-      method: "cash",
+      method: "paypal",
       label: "Cash Payment",
-      image: "/cash.png",
+      image: "/paypal.png",
       lastDigits: "",
     },
   ];
@@ -152,6 +140,17 @@ export default function PaymentPage() {
       return;
     }
 
+    if (!selectedPayment) {
+      Swal.fire({
+        title: "No Payment Method Selected",
+        text: "Please choose a payment method to proceed.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#2575fc",
+      });
+      return;
+    }
+
     Swal.fire({
       title: "Are you sure?",
       text: "Please review your payment details before proceeding.",
@@ -170,7 +169,7 @@ export default function PaymentPage() {
   };
 
   const handleCancle = () => {
-    navigate(`/user/booking/${user.userId}`, { state: { dataToTranfer } });
+    navigate(`/user/booking`);
   };
 
   return (
@@ -253,22 +252,22 @@ export default function PaymentPage() {
                   className="mt-4 fw-bold"
                   style={{
                     marginLeft: "20px",
-                    backgroundColor: "red", // Red background for cancel
-                    color: "white", // White text for contrast
-                    borderRadius: "8px", // Rounded corners
-                    padding: "12px 20px", // Padding for better click area
-                    border: "none", // Remove border
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+                    backgroundColor: "red",
+                    color: "white",
+                    borderRadius: "8px",
+                    padding: "12px 20px",
+                    border: "none",
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                   }}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#d9534f"; // Darker red on hover
+                    e.currentTarget.style.backgroundColor = "#d9534f";
                     e.currentTarget.style.boxShadow =
-                      "0 6px 10px rgba(0, 0, 0, 0.2)"; // More pronounced shadow
+                      "0 6px 10px rgba(0, 0, 0, 0.2)";
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "red"; // Reset to original red
+                    e.currentTarget.style.backgroundColor = "red";
                     e.currentTarget.style.boxShadow =
-                      "0 4px 6px rgba(0, 0, 0, 0.1)"; // Reset shadow
+                      "0 4px 6px rgba(0, 0, 0, 0.1)";
                   }}
                 >
                   Cancel Payment

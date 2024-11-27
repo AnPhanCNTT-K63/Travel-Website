@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   background-color: #ffffff;
   border: 1px solid #e1e1e1;
   border-radius: 12px;
@@ -60,25 +61,77 @@
   align-items: center;
 }
 
+/* Styles for See Details button with different states */
 .seeDetails {
   font-size: 14px;
   font-weight: 600;
-  color: #3498db;
   cursor: pointer;
-  margin-right: 8px;
-  padding: 6px 12px; /* Add padding for a button-like feel */
-  border-radius: 5px; /* Rounded corners */
+  padding: 6px 12px;
+  border-radius: 5px;
   transition:
     color 0.3s ease,
     background-color 0.3s ease,
     transform 0.3s ease;
 }
 
-.seeDetails:hover {
-  background-color: #3498db; /* Blue background */
-  color: white; /* White text for contrast */
-  transform: scale(1.05); /* Slight zoom effect */
-  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); /* Add a glowing shadow */
+.seeDetails.pending {
+  color: #f39c12; /* Orange */
+  background-color: #fff5e6;
+}
+
+.seeDetails.pending:hover {
+  background-color: #f39c12;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.seeDetails.waiting {
+  color: #17a2b8; /* Cyan */
+  background-color: #eafafa;
+}
+
+.seeDetails.waiting:hover {
+  background-color: #17a2b8;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.seeDetails.success {
+  color: #28a745; /* Green */
+  background-color: #eafaf1;
+}
+
+.seeDetails.success:hover {
+  background-color: #28a745;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.seeDetails.cancel {
+  color: #dc3545; /* Red */
+  background-color: #fdeceb;
+}
+
+.seeDetails.cancel:hover {
+  background-color: #dc3545;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.seeDetails.fail {
+  color: #dc35ce; /* Gray */
+  background-color: #f4f1f6;
+}
+
+.seeDetails.fail:hover {
+  background-color: #dc35ce;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
 
 .dot {
@@ -224,7 +277,7 @@
 
 /* Status-specific styles */
 .statusPending {
-  color: #f39c12; /* Orange */
+  color: #12f3f3; /* Orange */
   background-color: #fff5e6;
 }
 
@@ -236,4 +289,72 @@
 .statusPaid {
   color: #27ae60; /* Green */
   background-color: #eafaf1;
+}
+
+/* Default booking list style */
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Scrollable booking list when 5 or more bookings */
+.scrollableList {
+  max-height: 500px; /* Adjust height as per your design */
+  overflow-y: auto;
+  border: 1px solid #ddd; /* Optional: for better visual separation */
+  border-radius: 8px;
+  padding-right: 8px; /* To prevent content from getting cut by the scrollbar */
+}
+
+/* Add custom scroll styling (optional) */
+.scrollableList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollableList::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+
+.scrollableList::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker color on hover */
+}
+
+.scrollableList::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Scrollbar track color */
+}
+
+.statusPending {
+  color: #075aff;
+} /* Yellow */
+.statusWaiting {
+  color: #17a2b8;
+} /* Cyan */
+.statusSuccess {
+  color: #28a745;
+} /* Green */
+.statusCancel {
+  color: #dc3545;
+} /* Red */
+.statusFail {
+  color: #dc35ce;
+} /* Gray */
+.deleteButton {
+  position: absolute;
+  height: 40px;
+  bottom: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background-color: red; /* You can customize the color */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.deleteButton:hover {
+  background-color: darkred; /* On hover color */
 }
