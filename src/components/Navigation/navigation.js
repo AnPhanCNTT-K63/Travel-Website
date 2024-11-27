@@ -33,6 +33,7 @@ import AddPaymemt from "../Pages/Payment/AddPaymentPage/AddPayment";
 import QRPaymentPage from "../Pages/Payment/QRPage/QRPaymentPage";
 import ScrollToTop from "./ScrollToTop";
 import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
+import Billing from "../Pages/Billing/Billing";
 import UserRequest from "../Admin/UserRequest/UserRequest";
 
 function Navigation() {
@@ -93,6 +94,7 @@ function Navigation() {
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
+        <Route path="/billing" element={<Billing />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
         <Route path="/user/request" element={<UserRequest />} />
         <Route path="/user/booking" element={<MyBookingPage />} />
