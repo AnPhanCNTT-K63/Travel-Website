@@ -6,7 +6,7 @@ import Person2Icon from "@mui/icons-material/Person2";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import TourIcon from "@mui/icons-material/Tour";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar/Sidebar";
 
 import { Link } from "react-router-dom";
 

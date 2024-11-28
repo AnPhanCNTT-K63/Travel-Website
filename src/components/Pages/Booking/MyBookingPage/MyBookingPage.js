@@ -8,6 +8,7 @@ import Commercial from "./Commercial";
 import NotFoundBooking from "./NotFoundBooking";
 import TimerContext from "../../../../TimerContext";
 import Swal from "sweetalert2";
+import FilterBox from "./FilterBox";
 
 export default function MyBookingPage() {
   const user = useContext(UserContext);
@@ -92,6 +93,7 @@ export default function MyBookingPage() {
         <p className={styles.pageSubtitle}>
           View and manage your tour bookings here
         </p>
+        <FilterBox />
 
         {isLoading ? (
           <div className={styles.loadingContainer}>

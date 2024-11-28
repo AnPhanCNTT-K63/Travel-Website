@@ -95,7 +95,7 @@ const UserManagementPage = () => {
 
     fetchUsers();
 
-    const intervalId = setInterval(fetchUsers, 60000);
+    const intervalId = setInterval(fetchUsers, 30000);
     return () => clearInterval(intervalId);
   }, []);
 

@@ -18,7 +18,13 @@ import {
   setStatus,
   getUserPaymentRequest,
   setPaymentStatus,
+  getPaymentPending,
+  getProcessedPayment,
+  getAcceptedPayment,
+  getNotAcceptedPayment,
+  getUnacceptedPayment,
 } from "../../../api/services";
+import FilterBox from "./FilterBox";
 
 const UserRequest = () => {
   const [paymentRequests, setPaymentRequests] = useState([]);
@@ -102,8 +108,37 @@ const UserRequest = () => {
     }
   };
 
+  const handleFilter = async (filterType) => {
+    try {
+      let res;
+      switch (filterType) {
+        case "all":
+          res = await getUserPaymentRequest();
+          break;
+        case "pending":
+          res = await getPaymentPending();
+          break;
+        case "processed":
+          res = await getProcessedPayment();
+          break;
+        case "accepted":
+          res = await getAcceptedPayment();
+          break;
+        case "unaccepted":
+          res = await getUnacceptedPayment();
+          break;
+        default:
+          throw new Error("Invalid filter type");
+      }
+      setPaymentRequests(res);
+    } catch (error) {
+      alert("Failed to fetch data");
+    }
+  };
+
   return (
     <div className={styles.container}>
+      <FilterBox handleFilter={handleFilter} />
       <h1 className={styles.title}>Manage User Payment Requests</h1>
       {paymentRequests.length === 0 ? (
         <p className={styles.noRequests}>No payment requests available.</p>

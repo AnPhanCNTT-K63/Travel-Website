@@ -8,11 +8,13 @@ import {
   InputLabel,
 } from "@mui/material";
 
-const FilterBox = () => {
-  const [filter, setFilter] = useState("");
+const FilterBox = ({ handleFilter }) => {
+  const [filter, setFilter] = useState("All");
 
   const handleChange = (event) => {
-    setFilter(event.target.value);
+    const selectedFilter = event.target.value;
+    setFilter(selectedFilter);
+    handleFilter(selectedFilter);
   };
 
   return (
@@ -27,19 +29,14 @@ const FilterBox = () => {
       </Typography>
       <FormControl variant="outlined" sx={{ minWidth: 200 }}>
         <InputLabel>Request Status</InputLabel>
-        <Select
-          value={filter}
-          onChange={handleChange}
-          label="Request Status"
-          displayEmpty
-        >
-          <MenuItem value="">
+        <Select value={filter} onChange={handleChange} label="Request Status">
+          <MenuItem value="all">
             <em>All</em>
           </MenuItem>
-          <MenuItem value="processed">Request Processed</MenuItem>
+          <MenuItem value="processed">Processed Request</MenuItem>
           <MenuItem value="pending">Pending Request</MenuItem>
-          <MenuItem value="accepted">Request Accepted</MenuItem>
-          <MenuItem value="notAccepted">Request Not Accepted</MenuItem>
+          <MenuItem value="accepted">Accepted Request</MenuItem>
+          <MenuItem value="unaccepted">Unaccepted Request</MenuItem>
         </Select>
       </FormControl>
     </Box>

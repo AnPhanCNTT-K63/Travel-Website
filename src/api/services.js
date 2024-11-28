@@ -1,360 +1,389 @@
-import axios from "axios";
+import apiClient from "./AxiosConfiguration";
+import handleApiError from "./ErrorHandlle";
 
-const API_URL = "https://localhost:44331";
-
-axios.interceptors.request.use(
-  (config) => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    } else {
-      console.log("No token found in localStorage");
-    }
-    console.log("Authorization header:", config.headers["Authorization"]);
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
+//POST: user/ping
 export const heartBeat = async (user_id) => {
   try {
-    const response = await axios.post(`${API_URL}/User/heartBeat`, {
+    const response = await apiClient.post(`/user/ping`, {
       userId: user_id,
-    }); // POST: /User/heartBeat
+    });
     return response.data;
   } catch (error) {
-    console.error("Error:", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+// GET: /tour/tours
 export const getTours = async () => {
   try {
-    const response = await axios.get(`${API_URL}/Tour/tours`); // GET: /Tour/tours
+    const response = await apiClient.get(`/tour/tours`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching tours:", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: /tour/detail/{id}
 export const getTourDetail = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/Tour/detail/tour/${id}`); //GET: /Tour/detail/tour/{id}
+    const response = await apiClient.get(`/tour/detail/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching tour detail:", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//POST: /tour/create
 export const createTourAndPackages = async (data) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/Tour/create/tourAndPackages`,
-      data
-    ); //POST: /Tour/create/tourAndPackages
+    const response = await apiClient.post(`/tour/create`, data);
     return response.data;
   } catch (error) {
-    console.error("Error adding tour:", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//POST: auth/signup
 export const signup = async (user) => {
   try {
-    const res = await axios.post(`${API_URL}/Auth/signup`, user); //POST: /Auth/signup
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
-export const signout = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/Auth/signout`); //POST: /Auth/signout
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
-export const signin = async (user) => {
-  try {
-    const res = await axios.post(`${API_URL}/Auth/signin`, user); //POST: /Auth/signin
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
-export const getPosts = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/Post/posts`); //GET: /Post/posts
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
-export const getPostDetail = async (id) => {
-  try {
-    const res = await axios.get(`${API_URL}/Post/detail/post/${id}`); //GET: /Post/detail/post/{id}
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
-export const getPostByUserId = async (user_id) => {
-  try {
-    const res = await axios.get(`${API_URL}/Post/findByUserId/post/${user_id}`); //GET: /Post/findByUserId/post
-    return res.data;
-  } catch (err) {
-    console.log("Error When Fetching Api", err);
-  }
-};
-
-export const createPost = async (postData) => {
-  try {
-    const res = await axios.post(`${API_URL}/Post/create/post`, postData); //POST: /Post/create/post
-    return res.data;
-  } catch (error) {
-    console.error("Error creating post: ", error);
-    throw error;
-  }
-};
-
-export const updatePost = async (postData, id) => {
-  try {
-    const res = await axios.put(`${API_URL}/Post/update/post/${id}`, postData); //PUT: /Post/update/post/{id}
-    return res.data;
-  } catch (error) {
-    console.error("Error updating post: ", error);
-    throw error;
-  }
-};
-
-export const deletePost = async (id) => {
-  try {
-    const res = await axios.delete(`${API_URL}/Post/delete/post/${id}`, id); //DELETE: /Post/delete/post/{id}
-    return res.data;
-  } catch (error) {
-    console.error("Error Deleting post: ", error);
-    throw error;
-  }
-};
-
-export const getUsers = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/User/users`); //GET: /User/users
-    return res.data;
-  } catch (error) {
-    console.error("Error Get users: ", error);
-    throw error;
-  }
-};
-
-export const getProfile = async (user_id) => {
-  try {
-    const res = await axios.get(`${API_URL}/User/profile/${user_id}`); //GET: /User/profile/${user_id}
-    return res.data;
-  } catch (error) {
-    console.error("Error Get Profile: ", error);
-    throw error;
-  }
-};
-
-export const getAccountInfo = async (user_id) => {
-  try {
-    const res = await axios.get(`${API_URL}/User/account/${user_id}`); //GET: /User/account/${user_id}
-    return res.data;
-  } catch (error) {
-    console.error("Error Get Account Info: ", error);
-    throw error;
-  }
-};
-
-export const updateAccount = async (user) => {
-  try {
-    const res = await axios.put(`${API_URL}/User/update/account`, {
-      userInfo: user,
-    }); //PUT: User/update/account
-    return res.data;
-  } catch (error) {
-    console.error("Error: ", error);
-    throw error;
-  }
-};
-
-export const passwordCheck = async (data) => {
-  try {
-    const response = await axios.post(`${API_URL}/Auth/passwordCheck`, data); //POST: Auth/passwordCheck
+    const response = await apiClient.post(`/auth/signup`, user);
     return response.data;
   } catch (error) {
-    console.error("Error:", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: auth/signout
+export const signout = async () => {
+  try {
+    const response = await apiClient.get(`/auth/signout`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//POST: auth/signin
+export const signin = async (user) => {
+  try {
+    const response = await apiClient.post(`/auth/signin`, user);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: /post/posts
+export const getPosts = async () => {
+  try {
+    const response = await apiClient.get(`/post/posts`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: /post/detail{id}
+export const getPostDetail = async (id) => {
+  try {
+    const response = await apiClient.get(`/post/detail/${id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: /post/user/{user_id}
+export const getPostByUserId = async (user_id) => {
+  try {
+    const response = await apiClient.get(`/post/user/${user_id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//POST: /post/create
+export const createPost = async (postData) => {
+  try {
+    const response = await apiClient.post(`/post/create`, postData);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//PUT: post/update/{id}
+export const updatePost = async (postData, id) => {
+  try {
+    const response = await apiClient.put(`/post/update/${id}`, postData);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//DELETE: post/delete/{id}
+export const deletePost = async (id) => {
+  try {
+    const response = await apiClient.delete(`/post/delete/${id}`, id);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/users
+export const getUsers = async () => {
+  try {
+    const response = await apiClient.get(`/user/users`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/profile/{user_id}
+export const getProfile = async (user_id) => {
+  try {
+    const response = await apiClient.get(`/user/profile/${user_id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/account/{user_id}
+export const getAccountInfo = async (user_id) => {
+  try {
+    const response = await apiClient.get(`/user/account/${user_id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//PUT: user/update/account
+export const updateAccount = async (user) => {
+  try {
+    const response = await apiClient.put(`/user/update/account`, {
+      userInfo: user,
+    });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//POST: auth/password/check
+export const passwordCheck = async (data) => {
+  try {
+    const response = await apiClient.post(`/auth/password/check`, data);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//DELETE: user/delete/account/soft/{user_id}
 export const deleteAccount = async (user_Id) => {
   try {
-    const res = await axios.delete(
-      `${API_URL}/User/softDeleted/account/${user_Id}`,
+    const response = await apiClient.delete(
+      `/user/delete/account/soft/${user_Id}`,
       {
         user_id: user_Id,
       }
-    ); //DELETE: User/delete/account
-    return res.data;
+    );
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//POST: user/restore/account
 export const restoreAccount = async (user_Id) => {
   try {
-    const res = await axios.post(`${API_URL}/User/restore/account`, {
+    const response = await apiClient.post(`/user/restore/account`, {
       user_id: user_Id,
-    }); //Post: User/restore/account
-    return res.data;
+    });
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: booking/info/{tourPackage_id}
 export const getBookingInfo = async (tourPackageId) => {
   try {
-    const res = await axios.get(`${API_URL}/Booking/info/${tourPackageId}`); //GET: Booking/info/{tourPackage_Id}
-    return res.data;
+    const response = await apiClient.get(`/booking/info/${tourPackageId}`);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: booking/contact/{user_id}
 export const getContactInfo = async (user_id) => {
   try {
-    const res = await axios.get(`${API_URL}/Booking/contact/info/${user_id}`); //GET: Booking/contact/info/{user_id}
-    return res.data;
+    const response = await apiClient.get(`/booking/contact/${user_id}`);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//POST: booking/create
 export const sendBookingInfo = async (info) => {
   try {
-    const res = await axios.post(`${API_URL}/Booking/store`, info); //POST: Booking/store
-    return res.data;
+    const response = await apiClient.post(`/booking/create`, info);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: package/vouchers/{id}
 export const getVoucher = async (id) => {
   try {
-    const res = await axios.get(`${API_URL}/TourPackage/vouchers/${id}`); //GET: /TourPackage/vouchers/{id}
-    return res.data;
+    const response = await apiClient.get(`/package/vouchers/${id}`);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: package/VAT/{id}
 export const getVAT = async (id) => {
   try {
-    const res = await axios.get(`${API_URL}/TourPackage/VAT/${id}`); //GET: /TourPackage/VAT/{id}
-    return res.data;
+    const response = await apiClient.get(`/package/VAT/${id}`);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: payment/card/{userId}
 export const getPaymentCard = async (userId) => {
   try {
-    const res = await axios.get(`${API_URL}/Payment/card/${userId}`); //GET: Payment/card/{userId}
-    return res.data;
+    const response = await apiClient.get(`/payment/card/${userId}`);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//POST: payment/create/info
 export const createPaymentInfo = async (info) => {
   try {
-    const res = await axios.post(`${API_URL}/Payment/create`, { info: info }); //POST: Payment/store
-    return res.data;
+    const response = await apiClient.post(`/payment/create/info`, {
+      info: info,
+    });
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//GET: booking/user/{userId}
 export const getMyBooking = async (userId) => {
   try {
-    const res = await axios.get(`${API_URL}/Booking/user/${userId}`); //GET: /Booking/user/{userId}
-    return res.data;
+    const response = await apiClient.get(`/booking/user/${userId}`);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//PATCH: booking/update/status
 export const setStatus = async (data) => {
   try {
-    const res = await axios.patch(`${API_URL}/Booking/status/update`, data); //PATCH: /Booking/status/update
-    return res.data;
+    const response = await apiClient.patch(`/booking/update/status`, data);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//POST: booking/check/status
 export const checkStatus = async (userId) => {
   try {
-    const res = await axios.post(`${API_URL}/Booking/status/check`, {
+    const response = await apiClient.post(`/booking/check/status`, {
       User_Id: userId,
-    }); //POST: /Booking/status/check
-    return res.data;
+    });
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
-export const getUserPaymentRequest = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/User/request/payment`); //GET: /User/request/payment
-    return res.data;
-  } catch (error) {
-    console.error("Error: ", error);
-    throw error;
-  }
-};
-
+//PATCH: payment/update/status
 export const setPaymentStatus = async (data) => {
   try {
-    const res = await axios.patch(`${API_URL}/Payment/status/update`, data); //PATCH: Payment/status/update
-    return res.data;
+    const response = await apiClient.patch(`/payment/update/status`, data);
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
   }
 };
 
+//PATCH: booking/delete/soft
 export const softDeleteBooking = async (bookingId) => {
   try {
-    const res = await axios.patch(`${API_URL}/Booking/delete/soft`, {
+    const response = await apiClient.patch(`/booking/delete/soft`, {
       bookingId: bookingId,
-    }); //PATCH: Booking/delete/soft
-    return res.data;
+    });
+    return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error;
+    handleApiError(error);
+  }
+};
+
+//GET: user/request/payment
+export const getUserPaymentRequest = async () => {
+  try {
+    const response = await apiClient.get(`/user/request/payment`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/request/payment/pending
+export const getPaymentPending = async () => {
+  try {
+    const response = await apiClient.get(`/user/request/payment/pending`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/request/payment/processed
+export const getProcessedPayment = async () => {
+  try {
+    const response = await apiClient.get(`/user/request/payment/processed`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/request/payment/accepted
+export const getAcceptedPayment = async () => {
+  try {
+    const response = await apiClient.get(`/user/request/payment/accepted`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/request/payment/unaccepted
+export const getUnacceptedPayment = async () => {
+  try {
+    const response = await apiClient.get(`/user/request/payment/unaccepted`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
   }
 };
