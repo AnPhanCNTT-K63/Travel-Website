@@ -14,7 +14,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BookingRecap from "./BookingRecap";
 import styles from "../../../../styles/PaymentPage.module.css";
 import ChooseCardSection from "./ChooseCardSection";
-import { getPaymentCard } from "../../../../api/services";
+import { getPaymentCard, setStatus } from "../../../../api/services";
 import Swal from "sweetalert2";
 import CountdownSection from "./CountdownSection";
 
@@ -22,10 +22,15 @@ export default function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [card, setCard] = useState([]);
-  const { tourPackageId } = useParams();
+  const { bookingId } = useParams();
   const [selectedPayment, setSelectedPayment] = useState(null);
-  const { timeRemaining, setTimeRemaining, timerExpired, setTimerExpired } =
-    useContext(TimerContext);
+  const {
+    timeRemaining,
+    setTimeRemaining,
+    timerExpired,
+    setTimerExpired,
+    stopTimer,
+  } = useContext(TimerContext);
   const [paymentInfo, setPaymentInfo] = useState(
     location.state?.dataTransfer || {
       NumOfPeople: "",
@@ -36,6 +41,23 @@ export default function PaymentPage() {
       pricePerson: "",
     }
   );
+  useEffect(() => {
+    if (timerExpired) {
+      const updateStatus = async () => {
+        try {
+          const res = await setStatus({
+            bookingId: bookingId,
+            status: "cancel",
+          });
+          console.log("Status updated:", res);
+        } catch (err) {
+          console.error("Failed to update status:", err);
+        }
+      };
+
+      updateStatus();
+    }
+  }, [timerExpired, bookingId]);
 
   useEffect(() => {
     if (!timeRemaining && location.state?.timeRemaining) {
@@ -46,36 +68,13 @@ export default function PaymentPage() {
     }
   }, [location.state, setTimeRemaining, setTimerExpired]);
 
-  const dataContain = location.state.dataTransfer;
-
-  const dataToTranfer = {
-    tourPackageId,
-    dataContain,
-    timeRemaining,
-    timerExpired,
-  };
-
-  const getTimerExpired = (timerExpired) => {
-    setTimerExpired(timerExpired);
-  };
-
-  const getTimeRemain = (timeRemain) => {
-    setTimeRemaining(timeRemain);
-  };
-
-  const data = location.state.dataTransfer;
-
-  const dataTransfer = {
-    data,
-    selectedPayment,
-  };
-
   const getSelectedPayment = (selected) => {
     setSelectedPayment(selected);
   };
 
   const handleClickToQR = () => {
-    navigate(`/QR/${tourPackageId}`, { state: { dataTransfer } });
+    localStorage.setItem("selectedPayment", selectedPayment);
+    navigate(`/QR/${bookingId}`);
   };
 
   const user = useContext(UserContext);
@@ -95,27 +94,27 @@ export default function PaymentPage() {
 
   const predefinedPayments = [
     {
-      method: "Visa",
+      method: "visa",
       label: "Visa Debit Card",
       image: "/visa.png",
       lastDigits: "",
     },
     {
-      method: "Mastercard",
+      method: "mastercard",
       label: "Mastercard Office",
       image: "/mastercard.png",
       lastDigits: "",
     },
     {
-      method: "Momo",
+      method: "momo",
       label: "Momo Wallet",
       image: "/momo.png",
       lastDigits: "",
     },
     {
-      method: "cash",
+      method: "paypal",
       label: "Cash Payment",
-      image: "/cash.png",
+      image: "/paypal.png",
       lastDigits: "",
     },
   ];
@@ -132,11 +131,22 @@ export default function PaymentPage() {
     if (timerExpired) {
       Swal.fire({
         title: "Payment Time Expired",
-        text: "Your session has expired. Please restart the payment process.",
+        text: "Your session has expired.",
         icon: "error",
-        confirmButtonText: "Restart Payment",
+        confirmButtonText: "Exit",
       }).then(() => {
-        window.location.reload();
+        navigate("/");
+      });
+      return;
+    }
+
+    if (!selectedPayment) {
+      Swal.fire({
+        title: "No Payment Method Selected",
+        text: "Please choose a payment method to proceed.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#2575fc",
       });
       return;
     }
@@ -152,13 +162,14 @@ export default function PaymentPage() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
+        stopTimer();
         handleClickToQR();
       }
     });
   };
 
   const handleCancle = () => {
-    navigate(`/user/booking/${user.userId}`, { state: { dataToTranfer } });
+    navigate(`/user/booking`);
   };
 
   return (
@@ -208,7 +219,7 @@ export default function PaymentPage() {
                 />
 
                 <Button
-                  onClick={handleProceedToPayment} // Use SweetAlert2 confirmation before proceeding
+                  onClick={handleProceedToPayment}
                   block
                   size="lg"
                   className="mt-4 fw-bold"
@@ -241,22 +252,22 @@ export default function PaymentPage() {
                   className="mt-4 fw-bold"
                   style={{
                     marginLeft: "20px",
-                    backgroundColor: "red", // Red background for cancel
-                    color: "white", // White text for contrast
-                    borderRadius: "8px", // Rounded corners
-                    padding: "12px 20px", // Padding for better click area
-                    border: "none", // Remove border
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+                    backgroundColor: "red",
+                    color: "white",
+                    borderRadius: "8px",
+                    padding: "12px 20px",
+                    border: "none",
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                   }}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#d9534f"; // Darker red on hover
+                    e.currentTarget.style.backgroundColor = "#d9534f";
                     e.currentTarget.style.boxShadow =
-                      "0 6px 10px rgba(0, 0, 0, 0.2)"; // More pronounced shadow
+                      "0 6px 10px rgba(0, 0, 0, 0.2)";
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "red"; // Reset to original red
+                    e.currentTarget.style.backgroundColor = "red";
                     e.currentTarget.style.boxShadow =
-                      "0 4px 6px rgba(0, 0, 0, 0.1)"; // Reset shadow
+                      "0 4px 6px rgba(0, 0, 0, 0.1)";
                   }}
                 >
                   Cancel Payment

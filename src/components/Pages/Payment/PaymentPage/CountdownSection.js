@@ -1,5 +1,5 @@
+// CountdownSection Component
 import React, { useEffect, useState } from "react";
-
 import styles from "../../../../styles/PaymentPage.module.css";
 
 export default function CountdownSection({
@@ -10,8 +10,12 @@ export default function CountdownSection({
 }) {
   const [timeRemaining, setTimeRemaining] = useState(timeRemained);
   const [timerExpired, setTimerExpired] = useState(timerExpiring);
-  getTimerExpired(timerExpired);
-  getTimeRemain(timeRemaining);
+
+  useEffect(() => {
+    getTimerExpired(timerExpired);
+    getTimeRemain(timeRemaining);
+  }, [timerExpired, timeRemaining, getTimerExpired, getTimeRemain]);
+
   useEffect(() => {
     if (timeRemaining > 0) {
       const timer = setInterval(() => {
@@ -22,7 +26,7 @@ export default function CountdownSection({
     } else {
       setTimerExpired(true);
     }
-  }, [timeRemaining, setTimeRemaining, setTimerExpired]);
+  }, [timeRemaining]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -49,7 +53,7 @@ export default function CountdownSection({
     >
       <p className={styles.timerText}>
         {timerExpired
-          ? "⚠️ Payment session expired. Restart payment process."
+          ? "⚠️ Payment session expired"
           : `⏳ Time remaining: ${formatTime(timeRemaining)}`}
       </p>
     </div>

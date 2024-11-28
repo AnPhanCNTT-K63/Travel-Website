@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import Header from "../Header/Header";
 import DropdownListHome from "./DropDownListHome";
 import DropdownListTour from "./DropDownListTour";
 import DropdownListBlog from "./dropblog";
@@ -32,7 +31,7 @@ const Navbar = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", width: 250 }}>
       <List>
-        {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor", "Payment"].map(
+        {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor"].map(
           (item, index) => (
             <ListItem
               button
@@ -85,7 +84,7 @@ const Navbar = () => {
                 height: "40px",
               }}
             >
-              {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor", "Payment"].map(
+              {["Home", "Tour", "Blog", "Gallery", "About Us", "Sponsor"].map(
                 (item, index) => (
                   <Box
                     key={index}

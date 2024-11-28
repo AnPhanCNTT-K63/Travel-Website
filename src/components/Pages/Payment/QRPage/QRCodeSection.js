@@ -4,15 +4,15 @@ import { Box, Typography, Card, Button } from "@mui/material";
 export default function QRCodeSection({ data }) {
   return (
     <Card
-      elevation={0} // No shadow to enhance transparency
+      elevation={0}
       sx={{
         maxWidth: 600,
         width: "100%",
         borderRadius: 3,
         p: 4,
         mb: 3,
-        background: "transparent", // Transparent background
-        boxShadow: "none", // Remove card shadow for a seamless look
+        background: "transparent",
+        boxShadow: "none",
       }}
     >
       <Typography
@@ -64,7 +64,7 @@ export default function QRCodeSection({ data }) {
           Traveloka Vietnam
         </Typography>
         <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          Pay before: 23:59, {data.data.BookingDate}
+          Pay before: 23:59, {data.BookingDate}
         </Typography>
         <Button
           variant="contained"
