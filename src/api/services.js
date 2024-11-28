@@ -14,14 +14,20 @@ export const heartBeat = async (user_id) => {
 };
 
 // GET: /tour/tours
-export const getTours = async () => {
+export const getTours = async (page = 1, pageSize = 9) => {
   try {
-    const response = await apiClient.get(`/tour/tours`);
-    return response.data;
+    const response = await apiClient.get(`/tour/tours`, {
+      params: {
+        page: page,
+        pageSize: pageSize,
+      }
+    });
+    return response.data;  // Trả về dữ liệu bao gồm tours, totalTours và totalPages
   } catch (error) {
     handleApiError(error);
   }
 };
+
 
 //GET: /tour/detail/{id}
 export const getTourDetail = async (id) => {
