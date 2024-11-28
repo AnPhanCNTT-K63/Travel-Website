@@ -24,13 +24,13 @@ export default function TourCard({ item }) {
         image={`/${item.Image}`}
         title="green iguana"
       />
-      <CardContent>
+      <CardContent> 
         <Typography gutterBottom variant="h5" component="div"></Typography>
 
         <Typography
           variant="body2"
           sx={{ height: 50, color: "text.secondary" }}
-        ></Typography>
+        ><span style={{ fontWeight: "bold"}}>Name: {item.Name}</span></Typography>
       </CardContent>
       <CardActions>
         <Box sx={{ width: "100%" }}>
