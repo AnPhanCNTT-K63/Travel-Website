@@ -31,7 +31,6 @@ export default function BookingDetail({
 
   const handleBookNow = () => {
     if (!selectedDate) {
-      // Display SweetAlert2 warning if no date is selected
       Swal.fire({
         title: "Please choose a travel date",
         icon: "warning",
