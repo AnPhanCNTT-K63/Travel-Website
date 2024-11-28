@@ -8,12 +8,14 @@ using WebBackendProject.Models.DTO;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("payment")]
     public class PaymentController : Controller
     {
         DbAppContext db = new DbAppContext();
 
         [HttpGet]
-        public ActionResult getPaymentCard(int userId) //GET: Payment/card/{userId}
+        [Route("card/{userId}")] //GET: payment/card/{userId}
+        public ActionResult GetPaymentCard(int userId) 
         {
             var card = db.PaymentCards
                 .Where(c => c.User.Id == userId)
@@ -24,7 +26,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult createPaymentInfo(PaymentInfo info) //POST: Payment/create
+        [Route("create/info")] //POST: payment/create/info
+        public ActionResult createPaymentInfo(PaymentInfo info) 
         {
             Payment payment = new Payment
             {
@@ -44,7 +47,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPatch]
-        public ActionResult setPaymentStatus(int bookingId, string status) // PATCH: Payment/status/update
+        [Route("update/status")] //PATCH: payment/update/status
+        public ActionResult SetPaymentStatus(int bookingId, string status) 
         {
             try
             {

@@ -10,6 +10,7 @@ using System.Diagnostics;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("booking")]
     public class BookingController : Controller
     {
         DbAppContext db = new DbAppContext();
@@ -30,7 +31,8 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult getBookingInfo(int? tourPackageId) // GET: Booking/info/{tourPackage_id}
+        [Route("info/{tourPackageId}")] //GET: booking/info/{tourPackage_id}
+        public ActionResult GetBookingInfo(int? tourPackageId) 
         {
             if (tourPackageId != null)
             {
@@ -58,7 +60,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult getContactInfo(int? user_id) //GET: Booking/contact/info/{user_id}
+        [Route("contact/{user_id}")] //GET: booking/contact/{user_id}
+        public ActionResult GetContactInfo(int? user_id) 
         {
             try
             {
@@ -81,7 +84,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult storeBookingInfo(BookingInfo info, int User_Id) //POST: Booking/store
+        [Route("create")] //POST: booking/create
+        public ActionResult StoreBookingInfo(BookingInfo info, int User_Id) 
         {
             try
             {
@@ -154,14 +158,16 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult getMyBooking(int userId) //GET: Booking/user/{userId}
+        [Route("user/{userId}")] //GET: booking/user/{userId}
+        public ActionResult GetMyBooking(int userId) 
         {
             var bookings = setMyBooking(userId);
             return Json(bookings, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPatch]
-        public ActionResult setStatus(int bookingId, string status) // PATCH: Booking/status/update
+        [Route("update/status")] //PATCH: booking/update/status
+        public ActionResult SetStatus(int bookingId, string status) 
         {
             try
             {
@@ -193,7 +199,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult checkStatusPending(int User_Id) //POST: Booking/status/check
+        [Route("check/status")] //POST: booking/check/status
+        public ActionResult CheckStatusPending(int User_Id) 
         {
             try
             {
@@ -225,7 +232,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPatch]
-        public ActionResult softDeleted(int bookingId) // PATCH: Booking/delete/soft
+        [Route("delete/soft")] //PATCH: booking/delete/soft
+        public ActionResult SoftDeleted(int bookingId) 
         {
             try
             {

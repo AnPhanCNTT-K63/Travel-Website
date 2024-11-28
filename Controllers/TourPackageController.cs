@@ -8,39 +8,18 @@ using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("package")]
     public class TourPackageController : Controller
     {
         DbAppContext db = new DbAppContext();
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult tourPackages() //GET: /TourPackage/tourPackages
+        [Route("packages")] //GET: /package/packages
+        public ActionResult TourPackages() 
         {
             var data = db.TourPackages.ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        [JwtAuthorize("admin")]
-        [HttpPost]
-        public ActionResult tourCreate(TourPackage tourPackage) //POST: /TourPackage/create/tourPackage
-        {
-            if (ModelState.IsValid)
-            {
-                tourPackage.CreatedAt = DateTime.UtcNow;
-                tourPackage.UpdatedAt = DateTime.UtcNow;
-                db.TourPackages.Add(tourPackage);
-                int a = db.SaveChanges();
-                if (a > 0)
-                {
-                    Debug.WriteLine("True");
-                }
-                else
-                {
-                    Debug.WriteLine("False");
-                }
-            }
-            Debug.WriteLine("Here");
-            return Json(new { haha = "haha" }, JsonRequestBehavior.AllowGet);
         }
 
         [JwtAuthorize("admin", "user")]
@@ -52,7 +31,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult TourPackageVoucher(int? id) // GET: /TourPackage/vouchers/{id}
+        [Route("vouchers/{id}")] //GET: /package/vouchers/{id}
+        public ActionResult GetVoucher(int? id) 
         {
             var vouchers = db.Vouchers
                 .Where(v => v.TourPackage.Id == id)
@@ -73,8 +53,9 @@ namespace WebBackendProject.Controllers
         }
 
 
-        [HttpGet]   
-        public ActionResult GetVat(int id) //GET: /TourPackage/VAT/{id}
+        [HttpGet]
+        [Route("VAT/{id}")] //GET: /package/VAT/{id}
+        public ActionResult GetVat(int id) 
         {
             var vat = db.TourPackages
                 .Where(t => t.Id == id)

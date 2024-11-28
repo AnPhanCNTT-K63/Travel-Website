@@ -13,13 +13,15 @@ using WebBackendProject.Models.DTO;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("post")]
     public class PostController : Controller
     {
         DbAppContext db = new DbAppContext();
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult posts() //GET: /Post/post
+        [Route("posts")]
+        public ActionResult Posts() //GET: /post/posts
         {
             var posts = db.BlogPosts.Where(p => p.User.IsDeleted == false).ToList();
 
@@ -37,9 +39,9 @@ namespace WebBackendProject.Controllers
             return Json(formattedPosts, JsonRequestBehavior.AllowGet);
         }
 
-        [JwtAuthorize("admin","user")]
         [HttpGet]
-        public ActionResult postDetail(int id) //GET: Post/detail/post/{id}
+        [Route("detail/{id}")] //GET: post/detail/{id}
+        public ActionResult PostDetail(int id) 
         {
             var post = db.BlogPosts.FirstOrDefault(model => model.Id == id);
 
@@ -63,11 +65,10 @@ namespace WebBackendProject.Controllers
         }
 
         [JwtAuthorize("admin","user")]
+        [Route("create")] //POST: post/create
         [HttpPost]
-        public ActionResult createPost(BlogPost post, int user_id) //POST: Post/create/post
+        public ActionResult CreatePost(BlogPost post, int user_id) 
         {
-            Debug.WriteLine(new string('-', 50)); // Divider
-
             if (ModelState.IsValid)
             {
                 post.Datetime = DateTime.UtcNow;
@@ -94,7 +95,8 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult getPostsByUserId(int? user_id) // GET: Post/findByUserId/post/{id}
+        [Route("user/{user_id}")] // GET: post/user/{user_id}
+        public ActionResult GetPostsByUserId(int? user_id) 
         {
             if (user_id == null)
             {
@@ -120,10 +122,9 @@ namespace WebBackendProject.Controllers
             }
         }
 
-
-        [JwtAuthorize("admin", "user")]
         [HttpPut]
-        public ActionResult UpdatePost(PostInfoUpdate post, int id) //PUT: Post/update/post/{id}
+        [Route("update/{id}")] //PUT: post/update/{id}
+        public ActionResult UpdatePost(PostInfoUpdate post, int id) 
         {
             try
             {
@@ -151,6 +152,7 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin", "user")]
         [HttpDelete]
+        [Route("delete/{id}")]  //DELETE: /post/delete/{id}
         public ActionResult DeletePost(int id)
         {
             try

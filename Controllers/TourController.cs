@@ -8,13 +8,15 @@ using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("tour")]
     public class TourController : Controller 
     {
         DbAppContext db = new DbAppContext();
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Tours() // GET: /Tour/Tours
+        [Route("tours")] // GET: /tour/tours
+        public ActionResult Tours() 
         {
             var toursWithMinPrice = db.Tours
                 .Select(t => new
@@ -23,18 +25,17 @@ namespace WebBackendProject.Controllers
                     t.Name,
                     MinPrice = db.TourPackages
                         .Where(tp => tp.Tour.Id == t.Id)
-                        .Min(tp => (decimal?)tp.Price) // Use decimal? to handle tours without packages
-                        ?? 0 // Default to 0 if no packages exist
+                        .Min(tp => (decimal?)tp.Price) 
+                        ?? 0 
                 })
                 .ToList();
 
             return Json(toursWithMinPrice, JsonRequestBehavior.AllowGet);
         }
 
-
-        [JwtAuthorize("admin")]
         [HttpPost]
-        public ActionResult tourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id) //POST: /Tour/create/tourAndPackages
+        [Route("create")] //POST: /tour/create
+        public ActionResult TourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id) 
         {
             try
             {
@@ -71,7 +72,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult tourDetail(int id) //GET: /Tour/detail/tour/{id}
+        [Route("detail/{id}")] //GET: /tour/detail/{id}
+        public ActionResult TourDetail(int id) 
         {
             var row = db.Tours.FirstOrDefault(model => model.Id == id);
             return Json(row, JsonRequestBehavior.AllowGet);

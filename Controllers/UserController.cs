@@ -13,13 +13,14 @@ using Newtonsoft.Json.Linq;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("user")]
     public class UserController : Controller
     {
         DbAppContext db = new DbAppContext();
   
         public void UpdateUserStatus()
         {
-            var threshold = DateTime.UtcNow.AddMinutes(-1);
+            var threshold = DateTime.UtcNow.AddSeconds(-30);
 
             var users = db.Users.Where(u => u.LastActive < threshold && u.IsOnline).ToList();
 
@@ -33,7 +34,8 @@ namespace WebBackendProject.Controllers
 
 
         [HttpGet]
-        public ActionResult users() //GET: /User/users
+        [Route("users")] //GET: user/users
+        public ActionResult Users() 
         {
             var data = db.Users.ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -41,7 +43,8 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult heartBeat(int userId) //POST: User/heartBeat
+        [Route("ping")] //POST: user/ping
+        public ActionResult HeartBeat(int userId) 
         {
             try
             {
@@ -68,7 +71,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult getProfileByUserId(int user_id) //GET: User/profile/{user_id}
+        [Route("profile/{user_id}")] //GET: user/profile/{user_id}
+        public ActionResult GetProfileByUserId(int user_id) 
         {
             try
             {
@@ -89,7 +93,8 @@ namespace WebBackendProject.Controllers
 
         //[JwtAuthorize("admin", "user")]
         [HttpGet]
-        public ActionResult getAccountInfo(int? user_id) // GET: User/account/{user_id}
+        [Route("account/{user_id}")] //GET: user/account/{user_id}
+        public ActionResult GetAccountInfo(int? user_id) 
         {
             try
             {
@@ -130,7 +135,8 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin", "user")]
         [HttpPut]
-        public ActionResult updateAccount(UserInfoUpdate userInfo) //POST: User/update/account
+        [Route("update/account")] //PUT: user/update/account
+        public ActionResult UpdateAccount(UserInfoUpdate userInfo) 
         {
             if(ModelState.IsValid)
             {
@@ -170,7 +176,8 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin", "user")]
         [HttpDelete]
-        public ActionResult SoftDeleteAccount(int user_id) //DELETE: User/softDeleted/account/{user_id}
+        [Route("delete/account/soft/{user_id}")] //DELETE: user/delete/account/soft/{user_id}
+        public ActionResult SoftDeleteAccount(int user_id) 
         {
             try
             {
@@ -193,7 +200,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult RestoreAccount(int user_id) //POST: User/restore/account
+        [Route("restore/account")] //POST: user/restore/account
+        public ActionResult RestoreAccount(int user_id) 
         {
             try
             {
@@ -216,29 +224,78 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult getUserPaymentRequest() //GET: /User/request/payment
+        [Route("request/payment")] //GET: user/request/payment
+        public ActionResult GetUserPaymentRequest() 
+        {
+            return GetPaymentRequests(null);
+        }
+
+        [HttpGet]
+        [Route("request/payment/pending")] //GET: user/request/payment/pending
+        public ActionResult GetPendingPayment() 
+        {
+            return GetPaymentRequests("waiting");
+        }
+
+        [HttpGet]
+        [Route("request/payment/processed")] //GET: user/request/payment/processed
+        public ActionResult GetProcessedPayment() 
+        {
+            return GetPaymentRequests(new[] { "success", "fail" });
+        }
+
+        [HttpGet]
+        [Route("request/payment/accepted")] //GET: user/request/payment/accepted
+        public ActionResult GetAcceptedPayment() 
+        {
+            return GetPaymentRequests("success");
+        }
+
+        [HttpGet]
+        [Route("request/payment/unaccepted")] //GET: user/request/payment/unaccepted
+        public ActionResult GetNotAcceptedPayment() 
+        {
+            return GetPaymentRequests("fail");
+        }
+
+
+
+        private ActionResult GetPaymentRequests(object statusFilter)
         {
             try
             {
-                var bookings = db.Bookings
-                .Include(b => b.User)
-                .Include(b => b.Payment)
-                .Include(b => b.TourPackage)
-                .Where(b => b.Status != "cancel")
-                .ToList()
-                .Select(b => new
+                var query = db.Bookings
+                    .Include(b => b.User)
+                    .Include(b => b.Payment)
+                    .Include(b => b.TourPackage);
+
+                if (statusFilter is string singleStatus)
                 {
-                    User_Id = b.User.Id,
-                    User_Name = b.User.Username,
-                    Booking_Date = b.BookingDate.ToLocalTime().ToString("MMMM dd, yyyy hh:mm tt"),
-                    Booking_Id = b.Id,
-                    TourPackage_Id = b.TourPackageId,
-                    TourPackage_Name = b.TourPackage.Name,
-                    Total_Price = b.Payment.PaymentAmount,
-                    Payment_Method = b.Payment.PaymentMethod,
-                    Payment_Status = b.Payment.PaymentStatus,
-                }).ToList();
-                
+                    query = query.Where(b => b.Status == singleStatus);
+                }
+                else if (statusFilter is string[] multipleStatuses)
+                {
+                    query = query.Where(b => multipleStatuses.Contains(b.Status));
+                }
+                else
+                {
+                    query = query.Where(b => b.Status != "cancel");
+                }
+
+                var bookings = query
+                    .ToList()
+                    .Select(b => new
+                    {
+                        User_Id = b.User.Id,
+                        User_Name = b.User.Username,
+                        Booking_Date = b.BookingDate.ToLocalTime().ToString("MMMM dd, yyyy hh:mm tt"),
+                        Booking_Id = b.Id,
+                        TourPackage_Id = b.TourPackageId,
+                        TourPackage_Name = b.TourPackage.Name,
+                        Total_Price = b.Payment.PaymentAmount,
+                        Payment_Method = b.Payment.PaymentMethod,
+                        Payment_Status = b.Payment.PaymentStatus,
+                    }).ToList();
 
                 return Json(bookings, JsonRequestBehavior.AllowGet);
             }
@@ -251,5 +308,6 @@ namespace WebBackendProject.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }

@@ -11,13 +11,15 @@ using WebBackendProject.Models.DTO;
 
 namespace WebBackendProject.Controllers
 {
-    public class AuthController : Controller //Auth/
+    [RoutePrefix("auth")]
+    public class AuthController : Controller
     {
         DbAppContext db = new DbAppContext();
 
         [AllowAnonymous]
-        [HttpPost] 
-        public ActionResult signup(SignUpInfo info) //POST: Auth/signup
+        [HttpPost]
+        [Route("signup")] //POST: auth/signup
+        public ActionResult Signup(SignUpInfo info) 
         {
             var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == info.Email);
             var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == info.Username);
@@ -62,7 +64,8 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult signin(SignInInfo info) // POST: Auth/signin
+        [Route("signin")] //POST: auth/signin
+        public ActionResult Signin(SignInInfo info) 
         {
             if(ModelState.IsValid)
             {
@@ -99,18 +102,18 @@ namespace WebBackendProject.Controllers
             
         }
 
-
-
         [JwtAuthorize("admin", "user")]
         [HttpGet]
-        public ActionResult signout() //GET: Auth/signout
+        [Route("signout")] //GET: auth/signout
+        public ActionResult Signout() 
         {
             return Json(new { message = "Log out success" }, JsonRequestBehavior.AllowGet);
         }
 
         [JwtAuthorize("admin", "user")]
         [HttpPost]
-        public ActionResult passwordCheck(string password, int? user_id) //POST: Auth/passwordCheck
+        [Route("password/check")] //POST: auth/password/check
+        public ActionResult PasswordCheck(string password, int? user_id) 
         {
             var user = db.Users.Find(user_id);
             if(user.Password != password)
