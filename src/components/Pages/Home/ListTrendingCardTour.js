@@ -13,7 +13,8 @@ export default function ListTrendingCardTour() {
     const fetchTours = async () => {
       try {
         const data = await getTours();
-        setTours(data);
+        setTours(data.tours);
+        console.log(data);
       } catch (err) {
         console.log(err);
       }

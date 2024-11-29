@@ -10,7 +10,7 @@ const TopDealSlider = () => {
     const fetchTours = async () => {
       try {
         const data = await getTours(); // Gọi API để lấy dữ liệu tours
-        setTours(data);
+        setTours(data.tours);
       } catch (err) {
         console.error(err);
       }
