@@ -3,7 +3,7 @@ import { Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Card, Button, Avatar, Popconfirm } from "antd";
 import { Link } from "react-router-dom";
-import { deletePost, getPostByUserId } from "../../../api/services";
+import { getPostByUserId } from "../../../api/Service/PostServices";
 import UserContext from "../../../UserContext";
 
 export default function Post() {
@@ -39,12 +39,12 @@ export default function Post() {
   }));
 
   const handleDelete = async (postId) => {
-    try {
-      await deletePost(postId);
-      setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
-    } catch (error) {
-      console.error("Failed to delete post:", error);
-    }
+    // try {
+    //   await deletePost(postId);
+    //   setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
+    // } catch (error) {
+    //   console.error("Failed to delete post:", error);
+    // }
   };
 
   // Pagination logic
@@ -155,7 +155,7 @@ export default function Post() {
                 <Typography variant="caption" color="text.secondary">
                   {postHashtags.map((hashtag, index) => (
                     <span key={index} style={{ marginRight: 4 }}>
-                      {hashtag}
+                      #{hashtag}
                     </span>
                   ))}
                 </Typography>

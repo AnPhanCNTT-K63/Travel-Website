@@ -12,8 +12,8 @@ import ConfirmSection from "./ConfirmSection";
 import {
   createPaymentInfo,
   setPaymentStatus,
-  setStatus,
-} from "../../../../api/services";
+} from "../../../../api/Services/PaymentServices";
+import { setStatus } from "../../../../api/Services/BookingServices";
 
 export default function QRPaymentPage() {
   const navigate = useNavigate();
@@ -136,9 +136,8 @@ export default function QRPaymentPage() {
 
         {/* Confirmation Section */}
         <ConfirmSection
-          data={data}
-          paymentInfo={paymentInfo}
           onConfirmClick={onConfirmClick}
+          timerExpired={timerExpired}
         />
       </Box>
 

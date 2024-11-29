@@ -3,7 +3,10 @@ import UserContext from "../../../../UserContext";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { checkStatus, getBookingInfo } from "../../../.././api/services";
+import {
+  checkStatus,
+  getBookingInfo,
+} from "../../../../api/Services/BookingServices";
 import PackageInfo from "./PackageInfo";
 import BookingDetail from "./BookingDetail";
 import Swal from "sweetalert2";

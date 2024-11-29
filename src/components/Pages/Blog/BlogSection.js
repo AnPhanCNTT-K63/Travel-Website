@@ -8,7 +8,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import PostCard from "./PostCard";
-import { getPosts } from "../../../api/services";
+import { getPosts } from "../../../api/Service/PostServices";
 
 const BlogSection = () => {
   const [posts, setPosts] = useState([]);
@@ -22,7 +22,7 @@ const BlogSection = () => {
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false); // Hide loading spinner once data is fetched
+        setLoading(false);
       }
     };
     fetchPost();
@@ -30,7 +30,6 @@ const BlogSection = () => {
 
   console.log(posts);
 
-  // Sample top-rated posts for the sidebar
   const topRatedPosts = [
     {
       id: 1,

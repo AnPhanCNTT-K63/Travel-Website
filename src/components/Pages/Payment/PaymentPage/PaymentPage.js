@@ -14,7 +14,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BookingRecap from "./BookingRecap";
 import styles from "../../../../styles/PaymentPage.module.css";
 import ChooseCardSection from "./ChooseCardSection";
-import { getPaymentCard, setStatus } from "../../../../api/services";
+import { getPaymentCard } from "../../../../api/Services/PaymentServices";
+import { setStatus } from "../../../../api/Services/BookingServices";
 import Swal from "sweetalert2";
 import CountdownSection from "./CountdownSection";
 
@@ -135,7 +136,7 @@ export default function PaymentPage() {
         icon: "error",
         confirmButtonText: "Exit",
       }).then(() => {
-        navigate("/");
+        navigate("/user/booking");
       });
       return;
     }
@@ -168,8 +169,28 @@ export default function PaymentPage() {
     });
   };
 
-  const handleCancle = () => {
-    navigate(`/user/booking`);
+  const handleCancle = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to cancel this booking?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, cancel it!",
+      cancelButtonText: "No, keep it",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await setStatus({
+          bookingId: bookingId,
+          status: "cancel",
+        });
+        Swal.fire("Cancelled!", "Your booking has been cancelled.", "success");
+        navigate(`/user/booking`);
+      } else {
+        Swal.fire("Cancelled", "Your booking is safe.", "info");
+      }
+    });
   };
 
   return (

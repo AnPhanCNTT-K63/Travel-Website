@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Pagination from "@mui/material/Pagination";
 import { Link } from "react-router-dom";
 import TourCard from "./../MainTour/Card";
-import { getTours } from "../../../../api/services";
+import { getTours } from "../../../../api/Services/TourAndPackageServices";
 
 export default function ListCard({ allTours, cardsPerPage }) {
   const [page, setPage] = useState(1);

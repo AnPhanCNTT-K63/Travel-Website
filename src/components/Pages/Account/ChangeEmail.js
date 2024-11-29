@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { passwordCheck } from "../../../api/services";
+import { passwordCheck } from "../../../api/Services/AuthServices";
 import {
   Box,
   Typography,

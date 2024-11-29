@@ -19,8 +19,9 @@ import {
   EventAvailable,
   ReceiptLong,
   Notifications,
+  DeleteOutline,
 } from "@mui/icons-material";
-import { signout } from "../../../api/services";
+import { signout } from "../../../api/Services/AuthServices";
 
 const username = localStorage.getItem("username");
 
@@ -126,9 +127,14 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
 
           <div>
             {user.role == "user" ? (
-              <StyledMenuItem onClick={handleMenuItemClick}>
-                <Chat style={{ fontSize: 20 }} /> Chat With Us
-              </StyledMenuItem>
+              <StyledLink
+                to={`post/delete/${user.userId}`}
+                onClick={handleMenuItemClick}
+              >
+                <StyledMenuItem>
+                  <DeleteOutline style={{ fontSize: 23 }} /> Trash Can
+                </StyledMenuItem>
+              </StyledLink>
             ) : (
               <StyledLink to={"/user/request"} onClick={handleMenuItemClick}>
                 <StyledMenuItem>

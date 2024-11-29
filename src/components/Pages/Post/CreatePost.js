@@ -10,7 +10,8 @@ import {
   Box,
   Alert,
 } from "@mui/material";
-import { createPost } from "../../../api/services";
+import { createPost } from "../../../api/Service/PostServices";
+import Swal from "sweetalert2";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -27,12 +28,11 @@ const CreatePost = () => {
 
   const navigate = useNavigate();
 
-  // Handle image file selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file.name); // Store the file
-      setImagePreview(URL.createObjectURL(file)); // Create a preview URL for the image
+      setImage(file.name);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -41,6 +41,12 @@ const CreatePost = () => {
 
     if (!title || !content || !hashtags) {
       setError("Title, content, and hashtags are required.");
+      Swal.fire({
+        icon: "error",
+        title: "Validation Error",
+        text: "Title, content, and hashtags are required.",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
@@ -56,10 +62,8 @@ const CreatePost = () => {
       Hashtags: hashtagsArray,
       Owner: role,
       User_Id: user_id,
-      Image: image, // Send the image file (you can handle it in backend or local storage)
+      Image: image,
     };
-
-    console.log(postData);
 
     setLoading(true);
 
@@ -68,15 +72,31 @@ const CreatePost = () => {
       const post = await createPost(postData);
       console.log(post);
 
+      // Reset fields
       setTitle("");
       setContent("");
       setHashtags("");
       setImage(null); // Reset image
       setImagePreview(null); // Reset image preview
       setError(null);
-      alert("Post created successfully!");
+
+      // Show success alert
+      Swal.fire({
+        icon: "success",
+        title: "Post Created",
+        text: "Your post has been created successfully!",
+        confirmButtonText: "OK",
+      });
     } catch (error) {
       setError(error.message);
+
+      // Show error alert
+      Swal.fire({
+        icon: "error",
+        title: "Post Creation Failed",
+        text: error.message || "Something went wrong. Please try again.",
+        confirmButtonText: "OK",
+      });
     } finally {
       setLoading(false);
     }

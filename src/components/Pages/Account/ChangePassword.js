@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import UserContext from "../../../UserContext";
-import { passwordCheck } from "../../../api/services";
+import { passwordCheck } from "../../../api/Services/AuthServices";
 import {
   Box,
   Typography,

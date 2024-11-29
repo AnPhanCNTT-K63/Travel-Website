@@ -3,7 +3,17 @@ import UserContext from "../../../../UserContext";
 import { useNavigate } from "react-router-dom";
 import PurchaseCard from "./PurchaseCard";
 import styles from "../../../../styles/MyBookingPage.module.css";
-import { getMyBooking, softDeleteBooking } from "../../../../api/services";
+import {
+  getMyAcceptBooking,
+  getMyApprovalBooking,
+  getMyBooking,
+  getMyCanceledBooking,
+  getMyPendingBooking,
+  getMyUnacceptedBooking,
+  setStatus,
+  softDeleteBooking,
+} from "../../../../api/Services/BookingServices.js";
+
 import Commercial from "./Commercial";
 import NotFoundBooking from "./NotFoundBooking";
 import TimerContext from "../../../../TimerContext";
@@ -84,6 +94,55 @@ export default function MyBookingPage() {
     fetchMyBooking();
   }, [user.userId]);
 
+  useEffect(() => {
+    if (timerExpired) {
+      const updateStatus = async () => {
+        try {
+          const res = await setStatus({
+            bookingId: storedData.bookingId,
+            status: "cancel",
+          });
+          console.log("Status updated:", res);
+        } catch (err) {
+          console.error("Failed to update status:", err);
+        }
+      };
+
+      updateStatus();
+    }
+  }, [timerExpired, storedData.bookingId]);
+
+  const handleFilter = async (filterType) => {
+    try {
+      let res;
+      switch (filterType) {
+        case "all":
+          res = await getMyBooking(user.userId);
+          break;
+        case "pending":
+          res = await getMyPendingBooking(user.userId);
+          break;
+        case "waiting":
+          res = await getMyApprovalBooking(user.userId);
+          break;
+        case "accepted":
+          res = await getMyAcceptBooking(user.userId);
+          break;
+        case "unaccepted":
+          res = await getMyUnacceptedBooking(user.userId);
+          break;
+        case "cancel":
+          res = await getMyCanceledBooking(user.userId);
+          break;
+        default:
+          throw new Error("Invalid filter type");
+      }
+      setBookings(res);
+    } catch (error) {
+      alert("Failed to fetch data");
+    }
+  };
+
   return (
     <div className={styles.page}>
       <Commercial />
@@ -93,7 +152,7 @@ export default function MyBookingPage() {
         <p className={styles.pageSubtitle}>
           View and manage your tour bookings here
         </p>
-        <FilterBox />
+        <FilterBox handleFilter={handleFilter} />
 
         {isLoading ? (
           <div className={styles.loadingContainer}>

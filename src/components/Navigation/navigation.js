@@ -35,6 +35,7 @@ import ScrollToTop from "./ScrollToTop";
 import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
 import Billing from "../Pages/Billing/Billing";
 import UserRequest from "../Admin/UserRequest/UserRequest";
+import DeletedPostsPage from "../Pages/Post/DeletedPostPage";
 
 function Navigation() {
   const location = useLocation();
@@ -105,6 +106,7 @@ function Navigation() {
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route path="/post/delete/:userId" element={<DeletedPostsPage />} />
         <Route
           path="/traveler/info/:tourPackageId"
           element={<UserBookingPage />}

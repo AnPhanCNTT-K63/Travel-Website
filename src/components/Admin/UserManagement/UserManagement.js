@@ -18,7 +18,7 @@ import {
   Alert,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { getUsers, restoreAccount } from "../../../api/services";
+import { getUsers, restoreAccount } from "../../../api/Services/UserServices";
 import { Visibility, Block, AccountCircle } from "@mui/icons-material";
 
 const useStyles = makeStyles({

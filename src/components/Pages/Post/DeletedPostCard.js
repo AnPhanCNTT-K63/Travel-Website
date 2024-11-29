@@ -1,15 +1,9 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, IconButton, Avatar, Button } from "@mui/material";
-import {
-  Favorite,
-  Share,
-  ChatBubbleOutline,
-  AccessTime,
-} from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { DeleteForever, AccessTime } from "@mui/icons-material";
 
-const PostCard = ({ post }) => {
+const DeletedPostCard = ({ post, onDeleteForever }) => {
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
       ? post.Hashtags.split(",")
@@ -31,11 +25,6 @@ const PostCard = ({ post }) => {
     </>
   );
 
-  const StyledLink = styled(Link)(({ theme }) => ({
-    textDecoration: "none",
-    color: theme.palette.common.black,
-  }));
-
   return (
     <Box
       sx={{
@@ -56,40 +45,30 @@ const PostCard = ({ post }) => {
     >
       {/* User Avatar and Title Section */}
       <Box display="flex" alignItems="center" sx={{ p: 2, pb: 1 }}>
-        <Link
-          style={{ textDecorationLine: "none" }}
-          to={`/profile/${post.UserId}`}
-        >
-          <Avatar
-            sx={{
-              width: 36,
-              height: 36,
-              backgroundColor: "#6c63ff",
-              marginRight: 1.5,
-            }}
-            alt={postOwnerName}
-            src={`/${post.Avatar}`}
-          />
-        </Link>
+        <Avatar
+          sx={{
+            width: 36,
+            height: 36,
+            backgroundColor: "#6c63ff",
+            marginRight: 1.5,
+          }}
+          alt={postOwnerName}
+          src={`/${post.Avatar}`}
+        />
         <Box flexGrow={1}>
           {/* Post Author Name */}
-          <Link
-            style={{ textDecorationLine: "none" }}
-            to={`/profile/${post.UserId}`}
+          <Typography
+            variant="body2"
+            color="text.primary"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              fontWeight: "600",
+            }}
           >
-            <Typography
-              variant="body2"
-              color="text.primary"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                fontWeight: "600",
-              }}
-            >
-              {postOwnerName}
-            </Typography>
-          </Link>
+            {postOwnerName}
+          </Typography>
 
           {/* Post Date */}
           <Typography
@@ -106,7 +85,7 @@ const PostCard = ({ post }) => {
       {/* Title and Hashtags Section */}
       <Box sx={{ px: 2, py: 1 }}>
         <Typography variant="h6" sx={{ fontWeight: "700", marginBottom: 1 }}>
-          <StyledLink to={`/post/${post.Id}`}>{postTitle}</StyledLink>
+          {postTitle}
         </Typography>
         <Typography variant="caption" color="text.secondary">
           {postHashtags.map((hashtag, index) => (
@@ -118,22 +97,20 @@ const PostCard = ({ post }) => {
       </Box>
 
       {/* Image Section */}
-      <StyledLink to={`/post/${post.Id}`}>
-        <Box
-          component="img"
-          src={postImage}
-          alt={postTitle}
-          sx={{
-            width: "100%",
-            height: 240, // Adjusted for compactness
-            objectFit: "cover",
-            transition: "transform 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
-          }}
-        />
-      </StyledLink>
+      <Box
+        component="img"
+        src={postImage}
+        alt={postTitle}
+        sx={{
+          width: "100%",
+          height: 240,
+          objectFit: "cover",
+          transition: "transform 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+          },
+        }}
+      />
 
       {/* Content Section */}
       <Box sx={{ px: 2, py: 1 }}>
@@ -150,39 +127,28 @@ const PostCard = ({ post }) => {
         >
           {postContent}
         </Typography>
-        <StyledLink to={`/post/${post.Id}`}>
-          <Button
-            variant="outlined"
-            size="small"
-            sx={{
-              marginTop: 1,
-              color: "#1976d2",
-              borderColor: "#1976d2",
-              "&:hover": {
-                backgroundColor: "#1976d2",
-                color: "#fff",
-              },
-            }}
-          >
-            Read More...
-          </Button>
-        </StyledLink>
       </Box>
 
-      {/* Icons Section (Chat, Like, Share) */}
+      {/* Action Section */}
       <Box display="flex" justifyContent="space-around" sx={{ p: 2, pt: 1 }}>
-        <IconButton size="small" sx={{ color: "#1976d2" }}>
-          <ChatBubbleOutline fontSize="small" />
-        </IconButton>
-        <IconButton size="small" sx={{ color: "#f50057" }}>
-          <Favorite fontSize="small" />
-        </IconButton>
-        <IconButton size="small" sx={{ color: "#1976d2" }}>
-          <Share fontSize="small" />
-        </IconButton>
+        <Button
+          variant="outlined"
+          color="error"
+          startIcon={<DeleteForever />}
+          onClick={() => onDeleteForever(post.Id)}
+          sx={{
+            borderColor: "red",
+            "&:hover": {
+              backgroundColor: "red",
+              color: "#fff",
+            },
+          }}
+        >
+          Delete Forever
+        </Button>
       </Box>
     </Box>
   );
 };
 
-export default PostCard;
+export default DeletedPostCard;

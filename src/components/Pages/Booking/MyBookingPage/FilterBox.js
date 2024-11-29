@@ -29,14 +29,20 @@ const FilterBox = ({ handleFilter }) => {
       </Typography>
       <FormControl variant="outlined" sx={{ minWidth: 200 }}>
         <InputLabel>Request Status</InputLabel>
-        <Select value={filter} onChange={handleChange} label="Request Status">
+        <Select
+          value={filter}
+          onChange={handleChange}
+          label="Request Status"
+          defaultOpen
+        >
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>
-          <MenuItem value="processed">Processed Request</MenuItem>
-          <MenuItem value="pending">Pending Request</MenuItem>
-          <MenuItem value="accepted">Accepted Request</MenuItem>
-          <MenuItem value="unaccepted">Unaccepted Request</MenuItem>
+          <MenuItem value="waiting">Approving Booking</MenuItem>
+          <MenuItem value="pending">Pending Booking</MenuItem>
+          <MenuItem value="accepted">Accepted Booking</MenuItem>
+          <MenuItem value="unaccepted">Unaccepted Booking</MenuItem>
+          <MenuItem value="cancel">Canceled Booking</MenuItem>
         </Select>
       </FormControl>
     </Box>
