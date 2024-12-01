@@ -12,33 +12,6 @@ export default function BookingRecap({ paymentInfo }) {
         <div className="p-2 me-3">
           <h4>Booking Recap</h4>
         </div>
-        {/* <div className="p-2 d-flex">
-          <MDBCol size="8">Contracted Price</MDBCol>
-          <div className="ms-auto">$186.76</div>
-        </div>
-        <div className="p-2 d-flex">
-          <MDBCol size="8">Amount toward deductible</MDBCol>
-          <div className="ms-auto">$0.00</div>
-        </div>
-        <div className="p-2 d-flex">
-          <MDBCol size="8">Coinsurance(0%)</MDBCol>
-          <div className="ms-auto">+ $0.00</div>
-        </div>
-        <div className="p-2 d-flex">
-          <MDBCol size="8">Copayment</MDBCol>
-          <div className="ms-auto">+ $40.00</div>
-        </div>
-        <div className="border-top px-2 mx-2"></div>
-        <div className="p-2 d-flex pt-3">
-          <MDBCol size="8">Total Deductible, Coinsurance, and Copay</MDBCol>
-          <div className="ms-auto">$40.00</div>
-        </div>
-        <div className="p-2 d-flex">
-          <MDBCol size="8">
-            Maximum out-of-pocket on Insurance Policy (not reached)
-          </MDBCol>
-          <div className="ms-auto">$6500.00</div>
-        </div> */}
         <div className="border-top px-2 mx-2"></div>
         <div className="p-2 d-flex pt-3">
           <MDBCol size="8">Number of people</MDBCol>

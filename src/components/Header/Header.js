@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../../UserContext";
 import {
   AppBar,
@@ -17,7 +17,8 @@ import Image from "react-bootstrap/Image";
 import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import SearchAppBar from "./SearchBar";
-import { signout } from "../../api/services";
+import { heartBeat } from "../../api/Services/UserServices";
+import { signout } from "../../api/Services/AuthServices";
 import UserMenu from "./UserMenu";
 
 const token = sessionStorage.getItem("token") || localStorage.getItem("token");
@@ -52,6 +53,21 @@ const Header = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? "account-popover" : undefined;
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      try {
+        const data = await heartBeat(user.userId);
+        console.log("Heartbeat data:", data);
+      } catch (error) {
+        console.error("Error in heartbeat:", error.message || error);
+      }
+    }, 30000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [user.userId]);
 
   return (
     <AppBar

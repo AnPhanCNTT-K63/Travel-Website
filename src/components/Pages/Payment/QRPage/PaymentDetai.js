@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Card, Divider } from "@mui/material";
 
 export default function PaymentDetail({ data }) {
-  const { TourPackageId, total } = data?.data || {};
+  const { TourPackageId, total } = data;
 
   return (
     <Card

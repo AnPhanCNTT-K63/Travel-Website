@@ -1,52 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Typography, Divider } from "@mui/material";
 import Swal from "sweetalert2";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { createPaymentInfo } from "../../../../api/services";
+import { useNavigate } from "react-router-dom";
 
-export default function ConfirmSection({ data }) {
+export default function ConfirmSection({ onConfirmClick, timerExpired }) {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const paymentInfo = {
-    PaymentMethod: data.selectedPayment,
-    PaymentAmount: data.data.total,
-    PaymentStatus: "pending",
-    // TransactionId: "",
-    BookingId: data.data.TourPackageId,
-    BookingDate: data.data.BookingDate,
-  };
-
-  const onClickAccept = async () => {
-    // Swal.fire({
-    //   title: "Confirm Payment?",
-    //   text: "Have you completed your payment? Click 'Yes' to confirm.",
-    //   icon: "question",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Yes, I have paid!",
-    //   cancelButtonText: "Cancel",
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     Swal.fire({
-    //       title: "Thank You!",
-    //       text: "We have received your confirmation. We will contact you shortly to reconfirm.",
-    //       icon: "success",
-    //       confirmButtonColor: "#28a745",
-    //     }).then(() => {
-    //       navigate("/");
-    //     });
-    //   }
-    // });
-
-    try {
-      const res = await createPaymentInfo(paymentInfo);
-      console.log(res);
-    } catch (err) {
-      console.error("Error sending: ", err);
+  const onClickAccept = () => {
+    if (timerExpired) {
+      Swal.fire({
+        title: "Payment Time Expired",
+        text: "Your session has expired.",
+        icon: "error",
+        confirmButtonText: "Exit",
+      }).then(() => {
+        navigate("/user/booking");
+      });
+      return;
     }
-    console.log(paymentInfo);
+
+    Swal.fire({
+      title: "Confirm Payment?",
+      text: "Have you completed your payment? Click 'Yes' to confirm.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, I have paid!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Thank You!",
+          text: "We have received your payment request. We will confirm as soon as possible",
+          icon: "success",
+          confirmButtonColor: "#28a745",
+        }).then(() => {
+          onConfirmClick();
+        });
+      }
+    });
   };
 
   return (

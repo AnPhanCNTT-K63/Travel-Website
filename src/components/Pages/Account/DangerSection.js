@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteAccount } from "../../../api/services";
+import { deleteAccount } from "../../../api/Services/UserServices";
 import {
   Box,
   Typography,

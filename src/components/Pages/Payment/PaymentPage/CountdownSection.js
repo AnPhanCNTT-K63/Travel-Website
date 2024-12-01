@@ -12,8 +12,8 @@ export default function CountdownSection({
   const [timerExpired, setTimerExpired] = useState(timerExpiring);
 
   useEffect(() => {
-    getTimerExpired(timerExpired); // Update parent component on timer expiry
-    getTimeRemain(timeRemaining); // Update parent component with remaining time
+    getTimerExpired(timerExpired);
+    getTimeRemain(timeRemaining);
   }, [timerExpired, timeRemaining, getTimerExpired, getTimeRemain]);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function CountdownSection({
     >
       <p className={styles.timerText}>
         {timerExpired
-          ? "⚠️ Payment session expired. Restart payment process."
+          ? "⚠️ Payment session expired"
           : `⏳ Time remaining: ${formatTime(timeRemaining)}`}
       </p>
     </div>

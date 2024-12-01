@@ -3,7 +3,10 @@ import UserContext from "../../../../UserContext";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { checkStatus, getBookingInfo } from "../../../.././api/services";
+import {
+  checkStatus,
+  getBookingInfo,
+} from "../../../../api/Services/BookingServices";
 import PackageInfo from "./PackageInfo";
 import BookingDetail from "./BookingDetail";
 import Swal from "sweetalert2";
@@ -36,7 +39,7 @@ const BookingPage = () => {
           cancelButtonText: "Cancel",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate(`/user/booking/${user.userId}`);
+            navigate(`/user/booking`);
           }
         });
       } else if (res.message === "No booking Pending") {

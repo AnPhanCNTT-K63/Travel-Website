@@ -6,7 +6,11 @@ import Ticket from "./Ticket";
 import TotalPriceSection from "./TotalPriceSection";
 import ContactInfo from "./ContactInfo";
 import TravelerInfo from "./TravelerInfo";
-import { getVAT, getVoucher, sendBookingInfo } from "../../../../api/services";
+import {
+  getVoucher,
+  getVAT,
+} from "../../../../api/Services/TourAndPackageServices";
+import { sendBookingInfo } from "../../../../api/Services/BookingServices";
 import ChooseVoucherSection from "./ChooseVoucherSection";
 import styles from "../../../../styles/PaymentPage.module.css";
 
@@ -114,6 +118,7 @@ export default function UserBookingPage() {
   const total = totalTemp - voucher + VATCost;
 
   const dataTransfer = {
+    bookingId: bookingId,
     TourPackageId: tourPackageId,
     BookingDate: ticket.date,
     Status: "pending",

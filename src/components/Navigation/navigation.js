@@ -8,7 +8,7 @@ import SignIn from "../Auth/Sign In/SignIn";
 import SignUp from "../Auth/Sign Up/SignUp";
 import { useEffect, useState, useContext } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import CreateTour from "../Pages/Tour/CreateTour";
+import CreateTourPage from "../Pages/Tour/CreateTourAndPackage/CreateTourPage/CreateTourPage";
 import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
@@ -23,7 +23,7 @@ import AmericaTour from "../Pages/Tour/InternationalTour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
 import NotFoundPage from "../../view/NotFoundPage";
 import AccountPage from "../Pages/Account/AccountPage";
-import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
+import CreateTourPackage from "../Pages/Tour/CreateTourAndPackage/CreatePackagePage/CreateTourPakage";
 import UserContext from "../../UserContext";
 import BookingPage from "../Pages/Booking/BookingPage/BookingPage";
 import UserManagementPage from "../Admin/UserManagement/UserManagement";
@@ -33,7 +33,11 @@ import AddPaymemt from "../Pages/Payment/AddPaymentPage/AddPayment";
 import QRPaymentPage from "../Pages/Payment/QRPage/QRPaymentPage";
 import ScrollToTop from "./ScrollToTop";
 import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
+import Billing from "../Pages/Billing/Billing";
 import UserRequest from "../Admin/UserRequest/UserRequest";
+import DeletedPostsPage from "../Pages/Post/DeletedPostPage";
+import TourManagement from "../Admin/TourManagement/TourManagement";
+import UpdateTourPage from "../Pages/Tour/UpdateTour/UpdateTourPage";
 
 function Navigation() {
   const location = useLocation();
@@ -80,7 +84,7 @@ function Navigation() {
 
         {user.role == "admin" && (
           <>
-            <Route path="/createTour" element={<CreateTour />} />
+            <Route path="/createTour" element={<CreateTourPage />} />
             <Route path="/createTourPackage" element={<CreateTourPackage />} />
             <Route path="/userManagement" element={<UserManagementPage />} />
           </>
@@ -93,9 +97,12 @@ function Navigation() {
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
+        <Route path="/billing" element={<Billing />} />
+        <Route path="/tour/update/:tourId" element={<UpdateTourPage />} />
+        <Route path="/tour/manage" element={<TourManagement />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
         <Route path="/user/request" element={<UserRequest />} />
-        <Route path="/user/booking/:userId" element={<MyBookingPage />} />
+        <Route path="/user/booking" element={<MyBookingPage />} />
         <Route path="/QR/:bookingId" element={<QRPaymentPage />} />
         <Route path="/payment/:bookingId" element={<PaymentPage />} />
         <Route path="/booking/:tourPackageId" element={<BookingPage />} />
@@ -103,6 +110,7 @@ function Navigation() {
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route path="/post/delete/:userId" element={<DeletedPostsPage />} />
         <Route
           path="/traveler/info/:tourPackageId"
           element={<UserBookingPage />}

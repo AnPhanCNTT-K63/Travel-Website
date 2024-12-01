@@ -2,29 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Typography, Paper } from "@mui/material";
 import { AccessTime } from "@mui/icons-material";
 
-export default function CountdownSection() {
-  const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes countdown in seconds
+export default function CountdownSection({
+  getTimerExpired,
+  getTimeRemain,
+  timeRemained,
+  timerExpiring,
+}) {
+  const [timeRemaining, setTimeRemaining] = useState(timeRemained);
+  const [timerExpired, setTimerExpired] = useState(timerExpiring);
 
-  // Countdown logic
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 0) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+    getTimerExpired(timerExpired);
+    getTimeRemain(timeRemaining);
+  }, [timerExpired, timeRemaining, getTimerExpired, getTimeRemain]);
 
-    return () => clearInterval(timer);
-  }, []);
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prevTime) => prevTime - 1);
+      }, 1000);
 
-  // Format time as MM:SS
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      return () => clearInterval(timer);
+    } else {
+      setTimerExpired(true);
+    }
+  }, [timeRemaining]);
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
       .padStart(2, "0")}`;
   };
@@ -51,8 +58,9 @@ export default function CountdownSection() {
           alignItems: "center",
         }}
       >
-        <AccessTime fontSize="medium" sx={{ mr: 1 }} /> Complete the payment in:{" "}
-        {formatTime(timeLeft)}
+        {timerExpired
+          ? "⚠️ Payment session expired"
+          : `⏳ Time remaining: ${formatTime(timeRemaining)}`}
       </Typography>
     </Paper>
   );

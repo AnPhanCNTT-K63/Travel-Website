@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Card, Button, Avatar, Popconfirm } from "antd";
+import { Card, Button, Avatar } from "antd";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import { Link } from "react-router-dom";
-import { deletePost, getPostByUserId } from "../../../api/services";
+import { getPostByUserId } from "../../../api/Services/PostServices";
 import UserContext from "../../../UserContext";
+import { deleteSoftPost } from "../../../api/Services/PostServices";
 
 export default function Post() {
   const [posts, setPosts] = useState([]);
@@ -40,10 +42,30 @@ export default function Post() {
 
   const handleDelete = async (postId) => {
     try {
-      await deletePost(postId);
-      setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
+      const res = await deleteSoftPost(postId);
+      if (res.message === "Success") {
+        Swal.fire({
+          icon: "success",
+          title: "Delete Successful",
+          text: "You can see the deleted post in the trash can and permanently delete it.",
+          confirmButtonText: "OK",
+        });
+        setPosts((prevPosts) => prevPosts.filter((post) => post.Id !== postId));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Delete Failed",
+          text: "Unable to delete the post.",
+          confirmButtonText: "OK",
+        });
+      }
     } catch (error) {
-      console.error("Failed to delete post:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while deleting the post.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -155,7 +177,7 @@ export default function Post() {
                 <Typography variant="caption" color="text.secondary">
                   {postHashtags.map((hashtag, index) => (
                     <span key={index} style={{ marginRight: 4 }}>
-                      {hashtag}
+                      #{hashtag}
                     </span>
                   ))}
                 </Typography>
@@ -166,23 +188,31 @@ export default function Post() {
                     UPDATE
                   </Button>
                 </StyledLink>
-                <Popconfirm
-                  title="Are you sure you want to delete this post?"
-                  onConfirm={() => handleDelete(post.Id)}
-                  okText="Yes"
-                  cancelText="No"
+                <Button
+                  onClick={() =>
+                    Swal.fire({
+                      title: "Are you sure?",
+                      text: "This post will be moved to the trash can.",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Yes, delete it!",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        handleDelete(post.Id);
+                      }
+                    })
+                  }
+                  style={{
+                    fontWeight: "bold",
+                    backgroundColor: "#ff4d4f",
+                    color: "#fff",
+                    borderColor: "#ff4d4f",
+                  }}
                 >
-                  <Button
-                    style={{
-                      fontWeight: "bold",
-                      backgroundColor: "#ff4d4f",
-                      color: "#fff",
-                      borderColor: "#ff4d4f",
-                    }}
-                  >
-                    DELETE
-                  </Button>
-                </Popconfirm>
+                  DELETE
+                </Button>
               </Box>
             </Card>
           );
