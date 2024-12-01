@@ -73,23 +73,24 @@ const PostCard = ({ post }) => {
         </Link>
         <Box flexGrow={1}>
           {/* Post Author Name */}
-          <Link
-            style={{ textDecorationLine: "none" }}
-            to={`/profile/${post.UserId}`}
+
+          <Typography
+            variant="body2"
+            color="text.primary"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              fontWeight: "600",
+            }}
           >
-            <Typography
-              variant="body2"
-              color="text.primary"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                fontWeight: "600",
-              }}
+            <Link
+              style={{ textDecorationLine: "none", textDecoration: "none" }}
+              to={`/profile/${post.UserId}`}
             >
               {postOwnerName}
-            </Typography>
-          </Link>
+            </Link>
+          </Typography>
 
           {/* Post Date */}
           <Typography
@@ -105,9 +106,11 @@ const PostCard = ({ post }) => {
 
       {/* Title and Hashtags Section */}
       <Box sx={{ px: 2, py: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: "700", marginBottom: 1 }}>
-          <StyledLink to={`/post/${post.Id}`}>{postTitle}</StyledLink>
-        </Typography>
+        <StyledLink to={`/post/${post.Id}`}>
+          <Typography variant="h6" sx={{ fontWeight: "700", marginBottom: 1 }}>
+            {postTitle}
+          </Typography>
+        </StyledLink>
         <Typography variant="caption" color="text.secondary">
           {postHashtags.map((hashtag, index) => (
             <span key={index} style={{ marginRight: 8 }}>

@@ -50,3 +50,33 @@ export const getVAT = async (id) => {
     handleApiError(error);
   }
 };
+
+//GET: /tour/user/{user_id}
+export const getTourByUserId = async (user_id) => {
+  try {
+    const response = await apiClient.get(`/tour/user/${user_id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: tour/package/{tour_id}
+export const getPackageByTourId = async (tour_id) => {
+  try {
+    const response = await apiClient.get(`/tour/package/${tour_id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: tour/package/count/{tour_id}
+export const countPackageInTour = async (tour_id) => {
+  try {
+    const response = await apiClient.get(`/tour/package/count/${tour_id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

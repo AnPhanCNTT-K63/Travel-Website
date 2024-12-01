@@ -10,7 +10,7 @@ import {
   Box,
   Alert,
 } from "@mui/material";
-import { createPost } from "../../../api/Service/PostServices";
+import { createPost } from "../../../api/Services/PostServices";
 import Swal from "sweetalert2";
 
 const CreatePost = () => {
@@ -68,19 +68,16 @@ const CreatePost = () => {
     setLoading(true);
 
     try {
-      // Assuming createPost handles image upload
       const post = await createPost(postData);
       console.log(post);
 
-      // Reset fields
       setTitle("");
       setContent("");
       setHashtags("");
-      setImage(null); // Reset image
-      setImagePreview(null); // Reset image preview
+      setImage(null);
+      setImagePreview(null);
       setError(null);
 
-      // Show success alert
       Swal.fire({
         icon: "success",
         title: "Post Created",
@@ -90,7 +87,6 @@ const CreatePost = () => {
     } catch (error) {
       setError(error.message);
 
-      // Show error alert
       Swal.fire({
         icon: "error",
         title: "Post Creation Failed",

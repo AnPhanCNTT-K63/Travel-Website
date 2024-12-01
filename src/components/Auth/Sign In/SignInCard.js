@@ -82,11 +82,11 @@ export default function SignInCard() {
           icon: "success",
           title: "Sign In Successful",
           text: "Welcome back! Redirecting to the home page...",
-          timer: 2000, // Automatically close after 2 seconds
+          timer: 1500,
           showConfirmButton: false,
         }).then(() => {
-          navigate("/"); // Navigate to the home page
-          window.location.reload(); // Reload the page
+          navigate("/");
+          window.location.reload();
         });
 
         console.log("Token stored in localStorage:", user.token);

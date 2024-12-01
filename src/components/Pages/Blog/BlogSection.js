@@ -7,8 +7,8 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
-import PostCard from "./PostCard";
-import { getPosts } from "../../../api/Service/PostServices";
+import PostCard from "../Post/PostCard";
+import { getPosts } from "../../../api/Services/PostServices";
 
 const BlogSection = () => {
   const [posts, setPosts] = useState([]);

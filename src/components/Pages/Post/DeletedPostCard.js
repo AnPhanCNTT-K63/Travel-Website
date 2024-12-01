@@ -1,16 +1,35 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
-import { Box, Typography, IconButton, Avatar, Button } from "@mui/material";
-import { DeleteForever, AccessTime } from "@mui/icons-material";
+import { Box, Typography, Avatar, Button } from "@mui/material";
+import { DeleteForever, Restore, AccessTime } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
-const DeletedPostCard = ({ post, onDeleteForever }) => {
+const DeletedPostCard = ({ post, handleDeleteForever, handleStorePost }) => {
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
       ? post.Hashtags.split(",")
       : [];
 
+  function formatDate(jsonDate) {
+    const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
+    const date = new Date(timestamp);
+    const formattedDate = date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+    });
+    const formattedTime = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return `${formattedDate} ${formattedTime}`;
+  }
+
   const postTitle = post.Title || "Untitled Post";
-  const postDatetime = post.Datetime || "No Date Provided";
+  const postDatetime = formatDate(post.Datetime) || "No Date Provided";
+  const deleteDatetime = formatDate(post.DeletedAt) || "No Date Provided";
+
   const postImage = post.Image || "https://example.com/default-image.jpg";
   const postContent = post.Content || "No content available.";
   const postOwner = post.Owner || "";
@@ -24,6 +43,52 @@ const DeletedPostCard = ({ post, onDeleteForever }) => {
       )}
     </>
   );
+
+  const confirmDelete = (postId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the post. This cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteForever(postId);
+        Swal.fire({
+          title: "Deleted!",
+          text: "The post has been permanently deleted.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
+
+  const confirmRestore = (postId) => {
+    Swal.fire({
+      title: "Restore Post?",
+      text: "Are you sure you want to restore this post?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, restore it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleStorePost(postId);
+        Swal.fire({
+          title: "Restored!",
+          text: "The post has been successfully restored.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
 
   return (
     <Box
@@ -99,7 +164,7 @@ const DeletedPostCard = ({ post, onDeleteForever }) => {
       {/* Image Section */}
       <Box
         component="img"
-        src={postImage}
+        src={`/${postImage}`}
         alt={postTitle}
         sx={{
           width: "100%",
@@ -122,10 +187,23 @@ const DeletedPostCard = ({ post, onDeleteForever }) => {
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            WebkitLineClamp: 2, // Show up to 2 lines of content
+            WebkitLineClamp: 2,
           }}
         >
           {postContent}
+        </Typography>
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            fontSize: "15px",
+            color: "red",
+          }}
+        >
+          Deleted At: {deleteDatetime}
         </Typography>
       </Box>
 
@@ -133,9 +211,24 @@ const DeletedPostCard = ({ post, onDeleteForever }) => {
       <Box display="flex" justifyContent="space-around" sx={{ p: 2, pt: 1 }}>
         <Button
           variant="outlined"
+          color="success"
+          startIcon={<Restore />}
+          onClick={() => confirmRestore(post.Id)}
+          sx={{
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "green",
+              color: "#fff",
+            },
+          }}
+        >
+          Restore
+        </Button>
+        <Button
+          variant="outlined"
           color="error"
           startIcon={<DeleteForever />}
-          onClick={() => onDeleteForever(post.Id)}
+          onClick={() => confirmDelete(post.Id)}
           sx={{
             borderColor: "red",
             "&:hover": {

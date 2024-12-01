@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Box, Paper, Grid, Chip } from "@mui/material";
-import { AccessTime, LocationOn, AccountCircle } from "@mui/icons-material";
+import { Container, Typography, Box, Paper, Chip } from "@mui/material";
+import { AccessTime } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
-import { getPostDetail } from "../../../api/Service/PostServices";
+import { getPostDetail } from "../../../api/Services/PostServices";
 import { Avatar } from "antd";
 
 const BlogPostDetail = () => {

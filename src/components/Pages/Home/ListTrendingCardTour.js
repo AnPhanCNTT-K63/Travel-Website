@@ -23,12 +23,12 @@ export default function ListTrendingCardTour() {
   }, []);
 
   // Chỉ lấy tối đa 6 phần tử
-  const displayedTours = tours.slice(0, 6);
+  //const displayedTours = tours.slice(0, 6);
 
   return (
     <Container>
       <Row>
-        {displayedTours.map((item, index) => (
+        {tours.map((item, index) => (
           <Col key={index} md={4} className="mb-4">
             <Link to={`/detail/${item.Id}`}>
               <TrendingCard item={item} />
