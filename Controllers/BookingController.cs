@@ -51,7 +51,6 @@ namespace WebBackendProject.Controllers
                 var totalQuantity = schedule.Sum(s => s.Quantity);
                 var formatDate = schedule.Select(s => s.TravelDay?.ToString("dd/MM/yyyy")).ToList();
 
-
                 var result = new { tourPackage, totalQuantity, formatDate };
 
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -129,40 +128,6 @@ namespace WebBackendProject.Controllers
                     StackTrace = ex.StackTrace
                 }, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        private List<MyBooking> setMyBooking(int userId)
-        {
-            var bookings = db.Bookings
-                .Include(b => b.TourPackage)
-                .Where(b => b.User.Id == userId && b.IsDeleted != true)
-                .Select(b => b).ToList();
-
-            var myBookings = new List<MyBooking>();
-
-            foreach(var booking in bookings)
-            {
-                var mappedBooking = new MyBooking
-                {
-                    Id = booking.Id,
-                    TourPackageId = booking.TourPackageId,
-                    Name = booking.TourPackage.Name,
-                    Price = booking.TourPackage.Price,
-                    Status = booking.Status,
-                };
-
-                myBookings.Add(mappedBooking);
-            }
-
-            return myBookings;
-        }
-
-        [HttpGet]
-        [Route("user/{userId}")] //GET: booking/user/{userId}
-        public ActionResult GetMyBooking(int userId) 
-        {
-            var bookings = setMyBooking(userId);
-            return Json(bookings, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPatch]
@@ -257,6 +222,91 @@ namespace WebBackendProject.Controllers
                     StackTrace = ex.StackTrace
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+
+         private List<MyBooking> SetMyBooking(int userId, object statusFilter)
+        {
+            var bookingsTemp = db.Bookings
+                .Include(b => b.TourPackage)
+                .Where(b => b.User.Id == userId && b.IsDeleted != true);
+
+            if (statusFilter is string singleStatus)
+            {
+                bookingsTemp = bookingsTemp.Where(b => b.Status == singleStatus);
+            }
+            else if (statusFilter is string[] multipleStatuses)
+            {
+                bookingsTemp = bookingsTemp.Where(b => multipleStatuses.Contains(b.Status));
+            }
+
+            var bookings = bookingsTemp.ToList();
+
+            var myBookings = new List<MyBooking>();
+
+            foreach(var booking in bookings)
+            {
+                var mappedBooking = new MyBooking
+                {
+                    Id = booking.Id,
+                    TourPackageId = booking.TourPackageId,
+                    Name = booking.TourPackage.Name,
+                    Price = booking.TourPackage.Price,
+                    Status = booking.Status,
+                };
+
+                myBookings.Add(mappedBooking);
+            }
+
+            return myBookings;
+        }
+
+        [HttpGet]
+        [Route("user/{userId}")] //GET: booking/user/{userId}
+        public ActionResult GetMyBooking(int userId) 
+        {
+            var bookings = SetMyBooking(userId, null);
+            return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("user/pending/{userId}")] //GET: booking/user/pending/{userId}
+        public ActionResult GetMyPendingBooking(int userId)
+        {
+            var bookings = SetMyBooking(userId, "pending");
+            return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("user/waiting/{userId}")] //GET: booking/user/waiting/{userId}
+        public ActionResult GetMyApprovalBooking(int userId)
+        {
+            var bookings = SetMyBooking(userId, "waiting");
+            return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("user/accepted/{userId}")] //GET: booking/user/accepted/{userId}
+        public ActionResult GetMyAcceptedBooking(int userId)
+        {
+            var bookings = SetMyBooking(userId, "success");
+            return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("user/unaccepted/{userId}")] //GET: booking/user/unaccepted/{userId}
+        public ActionResult GetMyUnacceptedBooking(int userId)
+        {
+            var bookings = SetMyBooking(userId, "fail");
+            return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("user/canceled/{userId}")] //GET: booking/user/canceled/{userId}
+        public ActionResult GetMyCanceledBooking(int userId)
+        {
+            var bookings = SetMyBooking(userId, "cancel");
+            return Json(bookings, JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -31,7 +31,7 @@ namespace WebBackendProject.Controllers
             }
             if(existedUserUsername != null)
             {
-                return Json(new { error = "user has been used by someone else" }, JsonRequestBehavior.AllowGet);
+                return Json(new { error = "User has been used by someone else" }, JsonRequestBehavior.AllowGet);
             }
             if (softDeletedUserEmail != null)
             {
@@ -47,17 +47,16 @@ namespace WebBackendProject.Controllers
                 user.Role = "user";
                 user.Username = info.Username;
                 user.Password = info.Password;
-                user.Email = info.Email;
+                user.Email = info.Email;          
                 db.Users.Add(user);
-                int a = db.SaveChanges();
-                if (a > 0)
+                db.SaveChanges();
+
+                var profile = new UserProfile
                 {
-                    Debug.WriteLine("True");
-                }
-                else
-                {
-                    Debug.WriteLine("False");
-                }
+                    UserId = user.Id
+                };
+                db.UserProfiles.Add(profile);
+                db.SaveChanges();
             }
             return Json(info, JsonRequestBehavior.AllowGet);
         }

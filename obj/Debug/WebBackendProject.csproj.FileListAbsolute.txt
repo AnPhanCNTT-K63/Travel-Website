@@ -294,3 +294,9 @@ D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one_2.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one_100.resources
 D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one_1001.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_one_two.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.AddMigrationnew_123.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_attribute_13123.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_attribute_1312313212.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_lala.resources
+D:\Visual Studio 2022\WebBackendProject2\obj\Debug\WebBackendProject.Migrations.new_131311.resources

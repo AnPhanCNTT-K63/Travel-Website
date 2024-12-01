@@ -14,7 +14,7 @@ namespace WebBackendProject.Models
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public int PostalCode { get; set; }
+        public int? PostalCode { get; set; }
         public string AboutMe { get; set; }
         public string FriendNum { get; set; }
         public string PostNum { get; set; }

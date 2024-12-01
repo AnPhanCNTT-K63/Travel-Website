@@ -249,6 +249,30 @@
     <Compile Include="Migrations\202411271530047_new_one_1001.designer.cs">
       <DependentUpon>202411271530047_new_one_1001.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411281333453_new_one_two.cs" />
+    <Compile Include="Migrations\202411281333453_new_one_two.designer.cs">
+      <DependentUpon>202411281333453_new_one_two.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411290045503_Add-Migration new_123.cs" />
+    <Compile Include="Migrations\202411290045503_Add-Migration new_123.designer.cs">
+      <DependentUpon>202411290045503_Add-Migration new_123.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411290132590_new_attribute_13123.cs" />
+    <Compile Include="Migrations\202411290132590_new_attribute_13123.designer.cs">
+      <DependentUpon>202411290132590_new_attribute_13123.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411290138345_new_attribute_1312313212.cs" />
+    <Compile Include="Migrations\202411290138345_new_attribute_1312313212.designer.cs">
+      <DependentUpon>202411290138345_new_attribute_1312313212.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411291454084_new_lala.cs" />
+    <Compile Include="Migrations\202411291454084_new_lala.designer.cs">
+      <DependentUpon>202411291454084_new_lala.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412010440334_new_131311.cs" />
+    <Compile Include="Migrations\202412010440334_new_131311.designer.cs">
+      <DependentUpon>202412010440334_new_131311.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -261,6 +285,7 @@
     <Compile Include="Models\DTO\SignInInfo.cs" />
     <Compile Include="Models\DTO\SignUpInfo.cs" />
     <Compile Include="Models\DTO\TicketInfo.cs" />
+    <Compile Include="Models\DTO\UserProfileDTO.cs" />
     <Compile Include="Models\DTO\UserRequest.cs" />
     <Compile Include="Models\PaymentCard.cs" />
     <Compile Include="Models\Schedule.cs" />
@@ -330,6 +355,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411271530047_new_one_1001.resx">
       <DependentUpon>202411271530047_new_one_1001.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411281333453_new_one_two.resx">
+      <DependentUpon>202411281333453_new_one_two.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411290045503_Add-Migration new_123.resx">
+      <DependentUpon>202411290045503_Add-Migration new_123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411290132590_new_attribute_13123.resx">
+      <DependentUpon>202411290132590_new_attribute_13123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411290138345_new_attribute_1312313212.resx">
+      <DependentUpon>202411290138345_new_attribute_1312313212.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411291454084_new_lala.resx">
+      <DependentUpon>202411291454084_new_lala.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412010440334_new_131311.resx">
+      <DependentUpon>202412010440334_new_131311.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

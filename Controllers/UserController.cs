@@ -10,6 +10,8 @@ using System.Web.Services.Description;
 using System.Web.UI;
 using WebBackendProject.Models;
 using Newtonsoft.Json.Linq;
+using WebBackendProject.Models.DTO;
+using System.Net;
 
 namespace WebBackendProject.Controllers
 {
@@ -38,6 +40,14 @@ namespace WebBackendProject.Controllers
         public ActionResult Users() 
         {
             var data = db.Users.ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("profile")]
+        public ActionResult UserProfile()
+        {
+            var data = db.UserProfiles.ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -89,6 +99,54 @@ namespace WebBackendProject.Controllers
             {
                 return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPut]
+        [Route("profile/update")] //PUT: user/profile/update
+        public ActionResult UpdateUserProfile(UserProfileDTO profile)
+        {
+            try
+            {
+                if (profile == null || profile.UserId == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid profile data.");
+                }
+
+                var userProfile = db.UserProfiles.FirstOrDefault(u => u.UserId == profile.UserId);
+
+                bool isUpdated = false;
+
+                if (userProfile.FirstName != profile.FirstName) { userProfile.FirstName = profile.FirstName; isUpdated = true; }
+                if (userProfile.LastName != profile.LastName) { userProfile.LastName = profile.LastName; isUpdated = true; }
+                if (userProfile.Address != profile.Address) { userProfile.Address = profile.Address; isUpdated = true; }
+                if (userProfile.City != profile.City) { userProfile.City = profile.City; isUpdated = true; }
+                if (userProfile.Country != profile.Country) { userProfile.Country = profile.Country; isUpdated = true; }
+                if (userProfile.PostalCode != profile.PostalCode) { userProfile.PostalCode = profile.PostalCode; isUpdated = true; }
+                if (userProfile.AboutMe != profile.AboutMe) { userProfile.AboutMe = profile.AboutMe; isUpdated = true; }
+                if (userProfile.Phone != profile.Phone) { userProfile.Phone = profile.Phone; isUpdated = true; }
+                if (userProfile.Birthday != profile.Birthday) { userProfile.Birthday = profile.Birthday; isUpdated = true; }
+                if (userProfile.QuickIntroduction != profile.QuickIntroduction) { userProfile.QuickIntroduction = profile.QuickIntroduction; isUpdated = true; }
+
+                if (isUpdated)
+                {
+                    db.Entry(userProfile).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { message = "Profile updated successfully" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { message = "No changes detected" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
         //[JwtAuthorize("admin", "user")]
@@ -258,8 +316,6 @@ namespace WebBackendProject.Controllers
             return GetPaymentRequests("fail");
         }
 
-
-
         private ActionResult GetPaymentRequests(object statusFilter)
         {
             try
@@ -308,6 +364,8 @@ namespace WebBackendProject.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+
+       
 
     }
 }
