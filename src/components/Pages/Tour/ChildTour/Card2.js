@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -10,7 +11,12 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 const Card2 = ({ item }) => {
-  const { title, description, image, price, rating } = item;
+  const navigate = useNavigate();
+  const { id, title, description, image, price, rating } = item;
+
+  const handleCardClick = () => {
+    navigate(`/detail/${id}`); // Chuyển hướng đến trang DetailPage với `id`
+  };
 
   const renderStars = () => {
     const stars = [];
@@ -27,7 +33,10 @@ const Card2 = ({ item }) => {
   };
 
   return (
-    <Card sx={{ margin: "10px", maxWidth: "300px", boxShadow: 3 }}>
+    <Card
+      sx={{ margin: "10px", maxWidth: "300px", boxShadow: 3, cursor: "pointer" }}
+      onClick={handleCardClick}
+    >
       <CardMedia
         sx={{ height: "180px", objectFit: "cover" }}
         image={image || "https://via.placeholder.com/300"}

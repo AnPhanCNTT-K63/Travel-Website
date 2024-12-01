@@ -21,7 +21,10 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { getAccountInfo, updateAccount } from "../../../api/services";
+import {
+  getAccountInfo,
+  updateAccount,
+} from "../../../api/Services/UserServices";
 import { useParams, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({

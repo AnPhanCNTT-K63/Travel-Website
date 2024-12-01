@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Box, Paper, Grid, Chip } from "@mui/material";
-import { AccessTime, LocationOn, AccountCircle } from "@mui/icons-material";
+import { Container, Typography, Box, Paper, Chip } from "@mui/material";
+import { AccessTime } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
-import { getPostDetail } from "../../../api/services";
+import { getPostDetail } from "../../../api/Services/PostServices";
+import { Avatar } from "antd";
 
 const BlogPostDetail = () => {
   const { postId } = useParams();
-  console.log(postId);
   const [post, setPost] = useState({});
 
   useEffect(() => {
-    const fetchPostDetai = async () => {
+    const fetchPostDetail = async () => {
       try {
         const post = await getPostDetail(postId);
         setPost(post);
       } catch (err) {
-        console.error("Error get post detail: ", err);
+        console.error("Error getting post detail: ", err);
       }
     };
-    fetchPostDetai();
+    fetchPostDetail();
   }, [postId]);
 
   const postHashtags =
@@ -34,10 +34,11 @@ const BlogPostDetail = () => {
         align="center"
         gutterBottom
         sx={{
-          fontWeight: "bold",
+          fontWeight: "700",
           color: "#333",
-          fontSize: "2.5rem",
+          fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
           lineHeight: 1.4,
+          textShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
         }}
       >
         {post.Title}
@@ -51,8 +52,9 @@ const BlogPostDetail = () => {
           backgroundImage: `url(/${post.Image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          borderRadius: "10px",
-          marginBottom: "1rem",
+          borderRadius: 2,
+          marginBottom: "1.5rem",
+          boxShadow: 2,
         }}
       />
 
@@ -61,23 +63,35 @@ const BlogPostDetail = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          marginBottom: "1rem",
+          marginBottom: "1.5rem",
+          color: "text.secondary",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <AccountCircle sx={{ marginRight: "0.5rem" }} />
-          <Typography variant="body2">//Author</Typography>
+          <Avatar
+            sx={{
+              width: 36,
+              height: 36,
+              backgroundColor: "#6c63ff",
+            }}
+            src={`/${post.Avatar}`}
+          />
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: "500", marginLeft: "5px" }}
+          >
+            {post?.FirstName + " " + post?.LastName || "Author"}
+          </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <AccessTime sx={{ marginRight: "0.5rem" }} />
           <Typography variant="body2">{post.Datetime}</Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <LocationOn sx={{ marginRight: "0.5rem" }} />
-          <Typography variant="body2">//location</Typography>
-        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}></Box>
       </Box>
-      <Box sx={{ marginBottom: "1rem" }}>
+
+      {/* Hashtags Section */}
+      <Box sx={{ marginBottom: "1.5rem" }}>
         {postHashtags.map((hashtag, index) => (
           <Chip
             key={index}
@@ -87,19 +101,29 @@ const BlogPostDetail = () => {
               backgroundColor: "#e0e0e0",
               color: "#333",
               fontWeight: "bold",
+              borderRadius: "16px",
+              boxShadow: 1,
             }}
           />
         ))}
       </Box>
 
       {/* Blog Post Content */}
-      <Paper sx={{ padding: 3, boxShadow: 3, borderRadius: 2 }}>
+      <Paper
+        sx={{
+          padding: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          backgroundColor: "#fafafa",
+          color: "#444",
+        }}
+      >
         <Typography variant="body1" color="text.secondary" paragraph>
           {post.Content}
         </Typography>
       </Paper>
 
-      {/* Post Hashtags */}
+      {/* End of Blog Post */}
     </Container>
   );
 };

@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+import { Container, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import CreateTour from "./CreateTour";
+
+const CreateTourPage = () => {
+  const [tour, setTour] = useState({
+    Name: "",
+    Region: "",
+    Country: "",
+    City: "",
+    Image: "",
+    Opening: "",
+    Ending: "",
+  });
+
+  const getTour = (data) => {
+    setTour(data);
+  };
+
+  const navigate = useNavigate();
+
+  const handleCreateNew = () => {
+    navigate("/createTourPackage", { state: { tour } });
+  };
+
+  const handleManageTour = () => {
+    navigate("/profile");
+  };
+
+  return (
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <CreateTour getTour={getTour} defautlTour={null} />
+
+      <Box textAlign="center">
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handleCreateNew}
+          sx={{ mr: 2 }}
+        >
+          Create New
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          size="large"
+          onClick={handleManageTour}
+        >
+          Manage Tour
+        </Button>
+      </Box>
+    </Container>
+  );
+};
+
+export default CreateTourPage;

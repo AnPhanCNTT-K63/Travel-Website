@@ -14,11 +14,13 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 import getSignUpTheme from "./theme/getSignUpTheme";
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
+import { GoogleIcon, FacebookIcon } from "./CustomIcons";
 import TemplateFrame from "./TemplateFrame";
 import Image from "react-bootstrap/Image";
-import { signup } from "../../../api/services";
+import { signup } from "../../../api/Services/AuthServices";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material"; // Loading spinner component
+import Swal from "sweetalert2";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -65,6 +67,8 @@ export default function SignUp() {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+
+  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -138,6 +142,9 @@ export default function SignUp() {
       Email: formData.get("Email"),
       Password: formData.get("Password"),
     };
+
+    setLoading(true);
+
     try {
       const user = await signup(data);
       console.log(data);
@@ -155,15 +162,30 @@ export default function SignUp() {
       ) {
         setEmailError(true);
         setEmailErrorMessage(user.error);
-      } else if (user.error === "user has been used by someone else") {
+      } else if (user.error === "User has been used by someone else") {
         setNameError(true);
         setNameErrorMessage(user.error);
       } else {
-        navigate("/login");
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Sign Up Successful",
+          text: "Your account has been created. Please login to continue.",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/login");
+          window.location.reload();
+        });
       }
     } catch (err) {
-      console.log("Error s", err);
+      console.log("Error: ", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong. Please try again.",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -249,14 +271,19 @@ export default function SignUp() {
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive updates via email."
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                onClick={validateInputs}
-              >
-                Sign up
-              </Button>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  onClick={validateInputs}
+                >
+                  Sign up
+                </Button>
+              )}
+
               <Typography sx={{ textAlign: "center" }}>
                 Already have an account?{" "}
                 <span>

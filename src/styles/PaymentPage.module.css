@@ -1,6 +1,3 @@
-.pageBackground {
-}
-
 .sectionTitle {
   font-size: 1.2rem;
   font-weight: bold;
@@ -63,4 +60,13 @@
 .voucherInput {
   font-size: 1rem;
   color: #333;
+}
+
+.proceedButton {
+  background-color: #2575fc;
+  color: white;
+  border-radius: 8px;
+  padding: 12px 20px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

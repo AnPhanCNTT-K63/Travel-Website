@@ -1,116 +1,117 @@
 import * as React from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import { Button } from "@mui/material";
+import { Button, Box, Typography, Divider, Stack } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useParams, useNavigate } from "react-router-dom";
-
-function srcset(image, size, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${size * cols}&h=${
-      size * rows
-    }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
 
 export default function DetailCard({ item }) {
   const { tourId } = useParams();
   const navigate = useNavigate();
 
-  const onlickHandle = () => {
+  const onClickHandle = () => {
     navigate(`/booking/${tourId}`);
   };
+
+  // Hàm render các sao
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (rating >= i + 1) {
+        stars.push(<StarIcon key={i} sx={{ color: "gold" }} />);
+      } else if (rating > i && rating < i + 1) {
+        stars.push(<StarHalfIcon key={i} sx={{ color: "gold" }} />);
+      } else {
+        stars.push(<StarBorderIcon key={i} sx={{ color: "gold" }} />);
+      }
+    }
+    return stars;
+  };
+
   return (
-    <>
-      <ImageList
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "1080px",
+        margin: "0 auto",
+        backgroundColor: "#fff",
+        borderRadius: 2,
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden",
+      }}
+    >
+      {/* Hình ảnh lớn ở trên */}
+      <Box
+        component="img"npm 
+        src={item?.image || "Tours/a1.jpeg"}
+        alt={item?.title}
         sx={{
-          marginTop: "12px",
-          width: "70%",
-          height: 450,
-          alignItems: "center",
+          width: "100%",
+          height: "400px",
+          objectFit: "cover",
         }}
-        variant="quilted"
-        cols={4}
-        rowHeight={121}
-      >
-        {itemData.map((item) => (
-          <ImageListItem
-            key={item.img}
-            cols={item.cols || 1}
-            rows={item.rows || 1}
+      />
+
+      {/* Nội dung chi tiết */}
+      <Box sx={{ padding: 3 }}>
+        {/* Tên và mô tả */}
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: "bold", color: "#2c3e50", marginBottom: 2 }}
+        >
+          {item?.title || "Tour Name"}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ color: "#34495e", marginBottom: 3, lineHeight: 1.8 }}
+        >
+          {item?.description || "Description not available."}
+        </Typography>
+
+        {/* Đánh giá sao */}
+        <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 3 }}>
+          {renderStars(item?.rating || 0)}
+          <Typography sx={{ fontWeight: "bold", color: "#555" }}>
+            {item?.rating || "0.0"} / 5.0
+          </Typography>
+        </Stack>
+
+        <Divider />
+
+        {/* Footer */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 3,
+          }}
+        >
+          <Box>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", color: "#27ae60", marginBottom: 1 }}
+            >
+              ${item?.price || "0.00"}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#95a5a6" }}>
+              Giá đã bao gồm thuế và phí
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={onClickHandle}
+            sx={{
+              backgroundColor: "#3498db",
+              color: "#fff",
+              "&:hover": { backgroundColor: "#2980b9" },
+            }}
           >
-            <img
-              {...srcset(item.img, 121, item.rows, item.cols)}
-              alt={item.title}
-              loading="lazy"
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
-      <Button variant="contained" onClick={onlickHandle}>
-        Book Now
-      </Button>
-    </>
+            Đặt ngay
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 }
-
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-    author: "@arwinneil",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
-    cols: 2,
-  },
-];

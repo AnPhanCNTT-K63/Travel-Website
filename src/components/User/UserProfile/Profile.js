@@ -15,7 +15,23 @@ import {
 } from "reactstrap";
 import UserHeader from "./UserHeader.js";
 import Post from "./PostList.js";
-import { getProfile } from "../../../api/services.js";
+import {
+  getProfile,
+  updateUserProfile,
+} from "../../../api/Services/UserServices.js";
+import {
+  cardHeaderStyle,
+  buttonStyle,
+  cardBodyStyle,
+  settingsCardStyle,
+  headingStyle,
+  inputStyle,
+  textareaStyle,
+  buttonContainerStyle,
+  containerStyle,
+} from "./ProfileStyle.js";
+import Swal from "sweetalert2";
+import ProfileCard from "./ProfileCard.js";
 
 const Profile = () => {
   const user = useContext(UserContext);
@@ -43,8 +59,66 @@ const Profile = () => {
     age: 0,
   });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setProfile((prevState) => ({
+      ...prevState,
+      profile: {
+        ...prevState.profile,
+        [name]: value,
+      },
+    }));
+  };
+
+  const profile = {
+    UserId: user.userId,
+    FirstName: userProfile.profile.FirstName,
+    LastName: userProfile.profile.LastName,
+    Address: userProfile.profile.Address,
+    City: userProfile.profile.City,
+    Country: userProfile.profile.Country,
+    PostalCode: userProfile.profile.PostalCode,
+    AboutMe: userProfile.profile.AboutMe,
+    Phone: userProfile.profile.Phone,
+    Birthday: userProfile.profile.Birthday,
+    QuickIntroduction: userProfile.profile.QuickIntroduction,
+  };
+
+  console.log(profile);
+
+  const onClickSave = async () => {
+    try {
+      const res = await updateUserProfile(profile);
+
+      if (res.message === "Profile updated successfully") {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: res.message,
+          confirmButtonText: "OK",
+        });
+      } else if (res.message === "No changes detected") {
+        Swal.fire({
+          icon: "info",
+          title: "No Changes",
+          text: res.message,
+          confirmButtonText: "OK",
+        });
+      } else {
+        throw new Error("Unexpected response");
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to save profile. Please try again.",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   const postsSectionRef = useRef(null);
-  const [showFullAboutMe, setShowFullAboutMe] = useState(false);
   const location = useLocation();
   const { userId } = useParams();
 
@@ -67,8 +141,6 @@ const Profile = () => {
     fetchProfile();
   }, [userId]);
 
-  const toggleShowMore = () => setShowFullAboutMe(!showFullAboutMe);
-
   return (
     <>
       {/* Page content */}
@@ -80,87 +152,7 @@ const Profile = () => {
             className="order-xl-2 mb-5 mb-xl-0"
             xl={user.userId == userProfile.profile?.UserId ? "4" : "12"}
           >
-            <Card className="card-profile shadow" style={cardProfileStyle}>
-              <Row className="justify-content-center">
-                <Col className="order-lg-2" lg="3">
-                  <div
-                    className="card-profile-image"
-                    style={cardProfileImageStyle}
-                  >
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        className="rounded-circle"
-                        src="/team-4-800x800.jpg"
-                        style={
-                          user.userId == userProfile.profile?.UserId
-                            ? imgStyle
-                            : imgStyle2
-                        }
-                      />
-                    </a>
-                  </div>
-                </Col>
-              </Row>
-
-              <CardBody className="pt-0 pt-md-4" style={cardBodyStyle}>
-                <Row>
-                  <div className="col">
-                    <div
-                      className="card-profile-stats d-flex justify-content-center mt-md-5"
-                      style={cardStatsStyle}
-                    >
-                      <div>
-                        <span className="heading">22 </span>
-                        <span className="description">Friends</span>
-                      </div>
-                      <div>
-                        <span className="heading">10 </span>
-                        <span className="description">Posts</span>
-                      </div>
-                      <div>
-                        <span className="heading">89 </span>
-                        <span className="description">Comments</span>
-                      </div>
-                    </div>
-                  </div>
-                </Row>
-                <div className="text-center">
-                  <h3 style={nameStyle}>
-                    {userProfile.profile?.FirstName || ""}{" "}
-                    {userProfile.profile?.LastName || ""}
-                    <span className="font-weight-light" style={lightFontStyle}>
-                      , {userProfile.age}
-                    </span>
-                  </h3>
-                  <div className="h5 font-weight-300" style={locationStyle}>
-                    <i className="ni location_pin mr-2" />
-                    {userProfile.profile?.Country || ""},{" "}
-                    {userProfile.profile?.City || ""}
-                  </div>
-                  <div className="h5 mt-4" style={jobStyle}>
-                    <i className="ni business_briefcase-24 mr-2" />
-                    {userProfile.profile?.QuicIntroduction || ""}
-                  </div>
-                  <hr className="my-4" />
-                  <p style={descriptionStyle}>
-                    {showFullAboutMe
-                      ? userProfile.profile?.AboutMe
-                      : userProfile.profile?.AboutMe?.split("\n")[0]}{" "}
-                  </p>
-                  <a
-                    href="#pablo"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleShowMore();
-                    }}
-                    style={showMoreLinkStyle}
-                  >
-                    {showFullAboutMe ? "Show less" : "Show more"}
-                  </a>
-                </div>
-              </CardBody>
-            </Card>
+            <ProfileCard userProfile={userProfile} user={user} />
           </Col>
           {user.userId == userProfile.profile?.UserId && (
             <Col className="order-xl-1" xl="8">
@@ -188,8 +180,9 @@ const Profile = () => {
                               Username
                             </label>
                             <Input
+                              disabled
                               className="form-control-alternative"
-                              defaultValue=""
+                              defaultValue={`@${user.username}`}
                               id="input-username"
                               placeholder="Username"
                               type="text"
@@ -206,6 +199,8 @@ const Profile = () => {
                               Email address
                             </label>
                             <Input
+                              disabled
+                              defaultValue={`${user.email}`}
                               className="form-control-alternative"
                               id="input-email"
                               placeholder="jesse@example.com"
@@ -225,6 +220,9 @@ const Profile = () => {
                               First name
                             </label>
                             <Input
+                              name="FirstName"
+                              value={userProfile.profile.FirstName}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               defaultValue=""
                               id="input-first-name"
@@ -243,6 +241,9 @@ const Profile = () => {
                               Last name
                             </label>
                             <Input
+                              name="LastName"
+                              value={userProfile.profile.LastName}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               defaultValue=""
                               id="input-last-name"
@@ -262,8 +263,10 @@ const Profile = () => {
                             Birthday
                           </label>
                           <Input
+                            name="Birthday"
+                            value={"2004-12-12"}
+                            onChange={handleInputChange}
                             className="form-control-alternative"
-                            defaultValue=""
                             id="input-birthday"
                             placeholder="Birthday"
                             type="date"
@@ -291,6 +294,9 @@ const Profile = () => {
                               Address
                             </label>
                             <Input
+                              name="Address"
+                              value={userProfile.profile.Address}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               defaultValue=""
                               id="input-address"
@@ -309,6 +315,9 @@ const Profile = () => {
                               Phone
                             </label>
                             <Input
+                              name="Phone"
+                              value={userProfile.profile.Phone}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               defaultValue=""
                               id="input-address"
@@ -329,6 +338,9 @@ const Profile = () => {
                               City
                             </label>
                             <Input
+                              name="City"
+                              value={userProfile.profile.City}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               defaultValue=""
                               id="input-city"
@@ -347,6 +359,9 @@ const Profile = () => {
                               Country
                             </label>
                             <Input
+                              name="Country"
+                              value={userProfile.profile.Country}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               defaultValue=""
                               id="input-country"
@@ -365,6 +380,9 @@ const Profile = () => {
                               Postal code
                             </label>
                             <Input
+                              name="PostalCode"
+                              value={userProfile.profile.PostalCode}
+                              onChange={handleInputChange}
                               className="form-control-alternative"
                               id="input-postal-code"
                               placeholder="Postal code"
@@ -377,16 +395,31 @@ const Profile = () => {
                     </div>
                     <hr className="my-4" />
                     {/* Description */}
-                    <h6
-                      className="heading-small text-muted mb-4"
-                      style={headingStyle}
-                    >
-                      About me
-                    </h6>
+
+                    <div className="pl-lg-4">
+                      <FormGroup>
+                        <label>Quick Introduction</label>
+                        <Input
+                          name="QuickIntroduction"
+                          value={userProfile.profile.QuickIntroduction}
+                          onChange={handleInputChange}
+                          className="form-control-alternative"
+                          placeholder="A few words about you ..."
+                          rows="4"
+                          defaultValue=""
+                          type="textarea"
+                          style={textareaStyle}
+                        />
+                      </FormGroup>
+                    </div>
+
                     <div className="pl-lg-4">
                       <FormGroup>
                         <label>About Me</label>
                         <Input
+                          name="AboutMe"
+                          value={userProfile.profile.AboutMe}
+                          onChange={handleInputChange}
                           className="form-control-alternative"
                           placeholder="A few words about you ..."
                           rows="4"
@@ -399,7 +432,7 @@ const Profile = () => {
                     <div className="text-center" style={buttonContainerStyle}>
                       <Button
                         color="primary"
-                        onClick={(e) => e.preventDefault}
+                        onClick={onClickSave}
                         style={buttonStyle}
                       >
                         Save
@@ -411,142 +444,19 @@ const Profile = () => {
             </Col>
           )}
         </Row>
-        <div ref={postsSectionRef} id="posts">
-          <Row className="justify-content-center" style={{ marginTop: "50px" }}>
-            <Post />
-          </Row>
-        </div>
+        {user.userId == userProfile.profile?.UserId && (
+          <div ref={postsSectionRef} id="posts">
+            <Row
+              className="justify-content-center"
+              style={{ marginTop: "50px" }}
+            >
+              <Post />
+            </Row>
+          </div>
+        )}
       </Container>
     </>
   );
-};
-
-// Inline Styles
-const cardProfileStyle = {
-  borderRadius: "20px",
-  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-};
-
-const cardProfileImageStyle = {
-  position: "relative", // Set relative positioning on the parent to control absolute child positioning
-  height: "200px",
-  width: "200px",
-};
-
-const imgStyle = {
-  position: "absolute", // Make the image position absolute
-  top: "-30%", // Push the image upwards to overlap
-  left: "-30%", // Push the image left to overlap
-  width: "100%", // Increase the size of the image
-  height: "100%", // Ensure it covers the full height
-  objectFit: "cover", // Keep the aspect ratio and cover the area
-  borderRadius: "50%", // Keep it rounded
-  border: "3px solid white", // Optional border for the image
-  zIndex: 10, // Ensure the image is above the other content
-};
-
-const imgStyle2 = {
-  position: "absolute", // Make the image position absolute
-  top: "-30%", // Push the image upwards to overlap
-  left: "20%", // Push the image left to overlap
-  width: "100%", // Increase the size of the image
-  height: "100%", // Ensure it covers the full height
-  objectFit: "cover", // Keep the aspect ratio and cover the area
-  borderRadius: "50%", // Keep it rounded
-  border: "3px solid white", // Optional border for the image
-  zIndex: 10, // Ensure the image is above the other content
-};
-
-const cardHeaderStyle = {
-  backgroundColor: "#f7f7f7",
-  borderRadius: "20px",
-  padding: "1rem 2rem",
-};
-
-const buttonStyle = {
-  borderRadius: "50px",
-};
-
-const cardBodyStyle = {
-  backgroundColor: "#ffffff", // Light background color
-  borderColor: "#f0f0f0", // Subtle border color
-  color: "#333", // Text color (dark gray)
-  padding: "2rem",
-  marginTop: "-90px",
-};
-
-const cardStatsStyle = {
-  display: "flex",
-  justifyContent: "space-around", // Space out the items evenly
-  marginTop: "2rem",
-  marginBottom: "2rem",
-  flexDirection: "row", // Ensure horizontal layout
-  alignItems: "center", // Align items vertically centered
-  gap: "1rem", // Add gap between the items (adjust as necessary)
-};
-
-const nameStyle = {
-  fontWeight: "600",
-  fontSize: "2rem",
-  color: "#333",
-};
-
-const lightFontStyle = {
-  fontWeight: "300",
-};
-
-const locationStyle = {
-  color: "#777",
-};
-
-const jobStyle = {
-  color: "#777",
-};
-
-const educationStyle = {
-  color: "#777",
-};
-
-const descriptionStyle = {
-  color: "#777",
-};
-
-const showMoreLinkStyle = {
-  color: "#4c9e9e",
-};
-
-const settingsCardStyle = {
-  borderRadius: "20px",
-  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-};
-
-const headingStyle = {
-  fontWeight: "500",
-  fontSize: "1.2rem",
-  color: "#4c9e9e",
-};
-
-const inputStyle = {
-  borderRadius: "10px",
-  boxShadow: "none",
-  border: "1px solid #ddd",
-  padding: "0.75rem 1rem",
-  fontSize: "1rem",
-};
-
-const textareaStyle = {
-  resize: "none",
-  minHeight: "100px",
-};
-
-const buttonContainerStyle = {
-  marginTop: "2rem",
-};
-
-const containerStyle = {
-  maxWidth: "1200px", // Limit the container width to center the layout
-  margin: "0 auto", // Center the container
-  padding: "0 1.5rem", // Add some padding for smaller screens
 };
 
 export default Profile;
