@@ -1,13 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../../../../../UserContext";
 import { useLocation } from "react-router-dom";
 import { Box, Button, Container, Typography } from "@mui/material";
 
 import { createTourAndPackages } from "../../../../../api/Services/TourAndPackageServices";
 import CreatePackage from "./CreatePackage";
+import Swal from "sweetalert2";
 
 const CreateTourPackage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const user = useContext(UserContext);
   const user_id = user.userId;
   const [tour, setTour] = useState(
@@ -42,10 +45,45 @@ const CreateTourPackage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const data = { tour, tourPackages, user_id };
-    console.log("Submitting:", data);
-    // const message = await createTourAndPackages(data);
-    // console.log(message);
+
+    Swal.fire({
+      title: "Submitting...",
+      text: "Please wait while your tour and packages are being created.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      const res = await createTourAndPackages(data);
+
+      if (res.message === "success") {
+        Swal.fire({
+          title: "Success!",
+          text: "Your tour and packages have been created successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        navigate("/tour/manage");
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "There was a problem creating your tour and packages. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "There was a problem creating your tour and packages. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   console.log(tour);

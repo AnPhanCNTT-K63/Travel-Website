@@ -9,74 +9,91 @@ import {
   Button,
   Box,
   IconButton,
+  Pagination,
 } from "@mui/material";
 import { Edit, Delete, Info } from "@mui/icons-material";
-import { getTourByUserId } from "../../../api/Services/TourAndPackageServices";
+import {
+  deleteSoftTour,
+  getTours,
+} from "../../../api/Services/TourAndPackageServices";
 import UserContext from "../../../UserContext";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const TourManagement = () => {
   const [tours, setTours] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageSize] = useState(6); // Fixed page size
   const user = useContext(UserContext);
 
   useEffect(() => {
     if (!user?.userId) {
       return;
     }
-    const fetchTours = async () => {
-      try {
-        const res = await getTourByUserId(user.userId);
-        setTours(res);
-      } catch (error) {
-        alert("can get tour");
-      }
-    };
-    fetchTours();
-  }, [user.userId]);
+    fetchTours(currentPage);
+  }, [user?.userId, currentPage]);
 
-  const handleUpdate = (id) => {
-    console.log(`Update tour with ID: ${id}`);
+  const fetchTours = async (page) => {
+    try {
+      const res = await getTours(page, pageSize); // Pass page and pageSize to API
+      setTours(res.tours);
+      setTotalPages(res.totalPages);
+    } catch (error) {
+      alert("Can't fetch tours");
+    }
   };
 
   const handleDelete = (id) => {
-    console.log(`Delete tour with ID: ${id}`);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This tour will be moved to the trash can.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, move to trash!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteSoftTour(id);
+
+        if (res.message === "success") {
+          setTours((prevTours) => prevTours.filter((tour) => tour.Id !== id));
+          Swal.fire(
+            "Moved to Trash!",
+            "The tour has been moved to the trash can.",
+            "success"
+          );
+        } else {
+          Swal.fire(
+            "Error!",
+            "There was an issue moving the tour to the trash can.",
+            "error"
+          );
+        }
+      }
+    });
   };
 
-  const handleDetail = (id) => {
-    console.log(`View details for tour with ID: ${id}`);
-  };
-
-  const parseImageNames = (imageNames) => {
-    if (!imageNames) return [];
-    return imageNames.split(",").map((name) => name.trim());
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value); // Update the current page
   };
 
   const getTourImage = (imageName, index = 0) => {
-    const images = parseImageNames(imageName);
-    if (images.length > index) {
-      return `/${images[index]}`;
-    }
-    if (typeof imageName === "string") {
-      return `/${imageName}`;
-    }
-    return "https://via.placeholder.com/300";
+    const images = (imageName || "").split(",").map((name) => name.trim());
+    return images.length > index
+      ? `/${images[index]}`
+      : "https://via.placeholder.com/300";
   };
 
   function formatDate(jsonDate) {
     const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
     const date = new Date(timestamp);
-    const formattedDate = date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-US", {
       month: "long",
       day: "2-digit",
       year: "numeric",
     });
-    const formattedTime = date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    return `${formattedDate} ${formattedTime}`;
   }
 
   return (
@@ -98,7 +115,6 @@ const TourManagement = () => {
                 },
               }}
             >
-              {/* Tour Image */}
               <Link to={`/detail/${tour.Id}`}>
                 <CardMedia
                   component="img"
@@ -107,7 +123,6 @@ const TourManagement = () => {
                   alt={tour.Name}
                 />
               </Link>
-              {/* Tour Details */}
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                   {tour.Name}
@@ -115,10 +130,6 @@ const TourManagement = () => {
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   {tour.City}, {tour.Country}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Region: {tour.Region || "N/A"}
-                </Typography>
-
                 <Typography
                   variant="caption"
                   color="text.secondary"
@@ -127,27 +138,19 @@ const TourManagement = () => {
                   Created: {formatDate(tour.CreatedAt)}
                 </Typography>
               </CardContent>
-
-              {/* Action Buttons */}
               <CardActions sx={{ justifyContent: "space-between" }}>
                 <Link to={`/detail/${tour.Id}`}>
                   <Button
                     variant="outlined"
                     startIcon={<Info />}
-                    onClick={() => handleDetail(tour.Id)}
-                    sx={{
-                      textTransform: "none",
-                    }}
+                    sx={{ textTransform: "none" }}
                   >
                     Details
                   </Button>
                 </Link>
                 <Box>
                   <Link to={`/tour/update/${tour.Id}`}>
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleUpdate(tour.Id)}
-                    >
+                    <IconButton color="primary">
                       <Edit />
                     </IconButton>
                   </Link>
@@ -163,6 +166,16 @@ const TourManagement = () => {
           </Grid>
         ))}
       </Grid>
+
+      {/* Pagination Component */}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Box>
     </Box>
   );
 };

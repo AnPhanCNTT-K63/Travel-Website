@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Typography, Box, Button, Paper, Grid } from "@mui/material";
-import { DeleteForever, Restore } from "@mui/icons-material";
+import { Container, Typography, Box, Grid, Tabs, Tab } from "@mui/material";
 import {
   getDeletedPost,
   deletePost,
@@ -8,11 +7,16 @@ import {
 } from "../../../api/Services/PostServices";
 import UserContext from "../../../UserContext";
 import DeletedPostCard from "./DeletedPostCard";
+import DeletedTourPage from "../../Pages/Tour/DeletedTour/DeletedTourPage";
+import { useParams } from "react-router-dom";
 
-const DeletedPostsPage = () => {
+const DeletedItemsPage = () => {
   const [deletedPosts, setDeletedPosts] = useState([]);
+  const [activeTab, setActiveTab] = useState(0);
   const user = useContext(UserContext);
   const id = user.userId;
+  const { userId } = useParams();
+
   useEffect(() => {
     if (!id) {
       return;
@@ -23,7 +27,7 @@ const DeletedPostsPage = () => {
         console.log(posts);
         setDeletedPosts(posts);
       } catch (err) {
-        alert("Can't get");
+        alert("Can't get posts");
       }
     };
 
@@ -41,45 +45,94 @@ const DeletedPostsPage = () => {
     }
   };
 
-  const handleStorePost = async (postId) => {
+  const handleRestorePost = async (postId) => {
     try {
       await restorePost(postId);
       setDeletedPosts(deletedPosts.filter((post) => post.Id !== postId));
     } catch (err) {
-      console.error("Error deleting post forever:", err);
+      console.error("Error restoring post:", err);
       alert("Failed to restore post.");
     }
   };
 
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ padding: "2rem 0" }}>
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{ fontWeight: "bold", color: "#333", marginBottom: "2rem" }}
-      >
-        Deleted Posts
-      </Typography>
-
-      {deletedPosts.length === 0 ? (
-        <Typography variant="body1" color="text.secondary">
-          No deleted posts found.
-        </Typography>
-      ) : (
-        <Grid container spacing={3}>
-          {deletedPosts.map((post) => (
-            <Grid item xs={12} md={6} lg={4} key={post.Id}>
-              <DeletedPostCard
-                post={post}
-                handleDeleteForever={handleDeleteForever}
-                handleStorePost={handleStorePost}
-              />
-            </Grid>
-          ))}
-        </Grid>
+      {/* Tabs for switching between Deleted Posts and Deleted Tours */}
+      {user.role == "admin" && (
+        <>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            aria-label="deleted items tabs"
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+          >
+            <Tab label="Deleted Posts" />
+            <Tab label="Deleted Tours" />
+          </Tabs>
+          {/* Render the corresponding page based on the selected tab */}
+          {activeTab === 0 && (
+            <Box>
+              <Typography
+                variant="h4"
+                gutterBottom
+                sx={{ fontWeight: "bold", color: "#333", marginBottom: "2rem" }}
+              >
+                Deleted Posts
+              </Typography>
+              {deletedPosts.length === 0 ? (
+                <Typography variant="body1" color="text.secondary">
+                  No deleted posts found.
+                </Typography>
+              ) : (
+                <Grid container spacing={3}>
+                  {deletedPosts.map((post) => (
+                    <Grid item xs={12} md={6} lg={4} key={post.Id}>
+                      <DeletedPostCard
+                        post={post}
+                        handleDeleteForever={handleDeleteForever}
+                        handleRestorePost={handleRestorePost}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
+            </Box>
+          )}
+          {activeTab === 1 && <DeletedTourPage />}{" "}
+        </>
       )}
+
+      {user.role == "user" && (
+        <Box>
+          {deletedPosts.length === 0 ? (
+            <Typography variant="body1" color="text.secondary">
+              No deleted posts found.
+            </Typography>
+          ) : (
+            <Grid container spacing={3}>
+              {deletedPosts.map((post) => (
+                <Grid item xs={12} md={6} lg={4} key={post.Id}>
+                  <DeletedPostCard
+                    post={post}
+                    handleDeleteForever={handleDeleteForever}
+                    handleRestorePost={handleRestorePost}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Box>
+      )}
+
+      {/* Render the DeletedTourPage */}
     </Container>
   );
 };
 
-export default DeletedPostsPage;
+export default DeletedItemsPage;

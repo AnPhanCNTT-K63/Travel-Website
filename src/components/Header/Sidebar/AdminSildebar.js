@@ -11,6 +11,7 @@ import {
   AddLocationAlt,
   SupervisorAccount,
   BookOutlined,
+  DeleteOutline,
 } from "@mui/icons-material";
 export default function AdminSlidebar({
   user,
@@ -70,9 +71,14 @@ export default function AdminSlidebar({
         </StyledMenuItem>
       </StyledLink>
 
-      <StyledMenuItem onClick={handleMenuItemClick}>
-        <LocalOffer style={{ fontSize: 20 }} /> Vouchers
-      </StyledMenuItem>
+      <StyledLink
+        to={`/post/delete/${user.userId}`}
+        onClick={handleMenuItemClick}
+      >
+        <StyledMenuItem>
+          <DeleteOutline style={{ fontSize: 23 }} /> Trash Can
+        </StyledMenuItem>
+      </StyledLink>
 
       <StyledLogout onClick={handleSignOut}>
         <Logout style={{ fontSize: 20 }} /> Log Out
