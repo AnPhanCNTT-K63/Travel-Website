@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Security.Policy;
 
 namespace WebBackendProject.Models
 {
@@ -17,10 +18,13 @@ namespace WebBackendProject.Models
         public string Country { get; set; }
         public string City { get; set; }
         public string Image { get; set; }
+        public bool IsDeleted { get; set; }
         public TimeSpan? Opening { get; set; }
         public TimeSpan? Ending { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdateAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
         public ICollection<TourPackage> TourPackages { get; set; }
     }

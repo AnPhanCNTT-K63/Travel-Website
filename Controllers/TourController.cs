@@ -9,7 +9,7 @@ using WebBackendProject.Models;
 namespace WebBackendProject.Controllers
 {
     [RoutePrefix("tour")]
-    public class TourController : Controller 
+    public class TourController : Controller
     {
         DbAppContext db = new DbAppContext();
 
@@ -29,11 +29,16 @@ namespace WebBackendProject.Controllers
                     t.City,
                     t.CreatedAt,
                     t.UpdateAt,
+                    t.DeletedAt,
+                    t.IsDeleted,
+                    t.Opening,
+                    t.Ending,
                     MinPrice = db.TourPackages
                         .Where(tp => tp.Tour.Id == t.Id)
                         .Min(tp => (decimal?)tp.Price)
                         ?? 0
                 })
+                .Where(t => t.IsDeleted == false)
                 .OrderBy(t => t.Id)  // Sắp xếp theo ID (hoặc trường khác nếu muốn)
                 .Skip((page - 1) * pageSize)  // Bỏ qua bản ghi của các trang trước
                 .Take(pageSize)  // Lấy số lượng bản ghi tương ứng với pageSize
@@ -52,7 +57,7 @@ namespace WebBackendProject.Controllers
 
         [HttpPost]
         [Route("create")] //POST: tour/create
-        public ActionResult TourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id) 
+        public ActionResult TourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id)
         {
             try
             {
@@ -88,7 +93,7 @@ namespace WebBackendProject.Controllers
 
         [HttpGet]
         [Route("detail/{id}")] //GET: tour/detail/{id}
-        public ActionResult TourDetail(int id) 
+        public ActionResult TourDetail(int id)
         {
             try
             {
@@ -103,7 +108,7 @@ namespace WebBackendProject.Controllers
                     StackTrace = ex.StackTrace
                 }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
 
         [HttpGet]
@@ -113,11 +118,11 @@ namespace WebBackendProject.Controllers
             try
             {
                 var tours = db.Tours
-                .Where(t => t.User.Id == user_id)
+                .Where(t => t.User.Id == user_id && t.IsDeleted == false)
                 .ToList();
                 return Json(tours, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)    
+            catch (Exception ex)
             {
                 return Json(new
                 {
@@ -136,6 +141,8 @@ namespace WebBackendProject.Controllers
                 var packages = db.TourPackages
                     .Where(p => p.Tour.Id == tour_id)
                     .ToList();
+
+
                 return Json(packages, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -168,6 +175,290 @@ namespace WebBackendProject.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPut]
+        [Route("update")] //PUT: tour/update
+        public ActionResult UpdateTourAndPackages(Tour tour, List<TourPackage> tourPackages, int user_id)
+        {
+            
+                try
+                {
+                    var existingTour = db.Tours.Find(tour.Id);
+                    var user = db.Users.Find(user_id);
+
+                    if (existingTour == null || user == null)
+                    {
+                        return Json(new { message = "Tour or User not found" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    existingTour.Name = tour.Name;
+                    existingTour.Region = tour.Region;
+                    existingTour.Country = tour.Country;
+                    existingTour.City = tour.City;
+                    existingTour.Image = tour.Image;
+                    existingTour.Opening = tour.Opening;
+                    existingTour.Ending = tour.Ending;
+                    existingTour.User = user;
+                    existingTour.UpdateAt = DateTime.UtcNow;
+
+                    db.SaveChanges();
+
+                    var existingPackages = db.TourPackages.Where(t => t.Tour.Id == tour.Id).ToList();
+                    var incomingPackageIds = tourPackages.Select(tp => tp.Id).ToList();
+
+                    var packagesToDelete = existingPackages
+                        .Where(ep => !incomingPackageIds.Contains(ep.Id))
+                        .ToList();
+
+                    foreach (var package in packagesToDelete)
+                    {
+
+                    var packageDelete = db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
+                                              .Include(p => p.Bookings.Select(b => b.Payment))
+                                              .FirstOrDefault(p => p.Id == package.Id);
+
+                    var bookingsToRemove = packageDelete.Bookings.ToList();
+
+                    foreach (var booking in bookingsToRemove)
+                    {
+                        if (booking.Payment != null)
+                        {
+                            db.Payments.Remove(booking.Payment);
+                        }
+
+                        if (booking.Contact != null)
+                        {
+                            db.Contacts.Remove(booking.Contact);
+                        }
+
+                        db.Bookings.Remove(booking);
+                    }
+
+                    db.TourPackages.Remove(packageDelete);
+                    }
+                    db.SaveChanges();
+                    foreach (var package in tourPackages)
+                    {
+                        var existingPackage = db.TourPackages.Find(package.Id);
+
+                        if (existingPackage == null)
+                        {
+                            var newPackage = new TourPackage
+                            {
+                                Name = package.Name,
+                                Image = package.Image,
+                                Price = package.Price,
+                                Activities = package.Activities,
+                                IsChangeSchedule = package.IsChangeSchedule,
+                                IsRefund = package.IsRefund,
+                                CheckIn = package.CheckIn,
+                                VAT = package.VAT,
+                                Quantity = package.Quantity,
+                                Description = package.Description,
+                                Tour = existingTour,
+                                CreatedAt = DateTime.UtcNow,
+                                UpdatedAt = DateTime.UtcNow
+                            };
+                            db.TourPackages.Add(newPackage);
+                        }
+                        else
+                        {
+                            existingPackage.Name = package.Name;
+                            existingPackage.Description = package.Description;
+                            existingPackage.Image = package.Image;
+                            existingPackage.Price = package.Price;
+                            existingPackage.Activities = package.Activities;
+                            existingPackage.IsChangeSchedule = package.IsChangeSchedule;
+                            existingPackage.IsRefund = package.IsRefund;
+                            existingPackage.CheckIn = package.CheckIn;
+                            existingPackage.VAT = package.VAT;
+                            existingPackage.Quantity = package.Quantity;
+                            existingPackage.Tour = existingTour;
+                            existingPackage.UpdatedAt = DateTime.UtcNow;
+                        }
+                    }
+
+                    db.SaveChanges();
+
+
+                    return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    DetailedInnerException = ex.InnerException?.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpDelete]
+        [Route("delete/package")] // DELETE: tour/delete/package
+        public ActionResult DeleteTourPackage(int id)
+        {
+            try
+            {
+                var package = db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
+                                              .Include(p => p.Bookings.Select(b => b.Payment)) 
+                                              .FirstOrDefault(p => p.Id == id);
+
+                if (package == null)
+                {
+                    return Json(new { message = "Tour Package not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                var bookingsToRemove = package.Bookings.ToList();
+
+                foreach (var booking in bookingsToRemove)
+                {
+                    if (booking.Payment != null)
+                    {
+                        db.Payments.Remove(booking.Payment);
+                    }
+
+                    if (booking.Contact != null)
+                    {
+                        db.Contacts.Remove(booking.Contact);
+                    }
+
+                    db.Bookings.Remove(booking);
+                }
+
+                db.TourPackages.Remove(package);
+
+                db.SaveChanges();
+
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    DetailedInnerException = ex.InnerException?.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPatch]
+        [Route("delete/soft")] //PATCH: tour/delete/soft
+        public ActionResult DeleteSoftTour(int id)
+        {
+            try
+            {
+                var tour = new Tour { Id = id };
+
+                db.Tours.Attach(tour);
+
+                tour.IsDeleted = true;
+                tour.DeletedAt = DateTime.UtcNow;
+
+                db.Entry(tour).Property(b => b.IsDeleted).IsModified = true;
+                db.Entry(tour).Property(b => b.DeletedAt).IsModified = true;
+
+                db.SaveChanges();
+                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    DetailedInnerException = ex.InnerException?.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("get/deleted/{user_id}")] //GET: tour/get/deleted/{user_id}
+        public ActionResult GetDeletedTour(int user_id)
+        {
+            try
+            {
+                var tours = db.Tours
+                .Where(t => t.User.Id == user_id && t.IsDeleted == true)
+                .ToList();
+                return Json(tours, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    DetailedInnerException = ex.InnerException?.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("delete/permanently/{id}")] //DELETE: tour/delete/permanently/{id}
+        public ActionResult DeleteTour(int id)
+        {
+            try
+            {
+                var tourDelete = db.Tours.Find(id);
+
+                db.Tours.Remove(tourDelete);
+                db.SaveChanges();
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    DetailedInnerException = ex.InnerException?.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [HttpPatch]
+        [Route("restore")]  //PATCH: tour/restore
+        public ActionResult RestorePost(int id)
+        {
+            try
+            {
+                var tour = new Tour { Id = id };
+
+                db.Tours.Attach(tour);
+
+                tour.IsDeleted = false;
+                tour.DeletedAt = null;
+
+                db.Entry(tour).Property(b => b.IsDeleted).IsModified = true;
+                db.Entry(tour).Property(b => b.DeletedAt).IsModified = true;
+
+                db.SaveChanges();
+
+                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
 
     }
 }

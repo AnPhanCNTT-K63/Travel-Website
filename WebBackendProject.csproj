@@ -273,6 +273,38 @@
     <Compile Include="Migrations\202412010440334_new_131311.designer.cs">
       <DependentUpon>202412010440334_new_131311.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412011245259_new_sche.cs" />
+    <Compile Include="Migrations\202412011245259_new_sche.designer.cs">
+      <DependentUpon>202412011245259_new_sche.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412011253540_new_adasd.cs" />
+    <Compile Include="Migrations\202412011253540_new_adasd.designer.cs">
+      <DependentUpon>202412011253540_new_adasd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412011258306_new_schema.cs" />
+    <Compile Include="Migrations\202412011258306_new_schema.designer.cs">
+      <DependentUpon>202412011258306_new_schema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412011334420_new_oneeeee.cs" />
+    <Compile Include="Migrations\202412011334420_new_oneeeee.designer.cs">
+      <DependentUpon>202412011334420_new_oneeeee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412011627150_new_thing_2.cs" />
+    <Compile Include="Migrations\202412011627150_new_thing_2.designer.cs">
+      <DependentUpon>202412011627150_new_thing_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412020045354_new_oieq.cs" />
+    <Compile Include="Migrations\202412020045354_new_oieq.designer.cs">
+      <DependentUpon>202412020045354_new_oieq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412020106310_mew_throne.cs" />
+    <Compile Include="Migrations\202412020106310_mew_throne.designer.cs">
+      <DependentUpon>202412020106310_mew_throne.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412020119458_new_oeweqe.cs" />
+    <Compile Include="Migrations\202412020119458_new_oeweqe.designer.cs">
+      <DependentUpon>202412020119458_new_oeweqe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -285,6 +317,7 @@
     <Compile Include="Models\DTO\SignInInfo.cs" />
     <Compile Include="Models\DTO\SignUpInfo.cs" />
     <Compile Include="Models\DTO\TicketInfo.cs" />
+    <Compile Include="Models\DTO\TourInfo.cs" />
     <Compile Include="Models\DTO\UserProfileDTO.cs" />
     <Compile Include="Models\DTO\UserRequest.cs" />
     <Compile Include="Models\PaymentCard.cs" />
@@ -373,6 +406,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412010440334_new_131311.resx">
       <DependentUpon>202412010440334_new_131311.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412011245259_new_sche.resx">
+      <DependentUpon>202412011245259_new_sche.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412011253540_new_adasd.resx">
+      <DependentUpon>202412011253540_new_adasd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412011258306_new_schema.resx">
+      <DependentUpon>202412011258306_new_schema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412011334420_new_oneeeee.resx">
+      <DependentUpon>202412011334420_new_oneeeee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412011627150_new_thing_2.resx">
+      <DependentUpon>202412011627150_new_thing_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412020045354_new_oieq.resx">
+      <DependentUpon>202412020045354_new_oieq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412020106310_mew_throne.resx">
+      <DependentUpon>202412020106310_mew_throne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412020119458_new_oeweqe.resx">
+      <DependentUpon>202412020119458_new_oeweqe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

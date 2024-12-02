@@ -24,10 +24,12 @@ namespace WebBackendProject.Models
         public string CheckIn {  get; set; }
         public decimal VAT { get; set; }
         public int Quantity { get; set; }
+        public int TourId { get; set; }
         public Tour Tour { get; set; }
         public ICollection<Booking> Bookings { get; set; }
         public ICollection<TourReview> TourReviews { get; set; }
         public ICollection<Voucher> Vouchers { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
 
 
     }
