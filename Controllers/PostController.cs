@@ -61,6 +61,7 @@ namespace WebBackendProject.Controllers
             return Json(formattedPosts, JsonRequestBehavior.AllowGet);
         }
 
+        [JwtAuthorize("admin", "user")]
         [HttpGet]
         [Route("detail/{id}")] //GET: post/detail/{id}
         public ActionResult PostDetail(int id) 

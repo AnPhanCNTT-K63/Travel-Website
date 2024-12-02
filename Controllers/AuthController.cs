@@ -71,7 +71,7 @@ namespace WebBackendProject.Controllers
                 var loginUser = db.Users
                 .FirstOrDefault(u => u.Email == info.Email);
 
-                if (loginUser == null)
+                if (loginUser == null || loginUser.IsBanned == true)
                 {
                     return Json(new { error = "Email Not Found" });
                 }

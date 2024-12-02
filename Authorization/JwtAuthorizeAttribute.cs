@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
-
+using WebBackendProject.Models;
 
 public class JwtAuthorizeAttribute : AuthorizeAttribute
 {
@@ -58,6 +58,17 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
             var usernameClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "username");
             var roleClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "role");
             var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "user_id");
+
+            var user_id = int.Parse(userIdClaim.Value);
+            using (var db = new DbAppContext())
+            {
+                var user = db.Users.Find(user_id);
+                if (user == null || user.IsBanned)
+                {
+                    Debug.WriteLine($"User with ID {user_id} is banned or does not exist.");
+                    return false;
+                }
+            }
 
             Debug.WriteLine(emailClaim);
             Debug.WriteLine(usernameClaim);

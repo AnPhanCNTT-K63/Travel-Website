@@ -23,9 +23,12 @@ namespace WebBackendProject.Models
         public string Role { get; set; }
         public DateTime? LastActive { get; set; }
         public Boolean IsOnline { get; set; }
+        public Boolean IsBanned { get; set; }
         public Boolean IsDeleted { get; set; }
+        public Boolean IsProfileBlocked { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
         public UserProfile UserProfile { get; set; }
         public ICollection<Tour> Tours { get; set; }
         public ICollection<BlogPost> Posts { get; set; }

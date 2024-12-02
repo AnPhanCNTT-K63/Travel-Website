@@ -15,10 +15,15 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("tours")] // GET: tour/tours
-        public ActionResult Tours(int page = 1, int pageSize = 9)
+        [Route("tours/{page}/{pageSize}")] // GET: tour/tours/{page}/{pageSize}
+        public ActionResult Tours(int page, int pageSize)
         {
-            var toursWithMinPrice = db.Tours
+            var query = db.Tours
+                .Where(t => t.IsDeleted == false);
+            var toursWithMinPrice = query
+                .OrderBy(t => t.Id)  
+                .Skip((page - 1) * pageSize)  
+                .Take(pageSize)  
                 .Select(t => new
                 {
                     t.Id,
@@ -35,25 +40,20 @@ namespace WebBackendProject.Controllers
                     t.Ending,
                     MinPrice = db.TourPackages
                         .Where(tp => tp.Tour.Id == t.Id)
-                        .Min(tp => (decimal?)tp.Price)
-                        ?? 0
+                        .Min(tp => (decimal?)tp.Price) ?? 0
                 })
-                .Where(t => t.IsDeleted == false)
-                .OrderBy(t => t.Id)  // Sắp xếp theo ID (hoặc trường khác nếu muốn)
-                .Skip((page - 1) * pageSize)  // Bỏ qua bản ghi của các trang trước
-                .Take(pageSize)  // Lấy số lượng bản ghi tương ứng với pageSize
                 .ToList();
 
-            // Lấy tổng số bản ghi trong bảng để tính toán số trang
-            int totalTours = db.Tours.Count();
+            int totalTours = toursWithMinPrice.Count();
 
             return Json(new
             {
                 tours = toursWithMinPrice,
                 totalTours = totalTours,
-                totalPages = (int)Math.Ceiling((double)totalTours / pageSize)  // Tính tổng số trang
+                totalPages = (int)Math.Ceiling((double)totalTours / pageSize) 
             }, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         [Route("create")] //POST: tour/create
@@ -91,6 +91,7 @@ namespace WebBackendProject.Controllers
             }
         }
 
+            
         [HttpGet]
         [Route("detail/{id}")] //GET: tour/detail/{id}
         public ActionResult TourDetail(int id)
@@ -362,7 +363,7 @@ namespace WebBackendProject.Controllers
                 db.Entry(tour).Property(b => b.DeletedAt).IsModified = true;
 
                 db.SaveChanges();
-                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -379,13 +380,13 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        [Route("get/deleted/{user_id}")] //GET: tour/get/deleted/{user_id}
-        public ActionResult GetDeletedTour(int user_id)
+        [Route("get/deleted")] //GET: tour/get/deleted
+        public ActionResult GetDeletedTour()
         {
             try
             {
                 var tours = db.Tours
-                .Where(t => t.User.Id == user_id && t.IsDeleted == true)
+                .Where(t => t.IsDeleted == true)
                 .ToList();
                 return Json(tours, JsonRequestBehavior.AllowGet);
             }
@@ -445,7 +446,7 @@ namespace WebBackendProject.Controllers
 
                 db.SaveChanges();
 
-                return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

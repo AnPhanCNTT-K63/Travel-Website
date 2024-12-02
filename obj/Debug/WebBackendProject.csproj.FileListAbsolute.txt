@@ -476,3 +476,9 @@ D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Mi
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_oieq.resources
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.mew_throne.resources
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_oeweqe.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_Model_231.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_Model_232.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.delete_Model_232.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_Attribute.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_one_toweewqe.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_thing.resources

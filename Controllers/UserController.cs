@@ -44,6 +44,14 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
+        [Route("users/{id}")] //GET: user/users/{id}
+        public ActionResult UserById(int id)
+        {
+            var data = db.Users.Find(id);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         [Route("profile")]
         public ActionResult UserProfile()
         {
@@ -365,7 +373,130 @@ namespace WebBackendProject.Controllers
             }
         }
 
-       
+        [HttpPatch]
+        [Route("ban")] //PATCH: user/ban
+        public ActionResult BanUser(int user_id)
+        {
+            try
+            {
+                var user = db.Users.Find(user_id);
+
+                if (user == null)
+                {
+                    return Json(new { message = "User not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                user.IsBanned = true;
+                db.SaveChanges();
+
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPatch]
+        [Route("unban")] //PATCH: user/unban
+        public ActionResult UnbanUser(int user_id)
+        {
+            try
+            {
+                var user = db.Users.Find(user_id);
+
+                if (user == null)
+                {
+                    return Json(new { message = "User not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                user.IsBanned = false;
+                db.SaveChanges();
+
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    InnerException = ex.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        [Route("get/deleted/soft")] //GET: user/get/deleted/soft
+        public ActionResult DeletedSoftUser()
+        {
+            var users = db.Users
+                .Where(u => u.IsDeleted == true)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("get/banned")] //GET: user/get/banned
+        public ActionResult BannedUser()
+        {
+            var users = db.Users
+                .Where(u => u.IsBanned == true)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("get/online")] //GET: user/get/online
+        public ActionResult OnlineUser()
+        {
+            var users = db.Users
+                .Where(u => u.IsOnline == true)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("get/offline")] //GET: user/get/offline
+        public ActionResult OfflineUser()
+        {
+            var users = db.Users
+                .Where(u => u.IsOnline == false)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPatch]
+        [Route("block/profile")] //PATCH: user/block/profile
+        public ActionResult BlockProfile(int user_id)
+        {
+            var user = db.Users.Find(user_id);
+            user.IsProfileBlocked = true;
+            db.SaveChanges();
+
+            return Json(new {message = "success"}, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPatch]
+        [Route("unblock/profile")] //PATCH: user/unblock/profile
+        public ActionResult UnBlockProfile(int user_id)
+        {
+            var user = db.Users.Find(user_id);
+            user.IsProfileBlocked = false;
+            db.SaveChanges();
+
+            return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }
