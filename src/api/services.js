@@ -304,3 +304,16 @@ export const getMyBooking = async (userId) => {
     throw error;
   }
 };
+
+export const sendSearchResult = async (keywords) => {
+  try {
+    const res = await axios.post(`${API_URL}/Search/Search`, {
+      searchTerm: keywords
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error during search:", error.response?.data || error.message);
+    throw error;
+  }
+};
+

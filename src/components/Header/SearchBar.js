@@ -5,33 +5,20 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sendSearchResult } from '../../api/services';
 
 function SearchBar() {
   const navigate = useNavigate();
   // State để lưu trữ từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState('');
-  // Hàm xử lý khi nhấn nút tìm kiếm hoặc nhấn Enter
-  const searchMap = {
-    '1': '/detail/1',
-    '2': '/detail/2',
-    '3': '/detail/3',
-    '4': '/detail/4',
-    '5': '/detail/5',
-    '6': '/detail/6',
-    '7': '/detail/7',
-    '8': '/detail/8',
-    '9': '/detail/9',
-    'Grand Canyon Adventure': '/detail/1',
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value); // Cập nhật searchTerm từ input
   };
-  const handleSearch = () => {
-    const trimmedSearch = searchTerm.trim();
-    if (trimmedSearch) {
-      const targetUrl = searchMap[trimmedSearch]; // Tra cứu URL
-      if (targetUrl) {
-        navigate(targetUrl); // Điều hướng đến URL tương ứng
-      } else {
-        console.log('Không tìm thấy kết quả:', searchTerm);
-      }
+  const handleSearch = async () => {
+    if (searchTerm.trim()) {
+      const res = await sendSearchResult(searchTerm);
+      navigate('/searching', { state: { searchResults: res, searchTerm } }); // Truyền dữ liệu qua state
+      console.log(res);
     } else {
       console.log('Vui lòng nhập từ khóa tìm kiếm');
     }
@@ -50,7 +37,7 @@ function SearchBar() {
       placeholder="Search destination or activities"
       size="small"
       value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
+      onChange={handleInputChange}
       onKeyPress={handleKeyPress}
       sx={{
         margin: '20px',
@@ -71,13 +58,15 @@ function SearchBar() {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton>
+            <IconButton onClick={handleSearch}>
               <SearchIcon />
             </IconButton>
           </InputAdornment>
         ),
       }}
     />
+
+
   );
 }
 

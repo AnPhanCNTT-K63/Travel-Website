@@ -35,6 +35,7 @@ import QRPaymentPage from "../Pages/Payment/QRPage/QRPaymentPage";
 import ScrollToTop from "./ScrollToTop";
 import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
 import Billing from "../Pages/Billing/Billing";
+import Searching from "../Pages/Searching/Searching";
 
 function Navigation() {
   const location = useLocation();
@@ -78,6 +79,7 @@ function Navigation() {
         <Route path="/sponsor" element={<Sponsor />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
+        <Route path="/searching" element={<Searching />} />
 
         {user.role == "admin" && (
           <>

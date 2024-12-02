@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import ListCard from "./ListCard";
 import "../../../../styles/TourSection.module.css";
+import TourCard from "./Card";
 
-export default function TourSection() {
+export default function TourSection({ searchResults }) {
+
   // const [page, setPage] = useState(1);
 
   // Dữ liệu giả lập (tất cả các card)
@@ -116,15 +118,21 @@ export default function TourSection() {
   return (
     <div>
       {/* Truyền dữ liệu của trang hiện tại vào ListCard */}
-      <ListCard allTours={allTours} cardsPerPage={cardsPerPage} />
       {/* <div style={{ marginLeft: "400px", marginTop: "80px" }}> */}
-        {/* <Pagination
+      {/* <Pagination
           count={Math.ceil(allTours.length / cardsPerPage)} // Tổng số trang
           page={page} // Trang hiện tại
           onChange={handlePageChange} // Xử lý đổi trang
           color="secondary"
         /> */}
       {/* </div> */}
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+        {searchResults.length > 0 ? (
+          searchResults.map((item) => <TourCard key={item.Id} item={item} />)
+        ) : (
+          <ListCard allTours={allTours} cardsPerPage={cardsPerPage} />
+        )}
+      </div>
     </div>
   );
 }

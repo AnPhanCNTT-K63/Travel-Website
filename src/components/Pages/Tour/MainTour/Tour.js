@@ -5,18 +5,20 @@ import Col from "react-bootstrap/Col";
 import Slide2 from "../../../Slideshow/Slide2";
 import FilterBox from "./FilterBox";
 import TourSection from "./TourSection";
+import { useState } from "react";
 
 const Tour = () => {
+  const [searchResults, setSearchResults] = useState([]); // Khởi tạo state cho kết quả tìm kiếm
   return (
     <div>
       <Slide2 />
       <Container>
         <Row>
           <Col className="col-3">
-            <FilterBox />
+            <FilterBox setSearchResults={setSearchResults} /> {/* Truyền hàm */}
           </Col>
           <Col className="col-9">
-            <TourSection />
+            <TourSection searchResults={searchResults} /> {/* Truyền dữ liệu kết quả */}
           </Col>
         </Row>
       </Container>

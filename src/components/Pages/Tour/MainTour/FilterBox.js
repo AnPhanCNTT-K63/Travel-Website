@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "../../../../styles/filterBox.css";
 import StarIcon from "@mui/icons-material/Star";
+import { sendSearchResult } from '../../../../api/services';
 
-export default function FilterBox() {
+export default function FilterBox({ setSearchResults }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [rating, setRating] = useState([]);
   const [price, setPrice] = useState(500);
@@ -14,6 +15,30 @@ export default function FilterBox() {
       setRating(rating.filter((r) => r !== value));
     } else {
       setRating([...rating, value]);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value); // Cập nhật searchTerm từ input
+  };
+  const handleSearch = async () => {
+    if (searchTerm.trim()) {
+      try {
+        const res = await sendSearchResult(searchTerm);
+        setSearchResults(res);  // Đảm bảo đây là hàm
+        console.log("Search results:", res);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    } else {
+      console.log('Vui lòng nhập từ khóa tìm kiếm');
+    }
+  };
+
+  // Hàm xử lý khi nhấn phím Enter
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -29,8 +54,9 @@ export default function FilterBox() {
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
-        <button className="search-button" style={{ width: "50%" }}>
+        <button className="search-button" style={{ width: "50%" }} onClick={handleSearch}>
           Search
         </button>
       </div>
