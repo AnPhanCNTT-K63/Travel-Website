@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Typography, Paper } from "@mui/material";
 
-export default function CreateTour({ getTour, defaultTour, uploadImage }) {
+export default function CreateTour({ getTour, defaultTour }) {
+  const formatTime = (time) => {
+    if (!time || time.Hours == null || time.Minutes == null) return "";
+    const hours = time.Hours.toString().padStart(2, "0");
+    const minutes = time.Minutes.toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   const [tour, setTour] = useState(
-    defaultTour || {
-      Name: "",
-      Region: "",
-      Country: "",
-      City: "",
-      Image: "",
-      Opening: "",
-      Ending: "",
-    }
+    defaultTour
+      ? {
+          ...defaultTour,
+          Opening: formatTime(defaultTour.Opening),
+          Ending: formatTime(defaultTour.Ending),
+        }
+      : {
+          Name: "",
+          Region: "",
+          Country: "",
+          City: "",
+          Image: "",
+          Opening: "",
+          Ending: "",
+        }
   );
 
   const [previewImages, setPreviewImages] = useState([]);
@@ -29,11 +42,9 @@ export default function CreateTour({ getTour, defaultTour, uploadImage }) {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
 
-    // Generate local previews for the selected images
     const newPreviews = files.map((file) => URL.createObjectURL(file));
     setPreviewImages([...previewImages, ...newPreviews]);
 
-    // Extract file names and update the Image field
     const fileNames = files.map((file) => file.name);
     setTour((prev) => ({
       ...prev,
@@ -60,9 +71,6 @@ export default function CreateTour({ getTour, defaultTour, uploadImage }) {
 
   return (
     <>
-      <Typography variant="h4" align="center" gutterBottom>
-        Create Tour
-      </Typography>
       <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

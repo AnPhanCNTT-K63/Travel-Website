@@ -38,6 +38,7 @@ import UserRequest from "../Admin/UserRequest/UserRequest";
 import DeletedPostsPage from "../Pages/Post/DeletedPostPage";
 import TourManagement from "../Admin/TourManagement/TourManagement";
 import UpdateTourPage from "../Pages/Tour/UpdateTour/UpdateTourPage";
+import DeletedTourPage from "../Pages/Tour/DeletedTour/DeletedTourPage";
 
 function Navigation() {
   const location = useLocation();
@@ -87,6 +88,10 @@ function Navigation() {
             <Route path="/createTour" element={<CreateTourPage />} />
             <Route path="/createTourPackage" element={<CreateTourPackage />} />
             <Route path="/userManagement" element={<UserManagementPage />} />
+            <Route path="/tour/manage" element={<TourManagement />} />
+            <Route path="/tour/delete/:userId" element={<DeletedTourPage />} />
+            <Route path="/tour/update/:tourId" element={<UpdateTourPage />} />
+            <Route path="/user/request" element={<UserRequest />} />
           </>
         )}
 
@@ -98,10 +103,7 @@ function Navigation() {
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
         <Route path="/billing" element={<Billing />} />
-        <Route path="/tour/update/:tourId" element={<UpdateTourPage />} />
-        <Route path="/tour/manage" element={<TourManagement />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
-        <Route path="/user/request" element={<UserRequest />} />
         <Route path="/user/booking" element={<MyBookingPage />} />
         <Route path="/QR/:bookingId" element={<QRPaymentPage />} />
         <Route path="/payment/:bookingId" element={<PaymentPage />} />
