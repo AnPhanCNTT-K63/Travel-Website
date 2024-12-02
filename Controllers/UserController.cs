@@ -254,7 +254,7 @@ namespace WebBackendProject.Controllers
                 }
 
                 user.IsDeleted = true;
-                user.UpdatedAt = DateTime.Now;
+                user.DeletedAt = DateTime.UtcNow;
                 db.SaveChanges();
 
                 return Json(new { message = "User marked as deleted" }, JsonRequestBehavior.AllowGet);
@@ -278,7 +278,7 @@ namespace WebBackendProject.Controllers
                 }
 
                 user.IsDeleted = false;
-                user.UpdatedAt = DateTime.Now;
+                user.DeletedAt = null;
                 db.SaveChanges();
 
                 return Json(new { message = "User restored successfully" }, JsonRequestBehavior.AllowGet);
@@ -289,7 +289,34 @@ namespace WebBackendProject.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpDelete]
+        [Route("delete/permanently/{user_id}")] //DELETE: user/delete/permanently/{user_id}
+        public ActionResult DeleteAccount(int user_id)
+        {
+            try
+            {
+                var user = db.Users
+                 .Include(u => u.UserProfile)
+                 .FirstOrDefault(u => u.Id == user_id);
+                db.UserProfiles.Remove(user.UserProfile);
+                db.Users.Remove(user);
+                db.SaveChanges();
+
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+
+            [HttpGet]
         [Route("request/payment")] //GET: user/request/payment
         public ActionResult GetUserPaymentRequest() 
         {

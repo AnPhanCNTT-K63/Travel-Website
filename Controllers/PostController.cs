@@ -208,7 +208,8 @@ namespace WebBackendProject.Controllers
                 existingPost.Title = post.Title;        
                 existingPost.Content = post.Content;    
                 existingPost.Hashtags = post.Hashtags;  
-                existingPost.Image = post.Image;        
+                existingPost.Image = post.Image;
+                existingPost.UpdatedAt = DateTime.UtcNow;
 
                 db.SaveChanges();
 
