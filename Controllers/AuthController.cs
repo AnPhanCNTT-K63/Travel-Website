@@ -7,20 +7,23 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using WebBackendProject.Models;
 using System.Web.Helpers;
+using WebBackendProject.Models.DTO;
 
 namespace WebBackendProject.Controllers
 {
-    public class AuthController : Controller //Auth/
+    [RoutePrefix("auth")]
+    public class AuthController : Controller
     {
         DbAppContext db = new DbAppContext();
 
         [AllowAnonymous]
-        [HttpPost] 
-        public ActionResult signup(User user) //POST: Auth/signup
+        [HttpPost]
+        [Route("signup")] //POST: auth/signup
+        public ActionResult Signup(SignUpInfo info) 
         {
-            var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == user.Email);
-            var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == user.Username);
-
+            var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == info.Email);
+            var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == info.Username);
+            var softDeletedUserEmail = db.Users.FirstOrDefault(u => u.IsDeleted == true);
 
             if (existedUserEmail != null)
             {
@@ -28,68 +31,88 @@ namespace WebBackendProject.Controllers
             }
             if(existedUserUsername != null)
             {
-                return Json(new { error = "user has been used by someone else" }, JsonRequestBehavior.AllowGet);
+                return Json(new { error = "User has been used by someone else" }, JsonRequestBehavior.AllowGet);
+            }
+            if (softDeletedUserEmail != null)
+            {
+                return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" }, JsonRequestBehavior.AllowGet);
             }
 
             if (ModelState.IsValid)
-            {
+            {   
+                var user = new User();
                 user.CreatedAt = DateTime.UtcNow;
                 user.UpdatedAt = DateTime.UtcNow;
+                user.LastActive = DateTime.UtcNow;
                 user.Role = "user";
+                user.Username = info.Username;
+                user.Password = info.Password;
+                user.Email = info.Email;          
                 db.Users.Add(user);
-                int a = db.SaveChanges();
-                if (a > 0)
+                db.SaveChanges();
+
+                var profile = new UserProfile
                 {
-                    Debug.WriteLine("True");
-                }
-                else
-                {
-                    Debug.WriteLine("False");
-                }
+                    UserId = user.Id
+                };
+                db.UserProfiles.Add(profile);
+                db.SaveChanges();
             }
-            return Json(user, JsonRequestBehavior.AllowGet);
+            return Json(info, JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult signin(User user) // POST: Auth/signin
+        [Route("signin")] //POST: auth/signin
+        public ActionResult Signin(SignInInfo info) 
         {
-            var loginUser = db.Users
-                .FirstOrDefault(u => u.Email == user.Email);
+            if(ModelState.IsValid)
+            {
+                var loginUser = db.Users
+                .FirstOrDefault(u => u.Email == info.Email);
 
-            if (loginUser == null)
-            {
-                return Json(new { error = "Email Not Found" });
-            }
-            else if (loginUser.Password != user.Password)
-            {
-                return Json(new { error = "Incorrect Password" });
-            }
-            else
-            {
-                var token = JwtHelper.GenerateToken(loginUser.Email, loginUser.Username, loginUser.Role, loginUser.Id.ToString());
-                Debug.WriteLine(loginUser);
-                Debug.WriteLine(token);
-                return Json(new
+                if (loginUser == null)
                 {
-                    token = token,
-                    message = "Success"
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new { error = "Email Not Found" });
+                }
+                else if (loginUser.Password != info.Password)
+                {
+                    return Json(new { error = "Incorrect Password" });
+                }
+                else if (loginUser.IsDeleted == true)
+                {
+                    return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" });
+                }
+                else
+                {
+                    var token = JwtHelper.GenerateToken(loginUser.Email, loginUser.Username, loginUser.Role, loginUser.Id.ToString());
+                    Debug.WriteLine(loginUser);
+                    Debug.WriteLine(token);
+                    return Json(new
+                    {
+                        token = token,
+                        message = "Success"
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
+            {
+                return Json(new { error = "Invalid Info" });
+            }
+            
         }
-
-
 
         [JwtAuthorize("admin", "user")]
         [HttpGet]
-        public ActionResult signout() //GET: Auth/signout
+        [Route("signout")] //GET: auth/signout
+        public ActionResult Signout() 
         {
             return Json(new { message = "Log out success" }, JsonRequestBehavior.AllowGet);
         }
 
         [JwtAuthorize("admin", "user")]
         [HttpPost]
-        public ActionResult passwordCheck(string password, int? user_id) //POST: Auth/passwordCheck
+        [Route("password/check")] //POST: auth/password/check
+        public ActionResult PasswordCheck(string password, int? user_id) 
         {
             var user = db.Users.Find(user_id);
             if(user.Password != password)

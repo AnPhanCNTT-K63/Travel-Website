@@ -9,16 +9,20 @@ using System.Data.Entity;
 using System.Web.Services.Description;
 using System.Web.UI;
 using WebBackendProject.Models;
+using Newtonsoft.Json.Linq;
+using WebBackendProject.Models.DTO;
+using System.Net;
 
 namespace WebBackendProject.Controllers
 {
+    [RoutePrefix("user")]
     public class UserController : Controller
     {
         DbAppContext db = new DbAppContext();
   
         public void UpdateUserStatus()
         {
-            var threshold = DateTime.UtcNow.AddMinutes(-1);
+            var threshold = DateTime.UtcNow.AddSeconds(-30);
 
             var users = db.Users.Where(u => u.LastActive < threshold && u.IsOnline).ToList();
 
@@ -31,18 +35,26 @@ namespace WebBackendProject.Controllers
         }
 
 
-
-        [JwtAuthorize("admin")]
         [HttpGet]
-        public ActionResult users() //GET: /User/users
+        [Route("users")] //GET: user/users
+        public ActionResult Users() 
         {
             var data = db.Users.ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Route("profile")]
+        public ActionResult UserProfile()
+        {
+            var data = db.UserProfiles.ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult heartBeat(int userId) //POST: User/heartBeat
+        [Route("ping")] //POST: user/ping
+        public ActionResult HeartBeat(int userId) 
         {
             try
             {
@@ -68,9 +80,9 @@ namespace WebBackendProject.Controllers
             }
         }
 
-        [JwtAuthorize("admin", "user")]
         [HttpGet]
-        public ActionResult getProfileByUserId(int user_id) //GET: User/profile/{user_id}
+        [Route("profile/{user_id}")] //GET: user/profile/{user_id}
+        public ActionResult GetProfileByUserId(int user_id) 
         {
             try
             {
@@ -89,9 +101,58 @@ namespace WebBackendProject.Controllers
             }
         }
 
-        [JwtAuthorize("admin", "user")]
+        [HttpPut]
+        [Route("profile/update")] //PUT: user/profile/update
+        public ActionResult UpdateUserProfile(UserProfileDTO profile)
+        {
+            try
+            {
+                if (profile == null || profile.UserId == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid profile data.");
+                }
+
+                var userProfile = db.UserProfiles.FirstOrDefault(u => u.UserId == profile.UserId);
+
+                bool isUpdated = false;
+
+                if (userProfile.FirstName != profile.FirstName) { userProfile.FirstName = profile.FirstName; isUpdated = true; }
+                if (userProfile.LastName != profile.LastName) { userProfile.LastName = profile.LastName; isUpdated = true; }
+                if (userProfile.Address != profile.Address) { userProfile.Address = profile.Address; isUpdated = true; }
+                if (userProfile.City != profile.City) { userProfile.City = profile.City; isUpdated = true; }
+                if (userProfile.Country != profile.Country) { userProfile.Country = profile.Country; isUpdated = true; }
+                if (userProfile.PostalCode != profile.PostalCode) { userProfile.PostalCode = profile.PostalCode; isUpdated = true; }
+                if (userProfile.AboutMe != profile.AboutMe) { userProfile.AboutMe = profile.AboutMe; isUpdated = true; }
+                if (userProfile.Phone != profile.Phone) { userProfile.Phone = profile.Phone; isUpdated = true; }
+                if (userProfile.Birthday != profile.Birthday) { userProfile.Birthday = profile.Birthday; isUpdated = true; }
+                if (userProfile.QuickIntroduction != profile.QuickIntroduction) { userProfile.QuickIntroduction = profile.QuickIntroduction; isUpdated = true; }
+
+                if (isUpdated)
+                {
+                    db.Entry(userProfile).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { message = "Profile updated successfully" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { message = "No changes detected" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        //[JwtAuthorize("admin", "user")]
         [HttpGet]
-        public ActionResult getAccountInfo(int? user_id) // GET: User/account/{user_id}
+        [Route("account/{user_id}")] //GET: user/account/{user_id}
+        public ActionResult GetAccountInfo(int? user_id) 
         {
             try
             {
@@ -132,7 +193,8 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin", "user")]
         [HttpPut]
-        public ActionResult updateAccount(UserInfoUpdate userInfo) //POST: User/update/account
+        [Route("update/account")] //PUT: user/update/account
+        public ActionResult UpdateAccount(UserInfoUpdate userInfo) 
         {
             if(ModelState.IsValid)
             {
@@ -172,7 +234,8 @@ namespace WebBackendProject.Controllers
 
         [JwtAuthorize("admin", "user")]
         [HttpDelete]
-        public ActionResult SoftDeleteAccount(int user_id) //DELETE: User/softDeleted/account/{user_id}
+        [Route("delete/account/soft/{user_id}")] //DELETE: user/delete/account/soft/{user_id}
+        public ActionResult SoftDeleteAccount(int user_id) 
         {
             try
             {
@@ -195,7 +258,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult RestoreAccount(int user_id)
+        [Route("restore/account")] //POST: user/restore/account
+        public ActionResult RestoreAccount(int user_id) 
         {
             try
             {
@@ -217,8 +281,91 @@ namespace WebBackendProject.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("request/payment")] //GET: user/request/payment
+        public ActionResult GetUserPaymentRequest() 
+        {
+            return GetPaymentRequests(null);
+        }
 
+        [HttpGet]
+        [Route("request/payment/pending")] //GET: user/request/payment/pending
+        public ActionResult GetPendingPayment() 
+        {
+            return GetPaymentRequests("waiting");
+        }
 
+        [HttpGet]
+        [Route("request/payment/processed")] //GET: user/request/payment/processed
+        public ActionResult GetProcessedPayment() 
+        {
+            return GetPaymentRequests(new[] { "success", "fail" });
+        }
+
+        [HttpGet]
+        [Route("request/payment/accepted")] //GET: user/request/payment/accepted
+        public ActionResult GetAcceptedPayment() 
+        {
+            return GetPaymentRequests("success");
+        }
+
+        [HttpGet]
+        [Route("request/payment/unaccepted")] //GET: user/request/payment/unaccepted
+        public ActionResult GetNotAcceptedPayment() 
+        {
+            return GetPaymentRequests("fail");
+        }
+
+        private ActionResult GetPaymentRequests(object statusFilter)
+        {
+            try
+            {
+                var query = db.Bookings
+                    .Include(b => b.User)
+                    .Include(b => b.Payment)
+                    .Include(b => b.TourPackage);
+
+                if (statusFilter is string singleStatus)
+                {
+                    query = query.Where(b => b.Status == singleStatus);
+                }
+                else if (statusFilter is string[] multipleStatuses)
+                {
+                    query = query.Where(b => multipleStatuses.Contains(b.Status));
+                }
+                else
+                {
+                    query = query.Where(b => b.Status != "cancel");
+                }
+
+                var bookings = query
+                    .ToList()
+                    .Select(b => new
+                    {
+                        User_Id = b.User.Id,
+                        User_Name = b.User.Username,
+                        Booking_Date = b.BookingDate.ToLocalTime().ToString("MMMM dd, yyyy hh:mm tt"),
+                        Booking_Id = b.Id,
+                        TourPackage_Id = b.TourPackageId,
+                        TourPackage_Name = b.TourPackage.Name,
+                        Total_Price = b.Payment.PaymentAmount,
+                        Payment_Method = b.Payment.PaymentMethod,
+                        Payment_Status = b.Payment.PaymentStatus,
+                    }).ToList();
+
+                return Json(bookings, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+       
 
     }
 }
