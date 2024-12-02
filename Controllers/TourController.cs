@@ -53,7 +53,7 @@ namespace WebBackendProject.Controllers
             {
                 return Json(new { error = "Error Create Tour and Packages: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-           
+
 
         }
 
@@ -64,6 +64,37 @@ namespace WebBackendProject.Controllers
             var row = db.Tours.FirstOrDefault(model => model.Id == id);
             return Json(row, JsonRequestBehavior.AllowGet);
         }
+
+        //[HttpPost]
+        //public ActionResult Searching(string Keyword)
+        //{
+        //    try
+        //    {
+        //        // Kiểm tra nếu SearchName không được cung cấp hoặc rỗng
+        //        if (string.IsNullOrWhiteSpace(Keyword))
+        //        {
+        //            return Json(new { message = "Search term is empty", data = new List<Tour>() }, JsonRequestBehavior.AllowGet);
+        //        }
+
+        //        // Tìm kiếm các tour có tên chứa từ khóa tìm kiếm (không phân biệt hoa thường)
+        //        var tours = db.Tours
+        //                      .Where(t => t.Name.Contains(Keyword)) // hoặc dùng ToLower() để tìm kiếm không phân biệt hoa thường
+        //                      .Select(t => t)
+        //                      .ToList();
+
+        //        if (tours.Count == 0)
+        //        {
+        //            return Json(new { message = "No tours found", data = tours }, JsonRequestBehavior.AllowGet);
+        //        }
+
+        //        return Json(new { message = "success", data = tours }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { error = "Error while searching: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
 
     }
 }
