@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Edit, Save, Person } from "@mui/icons-material";
-import { getContactInfo } from "../../../../api/services";
+import { getContactInfo } from "../../../../api/Services/BookingServices";
 
 export default function ContactInfo({ setContactInformation }) {
   const user = useContext(UserContext);

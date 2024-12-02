@@ -8,12 +8,11 @@ import SignIn from "../Auth/Sign In/SignIn";
 import SignUp from "../Auth/Sign Up/SignUp";
 import { useEffect, useState, useContext } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import CreateTour from "../Pages/Tour/CreateTour";
+import CreateTourPage from "../Pages/Tour/CreateTourAndPackage/CreateTourPage/CreateTourPage";
 import DetailPage from "../Pages/Tour/Detail";
 import Profile from "../User/UserProfile/Profile";
 import Blog from "../Pages/Blog/Blog";
 import CreatePost from "../Pages/Post/CreatePost";
-import Payment from "../Pages/Billing/Billing";
 import UpdatePost from "../Pages/Post/UpdatePost";
 import NorthTour from "../Pages/Tour/DomesticTour/NorthTour";
 import MiddleTour from "../Pages/Tour/DomesticTour/MiddleTour";
@@ -24,7 +23,7 @@ import AmericaTour from "../Pages/Tour/InternationalTour/AmericaTour";
 import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
 import NotFoundPage from "../../view/NotFoundPage";
 import AccountPage from "../Pages/Account/AccountPage";
-import CreateTourPackage from "../Pages/Tour/CreateTourPakage";
+import CreateTourPackage from "../Pages/Tour/CreateTourAndPackage/CreatePackagePage/CreateTourPakage";
 import UserContext from "../../UserContext";
 import BookingPage from "../Pages/Booking/BookingPage/BookingPage";
 import UserManagementPage from "../Admin/UserManagement/UserManagement";
@@ -36,6 +35,10 @@ import ScrollToTop from "./ScrollToTop";
 import MyBookingPage from "../Pages/Booking/MyBookingPage/MyBookingPage";
 import Billing from "../Pages/Billing/Billing";
 import Searching from "../Pages/Searching/Searching";
+import UserRequest from "../Admin/UserRequest/UserRequest";
+import DeletedPostsPage from "../Pages/Post/DeletedPostPage";
+import TourManagement from "../Admin/TourManagement/TourManagement";
+import UpdateTourPage from "../Pages/Tour/UpdateTour/UpdateTourPage";
 
 function Navigation() {
   const location = useLocation();
@@ -83,7 +86,7 @@ function Navigation() {
 
         {user.role == "admin" && (
           <>
-            <Route path="/createTour" element={<CreateTour />} />
+            <Route path="/createTour" element={<CreateTourPage />} />
             <Route path="/createTourPackage" element={<CreateTourPackage />} />
             <Route path="/userManagement" element={<UserManagementPage />} />
           </>
@@ -96,22 +99,26 @@ function Navigation() {
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
+        <Route path="/billing" element={<Billing />} />
+        <Route path="/tour/update/:tourId" element={<UpdateTourPage />} />
+        <Route path="/tour/manage" element={<TourManagement />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
-        <Route path="/user/booking/:userId" element={<MyBookingPage />} />
-        <Route path="/QR/:tourPackageId" element={<QRPaymentPage />} />
-        <Route path="/payment/:tourPackageId" element={<PaymentPage />} />
+        <Route path="/user/request" element={<UserRequest />} />
+        <Route path="/user/booking" element={<MyBookingPage />} />
+        <Route path="/QR/:bookingId" element={<QRPaymentPage />} />
+        <Route path="/payment/:bookingId" element={<PaymentPage />} />
         <Route path="/booking/:tourPackageId" element={<BookingPage />} />
         <Route path="/account/:userId" element={<AccountPage />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
         <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route path="/post/delete/:userId" element={<DeletedPostsPage />} />
         <Route
           path="/traveler/info/:tourPackageId"
           element={<UserBookingPage />}
         />
         <Route path="/update/post/:postId" element={<UpdatePost />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/billing" element={<Billing />} />
       </Routes>
 
       {showArrow && (

@@ -11,7 +11,6 @@ export default function SignIn() {
   const [mode, setMode] = React.useState("light");
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const defaultTheme = createTheme({ palette: { mode } });
-  const SignInSideTheme = createTheme(getSignInSideTheme(mode));
   React.useEffect(() => {
     const savedMode = localStorage.getItem("themeMode");
     if (savedMode) {
