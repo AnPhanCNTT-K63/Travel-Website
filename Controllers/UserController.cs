@@ -502,6 +502,17 @@ namespace WebBackendProject.Controllers
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Route("get/profile/block")] //GET: user/get/profile/block
+        public ActionResult ProfileBlockUser()
+        {
+            var users = db.Users
+                .Where(u => u.IsProfileBlocked == true)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPatch]
         [Route("block/profile")] //PATCH: user/block/profile
         public ActionResult BlockProfile(int user_id)
