@@ -8,14 +8,12 @@ import {
 import UserContext from "../../../UserContext";
 import DeletedPostCard from "./DeletedPostCard";
 import DeletedTourPage from "../../Pages/Tour/DeletedTour/DeletedTourPage";
-import { useParams } from "react-router-dom";
 
 const DeletedItemsPage = () => {
   const [deletedPosts, setDeletedPosts] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const user = useContext(UserContext);
   const id = user.userId;
-  const { userId } = useParams();
 
   useEffect(() => {
     if (!id) {
