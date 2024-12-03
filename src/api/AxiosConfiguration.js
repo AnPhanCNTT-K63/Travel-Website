@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://localhost:44331";
+const API_URL = "http://travelagencybackend.somee.com/";
 
 const apiClient = axios.create({
   baseURL: API_URL,
