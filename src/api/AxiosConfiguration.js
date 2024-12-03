@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://travelagencybackend.somee.com/";
+const API_URL = "https://anphan-001-site1.qtempurl.com/";
 
 const apiClient = axios.create({
   baseURL: API_URL,
