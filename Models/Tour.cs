@@ -19,7 +19,7 @@ namespace WebBackendProject.Models
         public string City { get; set; }
         public string Image { get; set; }
         public bool IsDeleted { get; set; }
-        public bool Description { get; set; }
+        public string Description { get; set; }
         public TimeSpan? Opening { get; set; }
         public TimeSpan? Ending { get; set; }
         public DateTime? CreatedAt { get; set; }
