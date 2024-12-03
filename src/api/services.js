@@ -28,6 +28,15 @@ export const getTours = async (page = 1, pageSize = 9) => {
   }
 };
 
+//GET: /package/packages
+export const getTourPackages = async () => {
+  try {
+    const response = await apiClient.get(`/package/packages`);
+    return response.data; 
+  } catch (error) {
+    handleApiError(error); 
+  }
+};
 
 //GET: /tour/detail/{id}
 export const getTourDetail = async (id) => {

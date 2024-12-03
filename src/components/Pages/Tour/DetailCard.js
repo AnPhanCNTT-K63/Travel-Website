@@ -4,6 +4,15 @@ import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useParams, useNavigate } from "react-router-dom";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { Link } from "react-router-dom";
+
+function handleClick(event) {
+  event.preventDefault();
+  console.info("You clicked a breadcrumb.");
+}
 
 export default function DetailCard({ item }) {
   const { tourId } = useParams();
@@ -29,6 +38,59 @@ export default function DetailCard({ item }) {
   };
 
   return (
+    <>
+    <div role="presentation" onClick={handleClick}>
+    <Breadcrumbs
+      aria-label="breadcrumb"
+      sx={{
+        color: "rgba(3, 18, 26, 1)", // Màu mặc định
+        fontSize: "13px",
+        lineHeight: "40px",
+        margin: "18px auto",
+        width: "70%",
+        textAlign: "left",
+        fontWeight: "bold",
+      }}
+    >
+      <Link
+        underline="hover"
+        color="inherit"
+        to="/tour"
+        className="breadcrumbsLink"
+        sx={{
+          color: "rgb(255,165,0)", // Màu cho link
+          "&:hover": {
+            color: "rgb(255,165,0)", // Màu khi hover
+            textDecoration: "underline",
+          },
+        }}
+      >
+        Tour
+      </Link>
+      <Link
+        underline="hover"
+        color="inherit"
+        to={`/${item.Region}`}
+        sx={{
+          color: "rgb(255,165,0)", // Màu cho link
+          "&:hover": {
+            color: "rgb(255,165,0)", // Màu khi hover
+            textDecoration: "underline",
+          },
+        }}
+      >
+        {item.Region}
+      </Link>
+      <Typography
+        sx={{
+          color: "rgba(3, 18, 26, 1)",
+     
+        }}
+      >
+        {item.Name}
+      </Typography>
+    </Breadcrumbs>
+  </div>
     <Box
       sx={{
         width: "100%",
@@ -42,9 +104,9 @@ export default function DetailCard({ item }) {
     >
       {/* Hình ảnh lớn ở trên */}
       <Box
-        component="img"npm 
-        src={item?.image || "Tours/a1.jpeg"}
-        alt={item?.title}
+        component="img"
+        src={`/${item.Image}`}
+        alt={item.Name}
         sx={{
           width: "100%",
           height: "400px",
@@ -59,14 +121,15 @@ export default function DetailCard({ item }) {
           variant="h4"
           sx={{ fontWeight: "bold", color: "#2c3e50", marginBottom: 2 }}
         >
-          {item?.title || "Tour Name"}
+          {item.Name}
         </Typography>
         <Typography
-          variant="body1"
-          sx={{ color: "#34495e", marginBottom: 3, lineHeight: 1.8 }}
-        >
-          {item?.description || "Description not available."}
-        </Typography>
+  variant="body1"
+  sx={{ color: "#34495e", marginBottom: 3, lineHeight: 1.8 }}
+>
+  {item.Description ? item.Description : "Mô tả không có sẵn."}
+</Typography>
+
 
         {/* Đánh giá sao */}
         <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 3 }}>
@@ -113,5 +176,6 @@ export default function DetailCard({ item }) {
         </Box>
       </Box>
     </Box>
+    </>
   );
 }
