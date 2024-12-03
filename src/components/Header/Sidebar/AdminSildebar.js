@@ -12,6 +12,7 @@ import {
   SupervisorAccount,
   BookOutlined,
   DeleteOutline,
+  FestivalOutlined,
 } from "@mui/icons-material";
 export default function AdminSlidebar({
   user,
@@ -40,7 +41,7 @@ export default function AdminSlidebar({
 
       <StyledLink to={"/tour/manage"} onClick={handleMenuItemClick}>
         <StyledMenuItem>
-          <SupervisorAccount style={{ fontSize: 20 }} /> Tours Manager
+          <FestivalOutlined style={{ fontSize: 20 }} /> Tours Manager
         </StyledMenuItem>
       </StyledLink>
 

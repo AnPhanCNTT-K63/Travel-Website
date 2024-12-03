@@ -16,14 +16,43 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  TextField,
 } from "@mui/material";
-import { getUsers, restoreAccount } from "../../../api/Services/UserServices";
+import {
+  banUser,
+  deleteUser,
+  getBannedUser,
+  getOfflineUser,
+  getOnlineUser,
+  getProfileBlockedUser,
+  getSoftDeletedUser,
+  getUsers,
+  restoreAccount,
+  unbanUser,
+  unblockUserProfile,
+} from "../../../api/Services/UserServices";
 import { Visibility, Block, AccountCircle } from "@mui/icons-material";
 import { useStyles } from "./UseStyles";
+import FilterBox from "./FilterBox";
 
 const UserManagementPage = () => {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+
+  const [searchQuery, setSearchQueryValue] = useState("");
+
+  const setSearchQuery = (query) => {
+    const lowerCaseQuery = query.toLowerCase();
+
+    const filteredUsers = allUsers.filter((user) =>
+      user.Username.toLowerCase().includes(lowerCaseQuery)
+    );
+
+    setUsers(filteredUsers);
+    setSearchQueryValue(query);
+  };
+
   const [alert, setAlert] = useState({
     open: false,
     message: "",
@@ -36,6 +65,7 @@ const UserManagementPage = () => {
       try {
         const response = await getUsers();
         setUsers(response);
+        setAllUsers(response);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -47,12 +77,38 @@ const UserManagementPage = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const handleViewUser = (userId) => {
-    navigate(`/profile/${userId}`);
+  const handleFilter = async (filterType) => {
+    try {
+      let res;
+      switch (filterType) {
+        case "all":
+          res = await getUsers();
+          break;
+        case "online":
+          res = await getOnlineUser();
+          break;
+        case "offline":
+          res = await getOfflineUser();
+          break;
+        case "banned":
+          res = await getBannedUser();
+          break;
+        case "softDeleted":
+          res = await getSoftDeletedUser();
+          break;
+        case "blockedProfile":
+          res = await getProfileBlockedUser();
+          break;
+        default:
+          throw new Error("Invalid filter type");
+      }
+      setUsers(res);
+      setAllUsers(res);
+    } catch (error) {}
   };
 
-  const handleBanUser = (userId) => {
-    console.log(`Banned user ID: ${userId}`);
+  const handleViewUser = (userId) => {
+    navigate(`/profile/${userId}`);
   };
 
   const restoreUserAccount = async (userId) => {
@@ -83,6 +139,191 @@ const UserManagementPage = () => {
         }
       } catch (error) {
         Swal.fire("Error!", "Failed to restore user account.", "error");
+      }
+    }
+  };
+
+  const onBanUser = async (user_id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to ban this user? This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, ban them!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await banUser(user_id);
+
+        if (res.message === "success") {
+          Swal.fire({
+            title: "User Banned!",
+            text: "The user has been successfully banned.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.Id === user_id ? { ...user, IsBanned: true } : user
+            )
+          );
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Failed to ban the user. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error",
+          text: `An error occurred: ${error.message}`,
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+        });
+      }
+    }
+  };
+
+  const onUnBlock = async (user_id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to unblock this user profile?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, unblock it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await unblockUserProfile(user_id);
+
+        if (res.message === "success") {
+          Swal.fire({
+            title: "Unblocked!",
+            text: "The user profile has been unblocked successfully.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.Id === user_id ? { ...user, IsProfileBlocked: false } : user
+            )
+          );
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: res.message || "Something went wrong. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#d33",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to unblock the user profile. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      }
+    }
+  };
+
+  const onUnbanUser = async (user_id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to ban this user? This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, ban them!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await unbanUser(user_id);
+
+        if (res.message === "success") {
+          Swal.fire({
+            title: "User Banned!",
+            text: "The user has been successfully banned.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.Id === user_id ? { ...user, IsBanned: false } : user
+            )
+          );
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Failed to ban the user. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error",
+          text: `An error occurred: ${error.message}`,
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+        });
+      }
+    }
+  };
+
+  const deletePermanently = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await deleteUser(id);
+        console.log(res);
+        if (res.message === "success") {
+          Swal.fire({
+            title: "Deleted!",
+            text: "The user has been permanently deleted.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          setUsers((prevUsers) =>
+            prevUsers.map((user) => (user.Id === id ? { ...user } : user))
+          );
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong.",
+            icon: "error",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: error.message || "Unable to delete the user.",
+          icon: "error",
+        });
       }
     }
   };
@@ -121,14 +362,14 @@ const UserManagementPage = () => {
           <IconButton
             color="error"
             size="small"
-            onClick={() => handleBanUser(user.Id)}
+            onClick={() => onBanUser(user.Id)}
           >
             <Block />
           </IconButton>
         </TableCell>
         <TableCell>
           {user.IsDeleted && (
-            <Typography color="red">
+            <Typography color="red" sx={{ marginBottom: "20px" }}>
               Soft Deleted{" "}
               <Button
                 sx={{ marginLeft: "20px" }}
@@ -137,6 +378,42 @@ const UserManagementPage = () => {
                 onClick={() => restoreUserAccount(user.Id)}
               >
                 Restore
+              </Button>
+              <Button
+                sx={{ marginLeft: "20px" }}
+                color="danger"
+                variant="outlined"
+                onClick={() => deletePermanently(user.Id)}
+              >
+                Delete Permanently
+              </Button>
+            </Typography>
+          )}
+
+          {user.IsBanned && (
+            <Typography color="red" sx={{ marginBottom: "20px" }}>
+              Banned
+              <Button
+                sx={{ marginLeft: "20px" }}
+                color="success"
+                variant="contained"
+                onClick={() => onUnbanUser(user.Id)}
+              >
+                Unban
+              </Button>
+            </Typography>
+          )}
+
+          {user.IsProfileBlocked && (
+            <Typography color="red" sx={{ marginBottom: "20px" }}>
+              Profile Block
+              <Button
+                sx={{ marginLeft: "20px" }}
+                color="success"
+                variant="contained"
+                onClick={() => onUnBlock(user.Id)}
+              >
+                Unblock Profile
               </Button>
             </Typography>
           )}
@@ -149,6 +426,23 @@ const UserManagementPage = () => {
       <Typography variant="h4" gutterBottom align="center">
         User Management
       </Typography>
+
+      {/* Search Bar */}
+      <Box display="flex" justifyContent="center" marginBottom={2}>
+        <TextField
+          label="Search by Username"
+          variant="outlined"
+          size="small"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+          sx={{ width: "300px" }}
+        />
+      </Box>
+
+      <Box display="flex" justifyContent="center" marginBottom={2}>
+        <FilterBox handleFilter={handleFilter} />
+      </Box>
+
       <TableContainer component={Paper} elevation={5}>
         <Box className={classes.sectionHeader}>Admins</Box>
         <Table className={classes.table} aria-label="admin user table">

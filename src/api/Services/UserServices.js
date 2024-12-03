@@ -143,3 +143,119 @@ export const getUnacceptedPayment = async () => {
     handleApiError(error);
   }
 };
+
+//PATCH: user/ban
+export const banUser = async (user_id) => {
+  try {
+    const response = await apiClient.patch(`/user/ban`, { user_id: user_id });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//PATCH: user/unban
+export const unbanUser = async (user_id) => {
+  try {
+    const response = await apiClient.patch(`/user/unban`, { user_id: user_id });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/get/deleted/soft
+export const getSoftDeletedUser = async () => {
+  try {
+    const response = await apiClient.get(`/user/get/deleted/soft`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/get/banned
+export const getBannedUser = async () => {
+  try {
+    const response = await apiClient.get(`/user/get/banned`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/get/online
+export const getOnlineUser = async () => {
+  try {
+    const response = await apiClient.get(`/user/get/online`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/get/offline
+export const getOfflineUser = async () => {
+  try {
+    const response = await apiClient.get(`/user/get/offline`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/get/profile/block
+export const getProfileBlockedUser = async () => {
+  try {
+    const response = await apiClient.get(`/user/get/profile/block`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//PATCH: user/block/profile
+export const blockUserProfile = async (user_id) => {
+  try {
+    const response = await apiClient.patch(`/user/block/profile`, {
+      user_id: user_id,
+    });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//PATCH: user/unblock/profile
+export const unblockUserProfile = async (user_id) => {
+  try {
+    const response = await apiClient.patch(`/user/unblock/profile`, {
+      user_id: user_id,
+    });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: user/users/{id}
+export const getuserById = async (id) => {
+  try {
+    const response = await apiClient.get(`/user/users/${id}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//DELETE: user/delete/permanently/{user_id}
+export const deleteUser = async (user_id) => {
+  try {
+    const response = await apiClient.delete(
+      `/user/delete/permanently/${user_id}`
+    );
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

@@ -39,6 +39,7 @@ import DeletedPostsPage from "../Pages/Post/DeletedPostPage";
 import TourManagement from "../Admin/TourManagement/TourManagement";
 import UpdateTourPage from "../Pages/Tour/UpdateTour/UpdateTourPage";
 import DeletedTourPage from "../Pages/Tour/DeletedTour/DeletedTourPage";
+import BlockedProfilePage from "../../view/BlockedProfilePage";
 
 function Navigation() {
   const location = useLocation();
@@ -94,7 +95,7 @@ function Navigation() {
             <Route path="/user/request" element={<UserRequest />} />
           </>
         )}
-
+        <Route path="/profile/block" element={<BlockedProfilePage />} />
         <Route path="/create/post" element={<CreatePost />} />
         <Route path="/NorthTour" element={<NorthTour />} />
         <Route path="/SouthTour" element={<SouthTour />} />
