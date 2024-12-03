@@ -12,7 +12,7 @@ namespace WebBackendProject.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        public int Star { get; set; }
+        public float Star { get; set; }
         public string Review { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set;}

@@ -482,3 +482,4 @@ D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Mi
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_Attribute.resources
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_one_toweewqe.resources
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_thing.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_attri.resources

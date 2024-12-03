@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using WebBackendProject.Models;
 
@@ -69,6 +70,30 @@ namespace WebBackendProject.Controllers
 
             return Json(vat, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        [Route("tour/{id}")]  //GET: package/tour/{id}
+        public ActionResult PackageById(int id)
+        {
+            try
+            {
+
+                var tourPackages = db.TourPackages
+                    .Where(t => t.Tour.Id == id)
+                    .ToList();
+
+                return Json(tourPackages, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
     }
 }

@@ -21,9 +21,9 @@ namespace WebBackendProject.Controllers
             var query = db.Tours
                 .Where(t => t.IsDeleted == false);
             var toursWithMinPrice = query
-                .OrderBy(t => t.Id)  
-                .Skip((page - 1) * pageSize)  
-                .Take(pageSize)  
+                .OrderBy(t => t.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(t => new
                 {
                     t.Id,
@@ -50,7 +50,7 @@ namespace WebBackendProject.Controllers
             {
                 tours = toursWithMinPrice,
                 totalTours = totalTours,
-                totalPages = (int)Math.Ceiling((double)totalTours / pageSize) 
+                totalPages = (int)Math.Ceiling((double)totalTours / pageSize)
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -91,7 +91,7 @@ namespace WebBackendProject.Controllers
             }
         }
 
-            
+
         [HttpGet]
         [Route("detail/{id}")] //GET: tour/detail/{id}
         public ActionResult TourDetail(int id)
@@ -181,38 +181,38 @@ namespace WebBackendProject.Controllers
         [Route("update")] //PUT: tour/update
         public ActionResult UpdateTourAndPackages(Tour tour, List<TourPackage> tourPackages, int user_id)
         {
-            
-                try
+
+            try
+            {
+                var existingTour = db.Tours.Find(tour.Id);
+                var user = db.Users.Find(user_id);
+
+                if (existingTour == null || user == null)
                 {
-                    var existingTour = db.Tours.Find(tour.Id);
-                    var user = db.Users.Find(user_id);
+                    return Json(new { message = "Tour or User not found" }, JsonRequestBehavior.AllowGet);
+                }
 
-                    if (existingTour == null || user == null)
-                    {
-                        return Json(new { message = "Tour or User not found" }, JsonRequestBehavior.AllowGet);
-                    }
+                existingTour.Name = tour.Name;
+                existingTour.Region = tour.Region;
+                existingTour.Country = tour.Country;
+                existingTour.City = tour.City;
+                existingTour.Image = tour.Image;
+                existingTour.Opening = tour.Opening;
+                existingTour.Ending = tour.Ending;
+                existingTour.User = user;
+                existingTour.UpdateAt = DateTime.UtcNow;
 
-                    existingTour.Name = tour.Name;
-                    existingTour.Region = tour.Region;
-                    existingTour.Country = tour.Country;
-                    existingTour.City = tour.City;
-                    existingTour.Image = tour.Image;
-                    existingTour.Opening = tour.Opening;
-                    existingTour.Ending = tour.Ending;
-                    existingTour.User = user;
-                    existingTour.UpdateAt = DateTime.UtcNow;
+                db.SaveChanges();
 
-                    db.SaveChanges();
+                var existingPackages = db.TourPackages.Where(t => t.Tour.Id == tour.Id).ToList();
+                var incomingPackageIds = tourPackages.Select(tp => tp.Id).ToList();
 
-                    var existingPackages = db.TourPackages.Where(t => t.Tour.Id == tour.Id).ToList();
-                    var incomingPackageIds = tourPackages.Select(tp => tp.Id).ToList();
+                var packagesToDelete = existingPackages
+                    .Where(ep => !incomingPackageIds.Contains(ep.Id))
+                    .ToList();
 
-                    var packagesToDelete = existingPackages
-                        .Where(ep => !incomingPackageIds.Contains(ep.Id))
-                        .ToList();
-
-                    foreach (var package in packagesToDelete)
-                    {
+                foreach (var package in packagesToDelete)
+                {
 
                     var packageDelete = db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
                                               .Include(p => p.Bookings.Select(b => b.Payment))
@@ -236,54 +236,54 @@ namespace WebBackendProject.Controllers
                     }
 
                     db.TourPackages.Remove(packageDelete);
-                    }
-                    db.SaveChanges();
-                    foreach (var package in tourPackages)
-                    {
-                        var existingPackage = db.TourPackages.Find(package.Id);
-
-                        if (existingPackage == null)
-                        {
-                            var newPackage = new TourPackage
-                            {
-                                Name = package.Name,
-                                Image = package.Image,
-                                Price = package.Price,
-                                Activities = package.Activities,
-                                IsChangeSchedule = package.IsChangeSchedule,
-                                IsRefund = package.IsRefund,
-                                CheckIn = package.CheckIn,
-                                VAT = package.VAT,
-                                Quantity = package.Quantity,
-                                Description = package.Description,
-                                Tour = existingTour,
-                                CreatedAt = DateTime.UtcNow,
-                                UpdatedAt = DateTime.UtcNow
-                            };
-                            db.TourPackages.Add(newPackage);
-                        }
-                        else
-                        {
-                            existingPackage.Name = package.Name;
-                            existingPackage.Description = package.Description;
-                            existingPackage.Image = package.Image;
-                            existingPackage.Price = package.Price;
-                            existingPackage.Activities = package.Activities;
-                            existingPackage.IsChangeSchedule = package.IsChangeSchedule;
-                            existingPackage.IsRefund = package.IsRefund;
-                            existingPackage.CheckIn = package.CheckIn;
-                            existingPackage.VAT = package.VAT;
-                            existingPackage.Quantity = package.Quantity;
-                            existingPackage.Tour = existingTour;
-                            existingPackage.UpdatedAt = DateTime.UtcNow;
-                        }
-                    }
-
-                    db.SaveChanges();
-
-
-                    return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
                 }
+                db.SaveChanges();
+                foreach (var package in tourPackages)
+                {
+                    var existingPackage = db.TourPackages.Find(package.Id);
+
+                    if (existingPackage == null)
+                    {
+                        var newPackage = new TourPackage
+                        {
+                            Name = package.Name,
+                            Image = package.Image,
+                            Price = package.Price,
+                            Activities = package.Activities,
+                            IsChangeSchedule = package.IsChangeSchedule,
+                            IsRefund = package.IsRefund,
+                            CheckIn = package.CheckIn,
+                            VAT = package.VAT,
+                            Quantity = package.Quantity,
+                            Description = package.Description,
+                            Tour = existingTour,
+                            CreatedAt = DateTime.UtcNow,
+                            UpdatedAt = DateTime.UtcNow
+                        };
+                        db.TourPackages.Add(newPackage);
+                    }
+                    else
+                    {
+                        existingPackage.Name = package.Name;
+                        existingPackage.Description = package.Description;
+                        existingPackage.Image = package.Image;
+                        existingPackage.Price = package.Price;
+                        existingPackage.Activities = package.Activities;
+                        existingPackage.IsChangeSchedule = package.IsChangeSchedule;
+                        existingPackage.IsRefund = package.IsRefund;
+                        existingPackage.CheckIn = package.CheckIn;
+                        existingPackage.VAT = package.VAT;
+                        existingPackage.Quantity = package.Quantity;
+                        existingPackage.Tour = existingTour;
+                        existingPackage.UpdatedAt = DateTime.UtcNow;
+                    }
+                }
+
+                db.SaveChanges();
+
+
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 return Json(new
@@ -303,7 +303,7 @@ namespace WebBackendProject.Controllers
             try
             {
                 var package = db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
-                                              .Include(p => p.Bookings.Select(b => b.Payment)) 
+                                              .Include(p => p.Bookings.Select(b => b.Payment))
                                               .FirstOrDefault(p => p.Id == id);
 
                 if (package == null)
@@ -459,7 +459,59 @@ namespace WebBackendProject.Controllers
         }
 
 
+        [HttpGet]
+        [Route("stars/{tour_id}")]  //GET: tour/stars/{tour_id}
+        public ActionResult TourStars(int tour_id)
+        {
+            try
+            {
+                var avarageStar = db.TourPackages
+                    .Where(t => t.Tour.Id == tour_id)
+                    .Select(t => t.TourReviews.Sum(rv => rv.Star) / t.TourReviews.Count());
 
 
+                return Json(avarageStar, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        [Route("review/{tour_id}")]  //GET: tour/review/{tour_id}
+        public ActionResult Reviews(int tour_id)
+            {
+            try
+            {
+                var reviews = db.TourReviews
+                                .Include(r => r.TourPackage)
+                                .Include(r => r.User)
+                                .Where(t => t.TourPackage.TourId == tour_id)
+                                .Select(r => new
+                                {
+                                    r.Review,
+                                    r.Star,
+                                    r.TourPackage.Name,
+                                    r.User.UserProfile.FirstName,
+                                    r.User.UserProfile.LastName,
+                                });
+                return Json(reviews, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+
+        }
     }
 }
