@@ -1,55 +1,67 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import StarIcon from "@mui/icons-material/Star";
 import Box from "@mui/material/Box";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-export default function TourCard({ item }) {
+export default function TourCard({ item, packages, rating, reviews}) {
   return (
     <Card
       sx={{
-        marginLeft: "100px",
         width: "100%",
-        height: "100%",
-        marginTop: "50px",
+        borderRadius: "12px", // Bo góc
+        overflow: "hidden", // Giới hạn phần tử bên trong
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Hiệu ứng đổ bóng
+        transition: "transform 0.3s", // Hiệu ứng khi hover
+        "&:hover": {
+          transform: "scale(1.05)", // Phóng to khi hover
+        },
       }}
     >
+      {/* Hình ảnh */}
       <CardMedia
-        sx={{ height: "180px ", width: "100%", objectFit: "cover" }}
-        image={`/${item.Image}`}
-        title="green iguana"
+        component="img"
+        image={`/${item.Image}`} // Hình ảnh từ API
+        alt={item.Name} // Alt text cho SEO
+        sx={{
+          height: "230px", // Chiều cao ảnh
+          objectFit: "cover", // Ảnh vừa khung mà không bị méo
+        }}
       />
-      <CardContent> 
-        <Typography gutterBottom variant="h5" component="div"></Typography>
-
+      {/* Nội dung */}
+      <CardContent
+        sx={{
+          padding: "16px",
+        }}
+      >
+        {/* Tên tour */}
         <Typography
-          variant="body2"
-          sx={{ height: 50, color: "text.secondary" }}
-        ><span style={{ fontWeight: "bold"}}>Name: {item.Name}</span></Typography>
-      </CardContent>
-      <CardActions>
-        <Box sx={{ width: "100%" }}>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            <span style={{ fontWeight: "bold" }}>Price: {item.MinPrice}</span>
-            <Box component="span" sx={{ ml: 1 }}>
-              $
-            </Box>
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-            5
-            <StarIcon sx={{ color: "gold" }} />
-            <StarIcon sx={{ color: "gold" }} />
-            <StarIcon sx={{ color: "gold" }} />
-            <StarHalfIcon sx={{ color: "gold" }} />
-            <StarBorderIcon sx={{ color: "gold" }} />
-          </Box>
+          variant="h6"
+          component="div"
+          sx={{
+            fontWeight: "bold",
+            fontSize: "1.1rem",
+            marginBottom: "8px",
+            textAlign: "center",
+          }}
+        >
+          {item.Name}
+        </Typography>
+
+        {/* Giá tour */}
+        <Box
+          sx={{
+            textAlign: "center",
+            color: "text.secondary",
+            fontWeight: "bold",
+            fontSize: "1rem",
+            color:"rgb(249,115,11)",
+          }}
+        >
+          {`Price: $${item.MinPrice}`}
         </Box>
-      </CardActions>
+      </CardContent>
     </Card>
   );
 }

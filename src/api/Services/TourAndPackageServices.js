@@ -1,6 +1,8 @@
 import apiClient from "../AxiosConfiguration";
 import handleApiError from "../ErrorHandlle";
 
+
+
 // GET: tour/tours/{page}/{pageSize}
 export const getTours = async (page, pageSize) => {
   try {
@@ -8,6 +10,45 @@ export const getTours = async (page, pageSize) => {
     return response.data;
   } catch (error) {
     handleApiError(error);
+  }
+};
+
+export const getTourPackages = async () => {
+  try {
+    const response = await apiClient.get(`/package/packages`);
+    return response.data; 
+  } catch (error) {
+    handleApiError(error); 
+  }
+};
+
+
+export const getTourPackagesById = async (id) => {
+  try {
+    const response = await apiClient.get(`/package/tour/${id}`);
+    return response.data; 
+  } catch (error) {
+    handleApiError(error); 
+  }
+};
+
+//GET: tour/stars/{tour_id}
+export const getTourStars = async (id) => {
+  try {
+    const response = await apiClient.get(`/tour/stars/${id}`);
+    return response.data; 
+  } catch (error) {
+    handleApiError(error); 
+  }
+};
+
+//GET: tour/review/{tour_id}
+export const getReviews = async (id) => {
+  try {
+    const response = await apiClient.get(`tour/review/${id}`);
+    return response.data; 
+  } catch (error) {
+    handleApiError(error); 
   }
 };
 
