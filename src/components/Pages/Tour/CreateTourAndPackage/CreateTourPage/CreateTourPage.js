@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, Box } from "@mui/material";
+import { Container, Button, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CreateTour from "./CreateTour";
 
@@ -30,6 +30,9 @@ const CreateTourPage = () => {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Create Tour
+      </Typography>
       <CreateTour getTour={getTour} defautlTour={null} />
 
       <Box textAlign="center">

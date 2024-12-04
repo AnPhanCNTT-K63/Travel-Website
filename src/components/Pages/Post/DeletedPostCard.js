@@ -2,8 +2,9 @@ import React from "react";
 import { Box, Typography, Avatar, Button } from "@mui/material";
 import { DeleteForever, Restore, AccessTime } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
-const DeletedPostCard = ({ post, handleDeleteForever, handleStorePost }) => {
+const DeletedPostCard = ({ post, handleDeleteForever, handleRestorePost }) => {
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
       ? post.Hashtags.split(",")
@@ -78,7 +79,7 @@ const DeletedPostCard = ({ post, handleDeleteForever, handleStorePost }) => {
       confirmButtonText: "Yes, restore it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        handleStorePost(postId);
+        handleRestorePost(postId);
         Swal.fire({
           title: "Restored!",
           text: "The post has been successfully restored.",
@@ -148,35 +149,38 @@ const DeletedPostCard = ({ post, handleDeleteForever, handleStorePost }) => {
       </Box>
 
       {/* Title and Hashtags Section */}
-      <Box sx={{ px: 2, py: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: "700", marginBottom: 1 }}>
-          {postTitle}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {postHashtags.map((hashtag, index) => (
-            <span key={index} style={{ marginRight: 8 }}>
-              #{hashtag}
-            </span>
-          ))}
-        </Typography>
-      </Box>
+      <Link to={`/post/${post.Id}`} style={{ textDecoration: "none" }}>
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="h6" sx={{ fontWeight: "700", marginBottom: 1 }}>
+            {postTitle}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {postHashtags.map((hashtag, index) => (
+              <span key={index} style={{ marginRight: 8 }}>
+                #{hashtag}
+              </span>
+            ))}
+          </Typography>
+        </Box>
+      </Link>
 
       {/* Image Section */}
-      <Box
-        component="img"
-        src={`/${postImage}`}
-        alt={postTitle}
-        sx={{
-          width: "100%",
-          height: 240,
-          objectFit: "cover",
-          transition: "transform 0.3s ease",
-          "&:hover": {
-            transform: "scale(1.05)",
-          },
-        }}
-      />
-
+      <Link to={`/post/${post.Id}`} style={{ textDecoration: "none" }}>
+        <Box
+          component="img"
+          src={`/${postImage}`}
+          alt={postTitle}
+          sx={{
+            width: "100%",
+            height: 240,
+            objectFit: "cover",
+            transition: "transform 0.3s ease",
+            "&:hover": {
+              transform: "scale(1.05)",
+            },
+          }}
+        />
+      </Link>
       {/* Content Section */}
       <Box sx={{ px: 2, py: 1 }}>
         <Typography

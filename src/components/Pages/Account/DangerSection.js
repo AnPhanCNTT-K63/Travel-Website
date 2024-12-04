@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { deleteAccount } from "../../../api/Services/UserServices";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  blockUserProfile,
+  deleteAccount,
+} from "../../../api/Services/UserServices";
 import {
   Box,
   Typography,
@@ -16,19 +19,19 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import Swal from "sweetalert2";
 
 const DangerZoneSection = ({ classes, currentUserId }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [countdown, setCountdown] = useState(30);
+  const { userId } = useParams();
   const navigate = useNavigate();
 
-  // Start the countdown when the snackbar is open
   useEffect(() => {
     let timer;
     if (openSnackbar && countdown > 0) {
-      // Update countdown every second while the snackbar is open
       timer = setInterval(() => {
         setCountdown((prev) => {
           const newCountdown = prev - 1;
@@ -39,11 +42,10 @@ const DangerZoneSection = ({ classes, currentUserId }) => {
         });
       }, 1000);
     } else if (countdown === 0) {
-      // Auto-login after countdown finishes
       localStorage.removeItem("token");
       navigate("/login");
     }
-    return () => clearInterval(timer); // Cleanup timer on unmount
+    return () => clearInterval(timer);
   }, [openSnackbar, countdown, navigate]);
 
   const handleDelete = async () => {
@@ -78,13 +80,54 @@ const DangerZoneSection = ({ classes, currentUserId }) => {
     handleCloseDialog();
   };
 
+  const onBlockProfile = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to block this user profile? This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, block it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await blockUserProfile(userId);
+
+        if (res.message === "success") {
+          Swal.fire({
+            title: "Blocked!",
+            text: "The user profile has been blocked successfully.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: res.message || "Something went wrong. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#d33",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to block the user profile. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      }
+    }
+  };
   const dangerActions = [
     {
       label: "Block Profile",
       description: "Prevent any interactions with your profile.",
       action: "Block Profile",
-      buttonText: "Block Page",
-      onClick: () => alert("Block Profile feature coming soon!"),
+      buttonText: "Block Profile Page",
+      onClick: onBlockProfile,
     },
     {
       label: "Report Profile",

@@ -22,7 +22,7 @@ export default function CreatePackage({
     Array.isArray(defaultPackage) && defaultPackage.length > 0
       ? defaultPackage.map((pkg) => ({
           ...pkg,
-          activities: pkg.Activities ? pkg.Activities.split(",") : [],
+          Activities: pkg.Activities ? pkg.Activities.split(",") : [],
         }))
       : Array(numPackage).fill({
           Name: "",
@@ -31,7 +31,7 @@ export default function CreatePackage({
           Price: "",
           Quantity: "",
           CheckIn: "",
-          activities: [""],
+          Activities: [""],
           VAT: "",
           IsChangeSchedule: false,
           IsRefund: false,
@@ -43,7 +43,7 @@ export default function CreatePackage({
     getPackage(
       tourPackages.map((tour) => ({
         ...tour,
-        activities: tour.activities.join(", "),
+        Activities: tour.Activities.join(", "),
       }))
     );
   }, [tourPackages, getPackage]);
@@ -79,21 +79,21 @@ export default function CreatePackage({
 
   const handleActivityChange = (tourIndex, activityIndex, value) => {
     const updatedTours = [...tourPackages];
-    updatedTours[tourIndex].activities[activityIndex] = value;
+    updatedTours[tourIndex].Activities[activityIndex] = value;
     setTourPackage(updatedTours);
   };
 
   const addActivityField = (tourIndex) => {
     const updatedTours = [...tourPackages];
-    updatedTours[tourIndex].activities.push(""); // Add an empty activity
+    updatedTours[tourIndex].Activities.push(""); // Add an empty activity
     setTourPackage(updatedTours);
   };
 
   const removeActivityField = (tourIndex, activityIndex) => {
     const updatedTours = [...tourPackages];
-    updatedTours[tourIndex].activities = updatedTours[
+    updatedTours[tourIndex].Activities = updatedTours[
       tourIndex
-    ].activities.filter((_, i) => i !== activityIndex);
+    ].Activities.filter((_, i) => i !== activityIndex);
     setTourPackage(updatedTours);
   };
 
@@ -101,16 +101,16 @@ export default function CreatePackage({
     setTourPackage([
       ...tourPackages,
       {
-        name: "",
-        description: "",
-        image: "",
-        price: "",
-        quantity: "",
-        checkIn: "",
-        activities: [""],
+        Name: "",
+        Description: "",
+        Image: "",
+        Price: "",
+        Quantity: "",
+        CheckIn: "",
+        Activities: [""],
         VAT: "",
-        isChangeSchedule: false,
-        isRefund: false,
+        IsChangeSchedule: false,
+        IsRefund: false,
       },
     ]);
   };
@@ -129,6 +129,7 @@ export default function CreatePackage({
             p: 2,
             mb: 3,
             position: "relative",
+            marginBottom: "125px",
           }}
         >
           <Grid container spacing={2}>
@@ -136,7 +137,7 @@ export default function CreatePackage({
               <TextField
                 fullWidth
                 label="Tour Name"
-                name="name"
+                name="Name"
                 value={tour.Name}
                 onChange={(e) => handleTourChange(tourIndex, e)}
                 required
@@ -156,7 +157,7 @@ export default function CreatePackage({
               <TextField
                 fullWidth
                 label="Check In"
-                name="checkIn"
+                name="CheckIn"
                 value={tour.CheckIn}
                 onChange={(e) => handleTourChange(tourIndex, e)}
                 required
@@ -166,7 +167,7 @@ export default function CreatePackage({
               <TextField
                 fullWidth
                 label="Description"
-                name="description"
+                name="Description"
                 value={tour.Description}
                 onChange={(e) => handleTourChange(tourIndex, e)}
                 required
@@ -200,7 +201,7 @@ export default function CreatePackage({
               <TextField
                 fullWidth
                 label="Price ($)"
-                name="price"
+                name="Price"
                 type="number"
                 value={tour.Price}
                 onChange={(e) => handleTourChange(tourIndex, e)}
@@ -211,7 +212,7 @@ export default function CreatePackage({
               <TextField
                 fullWidth
                 label="Quantity"
-                name="quantity"
+                name="Quantity"
                 type="number"
                 value={tour.Quantity}
                 onChange={(e) => handleTourChange(tourIndex, e)}
@@ -222,7 +223,7 @@ export default function CreatePackage({
               <Typography variant="h6" gutterBottom>
                 Activities
               </Typography>
-              {tour.activities.map((activity, activityIndex) => (
+              {tour.Activities.map((activity, activityIndex) => (
                 <Box
                   key={activityIndex}
                   sx={{
@@ -247,7 +248,7 @@ export default function CreatePackage({
                     onClick={() =>
                       removeActivityField(tourIndex, activityIndex)
                     }
-                    disabled={tour.activities.length === 1}
+                    disabled={tour.Activities.length === 1}
                     sx={{ ml: 1 }}
                   >
                     <RemoveCircleIcon color="error" />
@@ -269,7 +270,7 @@ export default function CreatePackage({
                   <Checkbox
                     checked={tour.IsChangeSchedule}
                     onChange={(e) => handleCheckboxChange(tourIndex, e)}
-                    name="isChangeSchedule"
+                    name="IsChangeSchedule"
                   />
                 }
                 label="Can Change Schedule"
@@ -281,7 +282,7 @@ export default function CreatePackage({
                   <Checkbox
                     checked={tour.IsRefund}
                     onChange={(e) => handleCheckboxChange(tourIndex, e)}
-                    name="isRefund"
+                    name="IsRefund"
                   />
                 }
                 label="Can Refund"
@@ -308,7 +309,7 @@ export default function CreatePackage({
         onClick={addTour}
         sx={{ mt: 2 }}
       >
-        Add Another Tour
+        Add Another Package
       </Button>
     </Paper>
   );
