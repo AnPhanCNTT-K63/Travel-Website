@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import TopDealCard from "./TopDealCard";
-import { getTours } from "../../../api/services"; // Đảm bảo import hàm getTours
+import { getTours } from "../../../api/Services/TourAndPackageServices";
 
 const TopDealSlider = () => {
   const [tours, setTours] = useState([]);
@@ -29,10 +29,7 @@ const TopDealSlider = () => {
   return (
     <Slider {...settings}>
       {tours.map((deal, index) => (
-        <TopDealCard
-          key={index}
-          item={deal}
-        />
+        <TopDealCard key={index} item={deal} />
       ))}
     </Slider>
   );

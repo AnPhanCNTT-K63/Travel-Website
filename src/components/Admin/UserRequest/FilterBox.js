@@ -29,7 +29,12 @@ const FilterBox = ({ handleFilter }) => {
       </Typography>
       <FormControl variant="outlined" sx={{ minWidth: 200 }}>
         <InputLabel>Request Status</InputLabel>
-        <Select value={filter} onChange={handleChange} label="Request Status">
+        <Select
+          value={filter}
+          onChange={handleChange}
+          label="Request Status"
+          defaultOpen
+        >
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>

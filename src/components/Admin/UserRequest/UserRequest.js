@@ -14,16 +14,17 @@ import { CheckCircle, Cancel } from "@mui/icons-material";
 import { Chip } from "@mui/material";
 import Swal from "sweetalert2";
 import styles from "../../../styles/UserRequest.module.css";
+
+import { setStatus } from "../../../api/Services/BookingServices";
 import {
-  setStatus,
   getUserPaymentRequest,
-  setPaymentStatus,
   getPaymentPending,
   getProcessedPayment,
   getAcceptedPayment,
-  getNotAcceptedPayment,
   getUnacceptedPayment,
-} from "../../../api/services";
+} from "../../../api/Services/UserServices";
+import { setPaymentStatus } from "../../../api/Services/PaymentServices";
+
 import FilterBox from "./FilterBox";
 
 const UserRequest = () => {

@@ -16,7 +16,7 @@ export const heartBeat = async (user_id) => {
 // GET: /tour/tours
 export const getTours = async (page = 1, pageSize = 9) => {
   try {
-    const response = await apiClient.get(`/tour/tours`, {
+    const response = await apiClient.get(`/tour/tours/${page}/${pageSize}`, {
       params: {
         page: page,
         pageSize: pageSize,

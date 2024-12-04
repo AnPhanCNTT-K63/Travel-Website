@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-export default function TourCard({ item }) {
+export default function TourCard({ item, packages, rating, reviews}) {
   return (
     <Card
       sx={{

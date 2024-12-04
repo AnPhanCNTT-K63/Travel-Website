@@ -1,9 +1,23 @@
 import React from "react";
 import { Box, Button, Typography, Divider } from "@mui/material";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-export default function ConfirmSection({ onConfirmClick }) {
+export default function ConfirmSection({ onConfirmClick, timerExpired }) {
+  const navigate = useNavigate();
   const onClickAccept = () => {
+    if (timerExpired) {
+      Swal.fire({
+        title: "Payment Time Expired",
+        text: "Your session has expired.",
+        icon: "error",
+        confirmButtonText: "Exit",
+      }).then(() => {
+        navigate("/user/booking");
+      });
+      return;
+    }
+
     Swal.fire({
       title: "Confirm Payment?",
       text: "Have you completed your payment? Click 'Yes' to confirm.",

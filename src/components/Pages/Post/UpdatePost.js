@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Button, message } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPostDetail, updatePost } from "../../../api/services";
+import { getPostDetail, updatePost } from "../../../api/Services/PostServices";
 import { Box } from "@mui/material";
 
 export default function UpdatePost() {

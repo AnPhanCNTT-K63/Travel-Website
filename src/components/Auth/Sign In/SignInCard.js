@@ -10,13 +10,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
 import { styled } from "@mui/material/styles";
-
 import ForgotPassword from "./ForgotPassword";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
-import { signin } from "../../../api/services";
+import { signin } from "../../../api/Services/AuthServices";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -79,8 +78,17 @@ export default function SignInCard() {
         } else {
           sessionStorage.setItem("token", user.token);
         }
-        navigate("/");
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Sign In Successful",
+          text: "Welcome back! Redirecting to the home page...",
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          navigate("/");
+          window.location.reload();
+        });
+
         console.log("Token stored in localStorage:", user.token);
         console.log("User info:", user);
       } else if (
@@ -98,7 +106,12 @@ export default function SignInCard() {
         setEmailErrorMessage(user.error);
       }
     } catch (err) {
-      console.log("Error", err);
+      Swal.fire({
+        icon: "error",
+        title: "An Error Occurred",
+        text: "Unable to sign in. Please try again later.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
