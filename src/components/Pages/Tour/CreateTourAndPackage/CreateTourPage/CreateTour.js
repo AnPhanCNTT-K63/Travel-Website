@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Typography, Paper } from "@mui/material";
+import { sendImage } from "../../../../../api/Services/CloudServices";
 
 export default function CreateTour({ getTour, defaultTour }) {
   const formatTime = (time) => {
@@ -24,6 +25,7 @@ export default function CreateTour({ getTour, defaultTour }) {
           Image: "",
           Opening: "",
           Ending: "",
+          imageUpload: "",
         }
   );
 
@@ -48,25 +50,11 @@ export default function CreateTour({ getTour, defaultTour }) {
     const fileNames = files.map((file) => file.name);
     setTour((prev) => ({
       ...prev,
+      imageUpload: e.target.files[0],
       Image: prev.Image
         ? `${prev.Image}, ${fileNames.join(", ")}`
         : fileNames.join(", "),
     }));
-
-    // Uncomment this block if you also want to upload the images to a server
-    // try {
-    //   const uploadedUrls = await Promise.all(
-    //     files.map((file) => uploadImage(file))
-    //   );
-    //   setTour((prev) => ({
-    //     ...prev,
-    //     Image: prev.Image
-    //       ? `${prev.Image}, ${uploadedUrls.join(", ")}`
-    //       : uploadedUrls.join(", "),
-    //   }));
-    // } catch (error) {
-    //   console.error("Image upload failed", error);
-    // }
   };
 
   return (

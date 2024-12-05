@@ -12,13 +12,15 @@ import {
 } from "@mui/material";
 import { createPost } from "../../../api/Services/PostServices";
 import Swal from "sweetalert2";
+import { sendImage } from "../../../api/Services/CloudServices";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hashtags, setHashtags] = useState("");
-  const [image, setImage] = useState(null); // Store image file
-  const [imagePreview, setImagePreview] = useState(null); // Store image preview URL
+  const [image, setImage] = useState(null);
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -31,6 +33,7 @@ const CreatePost = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setImageUpload(file);
       setImage(file.name);
       setImagePreview(URL.createObjectURL(file));
     }
@@ -69,7 +72,8 @@ const CreatePost = () => {
 
     try {
       const post = await createPost(postData);
-      console.log(post);
+      const res = await sendImage(imageUpload, "Posts");
+      console.log(res);
 
       setTitle("");
       setContent("");
@@ -77,13 +81,21 @@ const CreatePost = () => {
       setImage(null);
       setImagePreview(null);
       setError(null);
-
-      Swal.fire({
-        icon: "success",
-        title: "Post Created",
-        text: "Your post has been created successfully!",
-        confirmButtonText: "OK",
-      });
+      if (post.message == "success") {
+        Swal.fire({
+          icon: "success",
+          title: "Post Created",
+          text: "Your post has been created successfully!",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "There was an issue creating post!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     } catch (error) {
       setError(error.message);
 

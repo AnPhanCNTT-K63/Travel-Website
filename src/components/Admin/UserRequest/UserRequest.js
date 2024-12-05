@@ -161,7 +161,7 @@ const UserRequest = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {paymentRequests.map((request, index) => (
+              {[...paymentRequests].reverse().map((request, index) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{request.User_Id}</TableCell>

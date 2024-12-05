@@ -70,18 +70,6 @@ export const deleteAccount = async (user_Id) => {
   }
 };
 
-//POST: user/restore/account
-export const restoreAccount = async (user_Id) => {
-  try {
-    const response = await apiClient.post(`/user/restore/account`, {
-      user_id: user_Id,
-    });
-    return response.data;
-  } catch (error) {
-    handleApiError(error);
-  }
-};
-
 //POST: user/profile/update
 export const updateUserProfile = async (profile) => {
   try {
@@ -94,20 +82,32 @@ export const updateUserProfile = async (profile) => {
   }
 };
 
-//GET: user/request/payment
-export const getUserPaymentRequest = async () => {
+//POST: admin/restore/account
+export const restoreAccount = async (user_Id) => {
   try {
-    const response = await apiClient.get(`/user/request/payment`);
+    const response = await apiClient.post(`/admin/restore/account`, {
+      user_id: user_Id,
+    });
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/request/payment/pending
+//GET: admin/request/payment
+export const getUserPaymentRequest = async () => {
+  try {
+    const response = await apiClient.get(`/admin/request/payment`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: admin/request/payment/pending
 export const getPaymentPending = async () => {
   try {
-    const response = await apiClient.get(`/user/request/payment/pending`);
+    const response = await apiClient.get(`/admin/request/payment/pending`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -124,100 +124,102 @@ export const getProcessedPayment = async () => {
   }
 };
 
-//GET: user/request/payment/accepted
+//GET: admin/request/payment/accepted
 export const getAcceptedPayment = async () => {
   try {
-    const response = await apiClient.get(`/user/request/payment/accepted`);
+    const response = await apiClient.get(`/admin/request/payment/accepted`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/request/payment/unaccepted
+//GET: admin/request/payment/unaccepted
 export const getUnacceptedPayment = async () => {
   try {
-    const response = await apiClient.get(`/user/request/payment/unaccepted`);
+    const response = await apiClient.get(`/admin/request/payment/unaccepted`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//PATCH: user/ban
+//PATCH: admin/ban
 export const banUser = async (user_id) => {
   try {
-    const response = await apiClient.patch(`/user/ban`, { user_id: user_id });
+    const response = await apiClient.patch(`/admin/ban`, { user_id: user_id });
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//PATCH: user/unban
+//PATCH: admin/unban
 export const unbanUser = async (user_id) => {
   try {
-    const response = await apiClient.patch(`/user/unban`, { user_id: user_id });
+    const response = await apiClient.patch(`/admin/unban`, {
+      user_id: user_id,
+    });
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/get/deleted/soft
+//GET: admin/get/deleted/soft
 export const getSoftDeletedUser = async () => {
   try {
-    const response = await apiClient.get(`/user/get/deleted/soft`);
+    const response = await apiClient.get(`/admin/get/deleted/soft`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/get/banned
+//GET: admin/get/banned
 export const getBannedUser = async () => {
   try {
-    const response = await apiClient.get(`/user/get/banned`);
+    const response = await apiClient.get(`/admin/get/banned`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/get/online
+//GET: admin/get/online
 export const getOnlineUser = async () => {
   try {
-    const response = await apiClient.get(`/user/get/online`);
+    const response = await apiClient.get(`/admin/get/online`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/get/offline
+//GET: admin/get/offline
 export const getOfflineUser = async () => {
   try {
-    const response = await apiClient.get(`/user/get/offline`);
+    const response = await apiClient.get(`/admin/get/offline`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//GET: user/get/profile/block
+//GET: admin/get/profile/block
 export const getProfileBlockedUser = async () => {
   try {
-    const response = await apiClient.get(`/user/get/profile/block`);
+    const response = await apiClient.get(`/admin/get/profile/block`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//PATCH: user/block/profile
+//PATCH: admin/block/profile
 export const blockUserProfile = async (user_id) => {
   try {
-    const response = await apiClient.patch(`/user/block/profile`, {
+    const response = await apiClient.patch(`/admin/block/profile`, {
       user_id: user_id,
     });
     return response.data;
@@ -226,10 +228,10 @@ export const blockUserProfile = async (user_id) => {
   }
 };
 
-//PATCH: user/unblock/profile
+//PATCH: admin/unblock/profile
 export const unblockUserProfile = async (user_id) => {
   try {
-    const response = await apiClient.patch(`/user/unblock/profile`, {
+    const response = await apiClient.patch(`/admin/unblock/profile`, {
       user_id: user_id,
     });
     return response.data;
@@ -238,22 +240,32 @@ export const unblockUserProfile = async (user_id) => {
   }
 };
 
-//GET: user/users/{id}
+//GET: admin/users/{id}
 export const getuserById = async (id) => {
   try {
-    const response = await apiClient.get(`/user/users/${id}`);
+    const response = await apiClient.get(`/admin/users/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-//DELETE: user/delete/permanently/{user_id}
+//DELETE: admin/delete/permanently/{user_id}
 export const deleteUser = async (user_id) => {
   try {
     const response = await apiClient.delete(
-      `/user/delete/permanently/${user_id}`
+      `/admin/delete/permanently/${user_id}`
     );
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: admin/statistics/register/{year}
+export const getRegisterStatistics = async (year) => {
+  try {
+    const response = await apiClient.get(`/admin/statistics/register/${year}`);
     return response.data;
   } catch (error) {
     handleApiError(error);

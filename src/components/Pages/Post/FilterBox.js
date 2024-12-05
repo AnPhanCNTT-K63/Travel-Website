@@ -24,20 +24,14 @@ const FilterBox = ({ handleFilter }) => {
       alignItems="center"
       marginBottom="20px"
     >
-      <Typography variant="h6" marginRight="10px">
-        Filter Requests:
-      </Typography>
       <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-        <InputLabel>Request Status</InputLabel>
+        <InputLabel>Filter Posts</InputLabel>
         <Select value={filter} onChange={handleChange} label="Request Status">
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>
-          <MenuItem value="waiting">Approving Booking</MenuItem>
-          <MenuItem value="pending">Pending Booking</MenuItem>
-          <MenuItem value="accepted">Accepted Booking</MenuItem>
-          <MenuItem value="unaccepted">Unaccepted Booking</MenuItem>
-          <MenuItem value="cancel">Canceled Booking</MenuItem>
+          <MenuItem value="asc">Post date ascending</MenuItem>
+          <MenuItem value="desc">Post date decreasing</MenuItem>
         </Select>
       </FormControl>
     </Box>

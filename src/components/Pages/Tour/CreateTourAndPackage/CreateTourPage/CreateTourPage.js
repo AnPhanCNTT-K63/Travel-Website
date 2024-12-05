@@ -12,6 +12,7 @@ const CreateTourPage = () => {
     Image: "",
     Opening: "",
     Ending: "",
+    imageUpload: "",
   });
 
   const getTour = (data) => {

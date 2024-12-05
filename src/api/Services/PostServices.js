@@ -96,3 +96,23 @@ export const getDeletedPost = async (user_id) => {
     handleApiError(error);
   }
 };
+
+//GET: post/statistics/{year}
+export const getPostStatistics = async (year) => {
+  try {
+    const response = await apiClient.get(`/post/statistics/${year}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: post/orderby/{condition}
+export const getArrangePost = async (condition) => {
+  try {
+    const response = await apiClient.get(`/post/orderby/${condition}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

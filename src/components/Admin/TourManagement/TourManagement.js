@@ -21,10 +21,11 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const TourManagement = () => {
+  const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
   const [tours, setTours] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [pageSize] = useState(6); // Fixed page size
+  const [pageSize] = useState(6);
   const user = useContext(UserContext);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const TourManagement = () => {
 
   const fetchTours = async (page) => {
     try {
-      const res = await getTours(page, pageSize); // Pass page and pageSize to API
+      const res = await getTours(page, pageSize);
       setTours(res.tours);
       setTotalPages(res.totalPages);
     } catch (error) {
@@ -76,13 +77,13 @@ const TourManagement = () => {
   };
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value); // Update the current page
+    setCurrentPage(value);
   };
 
   const getTourImage = (imageName, index = 0) => {
     const images = (imageName || "").split(",").map((name) => name.trim());
     return images.length > index
-      ? `/${images[index]}`
+      ? `${distributorUrl}/Tours/${images[index]}`
       : "https://via.placeholder.com/300";
   };
 
@@ -137,9 +138,16 @@ const TourManagement = () => {
                 >
                   Created: {formatDate(tour.CreatedAt)}
                 </Typography>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: "block", mt: 1 }}
+                >
+                  Updated: {formatDate(tour.UpdateAt)}
+                </Typography>
               </CardContent>
               <CardActions sx={{ justifyContent: "space-between" }}>
-                <Link to={`/detail/${tour.Id}`}>
+                <Link to={`/admin/tour/detal/${tour.Id}`}>
                   <Button
                     variant="outlined"
                     startIcon={<Info />}

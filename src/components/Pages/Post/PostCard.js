@@ -10,6 +10,8 @@ import {
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post }) => {
+  const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
       ? post.Hashtags.split(",")
@@ -17,7 +19,7 @@ const PostCard = ({ post }) => {
 
   const postTitle = post.Title || "Untitled Post";
   const postDatetime = post.Datetime || "No Date Provided";
-  const postImage = post.Image || "https://example.com/default-image.jpg";
+  const postImage = `${distributionUrl}/Posts/${post.Image}` || "No Image";
   const postContent = post.Content || "No content available.";
   const postOwner = post.Owner || "";
   const postOwnerName = (

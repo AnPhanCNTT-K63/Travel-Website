@@ -9,6 +9,7 @@ import UserContext from "../../../UserContext";
 import { deleteSoftPost } from "../../../api/Services/PostServices";
 
 export default function Post() {
+  const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5; // Adjust the number of posts per page
@@ -152,7 +153,7 @@ export default function Post() {
               cover={
                 <img
                   alt={post.Title}
-                  src={`/${post.Image}`}
+                  src={`${distributionUrl}/Posts/${post.Image}`}
                   style={{
                     borderTopLeftRadius: 12,
                     borderTopRightRadius: 12,

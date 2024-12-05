@@ -35,6 +35,7 @@ export default function CreatePackage({
           VAT: "",
           IsChangeSchedule: false,
           IsRefund: false,
+          imageUpload: "",
         });
 
   const [tourPackages, setTourPackage] = useState(initialTourPackages);
@@ -72,8 +73,9 @@ export default function CreatePackage({
     if (!file) return;
 
     const updatedTours = [...tourPackages];
-    updatedTours[index].Image = file.name; // Store the file name
-    updatedTours[index].imagePreview = URL.createObjectURL(file); // Generate the preview
+    updatedTours[index].Image = file.name;
+    updatedTours[index].imagePreview = URL.createObjectURL(file);
+    updatedTours[index].imageUpload = file;
     setTourPackage(updatedTours);
   };
 
@@ -111,6 +113,7 @@ export default function CreatePackage({
         VAT: "",
         IsChangeSchedule: false,
         IsRefund: false,
+        imageUpload: "",
       },
     ]);
   };

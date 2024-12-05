@@ -40,6 +40,15 @@ import TourManagement from "../Admin/TourManagement/TourManagement";
 import UpdateTourPage from "../Pages/Tour/UpdateTour/UpdateTourPage";
 import DeletedTourPage from "../Pages/Tour/DeletedTour/DeletedTourPage";
 import BlockedProfilePage from "../../view/BlockedProfilePage";
+import BookingChart from "../Admin/StatisticPage/BookingStatistics/BookingChart";
+import PostChart from "../Admin/StatisticPage/PostStatistics/PostChart";
+import RegisterChart from "../Admin/StatisticPage/RegisterStatistics/RegisterChart";
+import PaymentChart from "../Admin/StatisticPage/PaymentStatistics/PaymentChart";
+import RevenueChart from "../Admin/StatisticPage/RevenueStatistics/RevenueChart";
+import StatisticsPage from "../Admin/StatisticPage/StatisticPage";
+import RevenueYearChart from "../Admin/StatisticPage/RevenueStatistics/RevenueYearChart";
+import ImageUpload from "../Pages/Tour/ImageUpload";
+import AdminTourDetails from "../Admin/TourManagement/TourDetails";
 
 function Navigation() {
   const location = useLocation();
@@ -95,6 +104,22 @@ function Navigation() {
             <Route path="/user/request" element={<UserRequest />} />
           </>
         )}
+
+        <Route path="/statistics" element={<StatisticsPage />} />
+        <Route path="/statistics/revenue/year" element={<RevenueYearChart />} />
+        <Route path="/statistics/booking/:year" element={<BookingChart />} />
+        <Route path="/statistics/post/:year" element={<PostChart />} />
+        <Route path="/statistics/register/:year" element={<RegisterChart />} />
+        <Route path="/statistics/payment/:year" element={<PaymentChart />} />
+        <Route path="/statistics/revenue/:year" element={<RevenueChart />} />
+
+        <Route path="/image/upload" element={<ImageUpload />} />
+
+        <Route
+          path="/admin/tour/detal/:tourId"
+          element={<AdminTourDetails />}
+        />
+
         <Route path="/profile/block" element={<BlockedProfilePage />} />
         <Route path="/create/post" element={<CreatePost />} />
         <Route path="/NorthTour" element={<NorthTour />} />
