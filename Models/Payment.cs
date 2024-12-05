@@ -11,7 +11,7 @@ namespace WebBackendProject.Models
     {
         public DateTime PaymentDate { get; set; }
         public string PaymentMethod { get; set; }
-        public string PaymentAmount { get; set; }
+        public float PaymentAmount { get; set; }
         public string PaymentStatus { get; set; }
         public string TransactionId { get; set; }
         public DateTime? CreatedAt { get; set; }

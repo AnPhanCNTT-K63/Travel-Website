@@ -15,7 +15,7 @@ namespace WebBackendProject.Controllers
 
         [HttpGet]
         [Route("card/{userId}")] //GET: payment/card/{userId}
-        public ActionResult GetPaymentCard(int userId) 
+        public ActionResult GetPaymentCard(int userId)
         {
             var card = db.PaymentCards
                 .Where(c => c.User.Id == userId)
@@ -27,28 +27,28 @@ namespace WebBackendProject.Controllers
 
         [HttpPost]
         [Route("create/info")] //POST: payment/create/info
-        public ActionResult createPaymentInfo(PaymentInfo info) 
+        public ActionResult createPaymentInfo(PaymentInfo info)
         {
             Payment payment = new Payment
             {
-             PaymentDate = DateTime.UtcNow,
-             CreatedAt = DateTime.UtcNow,
-             UpdatedAt = DateTime.UtcNow,
-             PaymentMethod = info.PaymentMethod,
-             PaymentStatus = info.PaymentStatus,
-             PaymentAmount = info.PaymentAmount,
-             BookingId = info.BookingId
+                PaymentDate = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                PaymentMethod = info.PaymentMethod,
+                PaymentStatus = info.PaymentStatus,
+                PaymentAmount = info.PaymentAmount,
+                BookingId = info.BookingId
             };
 
             db.Payments.Add(payment);
-            db.SaveChanges();            
+            db.SaveChanges();
 
-            return Json(new {message = "Success"}, JsonRequestBehavior.AllowGet);
+            return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPatch]
         [Route("update/status")] //PATCH: payment/update/status
-        public ActionResult SetPaymentStatus(int bookingId, string status) 
+        public ActionResult SetPaymentStatus(int bookingId, string status)
         {
             try
             {
@@ -79,7 +79,82 @@ namespace WebBackendProject.Controllers
             }
         }
 
-      
+        [HttpGet]
+        [Route("statistics/{year}")] //GET: payment/statistics/{year}
+        public ActionResult BookingStatistics(int year)
+        {
+            var totalPayment = db.Payments
+                .Where(p => p.PaymentDate.Year == year)
+                .Count();
 
+            var totalPaymentPerMonth = db.Payments
+                .Where(p => p.PaymentDate.Year == year)
+                .GroupBy(b => b.PaymentDate.Month)
+                .Select(b => new
+                {
+                    PaymentMonth = b.Key,
+                    PaymentCount = b.Count()
+                })
+                .OrderBy(b => b.PaymentMonth)
+                .ToList();
+
+            var PaymentSuccessPerMonth = db.Payments
+                .Where(b => b.PaymentStatus == "success" && b.PaymentDate.Year == year)
+                .GroupBy(b => b.PaymentDate.Month)
+                .Select(b => new
+                {
+                    PaymentMonth = b.Key,
+                    PaymentCount = b.Count()
+                })
+                .OrderBy(b => b.PaymentMonth)
+                .ToList();
+
+            var PaymentFailPerMonth = db.Payments
+                .Where(b => b.PaymentStatus == "fail" && b.PaymentDate.Year == year)
+                .GroupBy(b => b.PaymentDate.Month)
+                .Select(b => new
+                {
+                    PaymentMonth = b.Key,
+                    PaymentCount = b.Count()
+                })
+                .OrderBy(b => b.PaymentMonth)
+                .ToList();
+
+
+            var result = new { totalPayment, totalPaymentPerMonth, PaymentSuccessPerMonth, PaymentFailPerMonth };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        [Route("statistics/revenue/{year}")] //GET: payment/statistics/revenue/{year}
+        public ActionResult RevenueStatistics(int year)
+        {
+            var totalRevenue = db.Payments
+                .Where(p => p.PaymentDate.Year == year)
+                .Sum(p => p.PaymentAmount);
+
+            var revenuePerMonth = db.Payments
+                .Where(p => p.PaymentDate.Year == year)
+                .GroupBy(p => p.PaymentDate.Month)
+                .Select(p => new
+                {
+                    Month = p.Key,
+                    Revenue = p.Sum(s => s.PaymentAmount)
+                });
+
+            var revenuePerYear = db.Payments
+                .GroupBy(r => r.PaymentDate.Year)
+                .Select(p => new
+                {
+                    Year = p.Key,
+                    Revenue = p.Sum(s => s.PaymentAmount)
+                });
+
+            var result = new { totalRevenue, revenuePerMonth, revenuePerYear };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
-}
+ }

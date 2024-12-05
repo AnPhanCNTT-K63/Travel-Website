@@ -483,3 +483,11 @@ D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Mi
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_one_toweewqe.resources
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_thing.resources
 D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_attri.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_attri124.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_dadasd.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.Core.dll
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.S3.dll
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.Core.pdb
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.Core.xml
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.S3.pdb
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.S3.xml

@@ -253,6 +253,7 @@ namespace WebBackendProject.Controllers
                     Name = booking.TourPackage.Name,
                     Price = booking.TourPackage.Price,
                     Status = booking.Status,
+                    NumOfPeople = booking.NumOfPeople,
                 };
 
                 myBookings.Add(mappedBooking);
@@ -307,6 +308,54 @@ namespace WebBackendProject.Controllers
         {
             var bookings = SetMyBooking(userId, "cancel");
             return Json(bookings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("statistics/{year}")] //GET: booking/statistics/{year}
+        public ActionResult BookingStatistics(int year)
+        {
+            var totalBooking = db.Bookings
+                .Where(p => p.BookingDate.Year == year)
+                .Count();
+
+            var totalBookingPerMonth = db.Bookings
+                .Where(p => p.BookingDate.Year == year)
+                .GroupBy(b => b.BookingDate.Month)
+                .Select( b => new
+                {
+                   BookingMonth = b.Key,
+                   BookingCount = b.Count()
+                })
+                .OrderBy(b => b.BookingMonth)
+                .ToList();
+
+            var bookingSuccessPerMonth = db.Bookings
+                .Where(b => b.Status == "success" && b.BookingDate.Year == year)
+                .GroupBy(b => b.BookingDate.Month)
+                .Select(b => new
+                {
+                    BookingMonth = b.Key,
+                    BookingCount = b.Count()
+                })
+                .OrderBy(b => b.BookingMonth)
+                .ToList();
+
+            var bookingFailPerMonth = db.Bookings
+                .Where(b => b.Status == "fail" && b.BookingDate.Year == year)
+                .GroupBy(b => b.BookingDate.Month)
+                .Select(b => new
+                {
+                    BookingMonth = b.Key,
+                    BookingCount = b.Count()
+                })
+                .OrderBy(b => b.BookingMonth)
+                .ToList();
+
+
+            var result = new { totalBooking, totalBookingPerMonth, bookingSuccessPerMonth, bookingFailPerMonth };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
 
     }

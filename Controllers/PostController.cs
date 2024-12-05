@@ -155,9 +155,8 @@ namespace WebBackendProject.Controllers
                 post.User = user;
                 Debug.WriteLine(user_id);
                 db.BlogPosts.Add(post);
-                int result = db.SaveChanges();
+                 db.SaveChanges();
 
-                Debug.WriteLine(result > 0 ? "Post created successfully" : "Failed to create post");
                 return Json(new {message = "success"}, JsonRequestBehavior.AllowGet);
             }
 
@@ -306,6 +305,94 @@ namespace WebBackendProject.Controllers
                 return Json(new { error = "Error deleting post: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        [Route("statistics/{year}")]  //GET: post/statistics/{year}
+        public ActionResult Statistics(int year)
+        {
+            try
+            {
+                var postPerMonth = db.BlogPosts
+                .Where(p => p.CreatedAt.Value.Year == year)
+                .GroupBy(p => p.CreatedAt.Value.Month)
+                .Select(p => new
+                {
+                    PostMonth = p.Key,
+                    PostCount = p.Count()
+                })
+                .OrderBy(p => p.PostMonth)
+                .ToList();
+
+                var result = new { postPerMonth };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+
+        }
+
+        [HttpGet]
+        [Route("orderby/{condition}")]
+        public ActionResult PostOrderBy(string condition) //GET: post/orderby/{condition}
+        {
+            var posts = db.BlogPosts
+                .Where(p => p.User.IsDeleted == false)
+                .Select(p => new
+                {
+                    p.User.UserProfile.FirstName,
+                    p.User.UserProfile.LastName,
+                    p.User.UserProfile.Avatar,
+                    UserId = p.User.Id,
+                    p.Owner,
+                    p.Id,
+                    p.Title,
+                    p.Datetime,
+                    p.Image,
+                    p.Content,
+                    p.Hashtags,
+                });
+
+            if (condition.ToLower() == "asc")
+            {
+                posts = posts.OrderBy(p => p.Datetime);
+            }
+            else if (condition.ToLower() == "desc")
+            {
+                posts = posts.OrderByDescending(p => p.Datetime);
+            }
+
+            var formattedPosts = posts
+                .ToList()
+                .Select(post => new
+                {
+                    post.FirstName,
+                    post.LastName,
+                    post.Avatar,
+                    post.UserId,
+                    post.Owner,
+                    post.Id,
+                    post.Title,
+                    Datetime = post.Datetime.HasValue
+                        ? post.Datetime.Value.ToString("MMMM dd, yyyy hh:mm tt")
+                        : "No Date",
+                    post.Image,
+                    post.Content,
+                    post.Hashtags,
+                })
+                .ToList();
+
+            return Json(formattedPosts, JsonRequestBehavior.AllowGet);
+        }
+
+
 
     }
 }

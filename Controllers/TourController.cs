@@ -44,7 +44,7 @@ namespace WebBackendProject.Controllers
                 })
                 .ToList();
 
-            int totalTours = toursWithMinPrice.Count();
+            int totalTours = query.Count();
 
             return Json(new
             {
@@ -98,7 +98,24 @@ namespace WebBackendProject.Controllers
         {
             try
             {
-                var row = db.Tours.FirstOrDefault(model => model.Id == id);
+                var row = db.Tours
+                    .Where(t => t.Id == id)
+                    .Select(t => new
+                    {
+                        t.Id,
+                        t.Name,
+                        t.Description,
+                        t.Region,
+                        t.City,
+                        t.Country,
+                        t.Opening,
+                        t.Image,
+                        t.Ending,
+                        t.CreatedAt,
+                        t.UpdateAt,
+                        t.User.UserProfile.FirstName, t.User.UserProfile.LastName,
+                        t.UserId,
+                    }).FirstOrDefault();
                 return Json(row, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -460,17 +477,24 @@ namespace WebBackendProject.Controllers
 
 
         [HttpGet]
-        [Route("stars/{tour_id}")]  //GET: tour/stars/{tour_id}
+        [Route("stars/{tour_id}")]  // GET: tour/stars/{tour_id}
         public ActionResult TourStars(int tour_id)
         {
             try
             {
-                var avarageStar = db.TourPackages
+                var averageStar = db.TourPackages
                     .Where(t => t.Tour.Id == tour_id)
-                    .Select(t => t.TourReviews.Sum(rv => rv.Star) / t.TourReviews.Count());
+                    .Select(t => t.TourReviews
+                        .Average(rv => rv.Star)
+                    )
+                    .FirstOrDefault();
 
+                if (averageStar == null)
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
 
-                return Json(avarageStar, JsonRequestBehavior.AllowGet);
+                return Json(averageStar, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -481,6 +505,7 @@ namespace WebBackendProject.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+
 
         [HttpGet]
         [Route("review/{tour_id}")]  //GET: tour/review/{tour_id}

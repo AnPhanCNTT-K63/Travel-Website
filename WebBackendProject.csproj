@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>packages\AWSSDK.Core.3.7.400.59\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>packages\AWSSDK.S3.3.7.410.1\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -199,9 +205,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorization\JwtAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\CloudController.cs" />
     <Compile Include="Controllers\HangfireController.cs" />
+    <Compile Include="Controllers\ImgeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -334,6 +343,14 @@
     <Compile Include="Migrations\202412031337009_new_attri.designer.cs">
       <DependentUpon>202412031337009_new_attri.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412031349370_new_attri124.cs" />
+    <Compile Include="Migrations\202412031349370_new_attri124.designer.cs">
+      <DependentUpon>202412031349370_new_attri124.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412040210138_new_dadasd.cs" />
+    <Compile Include="Migrations\202412040210138_new_dadasd.designer.cs">
+      <DependentUpon>202412040210138_new_dadasd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -378,11 +395,14 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\" />
+    <Folder Include="Views\Admn\" />
     <Folder Include="Views\api\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Booking\" />
+    <Folder Include="Views\Cloud\" />
     <Folder Include="Views\ContactBookingInfo\" />
     <Folder Include="Views\Hangfire\" />
+    <Folder Include="Views\Image\" />
     <Folder Include="Views\Payment\" />
     <Folder Include="Views\Post\" />
     <Folder Include="Views\Shared\" />
@@ -481,6 +501,16 @@
     <EmbeddedResource Include="Migrations\202412031337009_new_attri.resx">
       <DependentUpon>202412031337009_new_attri.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412031349370_new_attri124.resx">
+      <DependentUpon>202412031349370_new_attri124.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412040210138_new_dadasd.resx">
+      <DependentUpon>202412040210138_new_dadasd.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="packages\AWSSDK.S3.3.7.410.1\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.7.410.1\analyzers\dotnet\cs\SharedAnalysisCode.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -12,5 +12,7 @@ namespace WebBackendProject.Models.DTO
         public string Name {  get; set; }
         public Decimal Price { get; set; }
         public string Status { get; set; }
+        public int NumOfPeople { get; set; }
+        public DateTime? DateOfTravel { get; set; }
     }
 }
