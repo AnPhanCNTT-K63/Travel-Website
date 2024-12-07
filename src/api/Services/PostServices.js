@@ -1,10 +1,20 @@
 import apiClient from "../AxiosConfiguration";
 import handleApiError from "../ErrorHandlle";
 
-//GET: /post/posts
+//GET: /post/posts/1
 export const getPosts = async () => {
   try {
-    const response = await apiClient.get(`/post/posts`);
+    const response = await apiClient.get(`/post/posts/1`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: /post/posts/0
+export const getPostsNeedAuth = async () => {
+  try {
+    const response = await apiClient.get(`/post/posts/0`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -111,6 +121,18 @@ export const getPostStatistics = async (year) => {
 export const getArrangePost = async (condition) => {
   try {
     const response = await apiClient.get(`/post/orderby/${condition}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//PATCH: post/verify/{postId}
+export const verifyPost = async (postId, status) => {
+  try {
+    const response = await apiClient.patch(`/post/verify/${postId}`, {
+      params: status,
+    });
     return response.data;
   } catch (error) {
     handleApiError(error);

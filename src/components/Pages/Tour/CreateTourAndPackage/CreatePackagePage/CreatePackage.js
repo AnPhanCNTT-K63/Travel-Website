@@ -156,7 +156,7 @@ export default function CreatePackage({
                 required
               />
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 label="Check In"
@@ -166,7 +166,29 @@ export default function CreatePackage({
                 required
               />
             </Grid>
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} md={3}>
+              <TextField
+                fullWidth
+                label="Price ($)"
+                name="Price"
+                type="number"
+                value={tour.Price}
+                onChange={(e) => handleTourChange(tourIndex, e)}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                fullWidth
+                label="Quantity"
+                name="Quantity"
+                type="number"
+                value={tour.Quantity}
+                onChange={(e) => handleTourChange(tourIndex, e)}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
               <TextField
                 fullWidth
                 label="Description"
@@ -174,8 +196,12 @@ export default function CreatePackage({
                 value={tour.Description}
                 onChange={(e) => handleTourChange(tourIndex, e)}
                 required
+                multiline
+                minRows={5}
+                maxRows={10}
               />
             </Grid>
+
             <Grid item xs={12} md={6}>
               <Typography variant="body1" gutterBottom>
                 Upload Image
@@ -200,28 +226,7 @@ export default function CreatePackage({
                 />
               )}
             </Grid>
-            <Grid item xs={12} md={3}>
-              <TextField
-                fullWidth
-                label="Price ($)"
-                name="Price"
-                type="number"
-                value={tour.Price}
-                onChange={(e) => handleTourChange(tourIndex, e)}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <TextField
-                fullWidth
-                label="Quantity"
-                name="Quantity"
-                type="number"
-                value={tour.Quantity}
-                onChange={(e) => handleTourChange(tourIndex, e)}
-                required
-              />
-            </Grid>
+
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
                 Activities

@@ -7,11 +7,15 @@ import {
   CircularProgress,
   Pagination,
 } from "@mui/material";
-import PostCard from "../Post/PostCard";
-import { getArrangePost, getPosts } from "../../../api/Services/PostServices";
-import FilterBox from "../Post/FilterBox";
+import PostCard from "./PostCard";
+import {
+  getArrangePost,
+  getPostsNeedAuth,
+  verifyPost,
+} from "../../../api/Services/PostServices";
+import FilterBox from "./FilterBox";
 
-const BlogSection = () => {
+const PostManagement = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,7 +24,7 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const data = await getPosts();
+        const data = await getPostsNeedAuth();
         setPosts(data);
       } catch (err) {
         console.error(err);
@@ -44,7 +48,7 @@ const BlogSection = () => {
       let res;
       switch (filterType) {
         case "all":
-          res = await getPosts();
+          res = await getPostsNeedAuth();
           break;
         case "asc":
           res = await getArrangePost("asc");
@@ -58,6 +62,26 @@ const BlogSection = () => {
       setPosts(res);
     } catch (error) {
       alert("Failed to fetch data");
+    }
+  };
+
+  const handleAccept = async (postId) => {
+    try {
+      const res = await verifyPost(postId, "accept");
+      console.log(res);
+      setPosts(posts.filter((post) => post.Id !== postId));
+    } catch (error) {
+      alert("Failed to accept post.");
+    }
+  };
+
+  const handleDecline = async (postId) => {
+    try {
+      const res = await verifyPost(postId, "decline");
+      console.log(res);
+      setPosts(posts.filter((post) => post.Id !== postId));
+    } catch (error) {
+      alert("Failed to decline post.");
     }
   };
 
@@ -94,7 +118,11 @@ const BlogSection = () => {
             ) : (
               currentPosts.map((post) => (
                 <Grid item key={post.Id} xs={12} sm={6} md={4}>
-                  <PostCard post={post} />
+                  <PostCard
+                    post={post}
+                    onAccept={handleAccept}
+                    onDecline={handleDecline}
+                  />
                 </Grid>
               ))
             )}
@@ -123,4 +151,4 @@ const BlogSection = () => {
   );
 };
 
-export default BlogSection;
+export default PostManagement;

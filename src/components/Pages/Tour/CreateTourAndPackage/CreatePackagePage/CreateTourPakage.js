@@ -24,6 +24,7 @@ const CreateTourPackage = () => {
       Opening: "",
       Ending: "",
       imageUpload: "",
+      Description: "",
     }
   );
 
@@ -49,8 +50,8 @@ const CreateTourPackage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = { tour, tourPackages, user_id };
+    console.log(data);
 
     Swal.fire({
       title: "Submitting...",

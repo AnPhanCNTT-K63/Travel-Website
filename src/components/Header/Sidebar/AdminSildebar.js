@@ -57,12 +57,9 @@ export default function AdminSlidebar({
         </StyledMenuItem>
       </StyledLink>
 
-      <StyledLink
-        to={`/profile/${user.userId}/#posts`}
-        onClick={handleMenuItemClick}
-      >
+      <StyledLink to={`/user/request/post`} onClick={handleMenuItemClick}>
         <StyledMenuItem>
-          <BookOutlined style={{ fontSize: 20 }} /> Manage Post
+          <BookOutlined style={{ fontSize: 20 }} /> Post Management
         </StyledMenuItem>
       </StyledLink>
 

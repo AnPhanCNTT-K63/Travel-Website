@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Typography, Paper } from "@mui/material";
-import { sendImage } from "../../../../../api/Services/CloudServices";
+import { Description } from "@mui/icons-material";
 
 export default function CreateTour({ getTour, defaultTour }) {
   const formatTime = (time) => {
@@ -26,6 +26,8 @@ export default function CreateTour({ getTour, defaultTour }) {
           Opening: "",
           Ending: "",
           imageUpload: "",
+          UserId: "",
+          Description: "",
         }
   );
 
@@ -41,19 +43,16 @@ export default function CreateTour({ getTour, defaultTour }) {
   };
 
   const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length === 0) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
-    setPreviewImages([...previewImages, ...newPreviews]);
+    const preview = URL.createObjectURL(file);
+    setPreviewImages([preview]);
 
-    const fileNames = files.map((file) => file.name);
     setTour((prev) => ({
       ...prev,
-      imageUpload: e.target.files[0],
-      Image: prev.Image
-        ? `${prev.Image}, ${fileNames.join(", ")}`
-        : fileNames.join(", "),
+      imageUpload: file,
+      Image: file.name,
     }));
   };
 
@@ -106,6 +105,19 @@ export default function CreateTour({ getTour, defaultTour }) {
               required
             />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <TextField
+              fullWidth
+              label="Description"
+              name="Description"
+              value={tour.Description}
+              onChange={handleDestinationChange}
+              required
+              multiline
+              minRows={5}
+              maxRows={10}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Typography variant="body1" gutterBottom>
               Upload Images
@@ -151,7 +163,7 @@ export default function CreateTour({ getTour, defaultTour }) {
               name="Opening"
               value={tour.Opening}
               InputLabelProps={{
-                shrink: true, // Ensures the label remains visible
+                shrink: true,
               }}
               onChange={handleDestinationChange}
               required
@@ -165,7 +177,7 @@ export default function CreateTour({ getTour, defaultTour }) {
               name="Ending"
               value={tour.Ending}
               InputLabelProps={{
-                shrink: true, // Ensures the label remains visible
+                shrink: true,
               }}
               onChange={handleDestinationChange}
               required

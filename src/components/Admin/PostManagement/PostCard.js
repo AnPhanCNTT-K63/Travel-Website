@@ -1,6 +1,13 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, IconButton, Avatar, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Avatar,
+  Button,
+  Stack,
+} from "@mui/material";
 import {
   Favorite,
   Share,
@@ -14,7 +21,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, onAccept, onDecline }) => {
   const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
   const postHashtags =
@@ -166,6 +173,21 @@ const PostCard = ({ post }) => {
           <Share fontSize="small" />
         </IconButton>
       </Box>
+
+      {/* Accept/Decline Buttons */}
+      <Stack direction="row" spacing={2} sx={{ p: 2, pt: 0 }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={onAccept}
+          fullWidth
+        >
+          Accept
+        </Button>
+        <Button variant="outlined" color="error" onClick={onDecline} fullWidth>
+          Decline
+        </Button>
+      </Stack>
     </Box>
   );
 };

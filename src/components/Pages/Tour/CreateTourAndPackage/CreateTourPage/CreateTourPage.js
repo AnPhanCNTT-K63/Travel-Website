@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Button, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CreateTour from "./CreateTour";
+import { Description } from "@mui/icons-material";
 
 const CreateTourPage = () => {
   const [tour, setTour] = useState({
@@ -13,6 +14,8 @@ const CreateTourPage = () => {
     Opening: "",
     Ending: "",
     imageUpload: "",
+    UserId: "",
+    Description: "",
   });
 
   const getTour = (data) => {
@@ -26,7 +29,7 @@ const CreateTourPage = () => {
   };
 
   const handleManageTour = () => {
-    navigate("/profile");
+    navigate("/tour/manage");
   };
 
   return (

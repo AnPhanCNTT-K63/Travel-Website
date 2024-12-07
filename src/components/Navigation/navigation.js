@@ -49,6 +49,8 @@ import StatisticsPage from "../Admin/StatisticPage/StatisticPage";
 import RevenueYearChart from "../Admin/StatisticPage/RevenueStatistics/RevenueYearChart";
 import ImageUpload from "../Pages/Tour/ImageUpload";
 import AdminTourDetails from "../Admin/TourManagement/TourDetails";
+import TourAndPackageDetails from "../Admin/TourManagement/TourAndPackageDetails";
+import PostManagement from "../Admin/PostManagement/PostManagement";
 
 function Navigation() {
   const location = useLocation();
@@ -102,6 +104,7 @@ function Navigation() {
             <Route path="/tour/delete/:userId" element={<DeletedTourPage />} />
             <Route path="/tour/update/:tourId" element={<UpdateTourPage />} />
             <Route path="/user/request" element={<UserRequest />} />
+            <Route path="/user/request/post" element={<PostManagement />} />
           </>
         )}
 
@@ -117,7 +120,7 @@ function Navigation() {
 
         <Route
           path="/admin/tour/detal/:tourId"
-          element={<AdminTourDetails />}
+          element={<TourAndPackageDetails />}
         />
 
         <Route path="/profile/block" element={<BlockedProfilePage />} />

@@ -1,5 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import {
+  getPackageByTourId,
+  getTourDetail,
+} from "../../../api/Services/TourAndPackageServices";
 import {
   Card,
   CardContent,
@@ -17,17 +21,7 @@ import {
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 
-const AdminTourDetails = ({ tour }) => {
-  const formatTime = (time) => {
-    if (!time) return "N/A";
-
-    const date = new Date();
-    date.setHours(time.Hours, time.Minutes, 0, 0);
-
-    const options = { hour: "numeric", minute: "numeric", hour12: true };
-    return date.toLocaleString("en-US", options);
-  };
-
+const AdminPackageDetails = ({ tourPackage }) => {
   const formatDate = (jsonDate) => {
     const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
     const date = new Date(timestamp);
@@ -38,10 +32,10 @@ const AdminTourDetails = ({ tour }) => {
     });
   };
 
-  if (!tour) {
+  if (!tourPackage) {
     return (
       <Typography variant="h6" align="center" sx={{ mt: 5 }}>
-        Loading tour details...
+        Loading Package Details...
       </Typography>
     );
   }
@@ -62,7 +56,7 @@ const AdminTourDetails = ({ tour }) => {
           gutterBottom
           sx={{ fontWeight: 600, color: "primary.main" }}
         >
-          Tour Details
+          Package Details
         </Typography>
         <Divider sx={{ mb: 3 }} />
         <TableContainer component={Paper} elevation={2}>
@@ -72,31 +66,19 @@ const AdminTourDetails = ({ tour }) => {
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
                   ID
                 </TableCell>
-                <TableCell>{tour.Id}</TableCell>
+                <TableCell>{tourPackage.Id}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
                   Name
                 </TableCell>
-                <TableCell>{tour.Name}</TableCell>
+                <TableCell>{tourPackage.Name}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  Region
+                  CheckIn
                 </TableCell>
-                <TableCell>{tour.Region}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  Country
-                </TableCell>
-                <TableCell>{tour.Country}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  City
-                </TableCell>
-                <TableCell>{tour.City}</TableCell>
+                <TableCell>{tourPackage.CheckIn}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
@@ -105,8 +87,8 @@ const AdminTourDetails = ({ tour }) => {
                 <TableCell>
                   <Box
                     component="img"
-                    src={`/${tour.Image}`}
-                    alt={tour.Name}
+                    src={`/${tourPackage.Image}`}
+                    alt={tourPackage.Name}
                     sx={{
                       width: 150,
                       height: 100,
@@ -119,32 +101,46 @@ const AdminTourDetails = ({ tour }) => {
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  Description
+                  Quantity
                 </TableCell>
-                <TableCell>{tour.Description}</TableCell>
+                <TableCell>{tourPackage.Quantity}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  Opening Time
+                  Activites
                 </TableCell>
                 <TableCell>
-                  {tour.Opening ? formatTime(tour.Opening) : "N/A"}
+                  <TableCell>{tourPackage.Activities}</TableCell>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  Ending Time
+                  Change Schedule
                 </TableCell>
                 <TableCell>
-                  {tour.Ending ? formatTime(tour.Ending) : "N/A"}
+                  {tourPackage.IsChangeSchedule ? "Yes" : "No"}
                 </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head" sx={{ fontWeight: 600 }}>
+                  Refund
+                </TableCell>
+                <TableCell>{tourPackage.IsRefund ? "Yes" : "No"}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head" sx={{ fontWeight: 600 }}>
+                  Price
+                </TableCell>
+                <TableCell>{tourPackage.Price}$</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell variant="head" sx={{ fontWeight: 600 }}>
                   Created At
                 </TableCell>
                 <TableCell>
-                  {tour.CreatedAt ? formatDate(tour.CreatedAt) : "N/A"}
+                  {tourPackage.CreatedAt
+                    ? formatDate(tourPackage.CreatedAt)
+                    : "N/A"}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -152,15 +148,9 @@ const AdminTourDetails = ({ tour }) => {
                   Updated At
                 </TableCell>
                 <TableCell>
-                  {tour.UpdateAt ? formatDate(tour.UpdateAt) : "N/A"}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell variant="head" sx={{ fontWeight: 600 }}>
-                  Created By
-                </TableCell>
-                <TableCell>
-                  {tour.FirstName} {tour.LastName} (ID: {tour.UserId})
+                  {tourPackage.UpdateAt
+                    ? formatDate(tourPackage.UpdateAt)
+                    : "N/A"}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -183,4 +173,4 @@ const AdminTourDetails = ({ tour }) => {
   );
 };
 
-export default AdminTourDetails;
+export default AdminPackageDetails;

@@ -114,10 +114,10 @@ export const getPaymentPending = async () => {
   }
 };
 
-//GET: user/request/payment/processed
+//GET: admin/request/payment/processed
 export const getProcessedPayment = async () => {
   try {
-    const response = await apiClient.get(`/user/request/payment/processed`);
+    const response = await apiClient.get(`/admin/request/payment/processed`);
     return response.data;
   } catch (error) {
     handleApiError(error);
