@@ -1,19 +1,20 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Grid, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Card, Button, Avatar } from "antd";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import { Card } from "antd";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { getPostByUserId } from "../../../api/Services/PostServices";
+import {
+  getPostByUserId,
+  deleteSoftPost,
+} from "../../../api/Services/PostServices";
 import UserContext from "../../../UserContext";
-import { deleteSoftPost } from "../../../api/Services/PostServices";
 
 export default function Post() {
   const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 5; // Adjust the number of posts per page
-  const containerRef = useRef(null); // Ref for the scrollable container
+  const postsPerPage = 6;
   const user = useContext(UserContext);
 
   useEffect(() => {
@@ -75,21 +76,10 @@ export default function Post() {
   const startIndex = (currentPage - 1) * postsPerPage;
   const currentPosts = posts.slice(startIndex, startIndex + postsPerPage);
 
-  const nextPage = () => {
+  const nextPage = () =>
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    scrollToTop(); // Reset position to the top
-  };
-
-  const prevPage = () => {
+  const prevPage = () =>
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    scrollToTop(); // Reset position to the top
-  };
-
-  const scrollToTop = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   return (
     <Card
@@ -119,105 +109,157 @@ export default function Post() {
         </div>
       }
     >
-      <Box
-        sx={{
-          display: "flex",
-          overflowX: "auto",
-          gap: 2,
-          padding: 2,
-          "&::-webkit-scrollbar": { height: 8 },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
-            borderRadius: 4,
-          },
-        }}
-      >
-        {currentPosts.map((post, index) => {
-          const postHashtags =
-            post.Hashtags && typeof post.Hashtags === "string"
-              ? post.Hashtags.split(",")
-              : [];
+      <Box sx={{ padding: 2 }}>
+        <Grid container spacing={2}>
+          {currentPosts.map((post, index) => {
+            const postHashtags =
+              post.Hashtags && typeof post.Hashtags === "string"
+                ? post.Hashtags.split(",")
+                : [];
 
-          return (
-            <Card
-              key={post.Id}
-              bordered={false}
-              style={{
-                minWidth: "300px",
-                borderRadius: 12,
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-              cover={
-                <img
-                  alt={post.Title}
-                  src={`${distributionUrl}/Posts/${post.Image}`}
+            return (
+              <Grid item xs={12} md={4} key={post.Id}>
+                <Card
+                  bordered={false}
                   style={{
-                    borderTopLeftRadius: 12,
-                    borderTopRightRadius: 12,
-                    maxHeight: "150px",
-                    objectFit: "cover",
+                    width: "340px",
+                    height: "400px",
+                    borderRadius: 12,
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
-                />
-              }
-            >
-              <div style={{ fontWeight: "bold", color: "#555" }}>
-                Post #{index + 1 + (currentPage - 1) * postsPerPage}
-              </div>
-              <Typography
-                sx={{
-                  color: "#333",
-                  fontWeight: "bold",
-                }}
-              >
-                <StyledLink to={`/post/${post.Id}`}>{post.Title}</StyledLink>
-              </Typography>
-              <Box sx={{ px: 1, py: 0.5 }}>
-                <Typography variant="caption" color="text.secondary">
-                  {postHashtags.map((hashtag, index) => (
-                    <span key={index} style={{ marginRight: 4 }}>
-                      #{hashtag}
-                    </span>
-                  ))}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <StyledLink to={`/update/post/${[post.Id]}`}>
-                  <Button type="primary" style={{ fontWeight: "bold" }}>
-                    UPDATE
-                  </Button>
-                </StyledLink>
-                <Button
-                  onClick={() =>
-                    Swal.fire({
-                      title: "Are you sure?",
-                      text: "This post will be moved to the trash can.",
-                      icon: "warning",
-                      showCancelButton: true,
-                      confirmButtonColor: "#3085d6",
-                      cancelButtonColor: "#d33",
-                      confirmButtonText: "Yes, delete it!",
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        handleDelete(post.Id);
-                      }
-                    })
+                  cover={
+                    <img
+                      alt={post.Title}
+                      src={`${distributionUrl}/Posts/${post.Image}`}
+                      style={{
+                        borderTopLeftRadius: 12,
+                        borderTopRightRadius: 12,
+                        height: "240px",
+                        objectFit: "cover",
+                      }}
+                    />
                   }
-                  style={{
-                    fontWeight: "bold",
-                    backgroundColor: "#ff4d4f",
-                    color: "#fff",
-                    borderColor: "#ff4d4f",
-                  }}
                 >
-                  DELETE
-                </Button>
-              </Box>
-            </Card>
-          );
-        })}
+                  <Typography
+                    sx={{ color: "#333", fontWeight: "bold", mb: 1 }}
+                    variant="subtitle1"
+                  >
+                    <StyledLink to={`/post/${post.Id}`}>
+                      {post.Title}
+                    </StyledLink>
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {postHashtags.map((hashtag, index) => (
+                      <span key={index} style={{ marginRight: 4 }}>
+                        #{hashtag}
+                      </span>
+                    ))}
+                  </Typography>
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    {post.Status == "accept" && (
+                      <>
+                        <StyledLink to={`/update/post/${[post.Id]}`}>
+                          <Button type="primary" style={{ fontWeight: "bold" }}>
+                            UPDATE
+                          </Button>
+                        </StyledLink>
+                        <Button
+                          onClick={() =>
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "This post will be moved to the trash can.",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, delete it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                handleDelete(post.Id);
+                              }
+                            })
+                          }
+                          style={{
+                            fontWeight: "bold",
+                            backgroundColor: "#ff4d4f",
+                            color: "#fff",
+                            borderColor: "#ff4d4f",
+                          }}
+                        >
+                          DELETE
+                        </Button>
+                      </>
+                    )}
+
+                    {post.Status === "decline" && (
+                      <>
+                        <Typography
+                          variant="body1"
+                          color="error"
+                          sx={{
+                            fontWeight: "bold",
+                            backgroundColor: "#fdecea",
+                            padding: "8px 16px",
+                            borderRadius: "4px",
+                            width: "200px",
+                          }}
+                        >
+                          This post has been declined.
+                        </Typography>
+                        <Button
+                          onClick={() =>
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "This post will be moved to the trash can.",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, delete it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                handleDelete(post.Id);
+                              }
+                            })
+                          }
+                          style={{
+                            fontWeight: "bold",
+                            backgroundColor: "#ff4d4f",
+                            color: "#fff",
+                            borderColor: "#ff4d4f",
+                            marginTop: "10px",
+                            height: "40px",
+                          }}
+                        >
+                          DELETE
+                        </Button>
+                      </>
+                    )}
+                    {post.Status === "waiting" && (
+                      <Typography
+                        variant="body1"
+                        color="warning"
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#fff4e5",
+                          padding: "8px 16px",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        This post is pending approval.
+                      </Typography>
+                    )}
+                  </Box>
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
       </Box>
 
       {/* Pagination Controls */}

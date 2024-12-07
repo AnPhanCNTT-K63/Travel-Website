@@ -1,19 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Avatar,
-  Button,
-  Stack,
-} from "@mui/material";
-import {
-  Favorite,
-  Share,
-  ChatBubbleOutline,
-  AccessTime,
-} from "@mui/icons-material";
+import { Box, Typography, Avatar, Button } from "@mui/material";
+import { AccessTime } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -127,67 +115,21 @@ const PostCard = ({ post, onAccept, onDecline }) => {
         />
       </StyledLink>
 
-      {/* Post Content */}
-      <Box sx={{ px: 2, py: 1 }}>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            display: "-webkit-box",
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            WebkitLineClamp: 2, // Limit to 2 lines
-          }}
-        >
-          {postContent}
-        </Typography>
-        <StyledLink to={`/post/${post.Id}`}>
-          <Button
-            variant="outlined"
-            size="small"
-            sx={{
-              mt: 1,
-              color: "#1976d2",
-              borderColor: "#1976d2",
-              "&:hover": {
-                backgroundColor: "#1976d2",
-                color: "#fff",
-              },
-            }}
-          >
-            Read More...
-          </Button>
-        </StyledLink>
-      </Box>
-
       {/* Action Buttons */}
       <Box display="flex" justifyContent="space-around" sx={{ p: 2, pt: 1 }}>
-        <IconButton size="small" sx={{ color: "#1976d2" }}>
-          <ChatBubbleOutline fontSize="small" />
-        </IconButton>
-        <IconButton size="small" sx={{ color: "#f50057" }}>
-          <Favorite fontSize="small" />
-        </IconButton>
-        <IconButton size="small" sx={{ color: "#1976d2" }}>
-          <Share fontSize="small" />
-        </IconButton>
-      </Box>
-
-      {/* Accept/Decline Buttons */}
-      <Stack direction="row" spacing={2} sx={{ p: 2, pt: 0 }}>
         <Button
           variant="contained"
           color="success"
           onClick={onAccept}
           fullWidth
+          style={{ marginRight: "10px" }}
         >
           Accept
         </Button>
         <Button variant="outlined" color="error" onClick={onDecline} fullWidth>
           Decline
         </Button>
-      </Stack>
+      </Box>
     </Box>
   );
 };

@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Container, Typography, Box, Paper, Chip } from "@mui/material";
-import { AccessTime } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
-import { getPostDetail } from "../../../api/Services/PostServices";
-import { Avatar } from "antd";
+import React, { useState } from "react";
+import { Container, Typography, Box, Paper, Chip, Button } from "@mui/material";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 
-const BlogPostDetail = () => {
+const PostPreview = () => {
   const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
   const { postId } = useParams();
-  const [post, setPost] = useState({});
+  const location = useLocation();
+  const [post, setPost] = useState(
+    location.state?.data || {
+      Hashtags: "",
+      Title: "",
+      Image: "",
+      Content: "",
+    }
+  );
 
-  useEffect(() => {
-    const fetchPostDetail = async () => {
-      try {
-        const post = await getPostDetail(postId);
-        setPost(post);
-      } catch (err) {
-        console.error("Error getting post detail: ", err);
-      }
-    };
-    fetchPostDetail();
-  }, [postId]);
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate("/create/post", { state: { data: post } });
+  };
 
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
@@ -29,7 +28,6 @@ const BlogPostDetail = () => {
 
   return (
     <Container maxWidth="lg" sx={{ padding: "2rem 0" }}>
-      {/* Blog Post Title */}
       <Typography
         variant="h3"
         align="center"
@@ -58,38 +56,6 @@ const BlogPostDetail = () => {
           boxShadow: 2,
         }}
       />
-
-      {/* Post Metadata */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "1.5rem",
-          color: "text.secondary",
-        }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar
-            sx={{
-              width: 36,
-              height: 36,
-              backgroundColor: "#6c63ff",
-            }}
-            src={`/${post.Avatar}`}
-          />
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: "500", marginLeft: "5px" }}
-          >
-            {post?.FirstName + " " + post?.LastName || "Author"}
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <AccessTime sx={{ marginRight: "0.5rem" }} />
-          <Typography variant="body2">{post.Datetime}</Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}></Box>
-      </Box>
 
       {/* Hashtags Section */}
       <Box sx={{ marginBottom: "1.5rem" }}>
@@ -124,9 +90,19 @@ const BlogPostDetail = () => {
         </Typography>
       </Paper>
 
-      {/* End of Blog Post */}
+      {/* Buttons */}
+      <Box sx={{ marginTop: "2rem", textAlign: "center" }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleBack}
+          sx={{ padding: "0.5rem 2rem", borderRadius: 2, marginRight: 2 }}
+        >
+          Back to Create Post
+        </Button>
+      </Box>
     </Container>
   );
 };
 
-export default BlogPostDetail;
+export default PostPreview;

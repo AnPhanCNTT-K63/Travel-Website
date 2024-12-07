@@ -9,6 +9,7 @@ import {
   IconButton,
   Checkbox,
   FormControlLabel,
+  CardMedia,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -39,6 +40,7 @@ export default function CreatePackage({
         });
 
   const [tourPackages, setTourPackage] = useState(initialTourPackages);
+  const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
   useEffect(() => {
     getPackage(
@@ -203,8 +205,8 @@ export default function CreatePackage({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                Upload Image
+              <Typography variant="body2" color="textSecondary">
+                Uploaded Images: {tour.Image}
               </Typography>
               <input
                 type="file"
@@ -212,6 +214,24 @@ export default function CreatePackage({
                 onChange={(e) => handleImageUpload(tourIndex, e)}
                 style={{ display: "block", marginBottom: "10px" }}
               />
+
+              {!tour.imagePreview && (
+                <CardMedia
+                  component="img"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                  image={
+                    `${distributorUrl}/Tours/${tour.Image}` ||
+                    "https://via.placeholder.com/300"
+                  }
+                  alt={tour.Name}
+                />
+              )}
+
               {tour.imagePreview && (
                 <img
                   src={tour.imagePreview}

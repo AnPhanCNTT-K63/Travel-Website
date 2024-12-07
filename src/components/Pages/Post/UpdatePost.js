@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Input, Button, message } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPostDetail, updatePost } from "../../../api/Services/PostServices";
-import { Box } from "@mui/material";
+import { Box, CardMedia } from "@mui/material";
 
 export default function UpdatePost() {
+  const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
   const { postId } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -117,6 +119,23 @@ export default function UpdatePost() {
           onChange={handleImageChange}
           style={{ marginBottom: "1rem" }}
         />
+
+        {!imagePreview && (
+          <Box sx={{ textAlign: "center", mb: 2 }}>
+            <img
+              src={
+                `${distributorUrl}/Tours/${image}` ||
+                "https://via.placeholder.com/300"
+              }
+              alt="Image Preview"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "300px",
+                objectFit: "contain",
+              }}
+            />
+          </Box>
+        )}
 
         {/* Display image preview */}
         {imagePreview && (

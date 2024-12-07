@@ -117,10 +117,20 @@ export const getPostStatistics = async (year) => {
   }
 };
 
-//GET: post/orderby/{condition}
+//GET: post/orderby/{condition}/{flag}
 export const getArrangePost = async (condition) => {
   try {
-    const response = await apiClient.get(`/post/orderby/${condition}`);
+    const response = await apiClient.get(`/post/orderby/${condition}/1`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: post/orderby/{condition}/{flag}
+export const getArrangeVefifyPost = async (condition) => {
+  try {
+    const response = await apiClient.get(`/post/orderby/${condition}/0`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -131,7 +141,7 @@ export const getArrangePost = async (condition) => {
 export const verifyPost = async (postId, status) => {
   try {
     const response = await apiClient.patch(`/post/verify/${postId}`, {
-      params: status,
+      status,
     });
     return response.data;
   } catch (error) {

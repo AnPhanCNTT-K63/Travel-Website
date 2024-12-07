@@ -20,7 +20,7 @@ import SouthTour from "../Pages/Tour/DomesticTour/SouthTour";
 import AsiaTour from "../Pages/Tour/InternationalTour/AsiaTour";
 import EuropeTour from "../Pages/Tour/InternationalTour/EuropeTour";
 import AmericaTour from "../Pages/Tour/InternationalTour/AmericaTour";
-import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
+import PostDetail from "../Pages/Post/BlogPostDetail";
 import NotFoundPage from "../../view/NotFoundPage";
 import AccountPage from "../Pages/Account/AccountPage";
 import CreateTourPackage from "../Pages/Tour/CreateTourAndPackage/CreatePackagePage/CreateTourPakage";
@@ -51,6 +51,7 @@ import ImageUpload from "../Pages/Tour/ImageUpload";
 import AdminTourDetails from "../Admin/TourManagement/TourDetails";
 import TourAndPackageDetails from "../Admin/TourManagement/TourAndPackageDetails";
 import PostManagement from "../Admin/PostManagement/PostManagement";
+import PostPreview from "../Pages/Post/PostPreview";
 
 function Navigation() {
   const location = useLocation();
@@ -132,6 +133,7 @@ function Navigation() {
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
         <Route path="/billing" element={<Billing />} />
+        <Route path="/post/preview" element={<PostPreview />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
         <Route path="/user/booking" element={<MyBookingPage />} />
         <Route path="/QR/:bookingId" element={<QRPaymentPage />} />
@@ -140,7 +142,7 @@ function Navigation() {
         <Route path="/account/:userId" element={<AccountPage />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
-        <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route path="/post/:postId" element={<PostDetail />} />
         <Route path="/post/delete/:userId" element={<DeletedPostsPage />} />
         <Route
           path="/traveler/info/:tourPackageId"

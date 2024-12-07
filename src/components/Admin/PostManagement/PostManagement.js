@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import PostCard from "./PostCard";
 import {
-  getArrangePost,
+  getArrangeVefifyPost,
   getPostsNeedAuth,
   verifyPost,
 } from "../../../api/Services/PostServices";
@@ -51,10 +51,10 @@ const PostManagement = () => {
           res = await getPostsNeedAuth();
           break;
         case "asc":
-          res = await getArrangePost("asc");
+          res = await getArrangeVefifyPost("asc");
           break;
         case "desc":
-          res = await getArrangePost("desc");
+          res = await getArrangeVefifyPost("desc");
           break;
         default:
           throw new Error("Invalid filter type");
@@ -120,8 +120,8 @@ const PostManagement = () => {
                 <Grid item key={post.Id} xs={12} sm={6} md={4}>
                   <PostCard
                     post={post}
-                    onAccept={handleAccept}
-                    onDecline={handleDecline}
+                    onAccept={() => handleAccept(post.Id)}
+                    onDecline={() => handleDecline(post.Id)}
                   />
                 </Grid>
               ))

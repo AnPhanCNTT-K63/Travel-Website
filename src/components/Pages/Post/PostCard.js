@@ -35,7 +35,7 @@ const PostCard = ({ post }) => {
 
   const adminBadge =
     postOwner === "admin" ? (
-      <span style={{ color: "red", fontWeight: "bold" }}>(Admin)</span>
+      <span style={{ color: "red", fontWeight: "bold" }}>&nbsp;(Admin)</span>
     ) : null;
 
   const avatarSrc = post.Avatar

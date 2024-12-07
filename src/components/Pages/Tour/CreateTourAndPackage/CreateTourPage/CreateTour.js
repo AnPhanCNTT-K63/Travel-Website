@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField, Typography, Paper } from "@mui/material";
-import { Description } from "@mui/icons-material";
+import { Grid, TextField, Typography, Paper, CardMedia } from "@mui/material";
 
 export default function CreateTour({ getTour, defaultTour }) {
+  const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
   const formatTime = (time) => {
     if (!time || time.Hours == null || time.Minutes == null) return "";
     const hours = time.Hours.toString().padStart(2, "0");
@@ -140,6 +141,23 @@ export default function CreateTour({ getTour, defaultTour }) {
                 marginTop: "10px",
               }}
             >
+              {previewImages.length == 0 && (
+                <CardMedia
+                  component="img"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                  image={
+                    `${distributorUrl}/Tours/${tour.Image}` ||
+                    "https://via.placeholder.com/300"
+                  }
+                  alt={tour.Name}
+                />
+              )}
+
               {previewImages.map((src, index) => (
                 <img
                   key={index}
