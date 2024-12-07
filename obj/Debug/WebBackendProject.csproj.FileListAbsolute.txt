@@ -491,3 +491,8 @@ D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.Core.pdb
 D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.Core.xml
 D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.S3.pdb
 D:\Visual Studio 2022\WebBackendProject2TestModel\bin\AWSSDK.S3.xml
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_ewaeae.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.new_dasdadad.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\obj\Debug\WebBackendProject.Migrations.newchangeweqw.resources
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\Swashbuckle.Core.dll
+D:\Visual Studio 2022\WebBackendProject2TestModel\bin\WebActivatorEx.dll

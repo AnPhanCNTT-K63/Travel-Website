@@ -19,6 +19,7 @@ namespace WebBackendProject.Models
         public string Hashtags { get; set; }
         public string Owner { get; set; }
         public bool IsAdminPost { get; set; }
+        public string Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }

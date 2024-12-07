@@ -14,41 +14,9 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
-        [HttpGet]
-        [Route("statistics/register/{year}")] //GET: admin/statistics/register/{year}
-        public ActionResult RegisterStatistics(int year)
-        {
-            var registerUsersPerMonth = db.Users
-                .Where(u => u.CreatedAt.Value.Year == year)
-                .GroupBy(u => u.CreatedAt.Value.Month)
-                .Select(u => new
-                {
-                    RegisterMonth = u.Key,
-                    RegisterCount = u.Count()
-                })
-                .OrderBy(b => b.RegisterMonth)
-                .ToList();
-
-            var result = new { registerUsersPerMonth };
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPatch]
-        [Route("unblock/profile")] //PATCH: admin/unblock/profile
-        public ActionResult UnBlockProfile(int user_id)
-        {
-            var user = db.Users.Find(user_id);
-            user.IsProfileBlocked = false;
-            db.SaveChanges();
-
-            return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
-        }
-
-
         [HttpPatch]
         [Route("ban")] //PATCH: admin/ban
-        public ActionResult BanUser(int user_id)
+        public ActionResult BanUser(int user_id) // Chặn user
         {
             try
             {
@@ -77,7 +45,7 @@ namespace WebBackendProject.Controllers
 
         [HttpPatch]
         [Route("unban")] //PATCH: admin/unban
-        public ActionResult UnbanUser(int user_id)
+        public ActionResult UnbanUser(int user_id) //Bỏ chặn user
         {
             try
             {
@@ -105,19 +73,8 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        [Route("get/deleted/soft")] //GET: admin/get/deleted/soft
-        public ActionResult DeletedSoftUser()
-        {
-            var users = db.Users
-                .Where(u => u.IsDeleted == true)
-                .ToList();
-
-            return Json(users, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
         [Route("get/banned")] //GET: admin/get/banned
-        public ActionResult BannedUser()
+        public ActionResult BannedUser() //Lấy user bị chặn
         {
             var users = db.Users
                 .Where(u => u.IsBanned == true)
@@ -128,7 +85,7 @@ namespace WebBackendProject.Controllers
 
         [HttpGet]
         [Route("get/online")] //GET: admin/get/online
-        public ActionResult OnlineUser()
+        public ActionResult OnlineUser() //Lấy user đang online
         {
             var users = db.Users
                 .Where(u => u.IsOnline == true)
@@ -139,7 +96,7 @@ namespace WebBackendProject.Controllers
 
         [HttpGet]
         [Route("get/offline")] //GET: admin/get/offline
-        public ActionResult OfflineUser()
+        public ActionResult OfflineUser() //Lấy user đang offline
         {
             var users = db.Users
                 .Where(u => u.IsOnline == false)
@@ -148,20 +105,9 @@ namespace WebBackendProject.Controllers
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        [Route("get/profile/block")] //GET: admin/get/profile/block
-        public ActionResult ProfileBlockUser()
-        {
-            var users = db.Users
-                .Where(u => u.IsProfileBlocked == true)
-                .ToList();
-
-            return Json(users, JsonRequestBehavior.AllowGet);
-        }
-
         [HttpPatch]
         [Route("block/profile")] //PATCH: admin/block/profile
-        public ActionResult BlockProfile(int user_id)
+        public ActionResult BlockProfile(int user_id) //Khóa trang cá nhân
         {
             var user = db.Users.Find(user_id);
             user.IsProfileBlocked = true;
@@ -170,33 +116,42 @@ namespace WebBackendProject.Controllers
             return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [Route("restore/account")] //POST: admin/restore/account
-        public ActionResult RestoreAccount(int user_id)
+        [HttpPatch]
+        [Route("unblock/profile")] //PATCH: admin/unblock/profile
+        public ActionResult UnBlockProfile(int user_id) // Mở khóa trang cá nhân cho user
         {
-            try
-            {
-                var user = db.Users.FirstOrDefault(u => u.Id == user_id && u.IsDeleted);
-                if (user == null)
-                {
-                    return Json(new { message = "User not found or not deleted" }, JsonRequestBehavior.AllowGet);
-                }
+            var user = db.Users.Find(user_id);
+            user.IsProfileBlocked = false;
+            db.SaveChanges();
 
-                user.IsDeleted = false;
-                user.DeletedAt = null;
-                db.SaveChanges();
+            return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+        }
 
-                return Json(new { message = "User restored successfully" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
+        [HttpGet]
+        [Route("get/profile/block")] //GET: admin/get/profile/block
+        public ActionResult ProfileBlockUser() //Lấy user bị khóa trang cá nhân
+        {
+            var users = db.Users
+                .Where(u => u.IsProfileBlocked == true)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("get/deleted/soft")] //GET: admin/get/deleted/soft
+        public ActionResult DeletedSoftUser() // Xóa mềm account của user
+        {
+            var users = db.Users
+                .Where(u => u.IsDeleted == true)
+                .ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
 
         [HttpDelete]
         [Route("delete/permanently/{user_id}")] //DELETE: admin/delete/permanently/{user_id}
-        public ActionResult DeleteAccount(int user_id)
+        public ActionResult DeleteAccount(int user_id) //Xóa account
         {
             try
             {
@@ -219,9 +174,34 @@ namespace WebBackendProject.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("restore/account")] //POST: admin/restore/account
+        public ActionResult RestoreAccount(int user_id) //Khôi phục tài khoản (đối với account đang xóa mềm)
+        {
+            try
+            {
+                var user = db.Users.FirstOrDefault(u => u.Id == user_id && u.IsDeleted);
+                if (user == null)
+                {
+                    return Json(new { message = "User not found or not deleted" }, JsonRequestBehavior.AllowGet);
+                }
+
+                user.IsDeleted = false;
+                user.DeletedAt = null;
+                db.SaveChanges();
+
+                return Json(new { message = "User restored successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpGet]
         [Route("users/{id}")] //GET: admin/users/{id}
-        public ActionResult UserById(int id)
+        public ActionResult UserById(int id) //Lấy user theo Id
         {
             var data = db.Users.Find(id);
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -229,40 +209,40 @@ namespace WebBackendProject.Controllers
 
         [HttpGet]
         [Route("request/payment")] //GET: admin/request/payment
-        public ActionResult GetUserPaymentRequest()
+        public ActionResult GetUserPaymentRequest() //Lấy toàn yêu cầu thanh toán của user
         {
             return GetPaymentRequests(null);
         }
 
         [HttpGet]
         [Route("request/payment/pending")] //GET: admin/request/payment/pending
-        public ActionResult GetPendingPayment()
+        public ActionResult GetPendingPayment() //Lấy yêu cầu thanh toán đang thực thi
         {
             return GetPaymentRequests("waiting");
         }
 
         [HttpGet]
         [Route("request/payment/processed")] //GET: admin/request/payment/processed
-        public ActionResult GetProcessedPayment()
+        public ActionResult GetProcessedPayment() //Lấy yêu cầu đã được xử lý
         {
             return GetPaymentRequests(new[] { "success", "fail" });
         }
 
         [HttpGet]
         [Route("request/payment/accepted")] //GET: admin/request/payment/accepted
-        public ActionResult GetAcceptedPayment()
+        public ActionResult GetAcceptedPayment() //Lấy yêu cầu thanh toán đã chấp thuận
         {
             return GetPaymentRequests("success");
         }
 
         [HttpGet]
         [Route("request/payment/unaccepted")] //GET: admin/request/payment/unaccepted
-        public ActionResult GetNotAcceptedPayment()
+        public ActionResult GetNotAcceptedPayment() //Lấy yêu cầu thanh toán không đã chấp thuận
         {
             return GetPaymentRequests("fail");
         }
 
-        private ActionResult GetPaymentRequests(object statusFilter)
+        private ActionResult GetPaymentRequests(object statusFilter) //Hàm helper lấy yêu cầu thanh toán
         {
             try
             {
@@ -310,6 +290,26 @@ namespace WebBackendProject.Controllers
                     StackTrace = ex.StackTrace
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpGet]
+        [Route("statistics/register/{year}")] //GET: admin/statistics/register/{year}
+        public ActionResult RegisterStatistics(int year) //Lấy dữ liệu người dùng đăng ký mỗi tháng trong năm 
+        {
+            var registerUsersPerMonth = db.Users
+                .Where(u => u.CreatedAt.Value.Year == year)
+                .GroupBy(u => u.CreatedAt.Value.Month)
+                .Select(u => new
+                {
+                    RegisterMonth = u.Key,
+                    RegisterCount = u.Count()
+                })
+                .OrderBy(b => b.RegisterMonth)
+                .ToList();
+
+            var result = new { registerUsersPerMonth };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

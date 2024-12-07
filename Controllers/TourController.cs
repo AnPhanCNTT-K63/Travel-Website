@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using WebBackendProject.Models;
@@ -16,12 +17,50 @@ namespace WebBackendProject.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("tours/{page}/{pageSize}")] // GET: tour/tours/{page}/{pageSize}
-        public ActionResult Tours(int page, int pageSize)
+        public ActionResult Tours(int page, int pageSize, string searchQuery, string searchBy, string sortBy)
         {
             var query = db.Tours
                 .Where(t => t.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                switch (searchBy)
+                {
+                    case "Name":
+                        query = query.Where(q => q.Name.Contains(searchQuery));
+                        break;
+                    case "City":
+                        query = query.Where(q => q.City.Contains(searchQuery));
+                        break;
+                    case "Country":
+                        query = query.Where(q => q.Country.Contains(searchQuery));
+                        break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy.ToLower())
+                {
+                    case "created":
+                        query = query.OrderByDescending(t => t.CreatedAt.Value);
+                        break;
+                    case "created_asc":
+                        query = query.OrderBy(t => t.CreatedAt.Value);
+                        break;
+                    default:
+                        query = query.OrderBy(t => t.Id);
+                        break;
+                }
+            }
+            else
+            {
+                query = query.OrderBy(t => t.Id);
+            }
+
+
+
             var toursWithMinPrice = query
-                .OrderBy(t => t.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(t => new
@@ -61,8 +100,7 @@ namespace WebBackendProject.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+               
                     var user = db.Users.Find(user_id);
                     tour.User = user;
                     tour.CreatedAt = DateTime.UtcNow;
@@ -78,11 +116,8 @@ namespace WebBackendProject.Controllers
                         db.TourPackages.Add(package);
                     }
                     db.SaveChanges();
-                }
-                else
-                {
-                    return Json(new { message = "Invalid Object" }, JsonRequestBehavior.AllowGet);
-                }
+                
+              
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

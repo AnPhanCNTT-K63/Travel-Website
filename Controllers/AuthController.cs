@@ -16,50 +16,50 @@ namespace WebBackendProject.Controllers
     {
         DbAppContext db = new DbAppContext();
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("signup")] //POST: auth/signup
-        public ActionResult Signup(SignUpInfo info) 
-        {
-            var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == info.Email);
-            var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == info.Username);
-            var softDeletedUserEmail = db.Users.FirstOrDefault(u => u.IsDeleted == true);
-
-            if (existedUserEmail != null)
+            [AllowAnonymous]
+            [HttpPost]
+            [Route("signup")] //POST: auth/signup
+            public ActionResult Signup(SignUpInfo info) 
             {
-                return Json(new { error = "Email is already in use. Please login or click forgot password" }, JsonRequestBehavior.AllowGet);
-            }
-            if(existedUserUsername != null)
-            {
-                return Json(new { error = "User has been used by someone else" }, JsonRequestBehavior.AllowGet);
-            }
-            if (softDeletedUserEmail != null)
-            {
-                return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" }, JsonRequestBehavior.AllowGet);
-            }
+                var existedUserEmail = db.Users.FirstOrDefault(eu => eu.Email == info.Email);
+                var existedUserUsername = db.Users.FirstOrDefault(eu => eu.Username == info.Username);
+                var softDeletedUserEmail = db.Users.FirstOrDefault(u => u.IsDeleted == true);
 
-            if (ModelState.IsValid)
-            {   
-                var user = new User();
-                user.CreatedAt = DateTime.UtcNow;
-                user.UpdatedAt = DateTime.UtcNow;
-                user.LastActive = DateTime.UtcNow;
-                user.Role = "user";
-                user.Username = info.Username;
-                user.Password = info.Password;
-                user.Email = info.Email;          
-                db.Users.Add(user);
-                db.SaveChanges();
-
-                var profile = new UserProfile
+                if (existedUserEmail != null)
                 {
-                    UserId = user.Id
-                };
-                db.UserProfiles.Add(profile);
-                db.SaveChanges();
+                    return Json(new { error = "Email is already in use. Please login or click forgot password" }, JsonRequestBehavior.AllowGet);
+                }
+                if(existedUserUsername != null)
+                {
+                    return Json(new { error = "User has been used by someone else" }, JsonRequestBehavior.AllowGet);
+                }
+                if (softDeletedUserEmail != null)
+                {
+                    return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" }, JsonRequestBehavior.AllowGet);
+                }
+
+                if (ModelState.IsValid)
+                {   
+                    var user = new User();
+                    user.CreatedAt = DateTime.UtcNow;
+                    user.UpdatedAt = DateTime.UtcNow;
+                    user.LastActive = DateTime.UtcNow;
+                    user.Role = "user";
+                    user.Username = info.Username;
+                    user.Password = info.Password;
+                    user.Email = info.Email;          
+                    db.Users.Add(user);
+                    db.SaveChanges();
+
+                    var profile = new UserProfile
+                    {
+                        UserId = user.Id
+                    };
+                    db.UserProfiles.Add(profile);
+                    db.SaveChanges();
+                }
+                return Json(info, JsonRequestBehavior.AllowGet);
             }
-            return Json(info, JsonRequestBehavior.AllowGet);
-        }
 
         [AllowAnonymous]
         [HttpPost]
@@ -71,7 +71,7 @@ namespace WebBackendProject.Controllers
                 var loginUser = db.Users
                 .FirstOrDefault(u => u.Email == info.Email);
 
-                if (loginUser == null || loginUser.IsBanned == true)
+                if (loginUser == null)
                 {
                     return Json(new { error = "Email Not Found" });
                 }
@@ -82,6 +82,10 @@ namespace WebBackendProject.Controllers
                 else if (loginUser.IsDeleted == true)
                 {
                     return Json(new { error = "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days" });
+                }
+                else if (loginUser.IsBanned == true)
+                {
+                    return Json(new { error = "Your account has been banned. Please contact us to know details." });
                 }
                 else
                 {

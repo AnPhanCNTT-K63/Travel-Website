@@ -20,11 +20,11 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("posts")]
-        public ActionResult Posts() //GET: /post/posts
+        [Route("posts/{flag}")]
+        public ActionResult Posts(int flag) //GET: /post/posts/{flag}
         {
             var posts = db.BlogPosts
-                .Where(p => p.User.IsDeleted == false)
+                .Where(p => p.User.IsDeleted == false && (flag == 1 ? p.Status == "accept"  : p.Status == "waiting"))
                 .Select(p => new
                 {
                     p.User.UserProfile.FirstName,
@@ -38,6 +38,7 @@ namespace WebBackendProject.Controllers
                     p.Image,
                     p.Content,
                     p.Hashtags,
+                    p.Status,
                 })
                 .ToList();
 
@@ -56,6 +57,7 @@ namespace WebBackendProject.Controllers
                 post.Image,
                 post.Content,
                 post.Hashtags,
+                post.Status,
             }).ToList();
 
             return Json(formattedPosts, JsonRequestBehavior.AllowGet);
@@ -105,6 +107,8 @@ namespace WebBackendProject.Controllers
             return Json(formattedPost, JsonRequestBehavior.AllowGet);
         }
 
+        
+
         [HttpGet]
         [Route("get/deleted/{user_id}")] //GET: post/get/deleted/{user_id}
         public ActionResult GetDeletedPost(int user_id)
@@ -153,9 +157,18 @@ namespace WebBackendProject.Controllers
                 }
 
                 post.User = user;
-                Debug.WriteLine(user_id);
+
+                if(user.Role == "admin")
+                {
+                    post.Status = "accept";
+                }
+                else
+                {
+                    post.Status = "waiting";
+                }
+
                 db.BlogPosts.Add(post);
-                 db.SaveChanges();
+                db.SaveChanges();
 
                 return Json(new {message = "success"}, JsonRequestBehavior.AllowGet);
             }
@@ -340,11 +353,11 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        [Route("orderby/{condition}")]
-        public ActionResult PostOrderBy(string condition) //GET: post/orderby/{condition}
+        [Route("orderby/{condition}/{flag}")]
+        public ActionResult PostOrderBy(string condition, int flag) //GET: post/orderby/{condition}/{flag}
         {
             var posts = db.BlogPosts
-                .Where(p => p.User.IsDeleted == false)
+                .Where(p => p.User.IsDeleted == false && (flag == 1 ? p.Status == "accept" : p.Status == "waiting"))
                 .Select(p => new
                 {
                     p.User.UserProfile.FirstName,
@@ -362,11 +375,11 @@ namespace WebBackendProject.Controllers
 
             if (condition.ToLower() == "asc")
             {
-                posts = posts.OrderBy(p => p.Datetime);
+                posts = posts.OrderBy(p => p.Datetime.Value);
             }
             else if (condition.ToLower() == "desc")
             {
-                posts = posts.OrderByDescending(p => p.Datetime);
+                posts = posts.OrderByDescending(p => p.Datetime.Value);
             }
 
             var formattedPosts = posts
@@ -391,6 +404,38 @@ namespace WebBackendProject.Controllers
 
             return Json(formattedPosts, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPatch]
+        [Route("verify/{postId}")] //PATCH: post/verify/{postId}
+        public ActionResult VerifyPost(int postId, string status)
+        {
+            try
+            {
+                var post = db.BlogPosts.Find(postId);
+                post.Status = status;
+
+               int res = db.SaveChanges();
+               if(res > 0) 
+                {
+                    return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                }
+               else 
+                {
+                    return Json(new { message = "error" }, JsonRequestBehavior.AllowGet);
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Exception = ex.Message,
+                    StackTrace = ex.StackTrace
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
 
 
 
