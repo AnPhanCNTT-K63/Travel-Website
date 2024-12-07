@@ -9,32 +9,38 @@ import {
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
+const StyledLink = styled(Link)(({ theme }) => ({
+  textDecoration: "none",
+  color: theme.palette.text.primary,
+}));
+
 const PostCard = ({ post }) => {
+  const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
       ? post.Hashtags.split(",")
       : [];
-
   const postTitle = post.Title || "Untitled Post";
   const postDatetime = post.Datetime || "No Date Provided";
-  const postImage = post.Image || "https://example.com/default-image.jpg";
+  const postImage = post.Image
+    ? `${distributionUrl}/Posts/${post.Image}`
+    : "https://via.placeholder.com/300x200?text=No+Image";
   const postContent = post.Content || "No content available.";
   const postOwner = post.Owner || "";
-  const postOwnerName = (
-    <>
-      {post.FirstName && post.LastName
-        ? `${post.FirstName} ${post.LastName} `
-        : "Unknown"}
-      {postOwner === "admin" && (
-        <span style={{ color: "red", fontWeight: "bold" }}>(Admin)</span>
-      )}
-    </>
-  );
+  const postOwnerName =
+    post.FirstName && post.LastName
+      ? `${post.FirstName} ${post.LastName}`
+      : "Unknown";
 
-  const StyledLink = styled(Link)(({ theme }) => ({
-    textDecoration: "none",
-    color: theme.palette.common.black,
-  }));
+  const adminBadge =
+    postOwner === "admin" ? (
+      <span style={{ color: "red", fontWeight: "bold" }}>&nbsp;(Admin)</span>
+    ) : null;
+
+  const avatarSrc = post.Avatar
+    ? `/${post.Avatar}`
+    : "https://via.placeholder.com/36?text=U";
 
   return (
     <Box
@@ -46,7 +52,7 @@ const PostCard = ({ post }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        height: "500px",
+        height: 500,
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
           transform: "scale(1.03)",
@@ -54,60 +60,36 @@ const PostCard = ({ post }) => {
         },
       }}
     >
-      {/* User Avatar and Title Section */}
+      {/* User Info */}
       <Box display="flex" alignItems="center" sx={{ p: 2, pb: 1 }}>
-        <Link
-          style={{ textDecorationLine: "none" }}
-          to={`/profile/${post.UserId}`}
-        >
+        <StyledLink to={`/profile/${post.UserId}`}>
           <Avatar
-            sx={{
-              width: 36,
-              height: 36,
-              backgroundColor: "#6c63ff",
-              marginRight: 1.5,
-            }}
+            sx={{ width: 36, height: 36, backgroundColor: "#6c63ff", mr: 1.5 }}
             alt={postOwnerName}
-            src={`/${post.Avatar}`}
+            src={avatarSrc}
           />
-        </Link>
-        <Box flexGrow={1}>
-          {/* Post Author Name */}
-
+        </StyledLink>
+        <Box>
           <Typography
             variant="body2"
-            color="text.primary"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              fontWeight: "600",
-            }}
+            sx={{ display: "flex", alignItems: "center", fontWeight: 600 }}
           >
-            <Link
-              style={{ textDecorationLine: "none", textDecoration: "none" }}
-              to={`/profile/${post.UserId}`}
-            >
+            <StyledLink to={`/profile/${post.UserId}`}>
               {postOwnerName}
-            </Link>
+            </StyledLink>{" "}
+            {adminBadge}
           </Typography>
-
-          {/* Post Date */}
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            <AccessTime sx={{ fontSize: "14px" }} />
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
+            <AccessTime sx={{ fontSize: 14, mr: 0.5 }} />
             {postDatetime}
           </Typography>
         </Box>
       </Box>
 
-      {/* Title and Hashtags Section */}
+      {/* Title & Hashtags */}
       <Box sx={{ px: 2, py: 1 }}>
         <StyledLink to={`/post/${post.Id}`}>
-          <Typography variant="h6" sx={{ fontWeight: "700", marginBottom: 1 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
             {postTitle}
           </Typography>
         </StyledLink>
@@ -120,7 +102,7 @@ const PostCard = ({ post }) => {
         </Typography>
       </Box>
 
-      {/* Image Section */}
+      {/* Post Image */}
       <StyledLink to={`/post/${post.Id}`}>
         <Box
           component="img"
@@ -128,7 +110,7 @@ const PostCard = ({ post }) => {
           alt={postTitle}
           sx={{
             width: "100%",
-            height: 240, // Adjusted for compactness
+            height: 240,
             objectFit: "cover",
             transition: "transform 0.3s ease",
             "&:hover": {
@@ -138,7 +120,7 @@ const PostCard = ({ post }) => {
         />
       </StyledLink>
 
-      {/* Content Section */}
+      {/* Post Content */}
       <Box sx={{ px: 2, py: 1 }}>
         <Typography
           variant="body2"
@@ -148,7 +130,7 @@ const PostCard = ({ post }) => {
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            WebkitLineClamp: 2, // Show up to 2 lines of content
+            WebkitLineClamp: 2, // Limit to 2 lines
           }}
         >
           {postContent}
@@ -158,7 +140,7 @@ const PostCard = ({ post }) => {
             variant="outlined"
             size="small"
             sx={{
-              marginTop: 1,
+              mt: 1,
               color: "#1976d2",
               borderColor: "#1976d2",
               "&:hover": {
@@ -172,7 +154,7 @@ const PostCard = ({ post }) => {
         </StyledLink>
       </Box>
 
-      {/* Icons Section (Chat, Like, Share) */}
+      {/* Action Buttons */}
       <Box display="flex" justifyContent="space-around" sx={{ p: 2, pt: 1 }}>
         <IconButton size="small" sx={{ color: "#1976d2" }}>
           <ChatBubbleOutline fontSize="small" />

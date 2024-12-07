@@ -32,3 +32,23 @@ export const setPaymentStatus = async (data) => {
     handleApiError(error);
   }
 };
+
+//GET: payment/statistics/{year}
+export const getPaymentStatistics = async (year) => {
+  try {
+    const response = await apiClient.get(`/payment/statistics/${year}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: payment/statistics/revenue/{year}
+export const getRevenueStatistics = async (year) => {
+  try {
+    const response = await apiClient.get(`/payment/statistics/revenue/${year}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

@@ -42,8 +42,6 @@ export default function MyBookingPage() {
     });
   };
 
-  const seeTicketOnclick = () => {};
-
   const deleteOnclick = async (bookingId) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -168,7 +166,7 @@ export default function MyBookingPage() {
                 : styles.bookingList
             }
           >
-            {bookings.map((booking) => (
+            {[...bookings].reverse().map((booking) => (
               <PurchaseCard
                 key={booking.Id}
                 styles={styles}
@@ -178,7 +176,6 @@ export default function MyBookingPage() {
                 timerExpire={timerExpired}
                 getTimeRemaining={setTimeRemaining}
                 getTimerExpired={setTimerExpired}
-                seeTicketOnclick={seeTicketOnclick}
                 deleteOnclick={() => deleteOnclick(booking.Id)}
               />
             ))}

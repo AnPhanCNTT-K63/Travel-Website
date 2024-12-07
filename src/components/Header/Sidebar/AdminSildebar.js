@@ -4,7 +4,6 @@ import { StyledLogout } from "./StyledLogout";
 import {
   Chat,
   PostAdd,
-  LocalOffer,
   Logout,
   ManageAccounts,
   AccountCircle,
@@ -13,6 +12,7 @@ import {
   BookOutlined,
   DeleteOutline,
   FestivalOutlined,
+  AssessmentOutlined,
 } from "@mui/icons-material";
 export default function AdminSlidebar({
   user,
@@ -57,18 +57,21 @@ export default function AdminSlidebar({
         </StyledMenuItem>
       </StyledLink>
 
-      <StyledLink
-        to={`/profile/${user.userId}/#posts`}
-        onClick={handleMenuItemClick}
-      >
+      <StyledLink to={`/user/request/post`} onClick={handleMenuItemClick}>
         <StyledMenuItem>
-          <BookOutlined style={{ fontSize: 20 }} /> Manage Post
+          <BookOutlined style={{ fontSize: 20 }} /> Post Management
         </StyledMenuItem>
       </StyledLink>
 
       <StyledLink to={"/create/post"} onClick={handleMenuItemClick}>
         <StyledMenuItem>
           <PostAdd style={{ fontSize: 20 }} /> Post
+        </StyledMenuItem>
+      </StyledLink>
+
+      <StyledLink to={"/statistics"} onClick={handleMenuItemClick}>
+        <StyledMenuItem>
+          <AssessmentOutlined style={{ fontSize: 20 }} /> Statistics
         </StyledMenuItem>
       </StyledLink>
 

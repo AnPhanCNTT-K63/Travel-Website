@@ -7,7 +7,8 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
       setUser({

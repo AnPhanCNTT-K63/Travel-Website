@@ -41,7 +41,7 @@ export default function ListCard() {
         {Array.isArray(tours) && tours.length > 0 ? (
           tours.map((item) => (
             <Col className="col-4" key={item.Id}>
-              <div style={{ margin: "10px" }}>
+              <div style={{ margin: "40px 0 50px 0" }}>
                 <Link to={`/detail/${item.Id}`}>
                   <TourCard item={item} />
                 </Link>

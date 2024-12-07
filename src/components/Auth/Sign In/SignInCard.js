@@ -104,6 +104,12 @@ export default function SignInCard() {
       ) {
         setEmailError(true);
         setEmailErrorMessage(user.error);
+      } else if (
+        user.error ===
+        "Your account has been banned. Please contact us to know details."
+      ) {
+        setEmailError(true);
+        setEmailErrorMessage(user.error);
       }
     } catch (err) {
       Swal.fire({

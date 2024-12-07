@@ -124,3 +124,13 @@ export const getMyCanceledBooking = async (userId) => {
     handleApiError(error);
   }
 };
+
+//GET: booking/statistics/{year}
+export const getBookingStatistics = async (year) => {
+  try {
+    const response = await apiClient.get(`/booking/statistics/${year}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

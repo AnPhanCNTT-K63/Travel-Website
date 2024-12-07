@@ -9,6 +9,7 @@ import {
   IconButton,
   Checkbox,
   FormControlLabel,
+  CardMedia,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -35,9 +36,11 @@ export default function CreatePackage({
           VAT: "",
           IsChangeSchedule: false,
           IsRefund: false,
+          imageUpload: "",
         });
 
   const [tourPackages, setTourPackage] = useState(initialTourPackages);
+  const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
   useEffect(() => {
     getPackage(
@@ -72,8 +75,9 @@ export default function CreatePackage({
     if (!file) return;
 
     const updatedTours = [...tourPackages];
-    updatedTours[index].Image = file.name; // Store the file name
-    updatedTours[index].imagePreview = URL.createObjectURL(file); // Generate the preview
+    updatedTours[index].Image = file.name;
+    updatedTours[index].imagePreview = URL.createObjectURL(file);
+    updatedTours[index].imageUpload = file;
     setTourPackage(updatedTours);
   };
 
@@ -111,6 +115,7 @@ export default function CreatePackage({
         VAT: "",
         IsChangeSchedule: false,
         IsRefund: false,
+        imageUpload: "",
       },
     ]);
   };
@@ -153,7 +158,7 @@ export default function CreatePackage({
                 required
               />
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 label="Check In"
@@ -162,40 +167,6 @@ export default function CreatePackage({
                 onChange={(e) => handleTourChange(tourIndex, e)}
                 required
               />
-            </Grid>
-            <Grid item xs={12} md={9}>
-              <TextField
-                fullWidth
-                label="Description"
-                name="Description"
-                value={tour.Description}
-                onChange={(e) => handleTourChange(tourIndex, e)}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                Upload Image
-              </Typography>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload(tourIndex, e)}
-                style={{ display: "block", marginBottom: "10px" }}
-              />
-              {tour.imagePreview && (
-                <img
-                  src={tour.imagePreview}
-                  alt="Preview"
-                  style={{
-                    width: "100%",
-                    maxWidth: "200px",
-                    height: "auto",
-                    borderRadius: "8px",
-                    marginTop: "10px",
-                  }}
-                />
-              )}
             </Grid>
             <Grid item xs={12} md={3}>
               <TextField
@@ -219,6 +190,63 @@ export default function CreatePackage({
                 required
               />
             </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                fullWidth
+                label="Description"
+                name="Description"
+                value={tour.Description}
+                onChange={(e) => handleTourChange(tourIndex, e)}
+                required
+                multiline
+                minRows={5}
+                maxRows={10}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" color="textSecondary">
+                Uploaded Images: {tour.Image}
+              </Typography>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(tourIndex, e)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
+
+              {!tour.imagePreview && (
+                <CardMedia
+                  component="img"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                  image={
+                    `${distributorUrl}/Tours/${tour.Image}` ||
+                    "https://via.placeholder.com/300"
+                  }
+                  alt={tour.Name}
+                />
+              )}
+
+              {tour.imagePreview && (
+                <img
+                  src={tour.imagePreview}
+                  alt="Preview"
+                  style={{
+                    width: "100%",
+                    maxWidth: "200px",
+                    height: "auto",
+                    borderRadius: "8px",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+            </Grid>
+
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
                 Activities

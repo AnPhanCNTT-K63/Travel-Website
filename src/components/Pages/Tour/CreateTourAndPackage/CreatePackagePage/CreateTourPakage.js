@@ -7,6 +7,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { createTourAndPackages } from "../../../../../api/Services/TourAndPackageServices";
 import CreatePackage from "./CreatePackage";
 import Swal from "sweetalert2";
+import { sendImage } from "../../../../../api/Services/CloudServices";
 
 const CreateTourPackage = () => {
   const location = useLocation();
@@ -22,6 +23,8 @@ const CreateTourPackage = () => {
       Image: "",
       Opening: "",
       Ending: "",
+      imageUpload: "",
+      Description: "",
     }
   );
 
@@ -32,10 +35,12 @@ const CreateTourPackage = () => {
       image: "",
       price: "",
       quantity: "",
+      checkkIn: "",
       activities: [""],
       VAT: "",
       isChangeSchedule: false,
       isRefund: false,
+      imageUpload: "",
     },
   ]);
 
@@ -45,8 +50,8 @@ const CreateTourPackage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = { tour, tourPackages, user_id };
+    console.log(data);
 
     Swal.fire({
       title: "Submitting...",
@@ -59,7 +64,13 @@ const CreateTourPackage = () => {
 
     try {
       const res = await createTourAndPackages(data);
+      await sendImage(tour.imageUpload, "Tours");
 
+      await Promise.all(
+        tourPackages.map(async (item) => {
+          await sendImage(item.imageUpload, "Packages");
+        })
+      );
       if (res.message === "success") {
         Swal.fire({
           title: "Success!",
