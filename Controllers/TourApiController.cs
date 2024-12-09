@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -18,9 +19,35 @@ namespace WebBackendProject.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("tours")] // GET: tour/tours
-        public async Task<IHttpActionResult> Tours(TourRequest request)
+        public async Task<IHttpActionResult> Tours
+            (
+                int page,
+                int pageSize,
+                string region = null,
+                string searchBy = null,
+                string searchQuery = null,
+                string sortBy = null,
+                int? priceRange0 = null,
+                int? priceRange1 = null
+            )
         {
+            var request = new TourRequest
+            {
+                page = page,
+                pageSize = pageSize,
+                region = region,
+                searchBy = searchBy,
+                searchQuery = searchQuery,
+                sortBy = sortBy,
+                priceRange = priceRange0 != null && priceRange1 != null ? new int?[] { priceRange0, priceRange1 } : null
+            };
+
             var query = db.Tours.Where(t => t.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(request.region))
+            {
+                query = query.Where(t => t.Region == request.region);
+            }
 
             if (!string.IsNullOrEmpty(request.searchQuery))
             {
@@ -100,20 +127,20 @@ namespace WebBackendProject.Controllers
 
         [HttpPost]
         [Route("create")] // POST: tour/create
-        public async Task<IHttpActionResult> TourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id)
+        public async Task<IHttpActionResult> TourAndPackagesCreate(TourCreate tourCreate)
         {
             try
             {
-                var user = await db.Users.FindAsync(user_id);
-                tour.User = user;
-                tour.CreatedAt = DateTime.UtcNow;
-                tour.UpdateAt = DateTime.UtcNow;
-                db.Tours.Add(tour);
+                var user = await db.Users.FindAsync(tourCreate.user_id);
+                tourCreate.tour.User = user;
+                tourCreate.tour.CreatedAt = DateTime.UtcNow;
+                tourCreate.tour.UpdateAt = DateTime.UtcNow;
+                db.Tours.Add(tourCreate.tour);
                 await db.SaveChangesAsync();
 
-                foreach (TourPackage package in tourPackages)
+                foreach (TourPackage package in tourCreate.tourPackages)
                 {
-                    package.Tour = tour;
+                    package.Tour = tourCreate.tour;
                     package.CreatedAt = DateTime.UtcNow;
                     package.UpdatedAt = DateTime.UtcNow;
                     db.TourPackages.Add(package);
@@ -209,32 +236,32 @@ namespace WebBackendProject.Controllers
 
         [HttpPut]
         [Route("update")] // PUT: tour/update
-        public async Task<IHttpActionResult> UpdateTourAndPackages(Tour tour, List<TourPackage> tourPackages, int user_id)
+        public async Task<IHttpActionResult> UpdateTourAndPackages(TourCreate tourUpdate)
         {
             try
             {
-                var existingTour = await db.Tours.FindAsync(tour.Id);
-                var user = await db.Users.FindAsync(user_id);
+                var existingTour = await db.Tours.FindAsync(tourUpdate.tour.Id);
+                var user = await db.Users.FindAsync(tourUpdate.user_id);
 
                 if (existingTour == null || user == null)
                 {
                     return BadRequest("Tour or User not found");
                 }
 
-                existingTour.Name = tour.Name;
-                existingTour.Region = tour.Region;
-                existingTour.Country = tour.Country;
-                existingTour.City = tour.City;
-                existingTour.Image = tour.Image;
-                existingTour.Opening = tour.Opening;
-                existingTour.Ending = tour.Ending;
+                existingTour.Name = tourUpdate.tour.Name;
+                existingTour.Region = tourUpdate.tour.Region;
+                existingTour.Country = tourUpdate.tour.Country;
+                existingTour.City = tourUpdate.tour.City;
+                existingTour.Image = tourUpdate.tour.Image;
+                existingTour.Opening = tourUpdate.tour.Opening;
+                existingTour.Ending = tourUpdate.tour.Ending;
                 existingTour.User = user;
                 existingTour.UpdateAt = DateTime.UtcNow;
 
                 await db.SaveChangesAsync();
 
-                var existingPackages = await db.TourPackages.Where(t => t.Tour.Id == tour.Id).ToListAsync();
-                var incomingPackageIds = tourPackages.Select(tp => tp.Id).ToList();
+                var existingPackages = await db.TourPackages.Where(t => t.Tour.Id == tourUpdate.tour.Id).ToListAsync();
+                var incomingPackageIds = tourUpdate.tourPackages.Select(tp => tp.Id).ToList();
 
                 var packagesToDelete = existingPackages
                     .Where(ep => !incomingPackageIds.Contains(ep.Id))
@@ -266,7 +293,7 @@ namespace WebBackendProject.Controllers
                     db.TourPackages.Remove(packageDelete);
                 }
                 await db.SaveChangesAsync();
-                foreach (var package in tourPackages)
+                foreach (var package in tourUpdate.tourPackages)
                 {
                     var existingPackage = await db.TourPackages.FindAsync(package.Id);
 
@@ -374,7 +401,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPatch]
-        [Route("delete/soft")] // PATCH: tour/delete/soft
+        [Route("delete/soft/{id}")] // PATCH: tour/delete/soft/{id}
         public async Task<IHttpActionResult> DeleteSoftTour(int id)
         {
             try
@@ -453,7 +480,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPatch]
-        [Route("restore")] // PATCH: tour/restore
+        [Route("restore/{id}")] // PATCH: tour/restore/{id}
         public async Task<IHttpActionResult> RestorePost(int id)
         {
             try

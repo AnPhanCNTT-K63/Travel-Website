@@ -6,6 +6,7 @@ using System.Web;
 using WebBackendProject.App_Start;
 using System.Data.Entity;
 using System;
+using MyAppNamespace;
 
 namespace WebBackendProject
 {
@@ -26,7 +27,7 @@ namespace WebBackendProject
         // Handle preflight requests (OPTIONS)
         protected void Application_BeginRequest()
         {
-            // Allow only the specific origin
+           /* // Allow only the specific origin
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
 
             // Allow common methods
@@ -40,7 +41,7 @@ namespace WebBackendProject
             {
                 HttpContext.Current.Response.StatusCode = 200; // OK response for preflight
                 HttpContext.Current.Response.End();
-            }
+            }*/
         }
 
     }

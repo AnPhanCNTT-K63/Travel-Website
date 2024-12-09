@@ -13,5 +13,6 @@ namespace WebBackendProject.DTO.Tour
         public string searchQuery { get; set; }
         public string sortBy { get; set; }
         public int?[] priceRange { get; set; }
+        public string region { get; set; }
     }
 }

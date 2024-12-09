@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Data.Entity;
 using WebBackendProject.Models;
 using WebBackendProject.Models.DTO;
+using WebBackendProject.DTO.Booking;
 
 namespace WebBackendProject.Controllers
 {
@@ -99,12 +100,12 @@ namespace WebBackendProject.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IHttpActionResult> StoreBookingInfo(BookingInfo info, int User_Id)
+        public async Task<IHttpActionResult> StoreBookingInfo(BookingDTO bookingDTO)
         {
             try
             {
-                var booking = info.Booking;
-                var user = await db.Users.FindAsync(User_Id);
+                var booking = bookingDTO.info.Booking;
+                var user = await db.Users.FindAsync(bookingDTO.User_Id);
                 if (user == null)
                 {
                     return BadRequest("User not found.");
@@ -116,7 +117,7 @@ namespace WebBackendProject.Controllers
                 booking.Status = "pending";
                 db.Bookings.Add(booking);
 
-                var contact = info.Contact;
+                var contact = bookingDTO.info.Contact;
                 if (contact == null)
                 {
                     return BadRequest("Contact information is required.");
@@ -124,7 +125,7 @@ namespace WebBackendProject.Controllers
                 contact.Booking = booking;
                 db.Contacts.Add(contact);
 
-                foreach (var traveler in info.Traveler)
+                foreach (var traveler in bookingDTO.info.Traveler)
                 {
                     traveler.Booking = booking;
                     db.Travelers.Add(traveler);
@@ -142,22 +143,22 @@ namespace WebBackendProject.Controllers
 
         [HttpPatch]
         [Route("update/status")]
-        public async Task<IHttpActionResult> SetStatus(int bookingId, string status)
+        public async Task<IHttpActionResult> SetStatus(BookingStatus bookingStatus)
         {
             try
             {
-                if (string.IsNullOrEmpty(status))
+                if (string.IsNullOrEmpty(bookingStatus.status))
                 {
                     return BadRequest("Status cannot be null or empty.");
                 }
 
-                var booking = await db.Bookings.FindAsync(bookingId);
+                var booking = await db.Bookings.FindAsync(bookingStatus.bookingId);
                 if (booking == null)
                 {
                     return NotFound();
                 }
 
-                booking.Status = status;
+                booking.Status = bookingStatus.status;
                 db.Entry(booking).Property(b => b.Status).IsModified = true;
 
                 await db.SaveChangesAsync();
@@ -172,13 +173,13 @@ namespace WebBackendProject.Controllers
 
         [HttpPost]
         [Route("check/status")]
-        public async Task<IHttpActionResult> CheckStatusPending(int User_Id)
+        public async Task<IHttpActionResult> CheckStatusPending(BookingRequest request)
         {
             try
             {
                 var bookings = await db.Bookings
                     .Include(b => b.User)
-                    .Where(b => b.User.Id == User_Id)
+                    .Where(b => b.User.Id == request.User_Id)
                     .ToListAsync();
 
                 if (bookings == null || !bookings.Any())

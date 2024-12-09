@@ -15,6 +15,7 @@
     <RootNamespace>WebBackendProject</RootNamespace>
     <AssemblyName>WebBackendProject</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+	  <NoWarn>1591</NoWarn>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44331</IISExpressSSLPort>
@@ -33,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\WebBackendProject.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -315,6 +317,7 @@
     <Compile Include="Controllers\HangfireController.cs" />
     <Compile Include="Controllers\InvoiceApiController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\PaymentApiController.cs" />
     <Compile Include="Controllers\PaymentCardApiController.cs" />
     <Compile Include="Controllers\PaymentCardController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -322,14 +325,20 @@
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourApiController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\TourPackageApiController.cs" />
     <Compile Include="Controllers\TourPackageController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTO\Admin\UserRequest.cs" />
+    <Compile Include="DTO\Booking\BookingDTO.cs" />
+    <Compile Include="DTO\Booking\BookingRequest.cs" />
+    <Compile Include="DTO\Booking\BookingStatus.cs" />
     <Compile Include="DTO\PaymentCard\CardAddress.cs" />
+    <Compile Include="DTO\Payment\PaymentStatus.cs" />
     <Compile Include="DTO\Post\PostCreateDTO.cs" />
     <Compile Include="DTO\Post\PostRequest.cs" />
     <Compile Include="DTO\Post\PostUpdateDTO.cs" />
+    <Compile Include="DTO\Tour\TourCreate.cs" />
     <Compile Include="DTO\Tour\TourRequest.cs" />
     <Compile Include="DTO\User\HeartBeatRequest.cs" />
     <Compile Include="Utils\DbConfig.cs" />
@@ -483,16 +492,16 @@
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\DbAppContext.cs" />
-    <Compile Include="DTO\BookingInfo.cs" />
-    <Compile Include="DTO\MyBooking.cs" />
-    <Compile Include="DTO\PaymentInfo.cs" />
-    <Compile Include="DTO\PostInfoUpdate.cs" />
-    <Compile Include="DTO\SignInInfo.cs" />
-    <Compile Include="DTO\SignUpInfo.cs" />
-    <Compile Include="DTO\TicketInfo.cs" />
-    <Compile Include="DTO\TourInfo.cs" />
+    <Compile Include="DTO\Booking\BookingInfo.cs" />
+    <Compile Include="DTO\Booking\MyBooking.cs" />
+    <Compile Include="DTO\Payment\PaymentInfo.cs" />
+    <Compile Include="DTO\Post\PostInfoUpdate.cs" />
+    <Compile Include="DTO\Auth\SignInInfo.cs" />
+    <Compile Include="DTO\Auth\SignUpInfo.cs" />
+    <Compile Include="DTO\Booking\TicketInfo.cs" />
+    <Compile Include="DTO\Tour\TourInfo.cs" />
     <Compile Include="DTO\User\UserProfileDTO.cs" />
-    <Compile Include="DTO\UserRequest.cs" />
+    <Compile Include="DTO\User\UserRequest.cs" />
     <Compile Include="Models\PaymentCard.cs" />
     <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\Tour.cs" />
@@ -501,7 +510,7 @@
     <Compile Include="Models\TourReview.cs" />
     <Compile Include="Models\Traveler.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="DTO\UserInfoUpdate.cs" />
+    <Compile Include="DTO\User\UserInfoUpdate.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\Voucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

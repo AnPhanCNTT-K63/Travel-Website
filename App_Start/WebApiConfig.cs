@@ -5,6 +5,7 @@ namespace WebBackendProject.App_Start
 {
     public static class WebApiConfig
     {
+
         public static void Register(HttpConfiguration config)
         {
             // Enable attribute routing
