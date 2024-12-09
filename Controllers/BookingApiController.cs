@@ -200,7 +200,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPatch]
-        [Route("delete/soft")]
+        [Route("delete/soft/{bookingId}")]
         public async Task<IHttpActionResult> SoftDeleted(int bookingId)
         {
             try

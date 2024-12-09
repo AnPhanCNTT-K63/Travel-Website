@@ -197,7 +197,7 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpPatch]
-        [Route("delete/soft")] //PATCH: booking/delete/soft
+        [Route("delete/soft/{bookingId}")] //PATCH: booking/delete/soft/{bookingId}
         public ActionResult SoftDeleted(int bookingId) 
         {
             try

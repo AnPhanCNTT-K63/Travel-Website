@@ -320,6 +320,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PostApiController.cs" />
     <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\TourApiController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\TourPackageController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="DTO\Post\PostCreateDTO.cs" />
     <Compile Include="DTO\Post\PostRequest.cs" />
     <Compile Include="DTO\Post\PostUpdateDTO.cs" />
+    <Compile Include="DTO\Tour\TourRequest.cs" />
     <Compile Include="DTO\User\HeartBeatRequest.cs" />
     <Compile Include="Utils\DbConfig.cs" />
     <Compile Include="Utils\GetFullException.cs" />

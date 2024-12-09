@@ -1,52 +1,46 @@
-﻿using System;
+﻿using Amazon.S3;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Services.Description;
+using System.Threading.Tasks;
+using System.Web.Http;
+using WebBackendProject.DTO.Tour;
 using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
 {
-    [RoutePrefix("tour")]
-    public class TourController : Controller
+    [RoutePrefix("api/tour")]
+    public class TourApiController : ApiController
     {
         DbAppContext db = new DbAppContext();
 
         [AllowAnonymous]
         [HttpGet]
         [Route("tours")] // GET: tour/tours
-        public ActionResult Tours(int page, int pageSize, string searchQuery, string searchBy, string sortBy, int?[] priceRange, string region)
+        public async Task<IHttpActionResult> Tours(TourRequest request)
         {
-            var query = db.Tours
-                .Where(t => t.IsDeleted == false);
+            var query = db.Tours.Where(t => t.IsDeleted == false);
 
-            if(!string.IsNullOrEmpty(region))
+            if (!string.IsNullOrEmpty(request.searchQuery))
             {
-                query = query.Where(t => t.Region == region);
-            }
-
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                switch (searchBy)
+                switch (request.searchBy)
                 {
                     case "Name":
-                        query = query.Where(q => q.Name.Contains(searchQuery));
+                        query = query.Where(q => q.Name.Contains(request.searchQuery));
                         break;
                     case "City":
-                        query = query.Where(q => q.City.Contains(searchQuery));
+                        query = query.Where(q => q.City.Contains(request.searchQuery));
                         break;
                     case "Country":
-                        query = query.Where(q => q.Country.Contains(searchQuery));
+                        query = query.Where(q => q.Country.Contains(request.searchQuery));
                         break;
                 }
             }
 
-            if (!string.IsNullOrEmpty(sortBy))
+            if (!string.IsNullOrEmpty(request.sortBy))
             {
-                switch (sortBy.ToLower())
+                switch (request.sortBy.ToLower())
                 {
                     case "created":
                         query = query.OrderByDescending(t => t.CreatedAt.Value);
@@ -64,9 +58,9 @@ namespace WebBackendProject.Controllers
                 query = query.OrderBy(t => t.Id);
             }
 
-            var toursWithMinPrice = query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+            var toursWithMinPrice = await query
+                .Skip((request.page - 1) * request.pageSize)
+                .Take(request.pageSize)
                 .Select(t => new
                 {
                     t.Id,
@@ -81,70 +75,66 @@ namespace WebBackendProject.Controllers
                     t.IsDeleted,
                     t.Opening,
                     t.Ending,
-                    t.Description,
                     MinPrice = db.TourPackages
                         .Where(tp => tp.Tour.Id == t.Id)
                         .Min(tp => (decimal?)tp.Price) ?? 0
                 })
-                .ToList();
+                .ToListAsync();
 
-            if (priceRange != null)
+            if (request.priceRange != null)
             {
                 toursWithMinPrice = toursWithMinPrice
-                    .Where(t => priceRange[0] <= t.MinPrice && t.MinPrice <= priceRange[1])
+                    .Where(t => request.priceRange[0] <= t.MinPrice && t.MinPrice <= request.priceRange[1])
                     .ToList();
             }
 
-            int totalTours = query.Count();
+            int totalTours = await query.CountAsync();
 
-            return Json(new
+            return Ok(new
             {
                 tours = toursWithMinPrice,
                 totalTours = totalTours,
-                totalPages = (int)Math.Ceiling((double)totalTours / pageSize)
-            }, JsonRequestBehavior.AllowGet);
+                totalPages = (int)Math.Ceiling((double)totalTours / request.pageSize)
+            });
         }
 
-
         [HttpPost]
-        [Route("create")] //POST: tour/create
-        public ActionResult TourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id)
+        [Route("create")] // POST: tour/create
+        public async Task<IHttpActionResult> TourAndPackagesCreate(Tour tour, List<TourPackage> tourPackages, int user_id)
         {
             try
             {
-                    var user = db.Users.Find(user_id);
-                    tour.User = user;
-                    tour.CreatedAt = DateTime.UtcNow;
-                    tour.UpdateAt = DateTime.UtcNow;
-                    db.Tours.Add(tour);
-                    db.SaveChanges();
-            
-                    foreach (TourPackage package in tourPackages)
-                    {
-                        package.Tour = tour;
-                        package.CreatedAt = DateTime.UtcNow;
-                        package.UpdatedAt = DateTime.UtcNow;
-                        db.TourPackages.Add(package);
-                    }
-                    db.SaveChanges();
-                
-              
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                var user = await db.Users.FindAsync(user_id);
+                tour.User = user;
+                tour.CreatedAt = DateTime.UtcNow;
+                tour.UpdateAt = DateTime.UtcNow;
+                db.Tours.Add(tour);
+                await db.SaveChangesAsync();
+
+                foreach (TourPackage package in tourPackages)
+                {
+                    package.Tour = tour;
+                    package.CreatedAt = DateTime.UtcNow;
+                    package.UpdatedAt = DateTime.UtcNow;
+                    db.TourPackages.Add(package);
+                }
+                await db.SaveChangesAsync();
+
+                return Ok(new { message = "success" });
             }
             catch (Exception ex)
             {
-                return Json(new { error = "Error Create Tour and Packages: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                return BadRequest("Error Create Tour and Packages: " + ex.Message);
             }
         }
 
-
         [HttpGet]
-        [Route("detail/{id}")] //GET: tour/detail/{id}
-        public ActionResult TourDetail(int id)
+        [Route("detail/{id}")] // GET: tour/detail/{id}
+        public async Task<IHttpActionResult> TourDetail(int id)
         {
             try
             {
-                var row = db.Tours
+                var row = await db.Tours
                     .Where(t => t.Id == id)
                     .Select(t => new
                     {
@@ -159,77 +149,76 @@ namespace WebBackendProject.Controllers
                         t.Ending,
                         t.CreatedAt,
                         t.UpdateAt,
-                        t.User.UserProfile.FirstName, t.User.UserProfile.LastName,
+                        t.User.UserProfile.FirstName,
+                        t.User.UserProfile.LastName,
                         t.UserId,
-                    }).FirstOrDefault();
-                return Json(row, JsonRequestBehavior.AllowGet);
+                    }).FirstOrDefaultAsync();
+                return Ok(row);
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
-
         }
 
         [HttpGet]
-        [Route("user/{user_id}")] //GET: tour/user/{user_id}
-        public ActionResult TourByUserId(int user_id)
+        [Route("user/{user_id}")] // GET: tour/user/{user_id}
+        public async Task<IHttpActionResult> TourByUserId(int user_id)
         {
             try
             {
-                var tours = db.Tours
-                .Where(t => t.User.Id == user_id && t.IsDeleted == false)
-                .ToList();
-                return Json(tours, JsonRequestBehavior.AllowGet);
+                var tours = await db.Tours
+                    .Where(t => t.User.Id == user_id && t.IsDeleted == false)
+                    .ToListAsync();
+                return Ok(tours);
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
-        }  
+        }
 
         [HttpGet]
-        [Route("package/count/{tour_id}")] //GET: tour/package/count/{tour_id}
-        public ActionResult CountPackageInTour(int tour_id)
+        [Route("package/count/{tour_id}")] // GET: tour/package/count/{tour_id}
+        public async Task<IHttpActionResult> CountPackageInTour(int tour_id)
         {
             try
             {
-                var count = db.TourPackages
+                var count = await db.TourPackages
                     .Where(t => t.Tour.Id == tour_id)
-                    .Count();
-                return Json(count, JsonRequestBehavior.AllowGet);
+                    .CountAsync();
+                return Ok(count);
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
 
         [HttpPut]
-        [Route("update")] //PUT: tour/update
-        public ActionResult UpdateTourAndPackages(Tour tour, List<TourPackage> tourPackages, int user_id)
+        [Route("update")] // PUT: tour/update
+        public async Task<IHttpActionResult> UpdateTourAndPackages(Tour tour, List<TourPackage> tourPackages, int user_id)
         {
-
             try
             {
-                var existingTour = db.Tours.Find(tour.Id);
-                var user = db.Users.Find(user_id);
+                var existingTour = await db.Tours.FindAsync(tour.Id);
+                var user = await db.Users.FindAsync(user_id);
 
                 if (existingTour == null || user == null)
                 {
-                    return Json(new { message = "Tour or User not found" }, JsonRequestBehavior.AllowGet);
+                    return BadRequest("Tour or User not found");
                 }
 
                 existingTour.Name = tour.Name;
@@ -242,9 +231,9 @@ namespace WebBackendProject.Controllers
                 existingTour.User = user;
                 existingTour.UpdateAt = DateTime.UtcNow;
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
-                var existingPackages = db.TourPackages.Where(t => t.Tour.Id == tour.Id).ToList();
+                var existingPackages = await db.TourPackages.Where(t => t.Tour.Id == tour.Id).ToListAsync();
                 var incomingPackageIds = tourPackages.Select(tp => tp.Id).ToList();
 
                 var packagesToDelete = existingPackages
@@ -253,10 +242,9 @@ namespace WebBackendProject.Controllers
 
                 foreach (var package in packagesToDelete)
                 {
-
-                    var packageDelete = db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
-                                              .Include(p => p.Bookings.Select(b => b.Payment))
-                                              .FirstOrDefault(p => p.Id == package.Id);
+                    var packageDelete = await db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
+                        .Include(p => p.Bookings.Select(b => b.Payment))
+                        .FirstOrDefaultAsync(p => p.Id == package.Id);
 
                     var bookingsToRemove = packageDelete.Bookings.ToList();
 
@@ -277,10 +265,10 @@ namespace WebBackendProject.Controllers
 
                     db.TourPackages.Remove(packageDelete);
                 }
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 foreach (var package in tourPackages)
                 {
-                    var existingPackage = db.TourPackages.Find(package.Id);
+                    var existingPackage = await db.TourPackages.FindAsync(package.Id);
 
                     if (existingPackage == null)
                     {
@@ -319,36 +307,35 @@ namespace WebBackendProject.Controllers
                     }
                 }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
-
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                return Ok(new { message = "success" });
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     InnerException = ex.InnerException?.Message,
                     DetailedInnerException = ex.InnerException?.InnerException?.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
 
         [HttpDelete]
         [Route("delete/package")] // DELETE: tour/delete/package
-        public ActionResult DeleteTourPackage(int id)
+        public async Task<IHttpActionResult> DeleteTourPackage(int id)
         {
             try
             {
-                var package = db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
-                                              .Include(p => p.Bookings.Select(b => b.Payment))
-                                              .FirstOrDefault(p => p.Id == id);
+                var package = await db.TourPackages.Include(p => p.Bookings.Select(b => b.Contact))
+                    .Include(p => p.Bookings.Select(b => b.Payment))
+                    .FirstOrDefaultAsync(p => p.Id == id);
 
                 if (package == null)
                 {
-                    return Json(new { message = "Tour Package not found" }, JsonRequestBehavior.AllowGet);
+                    return BadRequest("Tour Package not found");
                 }
 
                 var bookingsToRemove = package.Bookings.ToList();
@@ -370,25 +357,25 @@ namespace WebBackendProject.Controllers
 
                 db.TourPackages.Remove(package);
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                return Ok(new { message = "success" });
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     InnerException = ex.InnerException?.Message,
                     DetailedInnerException = ex.InnerException?.InnerException?.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
 
         [HttpPatch]
-        [Route("delete/soft")] //PATCH: tour/delete/soft
-        public ActionResult DeleteSoftTour(int id)
+        [Route("delete/soft")] // PATCH: tour/delete/soft
+        public async Task<IHttpActionResult> DeleteSoftTour(int id)
         {
             try
             {
@@ -402,75 +389,72 @@ namespace WebBackendProject.Controllers
                 db.Entry(tour).Property(b => b.IsDeleted).IsModified = true;
                 db.Entry(tour).Property(b => b.DeletedAt).IsModified = true;
 
-                db.SaveChanges();
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                await db.SaveChangesAsync();
+                return Ok(new { message = "success" });
 
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     InnerException = ex.InnerException?.Message,
                     DetailedInnerException = ex.InnerException?.InnerException?.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
-
         }
 
         [HttpGet]
-        [Route("get/deleted")] //GET: tour/get/deleted
-        public ActionResult GetDeletedTour()
+        [Route("get/deleted")] // GET: tour/get/deleted
+        public async Task<IHttpActionResult> GetDeletedTour()
         {
             try
             {
-                var tours = db.Tours
-                .Where(t => t.IsDeleted == true)
-                .ToList();
-                return Json(tours, JsonRequestBehavior.AllowGet);
+                var tours = await db.Tours
+                    .Where(t => t.IsDeleted == true)
+                    .ToListAsync();
+                return Ok(tours);
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     InnerException = ex.InnerException?.Message,
                     DetailedInnerException = ex.InnerException?.InnerException?.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
 
-
         [HttpDelete]
-        [Route("delete/permanently/{id}")] //DELETE: tour/delete/permanently/{id}
-        public ActionResult DeleteTour(int id)
+        [Route("delete/permanently/{id}")] // DELETE: tour/delete/permanently/{id}
+        public async Task<IHttpActionResult> DeleteTour(int id)
         {
             try
             {
-                var tourDelete = db.Tours.Find(id);
+                var tourDelete = await db.Tours.FindAsync(id);
 
                 db.Tours.Remove(tourDelete);
-                db.SaveChanges();
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                await db.SaveChangesAsync();
+                return Ok(new { message = "success" });
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     InnerException = ex.InnerException?.Message,
                     DetailedInnerException = ex.InnerException?.InnerException?.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
-
         }
 
         [HttpPatch]
-        [Route("restore")]  //PATCH: tour/restore
-        public ActionResult RestorePost(int id)
+        [Route("restore")] // PATCH: tour/restore
+        public async Task<IHttpActionResult> RestorePost(int id)
         {
             try
             {
@@ -484,55 +468,52 @@ namespace WebBackendProject.Controllers
                 db.Entry(tour).Property(b => b.IsDeleted).IsModified = true;
                 db.Entry(tour).Property(b => b.DeletedAt).IsModified = true;
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                return Ok(new { message = "success" });
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
 
-
         [HttpGet]
-        [Route("stars/{tour_id}")]  // GET: tour/stars/{tour_id}
-        public ActionResult TourStars(int tour_id)
+        [Route("stars/{tour_id}")] // GET: tour/stars/{tour_id}
+        public async Task<IHttpActionResult> TourStars(int tour_id)
         {
             try
             {
-                var averageStar = db.TourPackages
+                var averageStar = await db.TourPackages
                     .Where(t => t.Tour.Id == tour_id)
                     .Select(t => (double?)t.TourReviews
                         .Average(rv => (int?)rv.Star) ?? 0
                     )
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
-                return Json(averageStar, JsonRequestBehavior.AllowGet);
+                return Ok(averageStar);
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     Exception = ex.Message,
                     StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
 
-
-
         [HttpGet]
-        [Route("review/{tour_id}")]  //GET: tour/review/{tour_id}
-        public ActionResult Reviews(int tour_id)
+        [Route("review/{tour_id}")] // GET: tour/review/{tour_id}
+        public async Task<IHttpActionResult> Reviews(int tour_id)
         {
             try
             {
-                var reviews = db.TourReviews
+                var reviews = await db.TourReviews
                     .Include(r => r.TourPackage)
                     .Include(r => r.User)
                     .Where(r => r.TourPackage.TourId == tour_id)
@@ -544,25 +525,24 @@ namespace WebBackendProject.Controllers
                         r.User.UserProfile.FirstName,
                         r.User.UserProfile.LastName,
                     })
-                    .ToList();
+                    .ToListAsync();
 
                 if (reviews.Count == 0)
                 {
-                    return Json(new { message = "No reviews" }, JsonRequestBehavior.AllowGet);
+                    return Ok(new { message = "No reviews" });
                 }
 
-                return Json(reviews, JsonRequestBehavior.AllowGet);
+                return Ok(reviews);
             }
             catch (Exception ex)
             {
-                return Json(new
+                return BadRequest(new
                 {
                     message = "An error occurred while fetching reviews",
                     exception = ex.Message,
                     stackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
+                }.ToString());
             }
         }
-
     }
 }
