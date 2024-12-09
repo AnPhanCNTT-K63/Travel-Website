@@ -53,12 +53,10 @@ export const checkStatus = async (userId) => {
   }
 };
 
-//PATCH: booking/delete/soft
+//PATCH: booking/delete/soft/{bookingId}
 export const softDeleteBooking = async (bookingId) => {
   try {
-    const response = await apiClient.patch(`/booking/delete/soft`, {
-      bookingId: bookingId,
-    });
+    const response = await apiClient.patch(`/booking/delete/soft/${bookingId}`);
     return response.data;
   } catch (error) {
     handleApiError(error);

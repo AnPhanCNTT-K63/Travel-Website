@@ -2,14 +2,15 @@ import apiClient from "../AxiosConfiguration";
 import handleApiError from "../ErrorHandlle";
 
 // GET: tour/tours/{page}/{pageSize}
-export const getTours = async (page, pageSize, filters) => {
+export const getTours = async (page, pageSize, filters = {}, region) => {
   try {
     const params = {
       page,
       pageSize,
       ...filters,
-      "priceRange[0]": filters.priceRange ? filters.priceRange[0] : null,
-      "priceRange[1]": filters.priceRange ? filters.priceRange[1] : null,
+      "priceRange[0]": filters?.priceRange?.[0] || null,
+      "priceRange[1]": filters?.priceRange?.[1] || null,
+      region,
     };
 
     const response = await apiClient.get(`/tour/tours`, { params });

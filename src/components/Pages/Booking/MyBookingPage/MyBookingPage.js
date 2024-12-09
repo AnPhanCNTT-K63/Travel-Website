@@ -97,7 +97,7 @@ export default function MyBookingPage() {
       const updateStatus = async () => {
         try {
           const res = await setStatus({
-            bookingId: storedData.bookingId,
+            bookingId: storedData?.bookingId,
             status: "cancel",
           });
           console.log("Status updated:", res);
@@ -108,7 +108,7 @@ export default function MyBookingPage() {
 
       updateStatus();
     }
-  }, [timerExpired, storedData.bookingId]);
+  }, [timerExpired, storedData?.bookingId]);
 
   const handleFilter = async (filterType) => {
     try {

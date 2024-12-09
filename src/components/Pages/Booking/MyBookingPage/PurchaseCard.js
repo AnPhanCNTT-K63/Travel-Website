@@ -178,7 +178,7 @@ const PurchaseCard = ({
             <Box display="flex" alignItems="center" gap={1} mb={1}>
               <CalendarTodayOutlinedIcon color="primary" />
               <Typography variant="body1">
-                <strong>Date of Travel:</strong> {data.BookingDate}
+                <strong>Date of Travel:</strong> {data?.BookingDate}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center" gap={1} mb={1}>
