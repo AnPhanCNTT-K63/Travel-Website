@@ -8,6 +8,9 @@ using System.Web.Mvc;
 using WebBackendProject.Models;
 using System.Web.Helpers;
 using WebBackendProject.Models.DTO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace WebBackendProject.Controllers
 {
@@ -126,6 +129,26 @@ namespace WebBackendProject.Controllers
             else { return Json(new { message = "Success"}, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
+
+
+        public async Task<bool> ValidateGoogleTokenAsync(string tokenId)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={tokenId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var payload = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Google Payload: " + payload);
+                    // Optional: Parse payload and extract user info like email, name, etc.
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
     }
 }

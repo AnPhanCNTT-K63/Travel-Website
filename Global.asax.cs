@@ -16,11 +16,11 @@ namespace WebBackendProject
             // Enable CORS globally
             var cors = new EnableCorsAttribute("*", "*", "*");
             GlobalConfiguration.Configuration.EnableCors(cors);  // Enable CORS for all controllers
+            GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // Register all areas, routes, and Web API configuration
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
         }
 
         // Handle preflight requests (OPTIONS)

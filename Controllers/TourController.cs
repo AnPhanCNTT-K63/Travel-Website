@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using WebBackendProject.Models;
 
 namespace WebBackendProject.Controllers
@@ -16,8 +17,8 @@ namespace WebBackendProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("tours/{page}/{pageSize}")] // GET: tour/tours/{page}/{pageSize}
-        public ActionResult Tours(int page, int pageSize, string searchQuery, string searchBy, string sortBy)
+        [Route("tours")] // GET: tour/tours
+        public ActionResult Tours(int page, int pageSize, string searchQuery, string searchBy, string sortBy, int?[] priceRange)
         {
             var query = db.Tours
                 .Where(t => t.IsDeleted == false);
@@ -58,8 +59,6 @@ namespace WebBackendProject.Controllers
                 query = query.OrderBy(t => t.Id);
             }
 
-
-
             var toursWithMinPrice = query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -83,6 +82,13 @@ namespace WebBackendProject.Controllers
                 })
                 .ToList();
 
+            if (priceRange != null)
+            {
+                toursWithMinPrice = toursWithMinPrice
+                    .Where(t => priceRange[0] <= t.MinPrice && t.MinPrice <= priceRange[1])
+                    .ToList();
+            }
+
             int totalTours = query.Count();
 
             return Json(new
@@ -100,14 +106,13 @@ namespace WebBackendProject.Controllers
         {
             try
             {
-               
                     var user = db.Users.Find(user_id);
                     tour.User = user;
                     tour.CreatedAt = DateTime.UtcNow;
                     tour.UpdateAt = DateTime.UtcNow;
                     db.Tours.Add(tour);
                     db.SaveChanges();
-
+            
                     foreach (TourPackage package in tourPackages)
                     {
                         package.Tour = tour;
@@ -183,30 +188,7 @@ namespace WebBackendProject.Controllers
                     StackTrace = ex.StackTrace
                 }, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        [HttpGet]
-        [Route("package/{tour_id}")] //GET: tour/package/{tour_id}
-        public ActionResult PackageByTourId(int tour_id)
-        {
-            try
-            {
-                var packages = db.TourPackages
-                    .Where(p => p.Tour.Id == tour_id)
-                    .ToList();
-
-
-                return Json(packages, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    Exception = ex.Message,
-                    StackTrace = ex.StackTrace
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        }  
 
         [HttpGet]
         [Route("package/count/{tour_id}")] //GET: tour/package/count/{tour_id}
@@ -519,15 +501,10 @@ namespace WebBackendProject.Controllers
             {
                 var averageStar = db.TourPackages
                     .Where(t => t.Tour.Id == tour_id)
-                    .Select(t => t.TourReviews
-                        .Average(rv => rv.Star)
+                    .Select(t => (double?)t.TourReviews
+                        .Average(rv => (int?)rv.Star) ?? 0
                     )
                     .FirstOrDefault();
-
-                if (averageStar == null)
-                {
-                    return Json(0, JsonRequestBehavior.AllowGet);
-                }
 
                 return Json(averageStar, JsonRequestBehavior.AllowGet);
             }
@@ -542,36 +519,44 @@ namespace WebBackendProject.Controllers
         }
 
 
+
         [HttpGet]
         [Route("review/{tour_id}")]  //GET: tour/review/{tour_id}
         public ActionResult Reviews(int tour_id)
-            {
+        {
             try
             {
                 var reviews = db.TourReviews
-                                .Include(r => r.TourPackage)
-                                .Include(r => r.User)
-                                .Where(t => t.TourPackage.TourId == tour_id)
-                                .Select(r => new
-                                {
-                                    r.Review,
-                                    r.Star,
-                                    r.TourPackage.Name,
-                                    r.User.UserProfile.FirstName,
-                                    r.User.UserProfile.LastName,
-                                });
+                    .Include(r => r.TourPackage)
+                    .Include(r => r.User)
+                    .Where(r => r.TourPackage.TourId == tour_id)
+                    .Select(r => new
+                    {
+                        r.Review,
+                        r.Star,
+                        r.TourPackage.Name,
+                        r.User.UserProfile.FirstName,
+                        r.User.UserProfile.LastName,
+                    })
+                    .ToList();
+
+                if (reviews.Count == 0)
+                {
+                    return Json(new { message = "No reviews" }, JsonRequestBehavior.AllowGet);
+                }
+
                 return Json(reviews, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 return Json(new
                 {
-                    Exception = ex.Message,
-                    StackTrace = ex.StackTrace
+                    message = "An error occurred while fetching reviews",
+                    exception = ex.Message,
+                    stackTrace = ex.StackTrace
                 }, JsonRequestBehavior.AllowGet);
-
             }
-
         }
+
     }
 }

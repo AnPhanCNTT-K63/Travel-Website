@@ -1,18 +1,22 @@
-﻿using System.Diagnostics;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace WebBackendProject.App_Start
 {
-    public class WebApiConfig
+    public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
-            // Enable CORS
-            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+            // Enable attribute routing
 
-            // Other Web API configuration...
+            config.MapHttpAttributeRoutes();
+
+            // Default Web API route if needed
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
         }
     }
-
 }

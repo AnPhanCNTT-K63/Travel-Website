@@ -72,17 +72,17 @@ namespace WebBackendProject.Controllers
         }
 
         [HttpGet]
-        [Route("tour/{id}")]  //GET: package/tour/{id}
-        public ActionResult PackageById(int id)
+        [Route("package/{tour_id}")] //GET: package/package/{tour_id}
+        public ActionResult PackageByTourId(int tour_id)
         {
             try
             {
-
-                var tourPackages = db.TourPackages
-                    .Where(t => t.Tour.Id == id)
+                var packages = db.TourPackages
+                    .Where(p => p.Tour.Id == tour_id)
                     .ToList();
 
-                return Json(tourPackages, JsonRequestBehavior.AllowGet);
+
+                return Json(packages, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

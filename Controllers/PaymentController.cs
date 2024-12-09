@@ -25,6 +25,15 @@ namespace WebBackendProject.Controllers
             return Json(card, JsonRequestBehavior.AllowGet);
         }
 
+        private string GenerateTransactionId()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(chars, 12)
+                                        .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
         [HttpPost]
         [Route("create/info")] //POST: payment/create/info
         public ActionResult createPaymentInfo(PaymentInfo info)
@@ -37,6 +46,7 @@ namespace WebBackendProject.Controllers
                 PaymentMethod = info.PaymentMethod,
                 PaymentStatus = info.PaymentStatus,
                 PaymentAmount = info.PaymentAmount,
+                TransactionId = "#" + GenerateTransactionId(),
                 BookingId = info.BookingId
             };
 
@@ -156,5 +166,7 @@ namespace WebBackendProject.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+      
     }
- }
+}
