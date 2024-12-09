@@ -1,44 +1,55 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import UserContext from "../../../UserContext";
 import OrderSummary from "./TransactionHistory";
-import ShippingAddress from "../Payment/UserInformation";
+import UserAddress from "./UserInformation";
 import { Box, Grid } from "@mui/material";
 import PaymentCard from "./CreditCard";
 import InvoiceList from "./InvoiceList";
-import MediaCard from "./MediaCard";
 import MethodPayment from "./MethodPayment";
 import example from "../../../assets/images/mastercard-logo.png";
 import exampleLogo from "../../../assets/images/visa-logo.png";
 import styles from "../../../styles/Billing.module.css";
+import Swal from "sweetalert2";
+import { storeBillingAddress } from "../../../api/Services/PaymentServices";
+import AddPaymemt from "../Payment/AddPaymentPage/AddPayment";
 
 const Billing = () => {
-  const fakeOrder = {
-    products: [
-      {
-        image: "fakeImage",
-        name: "3-Day Tour to Bali",
-        unitPrice: 299.99,
-        PurchaseDate: "2022-12-31",
-        quantity: 2,
-      },
-      {
-        image: "fakeImage",
-        name: "7-Day Cruise to the Caribbean",
-        unitPrice: 899.99,
-        PurchaseDate: "2022-1-3",
-        quantity: 2,
-      },
-      {
-        image: "fakeImage",
-        name: "Day Trip to Eiffel Tower",
-        unitPrice: 149.99,
-        PurchaseDate: "2022-2-1",
-        quantity: 4,
-      },
-    ],
-  };
-
   const cardNumber = "1234567812341234";
   const logoUrl = example; // Đường dẫn đến logo
+  const user = useContext(UserContext);
+
+  const onSubmit = async (address) => {
+    if (!user?.userId) return;
+
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to submit your billing address.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, submit",
+      cancelButtonText: "No, cancel",
+    });
+
+    if (confirm.isConfirmed) {
+      const res = await storeBillingAddress(user.userId, address);
+
+      if (res?.message === "success") {
+        Swal.fire({
+          title: "Success!",
+          text: "Your billing address has been submitted successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "There was an issue submitting your billing address. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+  };
 
   return (
     <Box
@@ -56,22 +67,13 @@ const Billing = () => {
         <Grid item xs={12} md={4}>
           <PaymentCard />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <MediaCard />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <MediaCard />
-            </Grid>
-          </Grid>
-          <MethodPayment cardNumber={cardNumber} logoSrc={logoUrl} />
-          <MethodPayment
-            cardNumber={"5426587245124245"}
-            logoSrc={exampleLogo}
-          />
-        </Grid>
+      </Grid>
+
+      <Grid container spacing={2}>
         {/* InvoiceList takes 3/12 columns */}
+        <Grid item xs={12} md={8}>
+          <UserAddress onSubmit={onSubmit} />
+        </Grid>
         <Grid item xs={12} md={4}>
           <InvoiceList />
         </Grid>
@@ -79,11 +81,11 @@ const Billing = () => {
 
       {/* OrderSummary now positioned below InvoiceList, to the right */}
       <Grid container spacing={2} sx={{ mt: 4 }}>
-        <Grid item xs={12} md={8}>
-          <ShippingAddress />
+        <Grid item xs={12} md={9} style={{ marginBottom: "200px" }}>
+          <AddPaymemt />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <OrderSummary order={fakeOrder} styles={styles} />
+        <Grid item xs={12} md={3}>
+          <OrderSummary styles={styles} />
         </Grid>
       </Grid>
     </Box>

@@ -42,9 +42,9 @@ export const getPostByUserId = async (user_id) => {
 };
 
 //POST: /post/create
-export const createPost = async (postData) => {
+export const createPost = async (postToCreate) => {
   try {
-    const response = await apiClient.post(`/post/create`, postData);
+    const response = await apiClient.post(`/post/create`, postToCreate);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -88,9 +88,7 @@ export const deletePost = async (id) => {
 //PATCH: post/restore
 export const restorePost = async (id) => {
   try {
-    const response = await apiClient.patch(`/post/restore`, {
-      id: id,
-    });
+    const response = await apiClient.patch(`/post/restore/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -140,9 +138,7 @@ export const getArrangeVefifyPost = async (condition) => {
 //PATCH: post/verify/{postId}
 export const verifyPost = async (postId, status) => {
   try {
-    const response = await apiClient.patch(`/post/verify/${postId}`, {
-      status,
-    });
+    const response = await apiClient.patch(`/post/verify/${postId}/${status}`);
     return response.data;
   } catch (error) {
     handleApiError(error);

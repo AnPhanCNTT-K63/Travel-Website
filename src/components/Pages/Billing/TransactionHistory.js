@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
+import UserContext from "../../../UserContext";
+import { getPayment } from "../../../api/Services/PaymentServices";
 
 const transactions = [
   {
@@ -46,6 +48,29 @@ const transactions = [
 ];
 
 const OrderSummary = ({ styles }) => {
+  const [transactions, setTransactions] = useState([]);
+  const user = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      if (!user?.userId) return;
+
+      const res = await getPayment(user.userId);
+      setTransactions(res);
+    };
+    fetchTransaction();
+  }, [user.userId]);
+
+  function formatDate(jsonDate) {
+    const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+    });
+  }
+
   return (
     <div className={styles.transactionContainer}>
       <h1>Your Transactions</h1>
@@ -59,29 +84,27 @@ const OrderSummary = ({ styles }) => {
         {transactions.map((transaction) => (
           <div key={transaction.id} className={styles.transaction}>
             <div className={styles.transactionHeader}>
-              <span>{transaction.date}</span>
+              <span>{formatDate(transaction.PaymentDate)}</span>
             </div>
             <div className={styles.transactionBody}>
-              <span className={styles.description}>
-                {transaction.description}
-              </span>
+              <span className={styles.description}>{transaction.Name}</span>
               <span
                 className={`${styles.amount} ${
-                  transaction.amount < 0
+                  transaction.PaymentStatus == "success"
                     ? styles.amountNegative
                     : styles.amountPositive
                 }`}
               >
-                {transaction.amount < 0
-                  ? `- $${Math.abs(transaction.amount)}`
-                  : `+ $${transaction.amount}`}
+                {transaction.PaymentStatus == "fail"
+                  ? `+ $${transaction.PaymentAmount}`
+                  : `- $${transaction.PaymentAmount}`}
               </span>
             </div>
             <div className={styles.transactionStatus}>
-              {transaction.status === "pending" ? (
-                <span className={styles.pending}>Pending</span>
+              {transaction.PaymentStatus === "fail" ? (
+                <span className={styles.pending}>Failed</span>
               ) : (
-                <span className={styles.completed}>Completed</span>
+                <span className={styles.completed}>Success</span>
               )}
             </div>
           </div>

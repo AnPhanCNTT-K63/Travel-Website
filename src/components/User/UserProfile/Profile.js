@@ -89,10 +89,10 @@ const Profile = () => {
     QuickIntroduction: userProfile.profile.QuickIntroduction,
   };
 
-  console.log(profile);
-
   const onClickSave = async () => {
     try {
+      console.log(profile);
+
       const res = await updateUserProfile(profile);
 
       if (res.message === "Profile updated successfully") {

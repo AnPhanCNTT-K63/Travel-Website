@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Paper, TextField, Button, Typography, Grid } from "@mui/material";
 
-const ShippingAddress = ({ onSubmit }) => {
+const UserAddress = ({ onSubmit }) => {
   const [address, setAddress] = useState({
     fullName: "",
     street: "",
@@ -10,6 +10,7 @@ const ShippingAddress = ({ onSubmit }) => {
     postalCode: "",
     country: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +20,7 @@ const ShippingAddress = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Kiểm tra các trường dữ liệu
+    // Check for missing fields
     const missingFields = Object.entries(address).filter(
       ([key, value]) => !value
     );
@@ -30,15 +31,24 @@ const ShippingAddress = ({ onSubmit }) => {
       return;
     }
 
-    // Gửi dữ liệu ra ngoài (callback từ props)
-    onSubmit(address);
+    // Validate postal code to ensure it's an integer
+    if (!/^\d+$/.test(address.postalCode)) {
+      setError("Postal code must be a valid number.");
+      return;
+    } else {
+      setError(""); // Clear any previous error
+    }
+
+    // Format address as a comma-separated string
+    const addressString = Object.values(address).join(", ");
+    onSubmit(addressString);
   };
 
   return (
     <Box sx={{ minWidth: "50%", padding: 2, maxWidth: "100%" }}>
       <Paper sx={{ padding: 2 }}>
         <Typography variant="h6" gutterBottom>
-          ____
+          Billing Address
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -90,6 +100,8 @@ const ShippingAddress = ({ onSubmit }) => {
                 value={address.postalCode}
                 onChange={handleChange}
                 required
+                error={!!error} // Show error styling if error exists
+                helperText={error} // Display error message
               />
             </Grid>
             <Grid item xs={6}>
@@ -119,4 +131,4 @@ const ShippingAddress = ({ onSubmit }) => {
   );
 };
 
-export default ShippingAddress;
+export default UserAddress;

@@ -71,7 +71,6 @@ export default function SignInCard() {
 
     try {
       const user = await signin(data);
-      console.log(data);
       if (user && user.token) {
         if (rememberMe) {
           localStorage.setItem("token", user.token);
@@ -91,33 +90,28 @@ export default function SignInCard() {
 
         console.log("Token stored in localStorage:", user.token);
         console.log("User info:", user);
-      } else if (
-        user.error === "Email Not Found" ||
-        user.error === "Incorrect Password"
+      }
+    } catch (err) {
+      if (
+        err.message === "Email Not Found" ||
+        err.message === "Incorrect Password"
       ) {
         setEmailError(true);
         setPasswordError(true);
         setPasswordErrorMessage("Incorrect Email Or Password");
       } else if (
-        user.error ===
+        err.message ===
         "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days"
       ) {
         setEmailError(true);
-        setEmailErrorMessage(user.error);
+        setEmailErrorMessage(err.message);
       } else if (
-        user.error ===
+        err.message ===
         "Your account has been banned. Please contact us to know details."
       ) {
         setEmailError(true);
-        setEmailErrorMessage(user.error);
+        setEmailErrorMessage(err.message);
       }
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "An Error Occurred",
-        text: "Unable to sign in. Please try again later.",
-        confirmButtonText: "OK",
-      });
     }
   };
 

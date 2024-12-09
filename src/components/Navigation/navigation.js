@@ -52,6 +52,8 @@ import AdminTourDetails from "../Admin/TourManagement/TourDetails";
 import TourAndPackageDetails from "../Admin/TourManagement/TourAndPackageDetails";
 import PostManagement from "../Admin/PostManagement/PostManagement";
 import PostPreview from "../Pages/Post/PostPreview";
+import GoogleLogin from "../../GoogleLoginButton";
+import LoginByGoogle from "../../GoogleLoginButton";
 
 function Navigation() {
   const location = useLocation();
@@ -118,7 +120,7 @@ function Navigation() {
         <Route path="/statistics/revenue/:year" element={<RevenueChart />} />
 
         <Route path="/image/upload" element={<ImageUpload />} />
-
+        <Route path="/google" element={<LoginByGoogle />} />
         <Route
           path="/admin/tour/detal/:tourId"
           element={<TourAndPackageDetails />}

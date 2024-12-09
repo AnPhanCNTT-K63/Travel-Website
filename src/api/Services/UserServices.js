@@ -70,12 +70,10 @@ export const deleteAccount = async (user_Id) => {
   }
 };
 
-//POST: user/profile/update
+//PUT: user/profile/update
 export const updateUserProfile = async (profile) => {
   try {
-    const response = await apiClient.put(`/user/profile/update`, {
-      profile: profile,
-    });
+    const response = await apiClient.put(`/user/profile/update`, profile);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -83,10 +81,10 @@ export const updateUserProfile = async (profile) => {
 };
 
 //POST: admin/restore/account
-export const restoreAccount = async (user_Id) => {
+export const restoreAccount = async (UserId) => {
   try {
     const response = await apiClient.post(`/admin/restore/account`, {
-      user_id: user_Id,
+      UserId: UserId,
     });
     return response.data;
   } catch (error) {
@@ -145,9 +143,9 @@ export const getUnacceptedPayment = async () => {
 };
 
 //PATCH: admin/ban
-export const banUser = async (user_id) => {
+export const banUser = async (userId) => {
   try {
-    const response = await apiClient.patch(`/admin/ban`, { user_id: user_id });
+    const response = await apiClient.patch(`/admin/ban`, { userId });
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -155,10 +153,10 @@ export const banUser = async (user_id) => {
 };
 
 //PATCH: admin/unban
-export const unbanUser = async (user_id) => {
+export const unbanUser = async (userId) => {
   try {
     const response = await apiClient.patch(`/admin/unban`, {
-      user_id: user_id,
+      userId: userId,
     });
     return response.data;
   } catch (error) {
@@ -217,10 +215,10 @@ export const getProfileBlockedUser = async () => {
 };
 
 //PATCH: admin/block/profile
-export const blockUserProfile = async (user_id) => {
+export const blockUserProfile = async (userId) => {
   try {
     const response = await apiClient.patch(`/admin/block/profile`, {
-      user_id: user_id,
+      userId: userId,
     });
     return response.data;
   } catch (error) {
@@ -229,10 +227,10 @@ export const blockUserProfile = async (user_id) => {
 };
 
 //PATCH: admin/unblock/profile
-export const unblockUserProfile = async (user_id) => {
+export const unblockUserProfile = async (userId) => {
   try {
     const response = await apiClient.patch(`/admin/unblock/profile`, {
-      user_id: user_id,
+      userId: userId,
     });
     return response.data;
   } catch (error) {
