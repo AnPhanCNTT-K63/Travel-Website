@@ -135,7 +135,7 @@ const FilterBox = ({ onSearch }) => {
         value={priceRange}
         onChange={handlePriceChange}
         valueLabelDisplay="auto"
-        min={0}
+        min={1}
         max={10000}
         step={50}
         sx={{

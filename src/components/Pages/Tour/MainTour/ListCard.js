@@ -18,7 +18,7 @@ export default function ListCard() {
     searchQuery: "",
     searchBy: "",
     sortBy: "",
-    priceRange: [0, 10000],
+    priceRange: [1, 10000],
   });
 
   const handleSearch = (newFilters) => {
@@ -33,7 +33,6 @@ export default function ListCard() {
   const fetchTours = async (page, filters) => {
     try {
       const res = await getTours(page, cardsPerPage, filters);
-      console.log(res);
       setTours(res.tours);
       setTotalPages(res.totalPages);
       setTotalTours(res.totalTours);

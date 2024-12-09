@@ -24,9 +24,7 @@ const DeletedItemsPage = () => {
         const posts = await getDeletedPost(id);
         console.log(posts);
         setDeletedPosts(posts);
-      } catch (err) {
-        alert("Can't get posts");
-      }
+      } catch (err) {}
     };
 
     fetchDeletedPosts();
