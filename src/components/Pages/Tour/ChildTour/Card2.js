@@ -1,5 +1,4 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -9,19 +8,29 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { useParams, useNavigate } from "react-router-dom";
 
-const Card2 = ({ item }) => {
-  const navigate = useNavigate();
-  const { id, title, description, image, price, rating } = item;
-
+export default function Card2({ item, packages, rating, reviews }) {
   const handleCardClick = () => {
-    navigate(`/detail/${id}`); // Chuyển hướng đến trang DetailPage với `id`
+    navigate(`/detail/${item.id}`); // Chuyển hướng đến trang DetailPage với `id`
   };
 
-  const renderStars = () => {
+  const { tourId } = useParams();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState(null);
+
+  const handleOpen = (pkg) => {
+    setSelectedPackage(pkg);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+  console.log(rating);
+  const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      if (rating >= i + 1) {
+      if (rating > i) {
         stars.push(<StarIcon key={i} sx={{ color: "gold" }} />);
       } else if (rating > i && rating < i + 1) {
         stars.push(<StarHalfIcon key={i} sx={{ color: "gold" }} />);
@@ -34,28 +43,31 @@ const Card2 = ({ item }) => {
 
   return (
     <Card
-      sx={{ margin: "10px", maxWidth: "300px", boxShadow: 3, cursor: "pointer" }}
+      sx={{
+        margin: "10px",
+        maxWidth: "300px",
+        boxShadow: 3,
+        cursor: "pointer",
+      }}
       onClick={handleCardClick}
     >
       <CardMedia
-        sx={{ height: "180px", objectFit: "cover" }}
-        image={image || "https://via.placeholder.com/300"}
-        title={title}
+        component="img"
+        image={`/${item.Image}`} // Hình ảnh từ API
+        alt={item.Name} // Alt text cho SEO
       />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
-          {title || "Default Title"}
+          {item.Name}
         </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {description || "Default description goes here."}
-        </Typography>
+        
       </CardContent>
       <CardActions>
         <Box sx={{ width: "100%" }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             <span style={{ fontWeight: "bold" }}>Price:</span>
             <Box component="span" sx={{ ml: 1 }}>
-              ${price || "0.00"}
+            {`Price: $${item.MinPrice}`}
             </Box>
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
@@ -65,6 +77,4 @@ const Card2 = ({ item }) => {
       </CardActions>
     </Card>
   );
-};
-
-export default Card2;
+}

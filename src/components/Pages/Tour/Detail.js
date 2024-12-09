@@ -6,7 +6,6 @@ import {
   getTourPackagesById,
   getTourStars,
 } from "../../../api/Services/TourAndPackageServices";
-import TourCard from "./MainTour/Card";
 import DetailCard from "./DetailCard";
 
 export default function DetailPage() {

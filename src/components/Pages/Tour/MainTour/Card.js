@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-export default function TourCard({ item, packages, rating, reviews}) {
+export default function TourCard({ item }) {
   return (
     <Card
       sx={{
@@ -56,7 +56,7 @@ export default function TourCard({ item, packages, rating, reviews}) {
             color: "text.secondary",
             fontWeight: "bold",
             fontSize: "1rem",
-            color:"rgb(249,115,11)",
+            color: "rgb(249,115,11)",
           }}
         >
           {`Price: $${item.MinPrice}`}
