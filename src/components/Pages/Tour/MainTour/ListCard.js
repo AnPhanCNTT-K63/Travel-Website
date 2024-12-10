@@ -28,7 +28,7 @@ export default function ListCard() {
 
   useEffect(() => {
     fetchTours(page, filters);
-  }, [page, filters]); // Mỗi khi trang thay đổi, sẽ gọi lại API
+  }, [page, filters]);
 
   const fetchTours = async (page, filters) => {
     try {

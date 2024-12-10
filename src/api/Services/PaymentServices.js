@@ -14,9 +14,7 @@ export const getPaymentCard = async (userId) => {
 //POST: payment/create/info
 export const createPaymentInfo = async (info) => {
   try {
-    const response = await apiClient.post(`/payment/create/info`, {
-      info: info,
-    });
+    const response = await apiClient.post(`/payment/create/info`, info);
     return response.data;
   } catch (error) {
     handleApiError(error);

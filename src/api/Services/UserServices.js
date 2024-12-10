@@ -44,11 +44,9 @@ export const getAccountInfo = async (user_id) => {
 };
 
 //PUT: user/update/account
-export const updateAccount = async (user) => {
+export const updateAccount = async (userInfo) => {
   try {
-    const response = await apiClient.put(`/user/update/account`, {
-      userInfo: user,
-    });
+    const response = await apiClient.put(`/user/update/account`, userInfo);
     return response.data;
   } catch (error) {
     handleApiError(error);

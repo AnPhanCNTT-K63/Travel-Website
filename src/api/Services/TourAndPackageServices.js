@@ -1,7 +1,7 @@
 import apiClient from "../AxiosConfiguration";
 import handleApiError from "../ErrorHandlle";
 
-// GET: tour/tours/{page}/{pageSize}
+// GET: tour/tours
 export const getTours = async (page, pageSize, filters = {}, region) => {
   try {
     const params = {

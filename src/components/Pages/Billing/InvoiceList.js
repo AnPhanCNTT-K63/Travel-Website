@@ -19,13 +19,19 @@ const InvoiceList = () => {
   }, [user.userId]);
 
   function formatDate(jsonDate) {
-    const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
-    const date = new Date(timestamp);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "2-digit",
-      year: "numeric",
+    const date = new Date(jsonDate);
+
+    const formattedDate = date.toLocaleDateString("en-GB", {
+      timeZone: "Asia/Bangkok",
     });
+    const formattedTime = date.toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Bangkok",
+    });
+
+    return `${formattedDate.replace(/\//g, "-")} ${formattedTime}`;
   }
 
   return (

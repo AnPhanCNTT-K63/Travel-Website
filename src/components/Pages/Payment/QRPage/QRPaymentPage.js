@@ -67,6 +67,7 @@ export default function QRPaymentPage() {
 
   const onConfirmClick = async () => {
     try {
+      console.log(paymentInfo);
       await createPaymentInfo(paymentInfo);
       await setStatus({
         bookingId: bookingId,

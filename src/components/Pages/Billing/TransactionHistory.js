@@ -2,51 +2,6 @@ import React, { useEffect, useContext, useState } from "react";
 import UserContext from "../../../UserContext";
 import { getPayment } from "../../../api/Services/PaymentServices";
 
-const transactions = [
-  {
-    id: 1,
-    description: "Netflix",
-    date: "27 March 2021, at 12:30 PM",
-    amount: -2500,
-    status: "completed",
-  },
-  {
-    id: 2,
-    description: "Apple",
-    date: "27 March 2021, at 04:30 AM",
-    amount: 2000,
-    status: "completed",
-  },
-  {
-    id: 3,
-    description: "Stripe",
-    date: "26 March 2021, at 12:30 AM",
-    amount: 750,
-    status: "completed",
-  },
-  {
-    id: 4,
-    description: "HubSpot",
-    date: "26 March 2021, at 11:30 AM",
-    amount: 1050,
-    status: "completed",
-  },
-  {
-    id: 5,
-    description: "Creative Tim",
-    date: "26 March 2021, at 07:30 AM",
-    amount: 2400,
-    status: "completed",
-  },
-  {
-    id: 6,
-    description: "Webflow",
-    date: "26 March 2021, at 04:00 AM",
-    amount: 0,
-    status: "pending",
-  },
-];
-
 const OrderSummary = ({ styles }) => {
   const [transactions, setTransactions] = useState([]);
   const user = useContext(UserContext);
@@ -62,13 +17,19 @@ const OrderSummary = ({ styles }) => {
   }, [user.userId]);
 
   function formatDate(jsonDate) {
-    const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
-    const date = new Date(timestamp);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "2-digit",
-      year: "numeric",
+    const date = new Date(jsonDate);
+
+    const formattedDate = date.toLocaleDateString("en-GB", {
+      timeZone: "Asia/Bangkok",
     });
+    const formattedTime = date.toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Bangkok",
+    });
+
+    return `${formattedDate.replace(/\//g, "-")} ${formattedTime}`;
   }
 
   return (

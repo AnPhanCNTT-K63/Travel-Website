@@ -17,7 +17,7 @@ const FilterBox = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [priceRange, setPriceRange] = useState([1, 10000]);
 
   const handleSearch = () => {
     onSearch({ searchQuery, searchBy, sortBy, priceRange });
