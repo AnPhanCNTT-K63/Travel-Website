@@ -106,11 +106,15 @@ export default function UserBookingPage() {
     Phone: person.phone,
   }));
 
-  const data = {
-    User_Id: user.userId,
+  const info = {
     Booking: Booking,
     Contact: Contact,
     Traveler: Traveler,
+  };
+
+  const data = {
+    info: info,
+    User_Id: user.userId,
   };
 
   const totalTemp = ticket.totalPrice;

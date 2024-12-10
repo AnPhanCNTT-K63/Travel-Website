@@ -7,11 +7,12 @@ export const getTours = async (page, pageSize, filters = {}, region) => {
     const params = {
       page,
       pageSize,
-      ...filters,
-      "priceRange[0]": filters?.priceRange?.[0] || null,
-      "priceRange[1]": filters?.priceRange?.[1] || null,
       region,
+      ...filters,
+      priceRange0: filters?.priceRange?.[0] || null,
+      priceRange1: filters?.priceRange?.[1] || null,
     };
+    console.log(params);
 
     const response = await apiClient.get(`/tour/tours`, { params });
     return response.data;
@@ -132,7 +133,7 @@ export const updateTourAndPackages = async (data) => {
 //PATCH: tour/delete/soft
 export const deleteSoftTour = async (id) => {
   try {
-    const response = await apiClient.patch(`/tour/delete/soft`, { id: id });
+    const response = await apiClient.patch(`/tour/delete/soft/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -164,9 +165,7 @@ export const deletePermanentlyTour = async (id) => {
 //PATCH: tour/restore
 export const restoreTour = async (id) => {
   try {
-    const response = await apiClient.patch(`/tour/restore`, {
-      id: id,
-    });
+    const response = await apiClient.patch(`/tour/restore/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
