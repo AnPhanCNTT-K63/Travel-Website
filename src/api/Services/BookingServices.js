@@ -53,12 +53,10 @@ export const checkStatus = async (userId) => {
   }
 };
 
-//PATCH: booking/delete/soft
+//PATCH: booking/delete/soft/{bookingId}
 export const softDeleteBooking = async (bookingId) => {
   try {
-    const response = await apiClient.patch(`/booking/delete/soft`, {
-      bookingId: bookingId,
-    });
+    const response = await apiClient.patch(`/booking/delete/soft/${bookingId}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -119,6 +117,16 @@ export const getMyPendingBooking = async (userId) => {
 export const getMyCanceledBooking = async (userId) => {
   try {
     const response = await apiClient.get(`/booking/user/canceled/${userId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//GET: booking/statistics/{year}
+export const getBookingStatistics = async (year) => {
+  try {
+    const response = await apiClient.get(`/booking/statistics/${year}`);
     return response.data;
   } catch (error) {
     handleApiError(error);

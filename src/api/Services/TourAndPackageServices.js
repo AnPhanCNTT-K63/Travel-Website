@@ -1,12 +1,19 @@
 import apiClient from "../AxiosConfiguration";
 import handleApiError from "../ErrorHandlle";
 
-
-
 // GET: tour/tours/{page}/{pageSize}
-export const getTours = async (page, pageSize) => {
+export const getTours = async (page, pageSize, filters = {}, region) => {
   try {
-    const response = await apiClient.get(`/tour/tours/${page}/${pageSize}`);
+    const params = {
+      page,
+      pageSize,
+      ...filters,
+      "priceRange[0]": filters?.priceRange?.[0] || null,
+      "priceRange[1]": filters?.priceRange?.[1] || null,
+      region,
+    };
+
+    const response = await apiClient.get(`/tour/tours`, { params });
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -16,19 +23,9 @@ export const getTours = async (page, pageSize) => {
 export const getTourPackages = async () => {
   try {
     const response = await apiClient.get(`/package/packages`);
-    return response.data; 
+    return response.data;
   } catch (error) {
-    handleApiError(error); 
-  }
-};
-
-
-export const getTourPackagesById = async (id) => {
-  try {
-    const response = await apiClient.get(`/package/tour/${id}`);
-    return response.data; 
-  } catch (error) {
-    handleApiError(error); 
+    handleApiError(error);
   }
 };
 
@@ -36,9 +33,9 @@ export const getTourPackagesById = async (id) => {
 export const getTourStars = async (id) => {
   try {
     const response = await apiClient.get(`/tour/stars/${id}`);
-    return response.data; 
+    return response.data;
   } catch (error) {
-    handleApiError(error); 
+    handleApiError(error);
   }
 };
 
@@ -46,9 +43,9 @@ export const getTourStars = async (id) => {
 export const getReviews = async (id) => {
   try {
     const response = await apiClient.get(`tour/review/${id}`);
-    return response.data; 
+    return response.data;
   } catch (error) {
-    handleApiError(error); 
+    handleApiError(error);
   }
 };
 
@@ -102,10 +99,10 @@ export const getTourByUserId = async (user_id) => {
   }
 };
 
-//GET: tour/package/{tour_id}
+//GET: package/package/{tour_id}
 export const getPackageByTourId = async (tour_id) => {
   try {
-    const response = await apiClient.get(`/tour/package/${tour_id}`);
+    const response = await apiClient.get(`/package/package/${tour_id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);

@@ -20,7 +20,7 @@ import SouthTour from "../Pages/Tour/DomesticTour/SouthTour";
 import AsiaTour from "../Pages/Tour/InternationalTour/AsiaTour";
 import EuropeTour from "../Pages/Tour/InternationalTour/EuropeTour";
 import AmericaTour from "../Pages/Tour/InternationalTour/AmericaTour";
-import BlogPostDetail from "../Pages/Blog/BlogPostDetail";
+import PostDetail from "../Pages/Post/BlogPostDetail";
 import NotFoundPage from "../../view/NotFoundPage";
 import AccountPage from "../Pages/Account/AccountPage";
 import CreateTourPackage from "../Pages/Tour/CreateTourAndPackage/CreatePackagePage/CreateTourPakage";
@@ -40,6 +40,20 @@ import TourManagement from "../Admin/TourManagement/TourManagement";
 import UpdateTourPage from "../Pages/Tour/UpdateTour/UpdateTourPage";
 import DeletedTourPage from "../Pages/Tour/DeletedTour/DeletedTourPage";
 import BlockedProfilePage from "../../view/BlockedProfilePage";
+import BookingChart from "../Admin/StatisticPage/BookingStatistics/BookingChart";
+import PostChart from "../Admin/StatisticPage/PostStatistics/PostChart";
+import RegisterChart from "../Admin/StatisticPage/RegisterStatistics/RegisterChart";
+import PaymentChart from "../Admin/StatisticPage/PaymentStatistics/PaymentChart";
+import RevenueChart from "../Admin/StatisticPage/RevenueStatistics/RevenueChart";
+import StatisticsPage from "../Admin/StatisticPage/StatisticPage";
+import RevenueYearChart from "../Admin/StatisticPage/RevenueStatistics/RevenueYearChart";
+import ImageUpload from "../Pages/Tour/ImageUpload";
+import AdminTourDetails from "../Admin/TourManagement/TourDetails";
+import TourAndPackageDetails from "../Admin/TourManagement/TourAndPackageDetails";
+import PostManagement from "../Admin/PostManagement/PostManagement";
+import PostPreview from "../Pages/Post/PostPreview";
+import GoogleLogin from "../../GoogleLoginButton";
+import LoginByGoogle from "../../GoogleLoginButton";
 
 function Navigation() {
   const location = useLocation();
@@ -93,8 +107,25 @@ function Navigation() {
             <Route path="/tour/delete/:userId" element={<DeletedTourPage />} />
             <Route path="/tour/update/:tourId" element={<UpdateTourPage />} />
             <Route path="/user/request" element={<UserRequest />} />
+            <Route path="/user/request/post" element={<PostManagement />} />
           </>
         )}
+
+        <Route path="/statistics" element={<StatisticsPage />} />
+        <Route path="/statistics/revenue/year" element={<RevenueYearChart />} />
+        <Route path="/statistics/booking/:year" element={<BookingChart />} />
+        <Route path="/statistics/post/:year" element={<PostChart />} />
+        <Route path="/statistics/register/:year" element={<RegisterChart />} />
+        <Route path="/statistics/payment/:year" element={<PaymentChart />} />
+        <Route path="/statistics/revenue/:year" element={<RevenueChart />} />
+
+        <Route path="/image/upload" element={<ImageUpload />} />
+        <Route path="/google" element={<LoginByGoogle />} />
+        <Route
+          path="/admin/tour/detal/:tourId"
+          element={<TourAndPackageDetails />}
+        />
+
         <Route path="/profile/block" element={<BlockedProfilePage />} />
         <Route path="/create/post" element={<CreatePost />} />
         <Route path="/NorthTour" element={<NorthTour />} />
@@ -104,6 +135,7 @@ function Navigation() {
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />
         <Route path="/billing" element={<Billing />} />
+        <Route path="/post/preview" element={<PostPreview />} />
         <Route path="/payment/add" element={<AddPaymemt />} />
         <Route path="/user/booking" element={<MyBookingPage />} />
         <Route path="/QR/:bookingId" element={<QRPaymentPage />} />
@@ -112,7 +144,7 @@ function Navigation() {
         <Route path="/account/:userId" element={<AccountPage />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/detail/:tourId" element={<DetailPage />} />
-        <Route path="/post/:postId" element={<BlogPostDetail />} />
+        <Route path="/post/:postId" element={<PostDetail />} />
         <Route path="/post/delete/:userId" element={<DeletedPostsPage />} />
         <Route
           path="/traveler/info/:tourPackageId"

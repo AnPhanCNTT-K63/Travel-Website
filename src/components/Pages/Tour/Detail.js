@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  getPackageByTourId,
   getReviews,
   getTourDetail,
   getTourPackagesById,
@@ -12,9 +13,8 @@ export default function DetailPage() {
   const { tourId } = useParams();
   const [tour, setTour] = useState(null);
   const [packages, setPackages] = useState([]);
-  const [tourstars, setTourStars]= useState(0);
-  const [reviews, setReviews]= useState([]);
-
+  const [tourstars, setTourStars] = useState(0);
+  const [reviews, setReviews] = useState([]);
 
   // Get info tour
   useEffect(() => {
@@ -29,11 +29,11 @@ export default function DetailPage() {
     fetchTourDetail();
   }, [tourId]);
 
-    // Get info Tourpackage
+  // Get info Tourpackage
   useEffect(() => {
     const fetchTourDetail = async () => {
       try {
-        const response = await getTourPackagesById(tourId);
+        const response = await getPackageByTourId(tourId);
         setPackages(response);
       } catch (error) {
         console.error("Error fetching tour detail:", error);
@@ -42,7 +42,7 @@ export default function DetailPage() {
     fetchTourDetail();
   }, [tourId]);
 
-    // Get info TourStar
+  // Get info TourStar
   useEffect(() => {
     const fetchTourDetail = async () => {
       try {
@@ -55,7 +55,7 @@ export default function DetailPage() {
     fetchTourDetail();
   }, [tourId]);
 
-    //Get info Review
+  //Get info Review
   useEffect(() => {
     const fetchTourDetail = async () => {
       try {
@@ -68,13 +68,17 @@ export default function DetailPage() {
     fetchTourDetail();
   }, [tourId]);
 
-
   // Hiển thị thông báo nếu không tìm thấy tour
   if (!tour) return <div>Loading...</div>;
 
   return (
     <div>
-      <DetailCard item={tour} packages={packages} rating={tourstars} reviews ={reviews}/>
+      <DetailCard
+        item={tour}
+        packages={packages}
+        rating={tourstars}
+        reviews={reviews}
+      />
     </div>
   );
 }

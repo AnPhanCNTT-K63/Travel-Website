@@ -34,4 +34,6 @@
 /* Hover cho thẻ a */
 .dropdown-menu a:hover {
     color: #007bff;
+    text-decoration: none;
+    background-color: aliceblue;
 }

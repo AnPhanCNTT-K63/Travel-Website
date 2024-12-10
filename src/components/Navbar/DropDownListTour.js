@@ -57,7 +57,7 @@ function DropdownListTour({ show }) {
           marginTop: "10px",
           width: "auto",
           padding: 2,
-          backgroundColor: "white",
+          backgroundColor: "#f1f1f1",
           borderRadius: 1,
           boxShadow: 3,
           position: "relative",
@@ -70,8 +70,10 @@ function DropdownListTour({ show }) {
           onMouseEnter={() => setHoveredDomestic(true)} // Khi hover vào, thay đổi trạng thái hovered thành true
           onClick={handleClickDomestic} // Khi click vào, mở/đóng box con
           sx={{
+            fontWeight:"bold" ,
             "&:hover": {
-              backgroundColor: "#FFA500", // Màu nền khi hover
+              backgroundColor: "aliceblue",
+              color: "#007bff",
             },
           }}
         >
@@ -133,8 +135,10 @@ function DropdownListTour({ show }) {
           onMouseEnter={() => setHoveredInternational(true)} // Khi hover vào, thay đổi trạng thái hovered thành true
           onClick={handleClickInternational} // Khi click vào, mở/đóng box con
           sx={{
+            fontWeight:"bold" ,
             "&:hover": {
-              backgroundColor: "#FFA500", // Màu nền khi hover
+              backgroundColor: "aliceblue",
+              color: "#007bff",
             },
           }}
         >

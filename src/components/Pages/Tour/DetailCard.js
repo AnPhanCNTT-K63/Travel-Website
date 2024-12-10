@@ -40,6 +40,8 @@ export default function DetailCard({ item, packages, rating, reviews }) {
     return stars;
   };
 
+  console.log(renderStars);
+
   return (
     <>
       <Box
@@ -140,7 +142,7 @@ export default function DetailCard({ item, packages, rating, reviews }) {
               borderColor: "rgb(44,62,80)", // Đổi màu vạch phân chia
             }}
           />
-<Typography
+          <Typography
             variant="h5"
             sx={{
               fontWeight: "bold",
@@ -211,7 +213,7 @@ export default function DetailCard({ item, packages, rating, reviews }) {
                   <Button
                     variant="contained"
                     size="large"
-                    onClick={() => navigate(`/booking/${tour.id}`)}
+                    onClick={() => navigate(`/booking/${tour.Id}`)}
                     sx={{
                       backgroundColor: "#3498db",
                       color: "#fff",

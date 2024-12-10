@@ -1,113 +1,100 @@
 import React from "react";
 import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCol,
-  MDBContainer,
-  MDBInput,
-  MDBRow,
-} from "mdb-react-ui-kit";
+  Container,
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+} from "@mui/material";
 
-export default function AddPaymemt() {
+export default function AddPayment() {
   return (
-    <MDBContainer
-      className="py-5"
-      fluid
-      style={{
+    <Container
+      sx={{
         backgroundImage:
           "url(https://mdbcdn.b-cdn.net/img/Photos/Others/background3.webp)",
+        backgroundSize: "cover",
+        minHeight: "100vh",
+        paddingTop: "50px",
       }}
+      maxWidth="xl"
     >
-      <MDBRow className=" d-flex justify-content-center">
-        <MDBCol md="10" lg="8" xl="5">
-          <MDBCard className="rounded-3">
-            <MDBCardBody className="p-4">
-              <div className="text-center mb-4">
-                <h3>Settings</h3>
-                <h6>Payment</h6>
-              </div>
-              <p className="fw-bold mb-4 pb-2">Saved cards:</p>
-              <div className="d-flex flex-row align-items-center mb-4 pb-1">
-                <img
-                  className="img-fluid"
-                  src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
-                />
-                <div className="flex-fill mx-3">
-                  <div className="form-outline">
-                    <MDBInput
-                      label="Card Number"
-                      id="form1"
-                      type="text"
-                      size="lg"
-                      value="**** **** **** 3193"
-                    />
-                  </div>
-                </div>
-                <a href="#!">Remove card</a>
-              </div>
-              <div className="d-flex flex-row align-items-center mb-4 pb-1">
-                <img
-                  className="img-fluid"
-                  src="https://img.icons8.com/color/48/000000/visa.png"
-                />
-                <div className="flex-fill mx-3">
-                  <div className="form-outline">
-                    <MDBInput
-                      label="Card Number"
-                      id="form2"
-                      type="text"
-                      size="lg"
-                      value="**** **** **** 4296"
-                    />
-                  </div>
-                </div>
-                <a href="#!">Remove card</a>
-              </div>
-              <p className="fw-bold mb-4">Add new card:</p>
-              <MDBInput
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        spacing={3}
+        sx={{ minHeight: "100vh" }}
+      >
+        <Grid item xs={12} md={8} lg={6}>
+          <Paper sx={{ padding: 4, borderRadius: "12px" }}>
+            <Typography variant="h4" align="center" gutterBottom>
+              Settings
+            </Typography>
+            <Typography variant="h6" align="center" gutterBottom>
+              Payment
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ fontWeight: "bold", marginBottom: 2 }}
+            >
+              Add new card:
+            </Typography>
+            <form>
+              <TextField
                 label="Cardholder's Name"
-                id="form3"
-                type="text"
-                size="lg"
+                variant="outlined"
+                fullWidth
+                size="medium"
                 value="Anna Doe"
+                sx={{ marginBottom: 2 }}
               />
-              <MDBRow className="my-4">
-                <MDBCol size="7">
-                  <MDBInput
+              <Grid container spacing={2}>
+                <Grid item xs={7}>
+                  <TextField
                     label="Card Number"
-                    id="form4"
-                    type="text"
-                    size="lg"
+                    variant="outlined"
+                    fullWidth
+                    size="medium"
                     value="1234 5678 1234 5678"
+                    sx={{ marginBottom: 2 }}
                   />
-                </MDBCol>
-                <MDBCol size="3">
-                  <MDBInput
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
                     label="Expire"
-                    id="form5"
-                    type="password"
-                    size="lg"
+                    variant="outlined"
+                    fullWidth
+                    size="medium"
                     placeholder="MM/YYYY"
+                    sx={{ marginBottom: 2 }}
                   />
-                </MDBCol>
-                <MDBCol size="2">
-                  <MDBInput
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
                     label="CVV"
-                    id="form6"
-                    type="password"
-                    size="lg"
+                    variant="outlined"
+                    fullWidth
+                    size="medium"
                     placeholder="CVV"
+                    sx={{ marginBottom: 2 }}
                   />
-                </MDBCol>
-              </MDBRow>
-              <MDBBtn color="success" size="lg" block>
+                </Grid>
+              </Grid>
+              <Button
+                variant="contained"
+                color="success"
+                size="large"
+                fullWidth
+                sx={{ marginTop: 2 }}
+              >
                 Add card
-              </MDBBtn>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

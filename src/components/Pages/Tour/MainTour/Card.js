@@ -10,6 +10,7 @@ export default function TourCard({ item }) {
     <Card
       sx={{
         width: "100%",
+        minHeight: "400px",
         borderRadius: "12px", // Bo góc
         overflow: "hidden", // Giới hạn phần tử bên trong
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Hiệu ứng đổ bóng

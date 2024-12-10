@@ -33,7 +33,7 @@ const Sidebar = ({ toggleSidebar, sidebarOpen }) => {
     <>
       <StyledOverlay open={sidebarOpen} onClick={toggleSidebar} />
 
-      <StyledSidebar open={sidebarOpen}>
+      <StyledSidebar sx={{ marginTop: "-30px" }} open={sidebarOpen}>
         <StyledName>Enjoy Our Service, @{user.username}</StyledName>
 
         {user.role == "admin" && (

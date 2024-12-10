@@ -1,5 +1,4 @@
 import React from "react";
-import Slide4 from "../../Slideshow/Slide4";
 import BlogSection from "./BlogSection";
 //import "../../../styles/bLog.css";
 

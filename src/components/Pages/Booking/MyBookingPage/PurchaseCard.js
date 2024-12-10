@@ -1,4 +1,16 @@
 import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+} from "@mui/material";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
+import EventRepeatOutlinedIcon from "@mui/icons-material/EventRepeatOutlined";
 import classNames from "classnames";
 
 const PurchaseCard = ({
@@ -9,19 +21,19 @@ const PurchaseCard = ({
   getTimeRemaining,
   timerExpire,
   getTimerExpired,
-  seeTicketOnclick,
   deleteOnclick,
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(timeRemained);
   const [timerExpired, setTimerExpired] = useState(timerExpire);
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("dataTransfer"))
+  );
 
-  // Update parent with current timeRemaining and timerExpired
   useEffect(() => {
     getTimeRemaining(timeRemaining);
     getTimerExpired(timerExpired);
   }, [timeRemaining, timerExpired, getTimeRemaining, getTimerExpired]);
 
-  // Countdown timer logic
   useEffect(() => {
     if (timeRemaining > 0) {
       const timer = setInterval(() => {
@@ -33,7 +45,16 @@ const PurchaseCard = ({
     }
   }, [timeRemaining]);
 
-  // Format time as MM:SS
+  const [isVisible, setIsVisible] = useState(false);
+
+  const seeTicketOnclick = () => {
+    setIsVisible(true);
+  };
+
+  const closeTicketBox = () => {
+    setIsVisible(false);
+  };
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -119,6 +140,89 @@ const PurchaseCard = ({
           {message}
         </span>
       </div>
+      {/* Ticket mini-box */}
+      {isVisible && (
+        <Card
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: 400,
+            width: "90%",
+            borderRadius: 3,
+            boxShadow: 6,
+            zIndex: 1000,
+            bgcolor: "background.paper",
+            padding: 3,
+          }}
+        >
+          <CardContent>
+            <Typography
+              variant="h5"
+              gutterBottom
+              align="center"
+              fontWeight="bold"
+            >
+              {booking.Name}
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              color="text.secondary"
+              align="center"
+            >
+              {booking.Description}
+            </Typography>
+            <Divider sx={{ my: 2 }} />
+            <Box display="flex" alignItems="center" gap={1} mb={1}>
+              <CalendarTodayOutlinedIcon color="primary" />
+              <Typography variant="body1">
+                <strong>Date of Travel:</strong> {data?.BookingDate}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" gap={1} mb={1}>
+              <PeopleOutlineIcon color="primary" />
+              <Typography variant="body1">
+                <strong>Number of People:</strong> {booking.NumOfPeople}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" gap={1} mb={1}>
+              <CachedOutlinedIcon color="primary" />
+              <Typography variant="body1">
+                <strong>Refund Policy:</strong>{" "}
+                {booking.IsRefund ? "Can Refund" : "Can't Refund"}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" gap={1} mb={1}>
+              <EventRepeatOutlinedIcon color="primary" />
+              <Typography variant="body1">
+                <strong>Schedule Change:</strong>{" "}
+                {booking.IsChangeSchedule
+                  ? "Can Change Schedule"
+                  : "Can't Change Schedule"}
+              </Typography>
+            </Box>
+            <Divider sx={{ my: 2 }} />
+            <Box display="flex" justifyContent="center">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={closeTicketBox}
+                sx={{
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  paddingX: 4,
+                }}
+              >
+                Close
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      )}
+
       <div className={styles.footer}>
         {footer}
         <span className={styles.dot}></span>

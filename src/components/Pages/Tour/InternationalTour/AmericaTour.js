@@ -118,7 +118,7 @@ Vespucci dường như đã không biết được việc tên của mình đã 
         >
           Famous America tourist attractions
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"AmericaTour"}/>
         <hr className={styles.separator} />
         <h2
           style={{
@@ -130,7 +130,7 @@ Vespucci dường như đã không biết được việc tên của mình đã 
         >
           Famous destinations in the America
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"AsiaTour"}/>
         <hr className={styles.separator} />
         <h2
           style={{
@@ -142,7 +142,7 @@ Vespucci dường như đã không biết được việc tên của mình đã 
         >
           Other destinations
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"EuropeTour"}/>
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>

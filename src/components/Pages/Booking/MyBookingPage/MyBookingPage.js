@@ -42,8 +42,6 @@ export default function MyBookingPage() {
     });
   };
 
-  const seeTicketOnclick = () => {};
-
   const deleteOnclick = async (bookingId) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -99,7 +97,7 @@ export default function MyBookingPage() {
       const updateStatus = async () => {
         try {
           const res = await setStatus({
-            bookingId: storedData.bookingId,
+            bookingId: storedData?.bookingId,
             status: "cancel",
           });
           console.log("Status updated:", res);
@@ -110,7 +108,7 @@ export default function MyBookingPage() {
 
       updateStatus();
     }
-  }, [timerExpired, storedData.bookingId]);
+  }, [timerExpired, storedData?.bookingId]);
 
   const handleFilter = async (filterType) => {
     try {
@@ -168,7 +166,7 @@ export default function MyBookingPage() {
                 : styles.bookingList
             }
           >
-            {bookings.map((booking) => (
+            {[...bookings].reverse().map((booking) => (
               <PurchaseCard
                 key={booking.Id}
                 styles={styles}
@@ -178,7 +176,6 @@ export default function MyBookingPage() {
                 timerExpire={timerExpired}
                 getTimeRemaining={setTimeRemaining}
                 getTimerExpired={setTimerExpired}
-                seeTicketOnclick={seeTicketOnclick}
                 deleteOnclick={() => deleteOnclick(booking.Id)}
               />
             ))}

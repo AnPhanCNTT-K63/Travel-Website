@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Card, Divider } from "@mui/material";
 
 export default function PaymentDetail({ data }) {
-  const { TourPackageId, total } = data;
+  const { bookingId, total } = data;
 
   return (
     <Card
@@ -46,7 +46,7 @@ export default function PaymentDetail({ data }) {
           fontWeight="bold"
           sx={{ textTransform: "uppercase" }}
         >
-          {TourPackageId || "N/A"}
+          {bookingId || "N/A"}
         </Typography>
       </Box>
 

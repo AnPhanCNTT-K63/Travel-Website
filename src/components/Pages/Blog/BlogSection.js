@@ -4,15 +4,18 @@ import {
   Container,
   Typography,
   Box,
-  Paper,
   CircularProgress,
+  Pagination,
 } from "@mui/material";
 import PostCard from "../Post/PostCard";
-import { getPosts } from "../../../api/Services/PostServices";
+import { getArrangePost, getPosts } from "../../../api/Services/PostServices";
+import FilterBox from "../Post/FilterBox";
 
 const BlogSection = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(6);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -28,84 +31,47 @@ const BlogSection = () => {
     fetchPost();
   }, []);
 
-  console.log(posts);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-  const topRatedPosts = [
-    {
-      id: 1,
-      title: "Mountain Adventures",
-      image: "https://source.unsplash.com/random/300x200?mountain",
-    },
-    {
-      id: 2,
-      title: "Urban Exploration",
-      image: "https://source.unsplash.com/random/300x200?city",
-    },
-    {
-      id: 3,
-      title: "Serenity in the Forest",
-      image: "https://source.unsplash.com/random/300x200?forest",
-    },
-  ];
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleFilter = async (filterType) => {
+    try {
+      let res;
+      switch (filterType) {
+        case "all":
+          res = await getPosts();
+          break;
+        case "asc":
+          res = await getArrangePost("asc");
+          break;
+        case "desc":
+          res = await getArrangePost("desc");
+          break;
+        default:
+          throw new Error("Invalid filter type");
+      }
+      setPosts(res);
+    } catch (error) {
+      alert("Failed to fetch data");
+    }
+  };
 
   return (
     <Container maxWidth="lg" sx={{ padding: "2rem 0" }}>
-      {/* Page Title */}
-      <Typography
-        variant="h3"
-        align="center"
-        gutterBottom
-        color="text.secondary"
-      >
-        Our Latest Blog Posts
-      </Typography>
-
-      <Typography
-        variant="body1"
-        color="text.secondary"
-        align="center"
-        sx={{ mb: 4 }}
-      >
-        Explore our collection of travel stories, guides, and photo journeys
-        from around the world.
-      </Typography>
-
-      {/* Main Content and Sidebar Grid */}
       <Grid container spacing={4}>
-        {/* Sidebar: Top Rated Posts */}
         <Grid item xs={12} md={2}>
-          <Paper sx={{ padding: 2, boxShadow: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Top Rated Posts
-            </Typography>
-            <Grid container spacing={2}>
-              {topRatedPosts.map((post) => (
-                <Grid item key={post.id} xs={12}>
-                  <Box display="flex" alignItems="center">
-                    <Box
-                      component="img"
-                      src={post.image}
-                      alt={post.title}
-                      sx={{
-                        width: "60px",
-                        height: "60px",
-                        objectFit: "cover",
-                        borderRadius: "8px",
-                        marginRight: "1rem",
-                      }}
-                    />
-                    <Typography variant="body2">{post.title}</Typography>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </Paper>
+          <FilterBox handleFilter={handleFilter} />
         </Grid>
 
         {/* Main Blog Posts */}
         <Grid item xs={12} md={10}>
           <Grid container spacing={2}>
-            {loading ? ( // Show loading spinner while data is being fetched
+            {loading ? (
               <Box
                 sx={{
                   display: "flex",
@@ -116,7 +82,7 @@ const BlogSection = () => {
               >
                 <CircularProgress />
               </Box>
-            ) : posts.length === 0 ? ( // Show message if no posts are available
+            ) : currentPosts.length === 0 ? (
               <Typography
                 variant="h6"
                 color="text.secondary"
@@ -126,13 +92,31 @@ const BlogSection = () => {
                 No blog posts available at the moment.
               </Typography>
             ) : (
-              posts.map((post) => (
+              currentPosts.map((post) => (
                 <Grid item key={post.Id} xs={12} sm={6} md={4}>
                   <PostCard post={post} />
                 </Grid>
               ))
             )}
           </Grid>
+
+          {/* Pagination */}
+          {!loading && posts.length > postsPerPage && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 4,
+              }}
+            >
+              <Pagination
+                count={Math.ceil(posts.length / postsPerPage)} // Total pages
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+              />
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Container>

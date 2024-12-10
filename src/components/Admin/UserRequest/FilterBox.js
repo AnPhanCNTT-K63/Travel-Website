@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 const FilterBox = ({ handleFilter }) => {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("all");
 
   const handleChange = (event) => {
     const selectedFilter = event.target.value;
@@ -29,12 +29,7 @@ const FilterBox = ({ handleFilter }) => {
       </Typography>
       <FormControl variant="outlined" sx={{ minWidth: 200 }}>
         <InputLabel>Request Status</InputLabel>
-        <Select
-          value={filter}
-          onChange={handleChange}
-          label="Request Status"
-          defaultOpen
-        >
+        <Select value={filter} onChange={handleChange} label="Request Status">
           <MenuItem value="all">
             <em>All</em>
           </MenuItem>

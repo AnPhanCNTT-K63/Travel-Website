@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 import { getPostDetail } from "../../../api/Services/PostServices";
 import { Avatar } from "antd";
 
-const BlogPostDetail = () => {
+const PostDetail = () => {
+  const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
   const { postId } = useParams();
   const [post, setPost] = useState({});
 
@@ -49,7 +50,7 @@ const BlogPostDetail = () => {
         sx={{
           width: "100%",
           height: "400px",
-          backgroundImage: `url(/${post.Image})`,
+          backgroundImage: `url(${distributionUrl}/Posts/${post.Image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 2,
@@ -128,4 +129,4 @@ const BlogPostDetail = () => {
   );
 };
 
-export default BlogPostDetail;
+export default PostDetail;

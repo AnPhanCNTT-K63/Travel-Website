@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -8,31 +9,36 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { useParams, useNavigate } from "react-router-dom";
+import { getTourStars } from "../../../../api/Services/TourAndPackageServices";
 
-export default function Card2({ item, packages, rating, reviews }) {
-  const handleCardClick = () => {
-    navigate(`/detail/${item.id}`); // Chuyển hướng đến trang DetailPage với `id`
-  };
-
-  const { tourId } = useParams();
+const Card2 = ({ item }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [Rating, setTourStars] = useState(0);
 
-  const handleOpen = (pkg) => {
-    setSelectedPackage(pkg);
-    setOpen(true);
+  const { Id, Name, Description, MinPrice, Image } = item;
+
+  useEffect(() => {
+    const fetchTourDetail = async () => {
+      try {
+        const response = await getTourStars(item.Id);
+        setTourStars(response);
+      } catch (error) {
+        console.error("Error fetching tour detail:", error);
+      }
+    };
+    fetchTourDetail();
+  }, [item.Id]);
+
+  const handleCardClick = () => {
+    navigate(`/detail/${Id}`); // Chuyển hướng đến trang DetailPage với `Id`
   };
 
-  const handleClose = () => setOpen(false);
-  console.log(rating);
-  const renderStars = (rating) => {
+  const renderStars = () => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      if (rating > i) {
+      if (Rating >= i + 1) {
         stars.push(<StarIcon key={i} sx={{ color: "gold" }} />);
-      } else if (rating > i && rating < i + 1) {
+      } else if (Rating > i && Rating < i + 1) {
         stars.push(<StarHalfIcon key={i} sx={{ color: "gold" }} />);
       } else {
         stars.push(<StarBorderIcon key={i} sx={{ color: "gold" }} />);
@@ -52,22 +58,24 @@ export default function Card2({ item, packages, rating, reviews }) {
       onClick={handleCardClick}
     >
       <CardMedia
-        component="img"
-        image={`/${item.Image}`} // Hình ảnh từ API
-        alt={item.Name} // Alt text cho SEO
+        sx={{ height: "180px", objectFit: "cover" }}
+        image={Image || "https://via.placeholder.com/300"}
+        title={Name}
       />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
-          {item.Name}
+          {Name || "Default Title"}
         </Typography>
-        
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          {Description || "Default description goes here."}
+        </Typography>
       </CardContent>
       <CardActions>
         <Box sx={{ width: "100%" }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             <span style={{ fontWeight: "bold" }}>Price:</span>
             <Box component="span" sx={{ ml: 1 }}>
-            {`Price: $${item.MinPrice}`}
+              ${MinPrice || "0.00"}
             </Box>
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
@@ -77,4 +85,6 @@ export default function Card2({ item, packages, rating, reviews }) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default Card2;

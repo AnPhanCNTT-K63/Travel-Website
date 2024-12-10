@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField, Typography, Paper } from "@mui/material";
+import { Grid, TextField, Typography, Paper, CardMedia } from "@mui/material";
 
 export default function CreateTour({ getTour, defaultTour }) {
+  const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
   const formatTime = (time) => {
     if (!time || time.Hours == null || time.Minutes == null) return "";
     const hours = time.Hours.toString().padStart(2, "0");
@@ -24,6 +26,9 @@ export default function CreateTour({ getTour, defaultTour }) {
           Image: "",
           Opening: "",
           Ending: "",
+          imageUpload: "",
+          UserId: "",
+          Description: "",
         }
   );
 
@@ -39,34 +44,17 @@ export default function CreateTour({ getTour, defaultTour }) {
   };
 
   const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length === 0) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
-    setPreviewImages([...previewImages, ...newPreviews]);
+    const preview = URL.createObjectURL(file);
+    setPreviewImages([preview]);
 
-    const fileNames = files.map((file) => file.name);
     setTour((prev) => ({
       ...prev,
-      Image: prev.Image
-        ? `${prev.Image}, ${fileNames.join(", ")}`
-        : fileNames.join(", "),
+      imageUpload: file,
+      Image: file.name,
     }));
-
-    // Uncomment this block if you also want to upload the images to a server
-    // try {
-    //   const uploadedUrls = await Promise.all(
-    //     files.map((file) => uploadImage(file))
-    //   );
-    //   setTour((prev) => ({
-    //     ...prev,
-    //     Image: prev.Image
-    //       ? `${prev.Image}, ${uploadedUrls.join(", ")}`
-    //       : uploadedUrls.join(", "),
-    //   }));
-    // } catch (error) {
-    //   console.error("Image upload failed", error);
-    // }
   };
 
   return (
@@ -118,6 +106,19 @@ export default function CreateTour({ getTour, defaultTour }) {
               required
             />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <TextField
+              fullWidth
+              label="Description"
+              name="Description"
+              value={tour.Description}
+              onChange={handleDestinationChange}
+              required
+              multiline
+              minRows={5}
+              maxRows={10}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Typography variant="body1" gutterBottom>
               Upload Images
@@ -140,6 +141,23 @@ export default function CreateTour({ getTour, defaultTour }) {
                 marginTop: "10px",
               }}
             >
+              {previewImages.length == 0 && (
+                <CardMedia
+                  component="img"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                  image={
+                    `${distributorUrl}/Tours/${tour.Image}` ||
+                    "https://via.placeholder.com/300"
+                  }
+                  alt={tour.Name}
+                />
+              )}
+
               {previewImages.map((src, index) => (
                 <img
                   key={index}
@@ -163,7 +181,7 @@ export default function CreateTour({ getTour, defaultTour }) {
               name="Opening"
               value={tour.Opening}
               InputLabelProps={{
-                shrink: true, // Ensures the label remains visible
+                shrink: true,
               }}
               onChange={handleDestinationChange}
               required
@@ -177,7 +195,7 @@ export default function CreateTour({ getTour, defaultTour }) {
               name="Ending"
               value={tour.Ending}
               InputLabelProps={{
-                shrink: true, // Ensures the label remains visible
+                shrink: true,
               }}
               onChange={handleDestinationChange}
               required
