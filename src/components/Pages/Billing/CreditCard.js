@@ -1,34 +1,53 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "react-grid-system";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import "../../../styles/CreditCard.module.css";
+import UserContext from "../../../UserContext";
+import { getPaymentCardByUserId } from "../../../api/Services/PaymentServices";
 
 const CreditCard = () => {
+  const user = useContext(UserContext);
   const [state, setState] = React.useState({
-    number: "42652354521235465",
-    name: "jonh quýt",
-    expiry: "15/5",
+    Last4Digits: "",
+    Name: "",
+    ExpirationDate: "",
     cvc: "***",
     focus: "",
   });
 
-  const handleInputChange = (evt) => {
-    const { name, value } = evt.target;
-    setState((prev) => ({ ...prev, [name]: value }));
-  };
+  function formatDate(dateString) {
+    // Extract the timestamp from the input string
+    const timestamp = parseInt(
+      dateString.replace("/Date(", "").replace(")/", "")
+    );
 
-  const handleInputFocus = (evt) => {
-    setState((prev) => ({ ...prev, focus: evt.target.name }));
-  };
+    // Create a Date object from the timestamp
+    const date = new Date(timestamp);
+
+    // Format the date as dd/yy
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2); // Get the last 2 digits of the year
+
+    return `${day}/${year}`;
+  }
+
+  useEffect(() => {
+    const fetchCard = async () => {
+      if (!user?.userId) return;
+      const res = await getPaymentCardByUserId(user.userId);
+      setState(res);
+    };
+    fetchCard();
+  });
 
   return (
     <Container>
       <Cards
-        number={state.number}
-        expiry={state.expiry}
-        cvc={state.cvc}
-        name={state.name}
+        number={"4***********" + state.Last4Digits}
+        expiry={formatDate(state.ExpirationDate)}
+        cvc={"***"}
+        name={state.FirstName + " " + state.LastName}
         focused={state.focus}
       />
     </Container>

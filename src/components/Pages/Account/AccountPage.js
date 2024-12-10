@@ -157,8 +157,7 @@ const AccountPage = () => {
     }
 
     try {
-      const res = await updateAccount(userInfo);
-      console.log(res);
+      await updateAccount(userInfo);
 
       setOpenLogoutDialog(true); // Show the logout confirmation dialog
     } catch (err) {
@@ -179,6 +178,7 @@ const AccountPage = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
+    window.location.reload();
     setOpenLogoutDialog(false); // Close the dialog after logout
   };
 

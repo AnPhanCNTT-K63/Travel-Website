@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import MuiCard from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import FormLabel from "@mui/material/FormLabel";
@@ -10,30 +9,13 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
 import ForgotPassword from "./ForgotPassword";
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
-import { signin } from "../../../api/Services/AuthServices";
+import { SitemarkIcon } from "./CustomIcons";
+import { sendToEmail, signin } from "../../../api/Services/AuthServices";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  boxShadow:
-    "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
-  [theme.breakpoints.up("sm")]: {
-    width: "450px",
-  },
-  ...theme.applyStyles("dark", {
-    boxShadow:
-      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px",
-  }),
-}));
+import LoginByGoogle from "./GoogleLoginButton";
+import { Card } from "./Card";
 
 export default function SignInCard() {
   const [emailError, setEmailError] = React.useState(false);
@@ -42,6 +24,7 @@ export default function SignInCard() {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [forgotPassEmail, setforgotPassEmail] = React.useState("");
   const navigate = useNavigate();
 
   const handleRememberMeChange = (event) => {
@@ -52,8 +35,61 @@ export default function SignInCard() {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setOpen(false);
+  };
+
+  const getEmail = (email) => {
+    setforgotPassEmail(email);
+  };
+
+  const handleContinue = async () => {
+    setOpen(false);
+
+    try {
+      Swal.fire({
+        title: "Sending verification code...",
+        text: "Please wait a moment.",
+        icon: "info",
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      const res = await sendToEmail({
+        To: forgotPassEmail,
+        Subject: "Verify Identity",
+        Body: "",
+      });
+
+      Swal.close();
+
+      if (res.message === "success") {
+        Swal.fire({
+          title: "Success!",
+          text: "The verification code has been sent to your email.",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/restore/password", { state: { forgotPassEmail } });
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Email Not Found",
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -71,7 +107,6 @@ export default function SignInCard() {
 
     try {
       const user = await signin(data);
-      console.log(data);
       if (user && user.token) {
         if (rememberMe) {
           localStorage.setItem("token", user.token);
@@ -91,33 +126,28 @@ export default function SignInCard() {
 
         console.log("Token stored in localStorage:", user.token);
         console.log("User info:", user);
-      } else if (
-        user.error === "Email Not Found" ||
-        user.error === "Incorrect Password"
+      }
+    } catch (err) {
+      if (
+        err.message === "Email Not Found" ||
+        err.message === "Incorrect Password"
       ) {
         setEmailError(true);
         setPasswordError(true);
         setPasswordErrorMessage("Incorrect Email Or Password");
       } else if (
-        user.error ===
+        err.message ===
         "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days"
       ) {
         setEmailError(true);
-        setEmailErrorMessage(user.error);
+        setEmailErrorMessage(err.message);
       } else if (
-        user.error ===
+        err.message ===
         "Your account has been banned. Please contact us to know details."
       ) {
         setEmailError(true);
-        setEmailErrorMessage(user.error);
+        setEmailErrorMessage(err.message);
       }
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "An Error Occurred",
-        text: "Unable to sign in. Please try again later.",
-        confirmButtonText: "OK",
-      });
     }
   };
 
@@ -222,7 +252,12 @@ export default function SignInCard() {
           }
           label="Remember me"
         />
-        <ForgotPassword open={open} handleClose={handleClose} />
+        <ForgotPassword
+          open={open}
+          handleClose={handleClose}
+          handleContinue={handleContinue}
+          getEmail={getEmail}
+        />
         <Button
           type="submit"
           fullWidth
@@ -242,22 +277,15 @@ export default function SignInCard() {
       </Box>
       <Divider>or</Divider>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign in with Google")}
-          startIcon={<GoogleIcon />}
-        >
-          Sign in with Google
-        </Button>
-        <Button
+        <LoginByGoogle />
+        {/* <Button
           fullWidth
           variant="outlined"
           onClick={() => alert("Sign in with Facebook")}
           startIcon={<FacebookIcon />}
         >
           Sign in with Facebook
-        </Button>
+        </Button> */}
       </Box>
     </Card>
   );

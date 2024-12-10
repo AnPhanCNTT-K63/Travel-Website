@@ -40,3 +40,37 @@ export const passwordCheck = async (data) => {
     handleApiError(error);
   }
 };
+
+//POST: auth/google-login
+export const googleAuth = async (IdToken) => {
+  try {
+    const response = await apiClient.post(`/auth/google-login`, { IdToken });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error during Google Auth:",
+      error.response?.data || error.message
+    );
+    handleApiError(error);
+  }
+};
+
+//POST: auth/send-email
+export const sendToEmail = async (emailRequest) => {
+  try {
+    const response = await apiClient.post(`/auth/send-email`, emailRequest);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+//POST: auth/reset-password
+export const resetPassword = async (request) => {
+  try {
+    const response = await apiClient.post(`/auth/reset-password`, request);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};

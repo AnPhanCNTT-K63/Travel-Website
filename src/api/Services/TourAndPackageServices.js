@@ -1,12 +1,20 @@
 import apiClient from "../AxiosConfiguration";
 import handleApiError from "../ErrorHandlle";
 
-// GET: tour/tours/{page}/{pageSize}
-export const getTours = async (page, pageSize, filter) => {
+// GET: tour/tours
+export const getTours = async (page, pageSize, filters = {}, region) => {
   try {
-    const response = await apiClient.get(`/tour/tours/${page}/${pageSize}`, {
-      params: filter,
-    });
+    const params = {
+      page,
+      pageSize,
+      region,
+      ...filters,
+      priceRange0: filters?.priceRange?.[0] || null,
+      priceRange1: filters?.priceRange?.[1] || null,
+    };
+    console.log(params);
+
+    const response = await apiClient.get(`/tour/tours`, { params });
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -16,15 +24,6 @@ export const getTours = async (page, pageSize, filter) => {
 export const getTourPackages = async () => {
   try {
     const response = await apiClient.get(`/package/packages`);
-    return response.data;
-  } catch (error) {
-    handleApiError(error);
-  }
-};
-
-export const getTourPackagesById = async (id) => {
-  try {
-    const response = await apiClient.get(`/package/tour/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -101,10 +100,10 @@ export const getTourByUserId = async (user_id) => {
   }
 };
 
-//GET: tour/package/{tour_id}
+//GET: package/package/{tour_id}
 export const getPackageByTourId = async (tour_id) => {
   try {
-    const response = await apiClient.get(`/tour/package/${tour_id}`);
+    const response = await apiClient.get(`/package/package/${tour_id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -134,7 +133,7 @@ export const updateTourAndPackages = async (data) => {
 //PATCH: tour/delete/soft
 export const deleteSoftTour = async (id) => {
   try {
-    const response = await apiClient.patch(`/tour/delete/soft`, { id: id });
+    const response = await apiClient.patch(`/tour/delete/soft/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);
@@ -166,9 +165,7 @@ export const deletePermanentlyTour = async (id) => {
 //PATCH: tour/restore
 export const restoreTour = async (id) => {
   try {
-    const response = await apiClient.patch(`/tour/restore`, {
-      id: id,
-    });
+    const response = await apiClient.patch(`/tour/restore/${id}`);
     return response.data;
   } catch (error) {
     handleApiError(error);

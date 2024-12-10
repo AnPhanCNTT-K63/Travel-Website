@@ -3,7 +3,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Slide2 from "../../../Slideshow/Slide2";
-import FilterBox from "./FilterBox";
 import TourSection from "./TourSection";
 
 const Tour = () => {
@@ -12,10 +11,7 @@ const Tour = () => {
       <Slide2 />
       <Container>
         <Row>
-          <Col className="col-3">
-            <FilterBox />
-          </Col>
-          <Col className="col-9">
+          <Col className="col-12">
             <TourSection />
           </Col>
         </Row>

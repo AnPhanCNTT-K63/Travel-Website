@@ -21,6 +21,7 @@ import { signup } from "../../../api/Services/AuthServices";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material"; // Loading spinner component
 import Swal from "sweetalert2";
+import LoginByGoogle from "../Sign In/GoogleLoginButton";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -301,22 +302,15 @@ export default function SignUp() {
               <Typography sx={{ color: "text.secondary" }}>or</Typography>
             </Divider>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => alert("Sign up with Google")}
-                startIcon={<GoogleIcon />}
-              >
-                Sign up with Google
-              </Button>
-              <Button
+              <LoginByGoogle />
+              {/* <Button
                 fullWidth
                 variant="outlined"
                 onClick={() => alert("Sign up with Facebook")}
                 startIcon={<FacebookIcon />}
               >
                 Sign up with Facebook
-              </Button>
+              </Button> */}
             </Box>
           </Card>
         </SignUpContainer>

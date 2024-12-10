@@ -237,21 +237,21 @@ const UserManagementPage = () => {
     }
   };
 
-  const onUnbanUser = async (user_id) => {
+  const onUnbanUser = async (userId) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "Do you really want to ban this user? This action cannot be undone!",
+      text: "Do you really want to unban this user? This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, ban them!",
+      confirmButtonText: "Yes, unban them!",
       cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       try {
-        const res = await unbanUser(user_id);
+        const res = await unbanUser(userId);
 
         if (res.message === "success") {
           Swal.fire({
@@ -262,7 +262,7 @@ const UserManagementPage = () => {
           });
           setUsers((prevUsers) =>
             prevUsers.map((user) =>
-              user.Id === user_id ? { ...user, IsBanned: false } : user
+              user.Id === userId ? { ...user, IsBanned: false } : user
             )
           );
         } else {

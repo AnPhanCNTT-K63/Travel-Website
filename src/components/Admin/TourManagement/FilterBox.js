@@ -19,7 +19,6 @@ const FilterBox = ({ onSearch }) => {
 
   const handleSearch = () => {
     onSearch({ searchQuery, searchBy, sortBy });
-    console.log(onSearch);
   };
 
   return (

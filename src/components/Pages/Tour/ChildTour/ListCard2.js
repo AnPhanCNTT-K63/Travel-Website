@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Card2 from "./Card2";
+import { getTourStars } from "../../../../api/Services/TourAndPackageServices";
 
-export default function ListCard2() {
+export default function ListCard2({ allTours }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -26,49 +27,6 @@ export default function ListCard2() {
       },
     ],
   };
-
-  const allTours = [
-    {
-      id: 1,
-      title: "Mountain Adventure",
-      description: "Explore the majestic mountains.",
-      image: "a1.jpeg",
-      price: "120.99",
-      rating: 4.5,
-    },
-    {
-      id: 2,
-      title: "Beach Paradise",
-      description: "Relax on sunny beaches.",
-      image: "a2.jpeg",
-      price: "150.00",
-      rating: 5,
-    },
-    {
-      id: 3,
-      title: "City Lights",
-      description: "Experience vibrant city life.",
-      image: "a3.jpeg",
-      price: "90.00",
-      rating: 4,
-    },
-    {
-      id: 4,
-      title: "Desert Safari",
-      description: "A thrilling experience in the desert.",
-      image: "a4.jpeg",
-      price: "200.00",
-      rating: 4.8,
-    },
-    {
-      id: 5,
-      title: "Forest Retreat",
-      description: "Connect with nature.",
-      image: "a5.jpeg",
-      price: "99.99",
-      rating: 4.2,
-    },
-  ];
 
   return (
     <div style={{ width: "90%", margin: "18px auto" }}>

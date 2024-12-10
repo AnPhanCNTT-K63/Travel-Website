@@ -1,33 +1,40 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
-function ForgotPassword({ open, handleClose }) {
+function ForgotPassword({ open, handleClose, handleContinue, getEmail }) {
+  const [email, setEmail] = React.useState("");
+
+  getEmail(email);
+
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       PaperProps={{
-        component: 'form',
+        component: "form",
         onSubmit: (event) => {
           event.preventDefault();
-          handleClose();
+          handleContinue();
         },
+      }}
+      sx={{
+        zIndex: 1300, // Ensures it appears in front of other content (Material-UI dialogs are usually around 1300)
       }}
     >
       <DialogTitle>Reset password</DialogTitle>
       <DialogContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
+        sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}
       >
         <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a link to
-          reset your password.
+          Enter your account&apos;s email address, and we&apos;ll send you a
+          link to reset your password.
         </DialogContentText>
         <OutlinedInput
           autoFocus
@@ -38,6 +45,8 @@ function ForgotPassword({ open, handleClose }) {
           label="Email address"
           placeholder="Email address"
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           fullWidth
         />
       </DialogContent>
@@ -50,10 +59,5 @@ function ForgotPassword({ open, handleClose }) {
     </Dialog>
   );
 }
-
-ForgotPassword.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
 
 export default ForgotPassword;

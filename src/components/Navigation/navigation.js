@@ -48,10 +48,10 @@ import RevenueChart from "../Admin/StatisticPage/RevenueStatistics/RevenueChart"
 import StatisticsPage from "../Admin/StatisticPage/StatisticPage";
 import RevenueYearChart from "../Admin/StatisticPage/RevenueStatistics/RevenueYearChart";
 import ImageUpload from "../Pages/Tour/ImageUpload";
-import AdminTourDetails from "../Admin/TourManagement/TourDetails";
 import TourAndPackageDetails from "../Admin/TourManagement/TourAndPackageDetails";
 import PostManagement from "../Admin/PostManagement/PostManagement";
 import PostPreview from "../Pages/Post/PostPreview";
+import ResetPassword from "../Auth/ResetPasswordPage";
 
 function Navigation() {
   const location = useLocation();
@@ -118,7 +118,7 @@ function Navigation() {
         <Route path="/statistics/revenue/:year" element={<RevenueChart />} />
 
         <Route path="/image/upload" element={<ImageUpload />} />
-
+        <Route path="/restore/password" element={<ResetPassword />} />
         <Route
           path="/admin/tour/detal/:tourId"
           element={<TourAndPackageDetails />}

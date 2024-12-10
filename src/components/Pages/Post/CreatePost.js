@@ -72,18 +72,23 @@ const CreatePost = () => {
       .filter((hashtag) => hashtag)
       .join(",");
 
-    const postData = {
+    const post = {
       Title: title,
       Content: content,
       Hashtags: hashtagsArray,
       Owner: role,
-      User_Id: user_id,
       Image: image,
+    };
+
+    const postData = {
+      post: post,
+      user_id: user_id,
     };
 
     setLoading(true);
 
     try {
+      console.log(postData);
       const post = await createPost(postData);
       const res = await sendImage(imageUpload, "Posts");
       console.log(res);
