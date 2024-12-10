@@ -29,6 +29,8 @@ namespace WebBackendProject.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public string VerificationCode { get; set; }
+        public DateTime? VerificationCodeExpiration { get; set; }
         public UserProfile UserProfile { get; set; }
         public ICollection<Tour> Tours { get; set; }
         public ICollection<BlogPost> Posts { get; set; }

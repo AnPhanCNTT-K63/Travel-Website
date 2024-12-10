@@ -17,11 +17,8 @@ namespace WebBackendProject
 
             routes.MapMvcAttributeRoutes();
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Hangfire", action = "ShowProcess", id = UrlParameter.Optional }
-            );
+            routes.MapPageRoute("Default", "", "~/swagger");
+
         }
     }
 }

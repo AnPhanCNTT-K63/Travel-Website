@@ -2,18 +2,22 @@
 using System.Linq;
 using System.Web.Http;
 using WebBackendProject.Models;
-using System.Net.Http;
+using Google.Apis.Auth;
 using System.Threading.Tasks;
 using WebBackendProject.Models.DTO;
 using System.Diagnostics;
 using System.Data.Entity;
+using WebBackendProject.DTO.Auth;
+using System.Net.Mail;
+using System.Net;
+using WebBackendProject.DTO.Email;
 
 namespace WebBackendProject.Controllers
 {
     [RoutePrefix("api/auth")]
     public class AuthApiController : ApiController
     {
-        DbAppContext db = new DbAppContext();
+      private readonly DbAppContext db = new DbAppContext();
 
         [HttpPost]
         [Route("signup")] // POST: auth/signup
@@ -52,7 +56,7 @@ namespace WebBackendProject.Controllers
                 };
 
                 db.Users.Add(user);
-                await db.SaveChangesAsync(); // Use async save
+                await db.SaveChangesAsync(); 
 
                 var profile = new UserProfile
                 {
@@ -60,7 +64,7 @@ namespace WebBackendProject.Controllers
                 };
 
                 db.UserProfiles.Add(profile);
-                await db.SaveChangesAsync(); // Use async save
+                await db.SaveChangesAsync(); 
 
                 return Ok(info);
             }
@@ -113,11 +117,11 @@ namespace WebBackendProject.Controllers
         [JwtAuthorize("admin", "user")]
         [HttpPost]
         [Route("password/check")] // POST: auth/password/check
-        public async Task<IHttpActionResult> PasswordCheck(string password, int? user_id)
+        public async Task<IHttpActionResult> PasswordCheck(PasswordCheck passwordCheck)
         {
-            var user = await db.Users.FindAsync(user_id);
+            var user = await db.Users.FindAsync(passwordCheck.user_id);
 
-            if (user == null || user.Password != password)
+            if (user == null || user.Password != passwordCheck.password)
             {
                 return BadRequest("Invalid Password");
             }
@@ -126,5 +130,152 @@ namespace WebBackendProject.Controllers
                 return Ok(new { message = "Success" });
             }
         }
+
+        [HttpPost]
+        [Route("google-login")]
+        public async Task<IHttpActionResult> GoogleLogin([FromBody] GoogleLogin model)
+        {
+            if (model == null || string.IsNullOrEmpty(model.IdToken))
+            {
+                return BadRequest("Invalid Google token");
+            }
+
+            try
+            {
+                var payload = GoogleJsonWebSignature.ValidateAsync(model.IdToken).Result;
+
+                if (payload == null)
+                {
+                    return Unauthorized();
+                }
+
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == payload.Email);
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        Username = payload.Name,
+                        Email = payload.Email,
+                        Role = "user", 
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow,
+                        IsOnline = true,
+                        LastActive = DateTime.UtcNow,
+                    };
+
+                    db.Users.Add(user);
+                   await db.SaveChangesAsync();
+
+                    var profile = new UserProfile
+                    {
+                        UserId = user.Id
+                    };
+
+                    db.UserProfiles.Add(profile);
+                    await db.SaveChangesAsync();
+                }
+                else
+                {
+                    user.IsOnline = true;
+                    user.LastActive = DateTime.UtcNow;
+                  await db.SaveChangesAsync();
+                }
+
+                var token = JwtHelper.GenerateToken(user.Email, user.Username, user.Role, user.Id.ToString());
+
+                return Ok(new
+                {
+                    message = "Success",
+                    token = token,
+                });
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("send-email")]
+        public async Task<IHttpActionResult> SendPasswordResetCode([FromBody] EmailRequest emailRequest)
+        {
+            try
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == emailRequest.To);
+                if (user == null)
+                {
+                    return BadRequest("Invalid email request.");
+
+                }
+
+                var verificationCode = new Random().Next(100000, 999999).ToString();
+
+                user.VerificationCode = verificationCode;
+                user.VerificationCodeExpiration = DateTime.UtcNow.AddMinutes(5);
+                await db.SaveChangesAsync();
+
+                emailRequest.Body = $"Your verification code is valid for 5 minutes: {verificationCode}";
+
+
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("phanducan147@gmail.com", "xtoe wian jrwy twdq"),
+                    EnableSsl = true
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("phanducan147@gmail.com", "VVBA Travel Agency"),
+                    Subject = emailRequest.Subject,
+                    Body = emailRequest.Body,
+                    IsBodyHtml = false
+                };
+
+                mailMessage.To.Add(emailRequest.To);
+
+                await smtpClient.SendMailAsync(mailMessage);
+
+                return Ok( new { message = "success" });
+            }
+            catch (SmtpException smtpEx)
+            {
+                return InternalServerError(smtpEx);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<IHttpActionResult> VerifyCodeAndResetPassword([FromBody] PasswordResetRequest request)
+        {
+            try
+            {
+                // Check if the verification code is correct and not expired
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+                if (user == null || user.VerificationCode != request.VerificationCode || DateTime.UtcNow > user.VerificationCodeExpiration)
+                {
+                    user.VerificationCode = null;
+                    user.VerificationCodeExpiration = null;
+                    return BadRequest("Invalid or expired verification code.");
+                }
+
+                user.Password = request.NewPassword; 
+                user.VerificationCode = null;
+                user.VerificationCodeExpiration = null;
+                await db.SaveChangesAsync();
+
+                return Ok( new {message = "success"});
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+
     }
 }

@@ -13,7 +13,6 @@ public static class JwtHelper
 
     public static string GenerateToken(string email, string username, string role, string userId)
     {
-        Debug.WriteLine(new string('-', 50)); // Divider
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(SecretKey);
 

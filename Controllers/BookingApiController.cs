@@ -13,7 +13,7 @@ namespace WebBackendProject.Controllers
     [RoutePrefix("api/booking")]
     public class BookingApiController : ApiController
     {
-        private DbAppContext db = new DbAppContext();
+        private readonly DbAppContext db = new DbAppContext();
 
         [HttpGet]
         [Route("bookings")]

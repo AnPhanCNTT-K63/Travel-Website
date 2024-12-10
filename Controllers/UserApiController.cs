@@ -169,6 +169,53 @@ namespace WebBackendProject.Controllers.Api
             }
         }
 
+        [JwtAuthorize("admin", "user")]
+        [HttpPut]
+        [Route("update/account")] // PUT: user/update/account
+        public async Task<IHttpActionResult> UpdateAccount(UserInfoUpdate userInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await db.Users.FindAsync(userInfo.user_id);
+
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+
+                    if (!string.IsNullOrEmpty(userInfo.Username) && user.Username != userInfo.Username)
+                    {
+                        user.Username = userInfo.Username;
+                    }
+                    if (!string.IsNullOrEmpty(userInfo.Email) && user.Email != userInfo.Email)
+                    {
+                        user.Email = userInfo.Email;
+                    }
+                    if (!string.IsNullOrEmpty(userInfo.Password) && user.Password != userInfo.Password)
+                    {
+                        user.Password = userInfo.Password;
+                    }
+
+                    var token = JwtHelper.GenerateToken(user.Email, user.Username, user.Role, user.Id.ToString());
+
+                    await db.SaveChangesAsync();
+
+                    return Ok(new { message = "User account updated successfully", userInfo = userInfo, token = token });
+                }
+                catch (Exception ex)
+                {
+                    return InternalServerError(new Exception("Error updating user account: " + ex.Message));
+                }
+            }
+            else
+            {
+                return BadRequest("Invalid input data.");
+            }
+        }
+
+
         // Soft delete account
         [HttpDelete]
         [Route("delete/account/soft/{user_id}")]
