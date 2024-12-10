@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://localhost:44331/api";
+const API_URL = "https://anphan-001-site1.qtempurl.com/api";
 
 const apiClient = axios.create({
   baseURL: API_URL,
