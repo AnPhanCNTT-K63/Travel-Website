@@ -5,11 +5,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-export default function TourCard({ item, packages, rating, reviews}) {
+export default function TourCard({ item }) {
   return (
     <Card
       sx={{
         width: "100%",
+        minHeight: "400px",
         borderRadius: "12px", // Bo góc
         overflow: "hidden", // Giới hạn phần tử bên trong
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Hiệu ứng đổ bóng
@@ -56,7 +57,7 @@ export default function TourCard({ item, packages, rating, reviews}) {
             color: "text.secondary",
             fontWeight: "bold",
             fontSize: "1rem",
-            color:"rgb(249,115,11)",
+            color: "rgb(249,115,11)",
           }}
         >
           {`Price: $${item.MinPrice}`}

@@ -114,7 +114,7 @@ export default function EuropeTour({ item }) {
         >
           Famous Europe tourist attractions
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"EuropeTour"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -126,7 +126,7 @@ export default function EuropeTour({ item }) {
         >
           Famous destinations in the Europe
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"AmericaTour"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -138,7 +138,7 @@ export default function EuropeTour({ item }) {
         >
           Other destinations
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"AsiaTour"} />
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>
