@@ -122,7 +122,7 @@ Trong số các quốc gia và vùng lãnh thổ thuộc châu Á, Nhật Bản,
         >
           Famous Asia tourist attractions
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"AsiaTour"}/>
         <hr className={styles.separator} />
         <h2
           style={{
@@ -134,7 +134,7 @@ Trong số các quốc gia và vùng lãnh thổ thuộc châu Á, Nhật Bản,
         >
           Famous destinations in the Asia
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"AmericaTour"}/>
         <hr className={styles.separator} />
         <h2
           style={{
@@ -146,7 +146,7 @@ Trong số các quốc gia và vùng lãnh thổ thuộc châu Á, Nhật Bản,
         >
           Other destinations
         </h2>
-        <TourSection2 />
+        <TourSection2 region={"EuropeTour"}/>
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>

@@ -145,7 +145,7 @@ Miền Bắc Việt Nam có thể là:
         >
           Other destinations
         </h2>
-        <TourSection2 region={"EastTour"} />
+        <TourSection2 region={"MiddleTour"} />
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>

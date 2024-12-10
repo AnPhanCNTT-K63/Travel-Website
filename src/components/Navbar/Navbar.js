@@ -121,9 +121,6 @@ const Navbar = () => {
                     {showDropdown === "Tour" && (
                       <DropdownListTour show={item} />
                     )}
-                    {showDropdown === "Blog" && (
-                      <DropdownListBlog show={item} />
-                    )}
                   </Box>
                 )
               )}
