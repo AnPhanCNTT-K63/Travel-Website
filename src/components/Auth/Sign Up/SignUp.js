@@ -149,23 +149,22 @@ export default function SignUp() {
     try {
       const user = await signup(data);
       console.log(data);
-
-      // console.log(user);
+    } catch (err) {
       if (
-        user.error ===
+        err.message ===
         "Your account has been deleted. After 30 days your account will be completely deleted. Please contact admin to restore within 30 days"
       ) {
         setEmailError(true);
-        setEmailErrorMessage(user.error);
+        setEmailErrorMessage(err.message);
       } else if (
-        user.error ===
+        err.message ===
         "Email is already in use. Please login or click forgot password"
       ) {
         setEmailError(true);
-        setEmailErrorMessage(user.error);
-      } else if (user.error === "User has been used by someone else") {
+        setEmailErrorMessage(err.message);
+      } else if (err.message === "User has been used by someone else") {
         setNameError(true);
-        setNameErrorMessage(user.error);
+        setNameErrorMessage(err.message);
       } else {
         Swal.fire({
           icon: "success",
@@ -177,14 +176,6 @@ export default function SignUp() {
           window.location.reload();
         });
       }
-    } catch (err) {
-      console.log("Error: ", err);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Something went wrong. Please try again.",
-        confirmButtonText: "OK",
-      });
     } finally {
       setLoading(false); // End loading
     }
