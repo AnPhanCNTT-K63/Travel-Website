@@ -59,7 +59,7 @@ const Card2 = ({ item }) => {
     >
       <CardMedia
         sx={{ height: "180px", objectFit: "cover" }}
-        image={Image || "https://via.placeholder.com/300"}
+        image={`/Tours/${Image}` || "https://via.placeholder.com/300"}
         title={Name}
       />
       <CardContent>

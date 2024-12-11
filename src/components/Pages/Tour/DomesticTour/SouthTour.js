@@ -116,7 +116,7 @@ Thời Pháp thuộc, Nam Bộ là một xứ thuộc địa với tên gọi Na
         >
           Famous Southern tourist attractions
         </h2>
-        <TourSection2 region={"SouthTour"}/>
+        <TourSection2 region={"SoundSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -128,7 +128,7 @@ Thời Pháp thuộc, Nam Bộ là một xứ thuộc địa với tên gọi Na
         >
           Famous destinations in the South
         </h2>
-        <TourSection2 region={"MiddleTour"}/>
+        <TourSection2 region={"EastSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -140,7 +140,7 @@ Thời Pháp thuộc, Nam Bộ là một xứ thuộc địa với tên gọi Na
         >
           Other destinations
         </h2>
-        <TourSection2 region={"NorthTour"}/>
+        <TourSection2 region={"WestSide"} />
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>

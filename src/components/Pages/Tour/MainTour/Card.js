@@ -23,7 +23,7 @@ export default function TourCard({ item }) {
       {/* Hình ảnh */}
       <CardMedia
         component="img"
-        image={`/${item.Image}`} // Hình ảnh từ API
+        image={`/Tours/${item.Image}`} // Hình ảnh từ API
         alt={item.Name} // Alt text cho SEO
         sx={{
           height: "230px", // Chiều cao ảnh

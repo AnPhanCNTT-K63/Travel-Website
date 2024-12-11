@@ -57,7 +57,7 @@ export default function DetailCard({ item, packages, rating, reviews }) {
       >
         <Box
           component="img"
-          src={`/${item.Image}`}
+          src={`/Tours/${item.Image}`}
           alt={item.Name}
           sx={{
             width: "100%",

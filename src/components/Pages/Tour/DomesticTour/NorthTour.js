@@ -121,7 +121,7 @@ Miền Bắc Việt Nam có thể là:
         >
           Famous Northern tourist attractions
         </h2>
-        <TourSection2 region={"NorthTour"} />
+        <TourSection2 region={"NorthSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -133,7 +133,7 @@ Miền Bắc Việt Nam có thể là:
         >
           Famous destinations in the North
         </h2>
-        <TourSection2 region={"SouthTour"} />
+        <TourSection2 region={"SouthSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -145,7 +145,7 @@ Miền Bắc Việt Nam có thể là:
         >
           Other destinations
         </h2>
-        <TourSection2 region={"MiddleTour"} />
+        <TourSection2 region={"WestSide"} />
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>

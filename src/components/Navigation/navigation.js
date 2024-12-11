@@ -126,9 +126,9 @@ function Navigation() {
 
         <Route path="/profile/block" element={<BlockedProfilePage />} />
         <Route path="/create/post" element={<CreatePost />} />
-        <Route path="/NorthTour" element={<NorthTour />} />
-        <Route path="/SouthTour" element={<SouthTour />} />
-        <Route path="/MiddleTour" element={<MiddleTour />} />
+        <Route path="/NorthSide" element={<NorthTour />} />
+        <Route path="/SouthSide" element={<SouthTour />} />
+        <Route path="/EastSide" element={<MiddleTour />} />
         <Route path="/AsiaTour" element={<AsiaTour />} />
         <Route path="/AmericaTour" element={<AmericaTour />} />
         <Route path="/EuropeTour" element={<EuropeTour />} />

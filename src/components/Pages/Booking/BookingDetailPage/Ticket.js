@@ -40,7 +40,7 @@ export default function Ticket({ ticket, tourPackageId }) {
       {/* Content */}
       <Stack direction="row" spacing={2} mb={2}>
         <Avatar
-          src={`/${ticket.image || "default-image.jpg"}`} // Fallback for missing image
+          src={`/Packages/${ticket.image || "default-image.jpg"}`} // Fallback for missing image
           alt={ticket.name || "Ticket Image"}
           variant="square"
           sx={{ width: 170, height: 100, borderRadius: 2 }}

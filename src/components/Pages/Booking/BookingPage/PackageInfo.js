@@ -45,7 +45,11 @@ export default function PackageInfo({ tourPackage }) {
         }}
       >
         <img
-          src={tourPackage?.Image ? `/${tourPackage.Image}` : fallbackImage}
+          src={
+            tourPackage?.Image
+              ? `/Packages/${tourPackage.Image}`
+              : fallbackImage
+          }
           alt="Tour Package"
           style={{
             width: "100%",

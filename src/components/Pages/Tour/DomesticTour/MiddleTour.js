@@ -118,7 +118,7 @@ Thời Pháp thuộc, Trung Bộ là một xứ bảo hộ lấy tên là Trung 
         >
           Famous Midthern tourist attractions
         </h2>
-        <TourSection2 region={"MiddleTour"}/>
+        <TourSection2 region={"EastSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -130,7 +130,7 @@ Thời Pháp thuộc, Trung Bộ là một xứ bảo hộ lấy tên là Trung 
         >
           Famous destinations in the Middle
         </h2>
-        <TourSection2 region={"SouthTour"} />
+        <TourSection2 region={"SoundSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
@@ -142,7 +142,7 @@ Thời Pháp thuộc, Trung Bộ là một xứ bảo hộ lấy tên là Trung 
         >
           Other destinations
         </h2>
-        <TourSection2 region={"NorthTour"}/>
+        <TourSection2 region={"NorthSide"} />
       </div>
       <div className={styles.Taskbox}>
         <div className={styles.tipsContainer}>

@@ -28,7 +28,7 @@ export default function ProfileCard({ userProfile, user }) {
               <img
                 alt="..."
                 className="rounded-circle"
-                src="/team-4-800x800.jpg"
+                src={`/Avatars/${userProfile.profile.Avatar}`}
                 style={
                   user.userId == userProfile.profile?.UserId
                     ? imgStyle

@@ -164,7 +164,7 @@ const Profile = () => {
       ) : (
         <>
           {/* Page content */}
-          <UserHeader />
+          <UserHeader userProfile={userProfile} />
 
           <Container className="mt--7" fluid style={containerStyle}>
             <Row

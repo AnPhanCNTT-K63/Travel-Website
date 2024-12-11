@@ -36,7 +36,7 @@ function DropdownListTour({ show }) {
 
   // Hàm điều hướng với đường dẫn tham số
   const handleNavigate = (path) => {
-    navigate(path); 
+    navigate(path);
   };
 
   return (
@@ -70,7 +70,7 @@ function DropdownListTour({ show }) {
           onMouseEnter={() => setHoveredDomestic(true)} // Khi hover vào, thay đổi trạng thái hovered thành true
           onClick={handleClickDomestic} // Khi click vào, mở/đóng box con
           sx={{
-            fontWeight:"bold" ,
+            fontWeight: "bold",
             "&:hover": {
               backgroundColor: "aliceblue",
               color: "#007bff",
@@ -98,7 +98,7 @@ function DropdownListTour({ show }) {
           >
             <MenuItem
               value={30}
-              onClick={() => handleNavigate("/NorthTour")}
+              onClick={() => handleNavigate("/NorthSide")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightgreen" },
@@ -108,7 +108,7 @@ function DropdownListTour({ show }) {
             </MenuItem>
             <MenuItem
               value={31}
-              onClick={() => handleNavigate("/MiddleTour")}
+              onClick={() => handleNavigate("/EastSide")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightgreen" },
@@ -118,7 +118,7 @@ function DropdownListTour({ show }) {
             </MenuItem>
             <MenuItem
               value={32}
-              onClick={() => handleNavigate("/SouthTour")}
+              onClick={() => handleNavigate("/SouthSide")}
               sx={{
                 display: "block",
                 "&:hover": { backgroundColor: "lightgreen" },
@@ -135,7 +135,7 @@ function DropdownListTour({ show }) {
           onMouseEnter={() => setHoveredInternational(true)} // Khi hover vào, thay đổi trạng thái hovered thành true
           onClick={handleClickInternational} // Khi click vào, mở/đóng box con
           sx={{
-            fontWeight:"bold" ,
+            fontWeight: "bold",
             "&:hover": {
               backgroundColor: "aliceblue",
               color: "#007bff",

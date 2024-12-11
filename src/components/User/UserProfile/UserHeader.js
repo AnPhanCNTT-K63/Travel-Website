@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "reactstrap";
 
-const UserHeader = (username) => {
+const UserHeader = ({ userProfile }) => {
   return (
     <>
       <div style={{ maxWidth: "1200px", margin: "0 auto", marginTop: "30px" }}>
@@ -8,7 +8,7 @@ const UserHeader = (username) => {
           className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
           style={{
             minHeight: "600px",
-            backgroundImage: "url('/profile-cover.jpg')",
+            backgroundImage: `url(/CoverAvatars/${userProfile.profile.CoverAvatar})`,
             backgroundSize: "cover",
             backgroundPosition: "center top",
             backgroundBlendMode: "overlay",

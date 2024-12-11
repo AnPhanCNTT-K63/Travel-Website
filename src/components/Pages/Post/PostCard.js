@@ -24,7 +24,7 @@ const PostCard = ({ post }) => {
   const postTitle = post.Title || "Untitled Post";
   const postDatetime = post.Datetime || "No Date Provided";
   const postImage = post.Image
-    ? `${distributionUrl}/Posts/${post.Image}`
+    ? `/Posts/${post.Image}`
     : "https://via.placeholder.com/300x200?text=No+Image";
   const postContent = post.Content || "No content available.";
   const postOwner = post.Owner || "";
@@ -52,7 +52,7 @@ const PostCard = ({ post }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        height: 500,
+        height: 550,
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
           transform: "scale(1.03)",
@@ -109,9 +109,9 @@ const PostCard = ({ post }) => {
           src={postImage}
           alt={postTitle}
           sx={{
-            width: "100%",
-            height: 240,
-            objectFit: "cover",
+            width: "100%", // Ensure the image takes the full width of its container
+            height: 240, // Fixed height for the image
+            objectFit: "cover", // Ensure the image covers the container area without distorting
             transition: "transform 0.3s ease",
             "&:hover": {
               transform: "scale(1.05)",
@@ -121,7 +121,7 @@ const PostCard = ({ post }) => {
       </StyledLink>
 
       {/* Post Content */}
-      <Box sx={{ px: 2, py: 1 }}>
+      <Box sx={{ px: 2, py: 1, flexGrow: 1 }}>
         <Typography
           variant="body2"
           color="text.secondary"

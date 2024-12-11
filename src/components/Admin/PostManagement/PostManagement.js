@@ -14,6 +14,7 @@ import {
   verifyPost,
 } from "../../../api/Services/PostServices";
 import FilterBox from "./FilterBox";
+import Swal from "sweetalert2";
 
 const PostManagement = () => {
   const [posts, setPosts] = useState([]);
@@ -70,8 +71,20 @@ const PostManagement = () => {
       const res = await verifyPost(postId, "accept");
       console.log(res);
       setPosts(posts.filter((post) => post.Id !== postId));
+
+      // Success alert using SweetAlert2
+      Swal.fire({
+        icon: "success",
+        title: "Post Accepted",
+        text: "The post has been successfully accepted!",
+      });
     } catch (error) {
-      alert("Failed to accept post.");
+      // Error alert using SweetAlert2
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Failed to accept the post. Please try again.",
+      });
     }
   };
 
@@ -80,8 +93,20 @@ const PostManagement = () => {
       const res = await verifyPost(postId, "decline");
       console.log(res);
       setPosts(posts.filter((post) => post.Id !== postId));
+
+      // Success alert using SweetAlert2
+      Swal.fire({
+        icon: "success",
+        title: "Post Declined",
+        text: "The post has been successfully declined.",
+      });
     } catch (error) {
-      alert("Failed to decline post.");
+      // Error alert using SweetAlert2
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Failed to decline the post. Please try again.",
+      });
     }
   };
 
