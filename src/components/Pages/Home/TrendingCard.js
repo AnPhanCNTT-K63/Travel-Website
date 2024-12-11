@@ -15,7 +15,7 @@ export default function TrendingCard({ item }) {
     <Card sx={{ maxWidth: 345, margin: "10px" }}>
       <CardMedia
         sx={{ height: 140, objectFit: "cover", width: "300px" }}
-        image={`/Tours/${item.Image}`}
+        image={`/${item.Image}`}
         title="green iguana"
 
       />
