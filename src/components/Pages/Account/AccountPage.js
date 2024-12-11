@@ -177,6 +177,7 @@ const AccountPage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/login");
     window.location.reload();
     setOpenLogoutDialog(false); // Close the dialog after logout

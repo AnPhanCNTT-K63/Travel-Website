@@ -33,10 +33,6 @@ export default function UserSlidebar({
         </StyledMenuItem>
       </StyledLink>
 
-      <StyledMenuItem onClick={handleMenuItemClick}>
-        <AddLocationAlt style={{ fontSize: 20 }} /> My Tour
-      </StyledMenuItem>
-
       <StyledLink to={`/user/booking`}>
         <StyledMenuItem onClick={handleMenuItemClick}>
           <EventAvailable style={{ fontSize: 20 }} /> My Booking
@@ -73,11 +69,7 @@ export default function UserSlidebar({
         </StyledMenuItem>
       </StyledLink>
 
-      <StyledMenuItem onClick={handleMenuItemClick}>
-        <LocalOffer style={{ fontSize: 20 }} /> Vouchers
-      </StyledMenuItem>
-
-      <StyledLogout style={{ marginTop: "20px" }} onClick={handleSignOut}>
+      <StyledLogout style={{ marginTop: "150px" }} onClick={handleSignOut}>
         <Logout style={{ fontSize: 20 }} /> Log Out
       </StyledLogout>
     </>
