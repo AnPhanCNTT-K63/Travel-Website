@@ -50,7 +50,7 @@ const PostDetail = () => {
         sx={{
           width: "100%",
           height: "400px",
-          backgroundImage: `url(/Posts/${post.Image})`,
+          backgroundImage: `url(${distributionUrl}/Posts/${post.Image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 2,

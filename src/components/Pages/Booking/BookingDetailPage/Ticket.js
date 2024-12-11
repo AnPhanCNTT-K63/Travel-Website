@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { AccessTime, Person, Event, Info } from "@mui/icons-material";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function Ticket({ ticket, tourPackageId }) {
   return (
     <Card
@@ -40,7 +42,7 @@ export default function Ticket({ ticket, tourPackageId }) {
       {/* Content */}
       <Stack direction="row" spacing={2} mb={2}>
         <Avatar
-          src={`/Packages/${ticket.image || "default-image.jpg"}`} // Fallback for missing image
+          src={`${distributionUrl}/Packages/${ticket.image || "default-image.jpg"}`} // Fallback for missing image
           alt={ticket.name || "Ticket Image"}
           variant="square"
           sx={{ width: 170, height: 100, borderRadius: 2 }}

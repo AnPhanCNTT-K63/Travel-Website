@@ -24,7 +24,7 @@ const PostCard = ({ post }) => {
   const postTitle = post.Title || "Untitled Post";
   const postDatetime = post.Datetime || "No Date Provided";
   const postImage = post.Image
-    ? `/Posts/${post.Image}`
+    ? `${distributionUrl}/Posts/${post.Image}`
     : "https://via.placeholder.com/300x200?text=No+Image";
   const postContent = post.Content || "No content available.";
   const postOwner = post.Owner || "";

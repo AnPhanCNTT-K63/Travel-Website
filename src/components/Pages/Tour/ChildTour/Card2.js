@@ -11,6 +11,8 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { getTourStars } from "../../../../api/Services/TourAndPackageServices";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const Card2 = ({ item }) => {
   const navigate = useNavigate();
   const [Rating, setTourStars] = useState(0);
@@ -59,7 +61,10 @@ const Card2 = ({ item }) => {
     >
       <CardMedia
         sx={{ height: "180px", objectFit: "cover" }}
-        image={`/Tours/${Image}` || "https://via.placeholder.com/300"}
+        image={
+          `${distributionUrl}/Tours/${Image}` ||
+          "https://via.placeholder.com/300"
+        }
         title={Name}
       />
       <CardContent>

@@ -13,6 +13,8 @@ function handleClick(event) {
   console.info("You clicked a breadcrumb.");
 }
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function DetailCard({ item, packages, rating, reviews }) {
   const { tourId } = useParams();
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ export default function DetailCard({ item, packages, rating, reviews }) {
       >
         <Box
           component="img"
-          src={`/Tours/${item.Image}`}
+          src={`${distributionUrl}/Tours/${item.Image}`}
           alt={item.Name}
           sx={{
             width: "100%",

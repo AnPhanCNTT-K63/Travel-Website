@@ -5,6 +5,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function TourCard({ item }) {
   return (
     <Card
@@ -23,7 +25,7 @@ export default function TourCard({ item }) {
       {/* Hình ảnh */}
       <CardMedia
         component="img"
-        image={`/Tours/${item.Image}`} // Hình ảnh từ API
+        image={`${distributionUrl}/Tours/${item.Image}`} // Hình ảnh từ API
         alt={item.Name} // Alt text cho SEO
         sx={{
           height: "230px", // Chiều cao ảnh

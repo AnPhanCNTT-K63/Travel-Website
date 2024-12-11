@@ -6,10 +6,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function TopDealCard({ item }) {
   return (
     <Card sx={{ maxWidth: 345, objectFit: "cover" }}>
-      <CardMedia component="img" height="140" image={`/Tours/${item.Image}`} />
+      <CardMedia
+        component="img"
+        height="140"
+        image={`${distributionUrl}/Tours/${item.Image}`}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {item.Name}

@@ -1,11 +1,18 @@
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function Front() {
   return (
     <div id="front">
       <h1 style={{ textAlign: "center" }}>Welcome To VVBA Travel Company</h1>
       <img
-        src="/logo_vvba.jpg"
+        src={`${distributionUrl}/Static/logo_vvba.jpg`}
         alt="font"
-        style={{ height: "400px", width: "400px", marginTop: "30px", borderRadius: "50%" }}
+        style={{
+          height: "400px",
+          width: "400px",
+          marginTop: "30px",
+          borderRadius: "50%",
+        }}
       />
       <p style={{ marginTop: "50px" }}>
         " VVBA is a leading travel agency dedicated to crafting unforgettable

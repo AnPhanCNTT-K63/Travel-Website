@@ -6,6 +6,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function TopDestination() {
   return (
     <>
@@ -37,7 +39,7 @@ export default function TopDestination() {
               <Card className={styles.cardContainer}>
                 <Card.Img
                   variant="top"
-                  src="/des1.jpg"
+                  src={`${distributionUrl}/Static/des1.jpg`}
                   className={styles.cardImg}
                   style={{ height: "410px" }}
                 />
@@ -57,7 +59,7 @@ export default function TopDestination() {
               <Card className={styles.cardContainer}>
                 <Card.Img
                   variant="top"
-                  src="/des2.jpg"
+                  src={`${distributionUrl}/Static/des2.jpg`}
                   className={styles.cardImg}
                 />
                 <Card.Text className={styles.cardText}>Turkey</Card.Text>
@@ -73,12 +75,11 @@ export default function TopDestination() {
           </Row>
 
           <Row>
-
             <Col md={3}>
               <Card className={styles.cardContainer}>
                 <Card.Img
                   variant="top"
-                  src="/des3.jpg"
+                  src={`${distributionUrl}/Static/des3.jpg`}
                   className={styles.cardImg}
                 />
                 <Card.Text className={styles.cardText}>United States</Card.Text>
@@ -95,7 +96,7 @@ export default function TopDestination() {
               <Card className={styles.cardContainer}>
                 <Card.Img
                   variant="top"
-                  src="/des4.jpg"
+                  src={`${distributionUrl}/Static/des4.jpg`}
                   className={styles.cardImg}
                   style={{ height: "170px" }}
                 />
@@ -113,7 +114,7 @@ export default function TopDestination() {
               <Card className={styles.cardContainer}>
                 <Card.Img
                   variant="top"
-                  src="/des5.jpg"
+                  src={`${distributionUrl}/Static/des5.jpg`}
                   className={styles.cardImg}
                 />
                 <Card.Text className={styles.cardText}>France</Card.Text>
@@ -130,7 +131,7 @@ export default function TopDestination() {
               <Card className={styles.cardContainer}>
                 <Card.Img
                   variant="top"
-                  src="/des6.jpeg"
+                  src={`${distributionUrl}/Static/des6.jpeg`}
                   className={styles.cardImg}
                 />
                 <Card.Text className={styles.cardText}>India</Card.Text>
