@@ -14,7 +14,7 @@ export default function TopDealCard({ item }) {
       <CardMedia
         component="img"
         height="140"
-        image={`${distributionUrl}/Tours/${item.Image}`}
+        image={`${distributionUrl}/Packages/${item.Image}`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

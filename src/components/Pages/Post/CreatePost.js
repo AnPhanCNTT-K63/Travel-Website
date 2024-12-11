@@ -22,7 +22,9 @@ const CreatePost = () => {
   const [content, setContent] = useState(location.state?.data.Content || "");
   const [hashtags, setHashtags] = useState(location.state?.data.Hashtags || "");
   const [image, setImage] = useState(location.state?.data.Image || null);
-  const [imageUpload, setImageUpload] = useState(null);
+  const [imageUpload, setImageUpload] = useState(
+    location.state?.data.imageUpload || null
+  );
   const [imagePreview, setImagePreview] = useState(
     location.state?.data.imagePreview || null
   );
@@ -39,6 +41,7 @@ const CreatePost = () => {
     Image: image,
     Content: content,
     imagePreview: imagePreview,
+    imageUpload: imageUpload,
   };
 
   const navigate = useNavigate();

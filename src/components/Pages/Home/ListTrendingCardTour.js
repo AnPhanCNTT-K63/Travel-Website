@@ -3,32 +3,46 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useEffect, useState } from "react";
-import { getTours } from "../../../api/Services/TourAndPackageServices";
+import {
+  getTourPackages,
+  getTours,
+} from "../../../api/Services/TourAndPackageServices";
 import { Link } from "react-router-dom";
 
 export default function ListTrendingCardTour() {
-  const [tours, setTours] = useState([]);
+  const [tours, setTours] = useState([]); // Lưu danh sách tour
+  const [loading, setLoading] = useState(true); // Kiểm tra trạng thái đang tải
+  const [error, setError] = useState(null); // Lưu lỗi nếu có
 
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const data = await getTours();
-        setTours(data.tours);
-        console.log(data);
+        const data = await getTourPackages(); // Gọi hàm lấy tour từ API
+        setTours(data); // Lưu danh sách tour vào state
       } catch (err) {
-        console.log(err);
+        setError("Có lỗi xảy ra khi lấy dữ liệu tour.");
+      } finally {
+        setLoading(false); // Đặt trạng thái loading thành false
       }
     };
     fetchTours();
   }, []);
 
-  // Chỉ lấy tối đa 6 phần tử
-  //const displayedTours = tours.slice(0, 6);
+  if (loading) {
+    return <p>Đang tải danh sách tour...</p>;
+  }
+
+  if (error) {
+    return <p style={{ color: "red" }}>{error}</p>;
+  }
+
+  // Hiển thị chỉ 9 tour đầu tiên
+  const toursToShow = tours.slice(0, 9);
 
   return (
     <Container>
       <Row>
-        {tours.map((item, index) => (
+        {toursToShow.map((item, index) => (
           <Col key={index} md={4} className="mb-4">
             <Link to={`/detail/${item.Id}`}>
               <TrendingCard item={item} />

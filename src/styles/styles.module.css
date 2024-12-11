@@ -49,7 +49,7 @@
 }
 
 .parallax {
-  background-image: url("../../public/staticPic.jpg");
+  background-image: url("https://d3omtf52mksen3.cloudfront.net/Static/staticPic.jpg");
 
   min-height: 500px;
 
@@ -66,7 +66,7 @@
 }
 
 .parallax {
-  background-image: url("../../public/staticPic.jpg");
+  background-image: url("https://d3omtf52mksen3.cloudfront.net/Static/staticPic.jpg");
   min-height: 500px;
   background-attachment: fixed;
   background-position: center;

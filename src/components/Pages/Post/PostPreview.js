@@ -12,6 +12,7 @@ const PostPreview = () => {
       Title: "",
       Image: "",
       Content: "",
+      imagePreview: "",
     }
   );
 
@@ -48,7 +49,7 @@ const PostPreview = () => {
         sx={{
           width: "100%",
           height: "400px",
-          backgroundImage: `url(${distributionUrl}/Posts/${post.Image})`,
+          backgroundImage: `url(${post.imagePreview})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 2,

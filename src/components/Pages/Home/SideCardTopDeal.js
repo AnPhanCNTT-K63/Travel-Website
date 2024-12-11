@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import TopDealCard from "./TopDealCard";
-import { getTours } from "../../../api/Services/TourAndPackageServices";
+import {
+  getTourPackages,
+  getTours,
+} from "../../../api/Services/TourAndPackageServices";
 
 const TopDealSlider = () => {
   const [tours, setTours] = useState([]);
@@ -9,8 +12,8 @@ const TopDealSlider = () => {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const data = await getTours(); // Gọi API để lấy dữ liệu tours
-        setTours(data.tours);
+        const data = await getTourPackages();
+        setTours(data);
       } catch (err) {
         console.error(err);
       }
@@ -26,9 +29,11 @@ const TopDealSlider = () => {
     slidesToScroll: 1,
   };
 
+  const toursToShow = tours.slice(0, 9);
+
   return (
     <Slider {...settings}>
-      {tours.map((deal, index) => (
+      {toursToShow.map((deal, index) => (
         <TopDealCard key={index} item={deal} />
       ))}
     </Slider>

@@ -3,6 +3,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function Imagelist1() {
   return (
     <div>
@@ -10,35 +12,29 @@ export default function Imagelist1() {
         <Row>
           <Col className="col-4">
             <div className="image-container">
-              <Image src="/g1.jpeg" rounded className="image" />
+              <Image
+                src={`${distributionUrl}/Static/g1.jpeg`}
+                rounded
+                className="image"
+              />
             </div>
           </Col>
           <Col className="col-4">
             <div className="image-container">
-              <Image src="/g2.jpeg" rounded className="image" />
+              <Image
+                src={`${distributionUrl}/Static/g2.jpeg`}
+                rounded
+                className="image"
+              />
             </div>
           </Col>
           <Col className="col-4">
             <div className="image-container">
-              <Image src="/g3.jpeg" rounded className="image" />
-            </div>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col className="col-4">
-            <div className="image-container">
-              <Image src="/g4.jpeg" rounded className="image" />
-            </div>
-          </Col>
-          <Col className="col-4">
-            <div className="image-container">
-              <Image src="/g5.jpeg" rounded className="image" />
-            </div>
-          </Col>
-          <Col className="col-4">
-            <div className="image-container">
-              <Image src="/g6.jpeg" rounded className="image" />
+              <Image
+                src={`${distributionUrl}/Static/g3.jpeg`}
+                rounded
+                className="image"
+              />
             </div>
           </Col>
         </Row>
@@ -46,17 +42,59 @@ export default function Imagelist1() {
         <Row>
           <Col className="col-4">
             <div className="image-container">
-              <Image src="/g7.jpeg" rounded className="image" />
+              <Image
+                src={`${distributionUrl}/Static/g4.jpeg`}
+                rounded
+                className="image"
+              />
             </div>
           </Col>
           <Col className="col-4">
             <div className="image-container">
-              <Image src="/g8.jpeg" rounded className="image" />
+              <Image
+                src={`${distributionUrl}/Static/g5.jpeg`}
+                rounded
+                className="image"
+              />
             </div>
           </Col>
           <Col className="col-4">
             <div className="image-container">
-              <Image src="/g9.jpeg" rounded className="image" />
+              <Image
+                src={`${distributionUrl}/Static/g6.jpeg`}
+                rounded
+                className="image"
+              />
+            </div>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col className="col-4">
+            <div className="image-container">
+              <Image
+                src={`${distributionUrl}/Static/g7.jpeg`}
+                rounded
+                className="image"
+              />
+            </div>
+          </Col>
+          <Col className="col-4">
+            <div className="image-container">
+              <Image
+                src={`${distributionUrl}/Static/g8.jpeg`}
+                rounded
+                className="image"
+              />
+            </div>
+          </Col>
+          <Col className="col-4">
+            <div className="image-container">
+              <Image
+                src={`${distributionUrl}/Static/g9.jpeg`}
+                rounded
+                className="image"
+              />
             </div>
           </Col>
         </Row>
