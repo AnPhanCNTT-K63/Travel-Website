@@ -382,6 +382,10 @@
     <Compile Include="Migrations\202412111354369_new_dasdaad.designer.cs">
       <DependentUpon>202412111354369_new_dasdaad.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412111435205_new_dasdasdasda.cs" />
+    <Compile Include="Migrations\202412111435205_new_dasdasdasda.designer.cs">
+      <DependentUpon>202412111435205_new_dasdasdasda.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\DbConfig.cs" />
     <Compile Include="Utils\GetFullException.cs" />
     <Compile Include="Utils\GlobalExceptionFilter.cs" />
@@ -713,6 +717,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412111354369_new_dasdaad.resx">
       <DependentUpon>202412111354369_new_dasdaad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412111435205_new_dasdasdasda.resx">
+      <DependentUpon>202412111435205_new_dasdasdasda.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

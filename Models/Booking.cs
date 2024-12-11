@@ -14,7 +14,6 @@ namespace WebBackendProject.Models
         public int Id { get; set; }
         [Required]
         public DateTime BookingDate { get; set; }
-        [Required]
         public string Status { get; set; }
         [Required]
         public int NumOfPeople { get; set; }
