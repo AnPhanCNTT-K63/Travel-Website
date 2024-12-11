@@ -54,6 +54,7 @@ const Card2 = ({ item }) => {
       sx={{
         margin: "10px",
         maxWidth: "300px",
+        height: "400px",
         boxShadow: 3,
         cursor: "pointer",
       }}
@@ -68,7 +69,12 @@ const Card2 = ({ item }) => {
         title={Name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="div"
+          sx={{ height: "80px" }}
+        >
           {Name || "Default Title"}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -84,7 +90,7 @@ const Card2 = ({ item }) => {
             </Box>
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-            {renderStars()}
+            Rating: {renderStars()}
           </Box>
         </Box>
       </CardActions>
