@@ -92,13 +92,30 @@ const TourManagement = () => {
   };
 
   function formatDate(jsonDate) {
-    const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
-    const date = new Date(timestamp);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "2-digit",
-      year: "numeric",
-    });
+    if (!jsonDate || typeof jsonDate !== "string") {
+      return "Invalid date"; // Handle null, undefined, or invalid inputs
+    }
+
+    const date = new Date(jsonDate);
+    if (isNaN(date.getTime())) {
+      return "Invalid date"; // Handle invalid date strings
+    }
+
+    // Extract date components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    // Extract time components
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const amPm = hours >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12;
+
+    // Format and return the result
+    return `${year}/${month}/${day}`;
   }
 
   return (

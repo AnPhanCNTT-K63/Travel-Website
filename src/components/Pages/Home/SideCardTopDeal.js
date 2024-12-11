@@ -12,8 +12,8 @@ const TopDealSlider = () => {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const data = await getTourPackages();
-        setTours(data);
+        const data = await getTours(1, 5, null, "");
+        setTours(data.tours);
       } catch (err) {
         console.error(err);
       }
@@ -29,11 +29,9 @@ const TopDealSlider = () => {
     slidesToScroll: 1,
   };
 
-  const toursToShow = tours.slice(0, 9);
-
   return (
     <Slider {...settings}>
-      {toursToShow.map((deal, index) => (
+      {tours.map((deal, index) => (
         <TopDealCard key={index} item={deal} />
       ))}
     </Slider>
