@@ -116,7 +116,7 @@ Thời Pháp thuộc, Nam Bộ là một xứ thuộc địa với tên gọi Na
         >
           Famous Southern tourist attractions
         </h2>
-        <TourSection2 region={"SoundSide"} />
+        <TourSection2 region={"SouthSide"} />
         <hr className={styles.separator} />
         <h2
           style={{

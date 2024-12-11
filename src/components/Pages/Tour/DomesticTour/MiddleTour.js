@@ -130,7 +130,7 @@ Thời Pháp thuộc, Trung Bộ là một xứ bảo hộ lấy tên là Trung 
         >
           Famous destinations in the Middle
         </h2>
-        <TourSection2 region={"SoundSide"} />
+        <TourSection2 region={"SouthSide"} />
         <hr className={styles.separator} />
         <h2
           style={{
