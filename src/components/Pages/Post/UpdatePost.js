@@ -3,6 +3,7 @@ import { Input, Button, message } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPostDetail, updatePost } from "../../../api/Services/PostServices";
 import { Box, CardMedia } from "@mui/material";
+import { sendImage } from "../../../api/Services/CloudServices";
 
 export default function UpdatePost() {
   const distributorUrl = process.env.REACT_APP_DISTRIBUTION_URL;
@@ -15,6 +16,7 @@ export default function UpdatePost() {
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [uploadImage, setUploadImage] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -44,8 +46,8 @@ export default function UpdatePost() {
         Hashtags: hashtags,
         Image: image,
       };
-      const data = await updatePost(updatedPost, postId);
-      console.log(data);
+      await updatePost(updatedPost, postId);
+      await sendImage(uploadImage, "Posts");
 
       message.success("Post updated successfully!");
       navigate("/blog");
@@ -59,6 +61,7 @@ export default function UpdatePost() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setUploadImage(file);
       setImage(file.name); // Store the file
       setImagePreview(URL.createObjectURL(file)); // Create a preview URL for the image
     }
@@ -124,7 +127,7 @@ export default function UpdatePost() {
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <img
               src={
-                `${distributorUrl}/Tours/${image}` ||
+                `${distributorUrl}/Posts/${image}` ||
                 "https://via.placeholder.com/300"
               }
               alt="Image Preview"

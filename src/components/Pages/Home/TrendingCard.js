@@ -68,12 +68,21 @@ export default function TrendingCard({ item }) {
     },
   };
 
-  const { Name: title, Image: img, Price: price, starRating, ratings, available } = item;
+  const {
+    Name: title,
+    Image: img,
+    Price: price,
+    starRating = 5,
+    ratings = 10000,
+    available,
+  } = item;
 
   return (
     <Card
       style={styles.card}
-      onMouseEnter={(e) => (e.currentTarget.style = { ...styles.card, ...styles.cardHover })}
+      onMouseEnter={(e) =>
+        (e.currentTarget.style = { ...styles.card, ...styles.cardHover })
+      }
       onMouseLeave={(e) => (e.currentTarget.style = styles.card)}
     >
       <CardMedia
@@ -99,14 +108,18 @@ export default function TrendingCard({ item }) {
       <CardActions style={styles.cardActions}>
         <Button
           style={styles.button}
-          onMouseEnter={(e) => (e.target.style.color = styles.buttonHover.color)}
+          onMouseEnter={(e) =>
+            (e.target.style.color = styles.buttonHover.color)
+          }
           onMouseLeave={(e) => (e.target.style.color = styles.button.color)}
         >
           Share
         </Button>
         <Button
           style={styles.button}
-          onMouseEnter={(e) => (e.target.style.color = styles.buttonHover.color)}
+          onMouseEnter={(e) =>
+            (e.target.style.color = styles.buttonHover.color)
+          }
           onMouseLeave={(e) => (e.target.style.color = styles.button.color)}
         >
           Detail

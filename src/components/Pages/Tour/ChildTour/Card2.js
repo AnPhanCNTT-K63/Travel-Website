@@ -54,7 +54,7 @@ const Card2 = ({ item }) => {
       sx={{
         margin: "10px",
         maxWidth: "300px",
-        height: "400px",
+        height: "500px",
         boxShadow: 3,
         cursor: "pointer",
       }}

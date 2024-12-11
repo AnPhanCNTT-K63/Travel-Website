@@ -225,7 +225,7 @@ export default function CreatePackage({
                     borderRadius: "8px",
                   }}
                   image={
-                    `${distributorUrl}/Tours/${tour.Image}` ||
+                    `${distributorUrl}/Packages/${tour.Image}` ||
                     "https://via.placeholder.com/300"
                   }
                   alt={tour.Name}

@@ -44,7 +44,7 @@ export default function ListTrendingCardTour() {
       <Row>
         {toursToShow.map((item, index) => (
           <Col key={index} md={4} className="mb-4">
-            <Link to={`/detail/${item.Id}`}>
+            <Link to={`/detail/${index + 12}`}>
               <TrendingCard item={item} />
             </Link>
           </Col>

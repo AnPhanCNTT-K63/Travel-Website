@@ -5,6 +5,7 @@ import {
   getTourPackages,
   getTours,
 } from "../../../api/Services/TourAndPackageServices";
+import { Link } from "react-router-dom";
 
 const TopDealSlider = () => {
   const [tours, setTours] = useState([]);
@@ -32,7 +33,9 @@ const TopDealSlider = () => {
   return (
     <Slider {...settings}>
       {tours.map((deal, index) => (
-        <TopDealCard key={index} item={deal} />
+        <Link to={`/detail/${deal.Id}`} style={{ textDecorationStyle: "none" }}>
+          <TopDealCard key={index} item={deal} />
+        </Link>
       ))}
     </Slider>
   );
