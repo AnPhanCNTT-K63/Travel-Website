@@ -2,6 +2,7 @@
 using Microsoft.Owin;
 using Owin;
 using WebBackendProject.Controllers;
+using WebBackendProject.Controllers.Api;
 using WebBackendProject.Helpers;
 
 [assembly: OwinStartup(typeof(WebBackendProject.Startup))] // Add this line to specify Owin Startup
@@ -20,7 +21,7 @@ namespace WebBackendProject
 
             RecurringJob.AddOrUpdate(
                 "UpdateUserStatus",                               // Unique job identifier
-                () => new UserController().UpdateUserStatus(),   // Instance method call
+                () => new UserApiController().UpdateUserStatus(),   // Instance method call
                 Cron.Minutely                                    // Schedule (every minute)
          );
 

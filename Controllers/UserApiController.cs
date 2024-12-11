@@ -15,23 +15,6 @@ namespace WebBackendProject.Controllers.Api
     {
         private readonly DbAppContext db = new DbAppContext();
 
-        // Update User Status
-        [HttpPost]
-        [Route("update-status")]
-        public async Task<IHttpActionResult> UpdateUserStatus()
-        {
-            var threshold = DateTime.UtcNow.AddSeconds(-30);
-            var users = await db.Users.Where(u => u.LastActive < threshold && u.IsOnline).ToListAsync();
-
-            foreach (var user in users)
-            {
-                user.IsOnline = false;
-            }
-
-            await db.SaveChangesAsync();
-            return Ok(new { message = "User status updated" });
-        }
-
         // Get all users
         [HttpGet]
         [Route("users")]
@@ -213,6 +196,22 @@ namespace WebBackendProject.Controllers.Api
             {
                 return BadRequest("Invalid input data.");
             }
+        }
+
+        // Update User Status
+        [HttpPost]
+        [Route("update-status")]
+        public void UpdateUserStatus()
+        {
+            var threshold = DateTime.UtcNow.AddSeconds(-30);
+            var users = db.Users.Where(u => u.LastActive < threshold && u.IsOnline).ToList();
+
+            foreach (var user in users)
+            {
+                user.IsOnline = false;
+            }
+
+            db.SaveChanges();
         }
 
 

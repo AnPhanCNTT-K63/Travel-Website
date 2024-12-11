@@ -335,27 +335,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorization\JwtAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AdminApiController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthApiController.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BookingApiController.cs" />
-    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CloudApiController.cs" />
-    <Compile Include="Controllers\CloudController.cs" />
     <Compile Include="Controllers\InvoiceApiController.cs" />
-    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\PaymentApiController.cs" />
     <Compile Include="Controllers\PaymentCardApiController.cs" />
-    <Compile Include="Controllers\PaymentCardController.cs" />
-    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PostApiController.cs" />
-    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourApiController.cs" />
-    <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\TourPackageApiController.cs" />
-    <Compile Include="Controllers\TourPackageController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTO\Admin\UserRequest.cs" />
     <Compile Include="DTO\Auth\GoogleLogin.cs" />
     <Compile Include="DTO\Auth\PasswordCheck.cs" />
@@ -387,6 +376,7 @@
     </Compile>
     <Compile Include="Utils\DbConfig.cs" />
     <Compile Include="Utils\GetFullException.cs" />
+    <Compile Include="Utils\GlobalExceptionFilter.cs" />
     <Compile Include="Utils\JwtHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

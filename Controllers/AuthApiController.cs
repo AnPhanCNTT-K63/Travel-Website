@@ -105,7 +105,7 @@ namespace WebBackendProject.Controllers
                 return Ok(new { token = token, message = "Success" });
             }
         }
-
+            
         [JwtAuthorize("admin", "user")]
         [HttpGet]
         [Route("signout")] // GET: auth/signout
