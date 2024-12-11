@@ -102,7 +102,6 @@ const Header = () => {
                   VVBA Travel Company
                 </h4>
               </Typography>
-              <SearchAppBar />
             </Box>
           )}
         </Box>
@@ -125,12 +124,6 @@ const Header = () => {
             </Typography>
           )}
         </Box>
-        <IconButton color="black">
-          <RoomIcon />
-        </IconButton>
-        <IconButton color="black">
-          <ShoppingCartIcon />
-        </IconButton>
 
         {!token && (
           <IconButton onClick={handleAccountClick} color="black">
@@ -144,7 +137,7 @@ const Header = () => {
         {token && role == "user" && (
           <>
             <Typography color="black" variant="body1" sx={{ ml: 1 }}>
-              Welcome,
+              Welcome
             </Typography>
             <UserMenu username={username} handleSignOut={handleSignOut} />
           </>
