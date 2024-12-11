@@ -374,6 +374,14 @@
     <Compile Include="Migrations\202412100712130_new_treraeae31313.designer.cs">
       <DependentUpon>202412100712130_new_treraeae31313.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412111307405_new_adasdadad.cs" />
+    <Compile Include="Migrations\202412111307405_new_adasdadad.designer.cs">
+      <DependentUpon>202412111307405_new_adasdadad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412111354369_new_dasdaad.cs" />
+    <Compile Include="Migrations\202412111354369_new_dasdaad.designer.cs">
+      <DependentUpon>202412111354369_new_dasdaad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\DbConfig.cs" />
     <Compile Include="Utils\GetFullException.cs" />
     <Compile Include="Utils\GlobalExceptionFilter.cs" />
@@ -699,6 +707,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412100712130_new_treraeae31313.resx">
       <DependentUpon>202412100712130_new_treraeae31313.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412111307405_new_adasdadad.resx">
+      <DependentUpon>202412111307405_new_adasdadad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412111354369_new_dasdaad.resx">
+      <DependentUpon>202412111354369_new_dasdaad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

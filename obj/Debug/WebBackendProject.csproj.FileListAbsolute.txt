@@ -1059,3 +1059,5 @@ D:\Visual Studio 2022\TravelWebBackend Web Api\obj\Debug\WebBackendProject.cspro
 D:\Visual Studio 2022\TravelWebBackend Web Api\obj\Debug\WebBackendProject.csproj.CopyComplete
 D:\Visual Studio 2022\TravelWebBackend Web Api\obj\Debug\WebBackendProject.dll
 D:\Visual Studio 2022\TravelWebBackend Web Api\obj\Debug\WebBackendProject.pdb
+D:\Visual Studio 2022\TravelWebBackend Web Api\obj\Debug\WebBackendProject.Migrations.new_adasdadad.resources
+D:\Visual Studio 2022\TravelWebBackend Web Api\obj\Debug\WebBackendProject.Migrations.new_dasdaad.resources
