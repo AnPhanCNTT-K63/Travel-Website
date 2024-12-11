@@ -102,6 +102,7 @@ namespace WebBackendProject.Controllers
                     t.IsDeleted,
                     t.Opening,
                     t.Ending,
+                    t.Description,
                     MinPrice = db.TourPackages
                         .Where(tp => tp.Tour.Id == t.Id)
                         .Min(tp => (decimal?)tp.Price) ?? 0
