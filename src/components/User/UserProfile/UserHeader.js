@@ -1,4 +1,5 @@
 import { Container, Row, Col } from "reactstrap";
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
 const UserHeader = ({ userProfile }) => {
   return (
@@ -8,7 +9,7 @@ const UserHeader = ({ userProfile }) => {
           className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
           style={{
             minHeight: "600px",
-            backgroundImage: `url(/CoverAvatars/${userProfile.profile.CoverAvatar})`,
+            backgroundImage: `url(${distributionUrl}/CoverAvatars/${userProfile.profile.CoverAvatar})`,
             backgroundSize: "cover",
             backgroundPosition: "center top",
             backgroundBlendMode: "overlay",

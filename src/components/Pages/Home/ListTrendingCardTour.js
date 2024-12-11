@@ -3,43 +3,38 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useEffect, useState } from "react";
-import { getTours } from "../../../api/Services/TourAndPackageServices";
+import {
+  getTourPackages,
+  getTours,
+} from "../../../api/Services/TourAndPackageServices";
 import { Link } from "react-router-dom";
-import { getTourPackages } from '../../../api/Services/TourAndPackageServices';
+
 
 export default function ListTrendingCardTour() {
-  const [tours, setTours] = useState([]); // Lưu danh sách tour
-  const [loading, setLoading] = useState(true); // Kiểm tra trạng thái đang tải
-  const [error, setError] = useState(null); // Lưu lỗi nếu có
+  const [tours, setTours] = useState([]);
 
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const data = await getTourPackages(); // Gọi hàm lấy tour từ API
-        setTours(data); // Lưu danh sách tour vào state
+        const data = await getTours(1, 9, null, "");
+        setTours(data.tours);
       } catch (err) {
-        setError('Có lỗi xảy ra khi lấy dữ liệu tour.');
-      } finally {
-        setLoading(false); // Đặt trạng thái loading thành false
+        console.error(err);
       }
     };
+    fetchTours();
+  }, []);
 
-    fetchTours(); // Gọi hàm khi component được mount
-  }, []); // Hàm này chỉ chạy 1 lần khi component được render
-
-  if (loading) {
-    return <p>Đang tải danh sách tour...</p>;
-  }
-
-  if (error) {
-    return <p style={{ color: 'red' }}>{error}</p>;
-  }
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+  };
 
   // Hiển thị chỉ 9 tour đầu tiên
   const toursToShow = tours.slice(0, 9);
-
-
-
 
   return (
     <Container>

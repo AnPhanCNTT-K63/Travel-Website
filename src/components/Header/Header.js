@@ -22,6 +22,7 @@ import { signout } from "../../api/Services/AuthServices";
 import UserMenu from "./UserMenu";
 
 const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
 const Header = () => {
   const user = useContext(UserContext);
@@ -78,7 +79,7 @@ const Header = () => {
         <Box display="flex" flexGrow={1} alignItems="center">
           <Link to="/Home">
             <Image
-              src="/logo_vvba.jpg"
+              src={`${distributionUrl}/Static/logo_vvba.jpg`}
               style={{ width: "50px", height: "50px" }}
               roundedCircle
             />

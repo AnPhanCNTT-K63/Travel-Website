@@ -5,15 +5,44 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import StarIcon from "@mui/icons-material/Star";
+import Badge from '@mui/material/Badge';
+
+
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
 export default function TopDealCard({ item }) {
   return (
     <Card sx={{ maxWidth: 345, objectFit: "cover" }}>
-      <CardMedia component="img" height="140" image={`/Tours/${item.Image}`} />
+      <CardMedia
+        component="img"
+        height="140"
+        image={`${distributionUrl}/Packages/${item.Image}`}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {item.Name}
+          <Badge
+            badgeContent={`-${Math.round(
+              Math.random() * 100
+            )}%`}
+            color="primary"
+            style={{ marginLeft: "20px" }}
+          />
         </Typography>
+
+        {Array.from({ length: 5 }).map((_, i) => (
+          <StarIcon key={i} style={{ color: "gold" }} />
+        ))}
+        {/* <Typography
+          variant="body2"
+          color="gold"
+          component="span"
+          fontWeight={"bold"}
+        >
+          {starRating ? starRating : "5"}
+
+        </Typography> */}
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {item.Description}
         </Typography>

@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "@mui/material";
 import styles from "../../../../styles/MyBookingPage.module.css";
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
 export default function Commercial() {
   return (
     <div className={styles.leftSide}>
       <img
-        src="/app.png"
+        src={`${distributionUrl}/Static/app.png`}
         alt="How to Download App"
         style={{ objectFit: "cover" }}
         className={styles.instructionImage}

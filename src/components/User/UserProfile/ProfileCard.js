@@ -15,6 +15,8 @@ import {
   showMoreLinkStyle,
 } from "./ProfileStyle.js";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function ProfileCard({ userProfile, user }) {
   const [showFullAboutMe, setShowFullAboutMe] = useState(false);
   const toggleShowMore = () => setShowFullAboutMe(!showFullAboutMe);
@@ -28,7 +30,7 @@ export default function ProfileCard({ userProfile, user }) {
               <img
                 alt="..."
                 className="rounded-circle"
-                src={`/Avatars/${userProfile.profile.Avatar}`}
+                src={`${distributionUrl}/Avatars/${userProfile.profile.Avatar}`}
                 style={
                   user.userId == userProfile.profile?.UserId
                     ? imgStyle

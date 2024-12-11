@@ -10,6 +10,8 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function PackageInfo({ tourPackage }) {
   const fallbackImage = "/images/default-tour.jpg"; // Placeholder image
 
@@ -47,7 +49,7 @@ export default function PackageInfo({ tourPackage }) {
         <img
           src={
             tourPackage?.Image
-              ? `/Packages/${tourPackage.Image}`
+              ? `${distributionUrl}/Packages/${tourPackage.Image}`
               : fallbackImage
           }
           alt="Tour Package"

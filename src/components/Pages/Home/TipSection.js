@@ -1,13 +1,15 @@
 import React from "react";
 import { Button, Typography, Box } from "@mui/material";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function TipSection() {
   return (
     <Box sx={{ position: "relative", textAlign: "center", mt: 8 }}>
       {/* Background Image */}
       <Box
         component="img"
-        src="/travelTrip.jpg"
+        src={`${distributionUrl}/Static/travelTrip.jpg`}
         alt="Travel Tips"
         sx={{
           width: "100%",

@@ -7,7 +7,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Image from "react-bootstrap/Image";
-import { Line } from "react-chartjs-2";
+
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
 export default function Footer() {
   return (
@@ -25,7 +26,7 @@ export default function Footer() {
             {/* Logo and Info */}
             <MDBCol md="3" lg="3" xl="3" className="mx-auto text-center">
               <Image
-                src="/logo.jpg"
+                src={`${distributionUrl}/Static/logo_vvba.jpg`}
                 style={{ width: "120px", height: "120px" }}
                 roundedCircle
               />
@@ -231,12 +232,16 @@ export default function Footer() {
         >
           <div>
             <div className="mb-2">
-              <span style={{ color: "rgb(255,255,255)",marginLeft:"30px" }}>
+              <span style={{ color: "rgb(255,255,255)", marginLeft: "30px" }}>
                 Connect with us on social media:
               </span>
             </div>
             <div className="d-flex justify-content-center justify-content-lg-start">
-              <a href="#" className="me-3" style={{ color: "#4267B2",marginLeft:"30px" }}>
+              <a
+                href="#"
+                className="me-3"
+                style={{ color: "#4267B2", marginLeft: "30px" }}
+              >
                 <FacebookIcon fontSize="medium" />
               </a>
               <a href="#" className="me-3" style={{ color: "#1DA1F2" }}>

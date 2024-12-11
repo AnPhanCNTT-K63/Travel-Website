@@ -46,8 +46,4 @@ export const useStyles = makeStyles({
   avatar: {
     marginRight: "10px",
   },
-  actionsCell: {
-    display: "flex",
-    alignItems: "center",
-  },
 });
