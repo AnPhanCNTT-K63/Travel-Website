@@ -10,6 +10,8 @@ import UserContext from "../../../../UserContext";
 import Swal from "sweetalert2";
 import DeletedTourCard from "./DeletedTourCard";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const DeletedTourPage = () => {
   const [tours, setTours] = useState([]);
   const user = useContext(UserContext);
@@ -89,10 +91,10 @@ const DeletedTourPage = () => {
   const getTourImage = (imageName, index = 0) => {
     const images = parseImageNames(imageName);
     if (images.length > index) {
-      return `/${images[index]}`;
+      return `${distributionUrl}/Tours/${images[index]}`;
     }
     if (typeof imageName === "string") {
-      return `/${imageName}`;
+      return `${distributionUrl}/Tours/${imageName}`;
     }
     return "https://via.placeholder.com/300";
   };

@@ -4,6 +4,8 @@ import { DeleteForever, Restore, AccessTime } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const DeletedPostCard = ({ post, handleDeleteForever, handleRestorePost }) => {
   const postHashtags =
     post.Hashtags && typeof post.Hashtags === "string"
@@ -101,7 +103,7 @@ const DeletedPostCard = ({ post, handleDeleteForever, handleRestorePost }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        height: "500px",
+        height: "600px",
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
           transform: "scale(1.03)",
@@ -168,7 +170,7 @@ const DeletedPostCard = ({ post, handleDeleteForever, handleRestorePost }) => {
       <Link to={`/post/${post.Id}`} style={{ textDecoration: "none" }}>
         <Box
           component="img"
-          src={`/${postImage}`}
+          src={`${distributionUrl}/Posts/${postImage}`}
           alt={postTitle}
           sx={{
             width: "100%",

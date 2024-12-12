@@ -3,6 +3,8 @@ import { Box, Typography, Button, Grid } from "@mui/material";
 import { DeleteForever, Restore } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function DeletedTourCard({
   tours,
   formatDate,

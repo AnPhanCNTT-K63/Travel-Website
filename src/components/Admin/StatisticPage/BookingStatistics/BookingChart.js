@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +14,8 @@ import {
 import { getBookingStatistics } from "../../../../api/Services/BookingServices";
 import styles from "../../../../styles/BookingChart.module.css";
 import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 ChartJS.register(
   Title,
@@ -31,6 +33,7 @@ const BookingChart = () => {
   const [selectedChart, setSelectedChart] = useState("total");
   const [chartType, setChartType] = useState("bar");
   const { year } = useParams();
+  const chartRef = useRef(null); // Ref for the chart container
 
   useEffect(() => {
     const fetchStatistics = async () => {
@@ -75,7 +78,6 @@ const BookingChart = () => {
     failedBookingData[item.BookingMonth - 1] = item.BookingCount;
   });
 
-  // Chart data for each type
   const chartData = {
     total: {
       labels: months,
@@ -173,6 +175,15 @@ const BookingChart = () => {
     },
   };
 
+  const exportToPDF = async () => {
+    const chartElement = chartRef.current;
+    const canvas = await html2canvas(chartElement, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("landscape");
+    pdf.addImage(imgData, "PNG", 10, 10, 280, 150); // Adjust dimensions as needed
+    pdf.save(`Booking_Chart_${year}.pdf`);
+  };
+
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartSidebar}>
@@ -191,6 +202,9 @@ const BookingChart = () => {
           }`}
         >
           Line Chart
+        </button>
+        <button onClick={exportToPDF} className={styles.exportButton}>
+          Export to PDF
         </button>
       </div>
 
@@ -230,7 +244,7 @@ const BookingChart = () => {
           </button>
         </div>
 
-        <div className={styles.chartDisplay}>
+        <div ref={chartRef} className={styles.chartDisplay}>
           {chartType === "bar" ? (
             <Bar data={chartData[selectedChart]} options={options} />
           ) : (

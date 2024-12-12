@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +14,8 @@ import {
 import styles from "../../../../styles/BookingChart.module.css";
 import { getPaymentStatistics } from "../../../../api/Services/PaymentServices";
 import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 ChartJS.register(
   Title,
@@ -31,6 +33,7 @@ const PaymentChart = () => {
   const [selectedChart, setSelectedChart] = useState("total");
   const [chartType, setChartType] = useState("bar");
   const { year } = useParams();
+  const chartRef = useRef(null); // Ref for the chart container
 
   useEffect(() => {
     const fetchStatistics = async () => {
@@ -81,7 +84,7 @@ const PaymentChart = () => {
       labels: months,
       datasets: [
         {
-          label: "Total Bookings",
+          label: "Total Payments",
           data: totalPaymentData,
           borderColor: "rgba(75, 192, 192, 1)",
           backgroundColor:
@@ -96,7 +99,7 @@ const PaymentChart = () => {
       labels: months,
       datasets: [
         {
-          label: "Successful Bookings",
+          label: "Successful Payments",
           data: successfulPaymentData,
           borderColor: "rgba(54, 162, 235, 1)",
           backgroundColor:
@@ -111,7 +114,7 @@ const PaymentChart = () => {
       labels: months,
       datasets: [
         {
-          label: "Failed Bookings",
+          label: "Failed Payments",
           data: failedPaymentData,
           borderColor: "rgba(255, 99, 132, 1)",
           backgroundColor:
@@ -126,7 +129,7 @@ const PaymentChart = () => {
       labels: months,
       datasets: [
         {
-          label: "Total Bookings",
+          label: "Total Payments",
           data: totalPaymentData,
           borderColor: "rgba(75, 192, 192, 1)",
           backgroundColor:
@@ -136,7 +139,7 @@ const PaymentChart = () => {
           tension: 0.4,
         },
         {
-          label: "Successful Bookings",
+          label: "Successful Payments",
           data: successfulPaymentData,
           borderColor: "rgba(54, 162, 235, 1)",
           backgroundColor:
@@ -146,7 +149,7 @@ const PaymentChart = () => {
           tension: 0.4,
         },
         {
-          label: "Failed Bookings",
+          label: "Failed Payments",
           data: failedPaymentData,
           borderColor: "rgba(255, 99, 132, 1)",
           backgroundColor:
@@ -173,6 +176,15 @@ const PaymentChart = () => {
     },
   };
 
+  const exportToPDF = async () => {
+    const chartElement = chartRef.current;
+    const canvas = await html2canvas(chartElement, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("landscape");
+    pdf.addImage(imgData, "PNG", 10, 10, 280, 150); // Adjust dimensions as needed
+    pdf.save(`Booking_Chart_${year}.pdf`);
+  };
+
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartSidebar}>
@@ -192,6 +204,9 @@ const PaymentChart = () => {
         >
           Line Chart
         </button>
+        <button onClick={exportToPDF} className={styles.exportButton}>
+          Export to PDF
+        </button>
       </div>
 
       <div className={styles.chartContent}>
@@ -202,7 +217,7 @@ const PaymentChart = () => {
               selectedChart === "total" ? styles.activeBtn : ""
             }`}
           >
-            Total Bookings
+            Total Payments
           </button>
           <button
             onClick={() => setSelectedChart("successful")}
@@ -210,7 +225,7 @@ const PaymentChart = () => {
               selectedChart === "successful" ? styles.activeBtn : ""
             }`}
           >
-            Successful Bookings
+            Successful Payments
           </button>
           <button
             onClick={() => setSelectedChart("failed")}
@@ -218,7 +233,7 @@ const PaymentChart = () => {
               selectedChart === "failed" ? styles.activeBtn : ""
             }`}
           >
-            Failed Bookings
+            Failed Payments
           </button>
           <button
             onClick={() => setSelectedChart("combined")}
@@ -230,7 +245,7 @@ const PaymentChart = () => {
           </button>
         </div>
 
-        <div className={styles.chartDisplay}>
+        <div ref={chartRef} className={styles.chartDisplay}>
           {chartType === "bar" ? (
             <Bar data={chartData[selectedChart]} options={options} />
           ) : (

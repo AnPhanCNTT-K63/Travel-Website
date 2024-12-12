@@ -18,6 +18,9 @@ export default function UpdateTourPage() {
   const user = useContext(UserContext);
   const user_id = user.userId;
   const [numPackage, setNumPackage] = useState();
+  const [tourChange, setTourChange] = useState(null);
+  const [packageChange, setPackageChange] = useState(null);
+  const [isPackageChange, setIsPackageChange] = useState(false);
 
   const [tourPackages, setTourPackage] = useState([
     {
@@ -53,7 +56,9 @@ export default function UpdateTourPage() {
         countPackageInTour(tourId),
       ]);
       setTour(tourRes);
+      setTourChange(tourRes);
       setTourPackage(packagesRes);
+      setPackageChange(packagesRes);
       setNumPackage(countRes);
     };
     fetchData();
@@ -92,13 +97,16 @@ export default function UpdateTourPage() {
         const data = { tour, tourPackages, user_id };
 
         const res = await updateTourAndPackages(data);
-        console.log(res);
 
-        await sendImage(tour.imageUpload, "Tours");
+        if (tourChange.Image != tour.Image) {
+          await sendImage(tour.imageUpload, "Tours");
+        }
 
         await Promise.all(
           tourPackages.map(async (item) => {
-            await sendImage(item.imageUpload, "Packages");
+            if (item.imageUpload != null) {
+              await sendImage(item.imageUpload, "Packages");
+            }
           })
         );
 

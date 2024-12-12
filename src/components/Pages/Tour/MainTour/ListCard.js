@@ -17,7 +17,7 @@ export default function ListCard() {
     searchQuery: "",
     searchBy: "",
     sortBy: "",
-    priceRange: [1, 10000],
+    priceRange: [0, 10000],
   });
 
   const handleSearch = (newFilters) => {

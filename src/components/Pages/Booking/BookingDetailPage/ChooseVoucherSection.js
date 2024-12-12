@@ -58,40 +58,42 @@ export default function ChooseVoucherSection({
         Choose a Voucher
       </h5>
       <div className="pt-3" style={sectionBackgroundStyle}>
-        {vouchers.map((voucher) => (
-          <div
-            key={voucher.Code}
-            role="button"
-            aria-pressed={selectedVoucher === voucher.Code}
-            className="d-flex align-items-center mb-3 shadow-sm"
-            onClick={() => handleVoucherClick(voucher)}
-            style={{
-              ...voucherStyles.container,
-              ...(selectedVoucher === voucher.Code
-                ? voucherStyles.selected
-                : voucherStyles.default),
-            }}
-          >
-            <MDBIcon
-              fas
-              icon="ticket-alt"
-              size="lg"
-              className="text-primary pe-2" // Changed to a calm blue
-            />
-            <p
-              className="mb-0"
-              style={{ color: "#343a40", fontSize: "0.95rem" }}
-            >
-              {voucher.Title} - Code: <b>{voucher.Code}</b>
-            </p>
+        {!vouchers && <p>No Voucher</p>}
+        {vouchers &&
+          vouchers.map((voucher) => (
             <div
-              className="ms-auto text-success fw-bold"
-              style={{ fontSize: "0.9rem" }}
+              key={voucher.Code}
+              role="button"
+              aria-pressed={selectedVoucher === voucher.Code}
+              className="d-flex align-items-center mb-3 shadow-sm"
+              onClick={() => handleVoucherClick(voucher)}
+              style={{
+                ...voucherStyles.container,
+                ...(selectedVoucher === voucher.Code
+                  ? voucherStyles.selected
+                  : voucherStyles.default),
+              }}
             >
-              -${voucher.Discount}
+              <MDBIcon
+                fas
+                icon="ticket-alt"
+                size="lg"
+                className="text-primary pe-2" // Changed to a calm blue
+              />
+              <p
+                className="mb-0"
+                style={{ color: "#343a40", fontSize: "0.95rem" }}
+              >
+                {voucher.Title} - Code: <b>{voucher.Code}</b>
+              </p>
+              <div
+                className="ms-auto text-success fw-bold"
+                style={{ fontSize: "0.9rem" }}
+              >
+                -${voucher.Discount}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         <MDBInput
           label="Enter Voucher Code"
           placeholder="Enter your voucher code here"

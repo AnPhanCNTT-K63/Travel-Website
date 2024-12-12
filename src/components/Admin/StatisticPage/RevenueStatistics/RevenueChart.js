@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -15,6 +15,8 @@ import {
 import styles from "../../../../styles/BookingChart.module.css";
 import { getRevenueStatistics } from "../../../../api/Services/PaymentServices";
 import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 ChartJS.register(
   Title,
@@ -32,6 +34,7 @@ const RevenueChart = () => {
   const [data, setData] = useState(null);
   const [chartType, setChartType] = useState("bar");
   const { year } = useParams();
+  const chartRef = useRef(null); // Ref for the chart container
 
   useEffect(() => {
     const fetchStatistics = async () => {
@@ -108,6 +111,15 @@ const RevenueChart = () => {
           },
   };
 
+  const exportToPDF = async () => {
+    const chartElement = chartRef.current;
+    const canvas = await html2canvas(chartElement, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("landscape");
+    pdf.addImage(imgData, "PNG", 10, 10, 280, 150); // Adjust dimensions as needed
+    pdf.save(`Booking_Chart_${year}.pdf`);
+  };
+
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartSidebar}>
@@ -135,9 +147,12 @@ const RevenueChart = () => {
         >
           Pie Chart
         </button>
+        <button onClick={exportToPDF} className={styles.exportButton}>
+          Export to PDF
+        </button>
       </div>
       <div className={styles.chartContent}>
-        <div className={styles.chartDisplay}>
+        <div ref={chartRef} className={styles.chartDisplay}>
           {chartType === "bar" && <Bar data={chartData} options={options} />}
           {chartType === "line" && <Line data={chartData} options={options} />}
           {chartType === "pie" && <Pie data={chartData} options={options} />}

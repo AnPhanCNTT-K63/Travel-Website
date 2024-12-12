@@ -67,15 +67,6 @@ export default function UpdatePost() {
     }
   };
 
-  const handleImageUpload = (info) => {
-    if (info.file.status === "done") {
-      const url = info.file.response?.url;
-      setImage(url);
-      message.success("Image uploaded successfully!");
-    } else if (info.file.status === "error") {
-      message.error("Failed to upload image.");
-    }
-  };
   return (
     <div
       style={{

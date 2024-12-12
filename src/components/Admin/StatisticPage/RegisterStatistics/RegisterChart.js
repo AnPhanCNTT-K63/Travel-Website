@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +14,8 @@ import {
 import styles from "../../../../styles/BookingChart.module.css";
 import { getRegisterStatistics } from "../../../../api/Services/UserServices";
 import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 ChartJS.register(
   Title,
@@ -30,6 +32,7 @@ const RegisterChart = () => {
   const [data, setData] = useState(null);
   const [chartType, setChartType] = useState("bar");
   const { year } = useParams();
+  const chartRef = useRef(null); // Ref for the chart container
 
   useEffect(() => {
     const fetchStatistics = async () => {
@@ -103,6 +106,15 @@ const RegisterChart = () => {
     },
   };
 
+  const exportToPDF = async () => {
+    const chartElement = chartRef.current;
+    const canvas = await html2canvas(chartElement, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("landscape");
+    pdf.addImage(imgData, "PNG", 10, 10, 280, 150); // Adjust dimensions as needed
+    pdf.save(`Booking_Chart_${year}.pdf`);
+  };
+
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartSidebar}>
@@ -122,10 +134,13 @@ const RegisterChart = () => {
         >
           Line Chart
         </button>
+        <button onClick={exportToPDF} className={styles.exportButton}>
+          Export to PDF
+        </button>
       </div>
       <div className={styles.chartContent}>
         Total Registers Per Month
-        <div className={styles.chartDisplay}>
+        <div ref={chartRef} className={styles.chartDisplay}>
           {chartType === "bar" ? (
             <Bar data={chartData} options={options} />
           ) : (
