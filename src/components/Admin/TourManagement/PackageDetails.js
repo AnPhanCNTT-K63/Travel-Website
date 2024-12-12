@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const AdminPackageDetails = ({ tourPackage }) => {
   const formatDate = (jsonDate) => {
     const timestamp = parseInt(jsonDate.match(/\d+/)[0], 10);
@@ -87,7 +89,7 @@ const AdminPackageDetails = ({ tourPackage }) => {
                 <TableCell>
                   <Box
                     component="img"
-                    src={`/${tourPackage.Image}`}
+                    src={`${distributionUrl}/Packages/${tourPackage.Image}`}
                     alt={tourPackage.Name}
                     sx={{
                       width: 150,

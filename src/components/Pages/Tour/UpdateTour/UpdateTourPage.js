@@ -92,7 +92,10 @@ export default function UpdateTourPage() {
         const data = { tour, tourPackages, user_id };
 
         const res = await updateTourAndPackages(data);
+        console.log(res);
+
         await sendImage(tour.imageUpload, "Tours");
+
         await Promise.all(
           tourPackages.map(async (item) => {
             await sendImage(item.imageUpload, "Packages");

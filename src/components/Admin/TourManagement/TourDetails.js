@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const AdminTourDetails = ({ tour }) => {
   const formatTime = (time) => {
     if (!time) return "N/A";
@@ -105,7 +107,7 @@ const AdminTourDetails = ({ tour }) => {
                 <TableCell>
                   <Box
                     component="img"
-                    src={`/${tour.Image}`}
+                    src={`${distributionUrl}/Tours/${tour.Image}`}
                     alt={tour.Name}
                     sx={{
                       width: 150,
