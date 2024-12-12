@@ -327,6 +327,7 @@
   <ItemGroup>
     <Content Include="Content\Site.css" />
     <Content Include="dbconnection.txt" />
+    <Content Include="dbScript.sql" />
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>

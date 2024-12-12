@@ -25,7 +25,7 @@ namespace WebBackendProject.Controllers
         {
             var existedUserEmail = await db.Users.FirstOrDefaultAsync(eu => eu.Email == info.Email);
             var existedUserUsername = await db.Users.FirstOrDefaultAsync(eu => eu.Username == info.Username);
-            var softDeletedUserEmail = await db.Users.FirstOrDefaultAsync(u => u.IsDeleted == true);
+            var softDeletedUserEmail = await db.Users.FirstOrDefaultAsync(u => u.Email == info.Email && u.IsDeleted == true );
 
             if (existedUserEmail != null)
             {
