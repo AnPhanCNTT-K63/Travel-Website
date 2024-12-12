@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Pagination from "@mui/material/Pagination";
-import { Link } from "react-router-dom";
 import TourCard from "./../MainTour/Card"; // Đảm bảo rằng đường dẫn này chính xác
 import { getTours } from "../../../../api/Services/TourAndPackageServices"; // Lấy dữ liệu từ API
 import { Box } from "@mui/material"; // Import Box từ Material-UI
@@ -58,9 +57,7 @@ export default function ListCard() {
               tours.map((item) => (
                 <Col className="col-4" key={item.Id}>
                   <div style={{ margin: "40px 0 50px 0" }}>
-                    <Link to={`/detail/${item.Id}`}>
-                      <TourCard item={item} />
-                    </Link>
+                    <TourCard item={item} />
                   </div>
                 </Col>
               ))

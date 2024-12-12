@@ -47,7 +47,6 @@ import PaymentChart from "../Admin/StatisticPage/PaymentStatistics/PaymentChart"
 import RevenueChart from "../Admin/StatisticPage/RevenueStatistics/RevenueChart";
 import StatisticsPage from "../Admin/StatisticPage/StatisticPage";
 import RevenueYearChart from "../Admin/StatisticPage/RevenueStatistics/RevenueYearChart";
-import ImageUpload from "../Pages/Tour/ImageUpload";
 import TourAndPackageDetails from "../Admin/TourManagement/TourAndPackageDetails";
 import PostManagement from "../Admin/PostManagement/PostManagement";
 import PostPreview from "../Pages/Post/PostPreview";
@@ -117,7 +116,6 @@ function Navigation() {
         <Route path="/statistics/payment/:year" element={<PaymentChart />} />
         <Route path="/statistics/revenue/:year" element={<RevenueChart />} />
 
-        <Route path="/image/upload" element={<ImageUpload />} />
         <Route path="/restore/password" element={<ResetPassword />} />
         <Route
           path="/admin/tour/detal/:tourId"

@@ -4,7 +4,6 @@ import {
   getPackageByTourId,
   getReviews,
   getTourDetail,
-  getTourPackagesById,
   getTourStars,
 } from "../../../api/Services/TourAndPackageServices";
 import DetailCard from "./DetailCard";

@@ -1,9 +1,10 @@
-import * as React from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
 
 const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
@@ -12,59 +13,102 @@ export default function TourCard({ item }) {
     <Card
       sx={{
         width: "100%",
-        minHeight: "400px",
-        borderRadius: "12px", // Bo góc
-        overflow: "hidden", // Giới hạn phần tử bên trong
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Hiệu ứng đổ bóng
-        transition: "transform 0.3s", // Hiệu ứng khi hover
+        minHeight: "420px",
+        borderRadius: "16px",
+        overflow: "hidden",
+        boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)", // Stronger shadow for depth
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        backgroundColor: "#ffffff", // Subtle background color
         "&:hover": {
-          transform: "scale(1.05)", // Phóng to khi hover
+          transform: "translateY(-8px)", // Lift card on hover
+          boxShadow: "0 12px 36px rgba(0, 0, 0, 0.2)", // Enhanced hover shadow
         },
       }}
     >
-      {/* Hình ảnh */}
-      <CardMedia
-        component="img"
-        image={`${distributionUrl}/Tours/${item.Image}`} // Hình ảnh từ API
-        alt={item.Name} // Alt text cho SEO
-        sx={{
-          height: "230px", // Chiều cao ảnh
-          objectFit: "cover", // Ảnh vừa khung mà không bị méo
-        }}
-      />
-      {/* Nội dung */}
-      <CardContent
-        sx={{
-          padding: "16px",
-        }}
-      >
-        {/* Tên tour */}
-        <Typography
-          variant="h6"
-          component="div"
+      {/* Tour Image */}
+      <Link to={`/detail/${item.Id}`}>
+        <CardMedia
+          component="img"
+          image={`${distributionUrl}/Tours/${item.Image}`} // API Image
+          alt={item.Name}
           sx={{
-            fontWeight: "bold",
-            fontSize: "1.1rem",
-            marginBottom: "8px",
-            textAlign: "center",
+            height: "240px",
+            objectFit: "cover",
           }}
-        >
-          {item.Name}
-        </Typography>
+        />
+      </Link>
 
-        {/* Giá tour */}
-        <Box
+      {/* Card Content */}
+      <Link to={`/detail/${item.Id}`} style={{ textDecoration: "none" }}>
+        <CardContent
           sx={{
-            textAlign: "center",
-            color: "text.secondary",
-            fontWeight: "bold",
-            fontSize: "1rem",
-            color: "rgb(249,115,11)",
+            padding: "20px",
           }}
         >
-          {`Price: $${item.MinPrice}`}
-        </Box>
-      </CardContent>
+          {/* Tour Name */}
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              fontWeight: 700,
+              fontSize: "1.25rem",
+              marginBottom: "12px",
+              textAlign: "center",
+              color: "primary.main", // Use theme primary color
+            }}
+          >
+            {item.Name}
+          </Typography>
+
+          {/* Region and Country */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "12px",
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: "0.95rem",
+                fontWeight: 500,
+                color: "text.secondary",
+              }}
+            >
+              Region: {item.Region}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: "0.95rem",
+                fontWeight: 500,
+                color: "text.secondary",
+              }}
+            >
+              Country: {item.Country}
+            </Typography>
+          </Box>
+
+          {/* Tour Price */}
+          <Box
+            sx={{
+              textAlign: "center",
+              marginTop: "12px",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              backgroundColor: "rgba(249, 115, 11, 0.1)", // Soft orange background
+              color: "rgb(249, 115, 11)", // Bright orange text
+              fontWeight: 700,
+              fontSize: "1rem",
+            }}
+          >
+            {item.MinPrice
+              ? `Price: $${item.MinPrice}`
+              : "Contact us for pricing"}
+          </Box>
+        </CardContent>
+      </Link>
     </Card>
   );
 }

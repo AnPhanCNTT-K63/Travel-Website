@@ -23,6 +23,8 @@ import { CircularProgress } from "@mui/material"; // Loading spinner component
 import Swal from "sweetalert2";
 import LoginByGoogle from "../Sign In/GoogleLoginButton";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -193,7 +195,7 @@ export default function SignUp() {
         <SignUpContainer direction="column" justifyContent="space-between">
           <Card variant="outlined">
             <Image
-              src="/logo.jpg"
+              src={`${distributionUrl}/Static/logo_vvba.jpg`}
               roundedCircle
               style={{ width: "50px", height: "50px" }}
             />

@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Link } from "react-router-dom";
 
 const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
@@ -36,113 +37,128 @@ export default function TopDestination() {
         <Container>
           <Row>
             <Col md={6}>
-              <Card className={styles.cardContainer}>
-                <Card.Img
-                  variant="top"
-                  src={`${distributionUrl}/Static/des1.jpg`}
-                  className={styles.cardImg}
-                  style={{ height: "410px" }}
-                />
-                <Card.Text className={styles.cardText}>
-                  United Kingdom
-                </Card.Text>
+              <Link to={"/detail/39"}>
+                <Card className={styles.cardContainer}>
+                  <Card.Img
+                    variant="top"
+                    src={`${distributionUrl}/Static/des1.jpg`}
+                    className={styles.cardImg}
+                    style={{ height: "410px" }}
+                  />
+                  <Card.Text className={styles.cardText}>
+                    United Kingdom
+                  </Card.Text>
 
-                <ul className={styles.cardList}>
-                  <li>Hotel</li>
-                  <li>Tours</li>
-                  <li>Activity</li>
-                  <li>Yatch</li>
-                </ul>
-              </Card>
+                  <ul className={styles.cardList}>
+                    <li>Hotel</li>
+                    <li>Tours</li>
+                    <li>Activity</li>
+                    <li>Yatch</li>
+                  </ul>
+                </Card>
+              </Link>
+              1
             </Col>
             <Col md={6}>
-              <Card className={styles.cardContainer}>
-                <Card.Img
-                  variant="top"
-                  src={`${distributionUrl}/Static/des2.jpg`}
-                  className={styles.cardImg}
-                />
-                <Card.Text className={styles.cardText}>Turkey</Card.Text>
+              <Link to={"/detail/42"}>
+                <Card className={styles.cardContainer}>
+                  <Card.Img
+                    variant="top"
+                    src={`${distributionUrl}/Static/des2.jpg`}
+                    className={styles.cardImg}
+                  />
+                  <Card.Text className={styles.cardText}>Turkey</Card.Text>
 
-                <ul className={styles.cardList}>
-                  <li>Hotel</li>
-                  <li>Tours</li>
-                  <li>Activity</li>
-                  <li>Yatch</li>
-                </ul>
-              </Card>
+                  <ul className={styles.cardList}>
+                    <li>Hotel</li>
+                    <li>Tours</li>
+                    <li>Activity</li>
+                    <li>Yatch</li>
+                  </ul>
+                </Card>
+              </Link>
             </Col>
           </Row>
 
           <Row>
             <Col md={3}>
-              <Card className={styles.cardContainer}>
-                <Card.Img
-                  variant="top"
-                  src={`${distributionUrl}/Static/des3.jpg`}
-                  className={styles.cardImg}
-                />
-                <Card.Text className={styles.cardText}>United States</Card.Text>
+              <Link to={"/detail/45"}>
+                <Card className={styles.cardContainer}>
+                  <Card.Img
+                    variant="top"
+                    src={`${distributionUrl}/Static/des3.jpg`}
+                    className={styles.cardImg}
+                  />
+                  <Card.Text className={styles.cardText}>
+                    United States
+                  </Card.Text>
 
-                <ul className={styles.cardList}>
-                  <li>Hotel</li>
-                  <li>Tours</li>
-                  <li>Activity</li>
-                  <li>Yatch</li>
-                </ul>
-              </Card>
+                  <ul className={styles.cardList}>
+                    <li>Hotel</li>
+                    <li>Tours</li>
+                    <li>Activity</li>
+                    <li>Yatch</li>
+                  </ul>
+                </Card>
+              </Link>
             </Col>
             <Col md={3}>
-              <Card className={styles.cardContainer}>
-                <Card.Img
-                  variant="top"
-                  src={`${distributionUrl}/Static/des4.jpg`}
-                  className={styles.cardImg}
-                  style={{ height: "170px" }}
-                />
-                <Card.Text className={styles.cardText}>Ukraine</Card.Text>
+              <Link to={"/detail/45"}>
+                <Card className={styles.cardContainer}>
+                  <Card.Img
+                    variant="top"
+                    src={`${distributionUrl}/Static/des4.jpg`}
+                    className={styles.cardImg}
+                    style={{ height: "170px" }}
+                  />
+                  <Card.Text className={styles.cardText}>Ukraine</Card.Text>
 
-                <ul className={styles.cardList}>
-                  <li>Hotel</li>
-                  <li>Tours</li>
-                  <li>Activity</li>
-                  <li>Yatch</li>
-                </ul>
-              </Card>
+                  <ul className={styles.cardList}>
+                    <li>Hotel</li>
+                    <li>Tours</li>
+                    <li>Activity</li>
+                    <li>Yatch</li>
+                  </ul>
+                </Card>
+              </Link>
             </Col>
             <Col md={3}>
-              <Card className={styles.cardContainer}>
-                <Card.Img
-                  variant="top"
-                  src={`${distributionUrl}/Static/des5.jpg`}
-                  className={styles.cardImg}
-                />
-                <Card.Text className={styles.cardText}>France</Card.Text>
+              <Link to={"/detail/44"}>
+                <Card className={styles.cardContainer}>
+                  <Card.Img
+                    variant="top"
+                    src={`${distributionUrl}/Static/des5.jpg`}
+                    className={styles.cardImg}
+                  />
+                  <Card.Text className={styles.cardText}>France</Card.Text>
 
-                <ul className={styles.cardList}>
-                  <li>Hotel</li>
-                  <li>Tours</li>
-                  <li>Activity</li>
-                  <li>Yatch</li>
-                </ul>
-              </Card>
+                  <ul className={styles.cardList}>
+                    <li>Hotel</li>
+                    <li>Tours</li>
+                    <li>Activity</li>
+                    <li>Yatch</li>
+                  </ul>
+                </Card>
+              </Link>
             </Col>
             <Col md={3}>
-              <Card className={styles.cardContainer}>
-                <Card.Img
-                  variant="top"
-                  src={`${distributionUrl}/Static/des6.jpeg`}
-                  className={styles.cardImg}
-                />
-                <Card.Text className={styles.cardText}>India</Card.Text>
+              <Link to={"/detail/44"}>
+                <Card className={styles.cardContainer}>
+                  <Card.Img
+                    variant="top"
+                    src={`${distributionUrl}/Static/des6.jpeg`}
+                    className={styles.cardImg}
+                  />
+                  <Card.Text className={styles.cardText}>India</Card.Text>
 
-                <ul className={styles.cardList}>
-                  <li>Hotel</li>
-                  <li>Tours</li>
-                  <li>Activity</li>
-                  <li>Yatch</li>
-                </ul>
-              </Card>
+                  <ul className={styles.cardList}>
+                    <li>Hotel</li>
+                    <li>Tours</li>
+                    <li>Activity</li>
+                    <li>Yatch</li>
+                  </ul>
+                </Card>
+              </Link>
             </Col>
           </Row>
         </Container>

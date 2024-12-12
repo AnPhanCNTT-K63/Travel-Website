@@ -33,13 +33,7 @@ const TopDealSlider = () => {
   return (
     <Slider {...settings}>
       {tours.map((deal, index) => (
-        <Link
-          to={`/detail/${deal.Id}`}
-          key={index}
-          style={{ textDecoration: "none" }}
-        >
-          <TopDealCard key={index} item={deal} />
-        </Link>
+        <TopDealCard key={index} item={deal} />
       ))}
     </Slider>
   );

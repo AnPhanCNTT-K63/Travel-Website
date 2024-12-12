@@ -19,6 +19,8 @@ import { setStatus } from "../../../../api/Services/BookingServices";
 import Swal from "sweetalert2";
 import CountdownSection from "./CountdownSection";
 
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 export default function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -97,25 +99,25 @@ export default function PaymentPage() {
     {
       method: "visa",
       label: "Visa Debit Card",
-      image: "/visa.png",
+      image: `${distributionUrl}/Static/visa.png`,
       lastDigits: "",
     },
     {
       method: "mastercard",
       label: "Mastercard Office",
-      image: "/mastercard.png",
+      image: `${distributionUrl}/Static/mastercard.png`,
       lastDigits: "",
     },
     {
       method: "momo",
       label: "Momo Wallet",
-      image: "/momo.png",
+      image: `${distributionUrl}/Static/momo.png`,
       lastDigits: "",
     },
     {
       method: "paypal",
       label: "Cash Payment",
-      image: "/paypal.png",
+      image: `${distributionUrl}/Static/paypal.png`,
       lastDigits: "",
     },
   ];

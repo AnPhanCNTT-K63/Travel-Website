@@ -9,6 +9,9 @@ import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRound
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 
 import Image from "react-bootstrap/Image";
+
+const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
+
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon sx={{ color: "text.secondary" }} />,
@@ -48,7 +51,7 @@ export default function Content() {
     >
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
         <Image
-          src="/logo.jpg"
+          src={`${distributionUrl}/Static/logo_vvba.jpg`}
           roundedCircle
           style={{ width: "100px", height: "100px" }}
         />

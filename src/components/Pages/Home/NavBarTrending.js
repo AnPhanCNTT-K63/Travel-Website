@@ -33,9 +33,6 @@ export default function SimpleBottomNavigation() {
           <BottomNavigationAction label="Tour" />
           <BottomNavigationAction label="Hotel" />
           <BottomNavigationAction label="Activity" />
-          <BottomNavigationAction label="Rental" />
-          <BottomNavigationAction label="Car" />
-          <BottomNavigationAction label="Yacht" />
         </BottomNavigation>
       </Box>
 

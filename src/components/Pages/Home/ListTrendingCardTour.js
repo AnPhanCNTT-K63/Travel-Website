@@ -17,7 +17,7 @@ export default function ListTrendingCardTour() {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const data = await getTourPackages(); // Gọi hàm lấy tour từ API
+        const data = await getTours(1, 9, null, ""); // Gọi hàm lấy tour từ API
         setTours(data); // Lưu danh sách tour vào state
       } catch (err) {
         setError("Có lỗi xảy ra khi lấy dữ liệu tour.");
@@ -36,17 +36,12 @@ export default function ListTrendingCardTour() {
     return <p style={{ color: "red" }}>{error}</p>;
   }
 
-  // Hiển thị chỉ 9 tour đầu tiên
-  const toursToShow = tours.slice(0, 9);
-
   return (
     <Container>
       <Row>
-        {toursToShow.map((item, index) => (
+        {tours.tours.map((item, index) => (
           <Col key={index} md={4} className="mb-4">
-            <Link to={`/detail/${index + 12}`}>
-              <TrendingCard item={item} />
-            </Link>
+            <TrendingCard item={item} />
           </Col>
         ))}
       </Row>

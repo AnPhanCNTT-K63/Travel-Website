@@ -13,6 +13,7 @@ import {
 import { sendBookingInfo } from "../../../../api/Services/BookingServices";
 import ChooseVoucherSection from "./ChooseVoucherSection";
 import styles from "../../../../styles/PaymentPage.module.css";
+import Swal from "sweetalert2";
 
 // Custom hook for fetching data
 const useFetchData = (fetchFunction, dependency) => {
@@ -138,9 +139,14 @@ export default function UserBookingPage() {
     try {
       const res = await sendBookingInfo(data);
       setBookingId(res);
-      console.log(res);
     } catch (err) {
       console.error("Error when sending booking info: ", err);
+      Swal.fire({
+        title: "Error",
+        text: "You must provide complete contact information.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 

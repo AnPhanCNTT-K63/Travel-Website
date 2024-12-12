@@ -11,6 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import Swal from "sweetalert2";
+import { sendImage } from "../../../../api/Services/CloudServices";
 
 export default function UpdateTourPage() {
   const { tourId } = useParams();
@@ -30,6 +31,7 @@ export default function UpdateTourPage() {
       checkIn: "",
       isChangeSchedule: false,
       isRefund: false,
+      imageUpload: "",
     },
   ]);
 
@@ -90,6 +92,12 @@ export default function UpdateTourPage() {
         const data = { tour, tourPackages, user_id };
 
         const res = await updateTourAndPackages(data);
+        await sendImage(tour.imageUpload, "Tours");
+        await Promise.all(
+          tourPackages.map(async (item) => {
+            await sendImage(item.imageUpload, "Packages");
+          })
+        );
 
         if (res.message === "success") {
           Swal.fire({

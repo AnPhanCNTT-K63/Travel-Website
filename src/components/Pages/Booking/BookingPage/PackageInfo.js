@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -6,14 +6,26 @@ import {
   Paper,
   Divider,
   Tooltip,
+  Modal,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useNavigate } from "react-router-dom";
 
 const distributionUrl = process.env.REACT_APP_DISTRIBUTION_URL;
 
 export default function PackageInfo({ tourPackage }) {
   const fallbackImage = "/images/default-tour.jpg"; // Placeholder image
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClick = () => {
+    navigate(`/detail/${tourPackage.Id}`);
+  };
 
   return (
     <Paper
@@ -128,7 +140,9 @@ export default function PackageInfo({ tourPackage }) {
         <Button
           variant="contained"
           fullWidth
-          onClick={() => alert("Fetching more information...")}
+          onClick={() => {
+            setOpen(true);
+          }}
           sx={{
             mt: 2,
             py: 1.5,
@@ -146,6 +160,117 @@ export default function PackageInfo({ tourPackage }) {
           Show Tour Package Info
         </Button>
       </Tooltip>
+
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "90%", // Responsive width
+            maxWidth: 500, // Giới hạn chiều rộng
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 3, // Làm mềm các góc
+            overflow: "hidden",
+          }}
+        >
+          <Typography
+            variant="h5"
+            component="h2"
+            sx={{
+              fontWeight: "bold",
+              color: "#2c3e50",
+              marginBottom: 2,
+              textAlign: "center",
+            }}
+          >
+            Chi tiết gói tour
+          </Typography>
+          {tourPackage ? (
+            <>
+              <Typography
+                variant="body1"
+                sx={{
+                  marginBottom: 2,
+                  lineHeight: 1.8,
+                  color: "#555",
+                }}
+              >
+                <strong>Mô tả:</strong> {tourPackage.Description}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  marginBottom: 2,
+                  fontWeight: "bold",
+                  color: "#27ae60",
+                }}
+              >
+                Giá: ${tourPackage.Price}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  marginBottom: 2,
+                  color: "#555",
+                }}
+              >
+                <strong>Các hoạt động: </strong>
+                {tourPackage.Activities ? (
+                  Array.isArray(tourPackage.Activities) ? (
+                    <ul style={{ margin: "10px 0 0 20px", padding: 0 }}>
+                      {tourPackage.Activities.map((activity, idx) => (
+                        <li
+                          key={idx}
+                          style={{
+                            listStyle: "disc",
+                            marginBottom: "8px",
+                          }}
+                        >
+                          {activity}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    tourPackage.Activities
+                  )
+                ) : (
+                  "Không có thông tin hoạt động."
+                )}
+              </Typography>
+            </>
+          ) : (
+            <Typography variant="body1" sx={{ color: "#777" }}>
+              Không có thông tin chi tiết.
+            </Typography>
+          )}
+          <Box
+            sx={{
+              textAlign: "center",
+              marginTop: 3,
+            }}
+          >
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              sx={{
+                backgroundColor: "#3498db",
+                color: "#fff",
+                fontWeight: "bold",
+                padding: "10px 20px",
+                "&:hover": {
+                  backgroundColor: "#2980b9",
+                },
+              }}
+            >
+              Đóng
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Paper>
   );
 }
