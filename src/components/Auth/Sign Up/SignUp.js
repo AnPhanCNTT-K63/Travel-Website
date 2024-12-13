@@ -151,6 +151,15 @@ export default function SignUp() {
     try {
       const user = await signup(data);
       console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "Sign Up Successful",
+        text: "Your account has been created. Please login to continue.",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/login");
+        window.location.reload();
+      });
     } catch (err) {
       if (
         err.message ===
