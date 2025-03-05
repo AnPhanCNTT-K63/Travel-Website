@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL =
-  process.env.API_URL || "https://anphan-001-site1.qtempurl.com/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const apiClient = axios.create({
   baseURL: API_URL,
