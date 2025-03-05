@@ -1,0 +1,166 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\main project\\VVBA-travel-agency-website\\api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|D:\\main project\\VVBA-travel-agency-website\\api\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|D:\\main project\\VVBA-travel-agency-website\\api\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|solutionrelative:controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|D:\\main project\\VVBA-travel-agency-website\\api\\dbconnection.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|solutionrelative:dbconnection.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|D:\\main project\\VVBA-travel-agency-website\\api\\controllers\\paymentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|solutionrelative:controllers\\paymentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Visual Studio 2022\\TravelWebBackend Web Api\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|D:\\main project\\VVBA-travel-agency-website\\api\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44638828-E30D-4CE1-8A92-A210E5986436}|WebBackendProject.csproj|solutionrelative:startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 11,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "web.config",
+              "DocumentMoniker": "D:\\Visual Studio 2022\\TravelWebBackend Web Api\\web.config",
+              "RelativeDocumentMoniker": "..\\..\\..\\Visual Studio 2022\\TravelWebBackend Web Api\\web.config",
+              "ToolTip": "D:\\Visual Studio 2022\\TravelWebBackend Web Api\\web.config",
+              "RelativeToolTip": "..\\..\\..\\Visual Studio 2022\\TravelWebBackend Web Api\\web.config",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAIwGYAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-02-20T01:10:22.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthApiController.cs",
+              "DocumentMoniker": "D:\\main project\\VVBA-travel-agency-website\\api\\Controllers\\AuthApiController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthApiController.cs",
+              "ToolTip": "D:\\main project\\VVBA-travel-agency-website\\api\\Controllers\\AuthApiController.cs",
+              "RelativeToolTip": "Controllers\\AuthApiController.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAvwI4AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T02:47:13.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "dbconnection.txt",
+              "DocumentMoniker": "D:\\main project\\VVBA-travel-agency-website\\api\\dbconnection.txt",
+              "RelativeDocumentMoniker": "dbconnection.txt",
+              "ToolTip": "D:\\main project\\VVBA-travel-agency-website\\api\\dbconnection.txt",
+              "RelativeToolTip": "dbconnection.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-02-20T01:09:17.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Startup.cs",
+              "DocumentMoniker": "D:\\main project\\VVBA-travel-agency-website\\api\\Startup.cs",
+              "RelativeDocumentMoniker": "Startup.cs",
+              "ToolTip": "D:\\main project\\VVBA-travel-agency-website\\api\\Startup.cs",
+              "RelativeToolTip": "Startup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T01:09:00.599Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "web.config",
+              "DocumentMoniker": "D:\\main project\\VVBA-travel-agency-website\\api\\Web.config",
+              "RelativeDocumentMoniker": "Web.config",
+              "ToolTip": "D:\\main project\\VVBA-travel-agency-website\\api\\Web.config",
+              "RelativeToolTip": "Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-02-20T01:06:48.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PaymentApiController.cs",
+              "DocumentMoniker": "D:\\main project\\VVBA-travel-agency-website\\api\\Controllers\\PaymentApiController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PaymentApiController.cs",
+              "ToolTip": "D:\\main project\\VVBA-travel-agency-website\\api\\Controllers\\PaymentApiController.cs",
+              "RelativeToolTip": "Controllers\\PaymentApiController.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAAEIAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-20T01:06:48.825Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 396,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 78,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
