@@ -83,6 +83,8 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
 3. Navigate to the frontend (Client) directory and set up React.js:
    ```sh
    cd client
+   npm install
+   npm start
    ```
    - Install dependencies
    - Run the frontend
