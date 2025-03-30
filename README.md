@@ -96,5 +96,5 @@ Contributions are welcome! Feel free to open issues and submit pull requests.
 This project is licensed under the MIT License.
 
 ## Contact
-For inquiries, please contact [your-email@example.com](mailto:your-email@example.com).
+For inquiries, please contact [phanducan147@gmail.com](mailto:phanducan147@gmail.com).
 
