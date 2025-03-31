@@ -1,4 +1,5 @@
 # VVBA Travel Agency Website
+View production at: https://travel-website-two-mocha.vercel.app/
 
 ## Overview
 VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, and **SQL Server**. It provides a comprehensive platform for users to explore, book, and manage tours, while administrators can oversee operations, manage users, and handle bookings.
@@ -87,10 +88,7 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
   - Export invoices as PDF.
 
 ## Installation
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-username/VVBA-travel-agency-website.git
-   ```
+1. Clone the repository.
 
 2. Navigate to the backend (API) directory and set up the ASP.NET Web API:
    ```sh
