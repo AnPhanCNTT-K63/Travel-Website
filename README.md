@@ -89,9 +89,6 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
    npm install
    npm start
    ```
-   - Install dependencies
-   - Run the frontend
-
 ## Contributing
 Contributions are welcome! Feel free to open issues and submit pull requests.
 
