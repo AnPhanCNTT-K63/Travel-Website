@@ -19,6 +19,11 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
 ## Features
 
 ### User & Admin Features
+
+[![Video Demo #2]()](https://www.youtube.com/watch?v=O5XxbzcNFfc) (Click to navigate)
+
+[![Video Demo #3]()](https://www.youtube.com/watch?v=cBRGNql3Z3Y) (Click to navigate)
+
 #### Authentication & Account Management
 - **Registration**: Users can register using email, username, and password.
   - Duplicate emails or usernames are not allowed.
@@ -41,6 +46,13 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
 - Filter by tour price (default: $1 - $1000).
 
 ### Admin Features
+
+[![Video Demo #4]()](https://www.youtube.com/watch?v=zcnTDdhZ1Ow) (Click to navigate)
+
+[![Video Demo #5]()](https://www.youtube.com/watch?v=yGrjxL60gEg) (Click to navigate)
+
+[![Video Demo #6]()](https://www.youtube.com/watch?v=qirwJgjFmX0) (Click to navigate)
+
 #### Tour & Tour Package Management
 - **Create Tours**: Input tour details and save.
 - **Create Tour Packages**: Add additional tour packages and activities.
@@ -64,6 +76,9 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
 - Filter and sort invoices by status.
 
 ### User Booking & Billing
+
+[![Video Demo #7]()](https://www.youtube.com/watch?v=vxAZsUa_LVE) (Click to navigate)
+
 - **Create Booking Requests**: Provide contact details and make payments.
 - **Booking Management**: Track approval status and delete transaction history.
 - **Billing & Payments**:
