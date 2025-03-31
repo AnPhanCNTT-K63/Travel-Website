@@ -198,7 +198,7 @@ const AccountPage = () => {
         />
         <Box>
           <Typography variant="h5" fontWeight="bold">
-            {info.FirstName} {info.LastName}
+            {info.Username}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             Member since: {info.registerDate || ""}
