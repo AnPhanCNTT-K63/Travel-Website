@@ -1,6 +1,4 @@
 # VVBA Travel Agency Website
-[![Video Title](https://github.com/user-attachments/assets/8e297fc4-df9c-43e2-b8ca-431560ee8ef8)](https://www.youtube.com/watch?v=DFwiEN2DScQ)
-
 
 ## Overview
 VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, and **SQL Server**. It provides a comprehensive platform for users to explore, book, and manage tours, while administrators can oversee operations, manage users, and handle bookings.
