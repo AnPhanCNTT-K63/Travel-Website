@@ -6,6 +6,8 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
 ## Technologies Used
 - **Backend**: ASP.NET Web API
 - **Frontend**: React.js
+- **Storage**: AWS S3
+- **CDN**: AWS CloudFront
 - **Database**: SQL Server
 
 ## Branches
