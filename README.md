@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# VVBA Travel Agency Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, and **SQL Server**. It provides a comprehensive platform for users to explore, book, and manage tours, while administrators can oversee operations, manage users, and handle bookings.
 
-## Available Scripts
+[![Video Demo #1]()](https://www.youtube.com/watch?v=4J54g9lQj2U) (Click to navigate)
 
-In the project directory, you can run:
+## Technologies Used
+- **Backend**: ASP.NET Web API
+- **Frontend**: React.js
+- **Storage**: AWS S3
+- **CDN**: AWS CloudFront
+- **Database**: SQL Server
 
-### `npm start`
+## Branches
+- **api**: Contains the backend code (ASP.NET Web API).
+- **client**: Contains the frontend code (React.js).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### User & Admin Features
 
-### `npm test`
+[![Video Demo #2]()](https://www.youtube.com/watch?v=O5XxbzcNFfc) (Click to navigate)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[![Video Demo #3]()](https://www.youtube.com/watch?v=cBRGNql3Z3Y) (Click to navigate)
 
-### `npm run build`
+#### Authentication & Account Management
+- **Registration**: Users can register using email, username, and password.
+  - Duplicate emails or usernames are not allowed.
+  - Can signin or signup via google
+- **Login**: Users can log in with registered credentials or Google.
+  - Password recovery via email verification.
+  - Banned and deleted accounts are handled with appropriate messages.
+- **Profile & Account Management**:
+  - View and update personal information.
+  - Auto-lock for security.
+  - Report issues and request account deletion.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Post Management
+- View, create, edit, and delete posts.
+- Deleted posts go to Trash Can for restoration or permanent deletion.
+- New posts require admin approval before being displayed in the Blog section.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Tour Filtering
+- Search by tour name, city, country, and date.
+- Filter by tour price (default: $1 - $1000).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Admin Features
 
-### `npm run eject`
+[![Video Demo #4]()](https://www.youtube.com/watch?v=zcnTDdhZ1Ow) (Click to navigate)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+[![Video Demo #5]()](https://www.youtube.com/watch?v=yGrjxL60gEg) (Click to navigate)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[![Video Demo #6]()](https://www.youtube.com/watch?v=qirwJgjFmX0) (Click to navigate)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Tour & Tour Package Management
+- **Create Tours**: Input tour details and save.
+- **Create Tour Packages**: Add additional tour packages and activities.
+- **Edit/Delete Tours & Packages**:
+  - Update details, images, and descriptions.
+  - Modify refundable policies and schedule options.
+  - Move deleted tours to trash for restoration or permanent removal.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### User Management
+- View activity status, restore, lock, or delete accounts.
+- Approve or reject profile lock/unlock requests.
+- Confirm payment information.
 
-## Learn More
+#### Reports & Analytics
+- View revenue, bookings, posts, registrations, and payments.
+- Display data using column, pie, and line charts.
+- Export reports as files.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Payment Approval
+- Approve or reject booking payments.
+- Filter and sort invoices by status.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### User Booking & Billing
 
-### Code Splitting
+[![Video Demo #7]()](https://www.youtube.com/watch?v=vxAZsUa_LVE) (Click to navigate)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Create Booking Requests**: Provide contact details and make payments.
+- **Booking Management**: Track approval status and delete transaction history.
+- **Billing & Payments**:
+  - Add payment methods (bank name, card number).
+  - View paid invoices and discount codes.
+  - Export invoices as PDF.
 
-### Analyzing the Bundle Size
+## Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/VVBA-travel-agency-website.git
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. Navigate to the backend (API) directory and set up the ASP.NET Web API:
+   ```sh
+   cd api
+   ```
+   - Install dependencies
+   - Configure the database connection (SQL Server)
+   - Run the backend
 
-### Making a Progressive Web App
+3. Navigate to the frontend (Client) directory and set up React.js:
+   ```sh
+   cd client
+   npm install
+   npm start
+   ```
+## Contributing
+Contributions are welcome! Feel free to open issues and submit pull requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
+This project is licensed under the MIT License.
 
-### Advanced Configuration
+## Contact
+For inquiries, please contact [phanducan147@gmail.com](mailto:phanducan147@gmail.com).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
