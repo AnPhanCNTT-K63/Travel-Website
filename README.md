@@ -18,6 +18,7 @@ VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, an
 #### Authentication & Account Management
 - **Registration**: Users can register using email, username, and password.
   - Duplicate emails or usernames are not allowed.
+  - Cab signin or signup via google
 - **Login**: Users can log in with registered credentials or Google.
   - Password recovery via email verification.
   - Banned and deleted accounts are handled with appropriate messages.
