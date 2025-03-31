@@ -3,7 +3,7 @@
 ## Overview
 VVBA is a travel agency website built with **ASP.NET Web API**, **React.js**, and **SQL Server**. It provides a comprehensive platform for users to explore, book, and manage tours, while administrators can oversee operations, manage users, and handle bookings.
 
-[![Video Demo #1]()](https://www.youtube.com/watch?v=4J54g9lQj2U)
+[![Video Demo #1]()](https://www.youtube.com/watch?v=4J54g9lQj2U) (Click to navigate)
 
 ## Technologies Used
 - **Backend**: ASP.NET Web API
